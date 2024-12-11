@@ -58,7 +58,7 @@ if lab_type == 'non-group':
     LOs = [input(f'Enter the LO for Exp{i+1}: ') for i in range(total_exp)]
 
     lab_sheet = workbook.create_sheet(title="Lab")
-    lab_sheet['A1'] = f"{subject} Lab Work"
+    lab_sheet['A1'] = f"{subject} Lab Work - Ungrouped"
     lab_sheet['A1'].font = Font(size=14, bold=True)
     lab_sheet['A1'].alignment = Alignment(horizontal='center')
     lab_sheet.merge_cells(start_row=1, start_column=1, end_row=1, end_column=total_exp+6)
@@ -107,7 +107,7 @@ elif lab_type == 'group':
 
     lab_sheet = workbook.create_sheet(title="Lab")
     lab_sheet.merge_cells('A1:E1')
-    lab_sheet['A1'] = f"{subject} Lab Work"
+    lab_sheet['A1'] = f"{subject} Lab Work - Grouped"
     lab_sheet['A1'].font = Font(size=14, bold=True)
     lab_sheet['A1'].alignment = Alignment(horizontal='center')
     lab_sheet['A2'] = f"Target={LabTarget}"

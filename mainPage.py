@@ -5,6 +5,7 @@ import openpyxl
 from openpyxl.styles import Alignment 
 from openpyxl import Workbook
 import threading
+from PIL import Image, ImageTk  # Required for image handling
 
 # @Sairam Konar
 # PPT ke COS na normally he le like Abhi kaise lete he CA1_Co_arr=[1,2,3,4,5,6] but PPT ke liye aise le  CA1_Co_arr=[[1,2],[3,4],[5],[6]] array of array where inside array is of group COs isse kiya hoga ki strcture maintain rahega.
@@ -663,6 +664,24 @@ class User_mode:
         # tabview.add(" Lab CO ")
         tabview.add(" Upload Excel File ")  # add tab at the end
         tabview.set(" Instructions ")  # set currently visible tab
+
+        # Load the image and create a CTkImage
+        background_image = Image.open("CO Calculator.png")
+        bg_image = ctk.CTkImage(background_image, size=(screen_width - 100, screen_height-130))
+
+        # Create a frame for the "Instructions" tab content
+        instructions_tab = tabview.tab(" Instructions ")
+        instructions_tab.columnconfigure(0, weight=1)
+        instructions_tab.rowconfigure(0, weight=1)
+
+        # Add a label to hold the background image
+        bg_label = ctk.CTkLabel(master=instructions_tab, image=bg_image, text="")
+        bg_label.place(relx=0.5, rely=0.5, anchor="center")
+
+        # If you want to overlay widgets on top of the image:
+        # Example of overlaying text on the background
+        overlay_label = ctk.CTkLabel(master=instructions_tab, text="")
+        overlay_label.place(relx=0.5, rely=0.1, anchor="center")
 
         button = create_button(" Basic Information ", "Next", "Arial", 20, 150, 40, switch, 725, 690)
 

@@ -24,6 +24,7 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
         print("Created")
     sheet5=workbook.create_sheet(title="Survey")
     sheet6=workbook.create_sheet(title='Attainment')
+    sheet8=workbook.create_sheet(title='LO Attainment')
     
     
     sheet1.column_dimensions['A'].width = 42
@@ -1090,6 +1091,11 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
         sheet6['C48']='CO6'
         sheet6['C48'].font=Font(bold=True)
 
+
+
+
+    #----------------------LO----------------------------
+    
     selectedPath = filedialog.askdirectory()
     filePath = f'{selectedPath}/Template_{basic_values_temp[7]}_{basic_values_temp[4]}_{basic_values_temp[6]}_{basic_values_temp[5]}.xlsx'
 

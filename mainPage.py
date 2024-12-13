@@ -7,6 +7,7 @@ from openpyxl.styles import Alignment
 from openpyxl import Workbook
 import threading
 from PIL import Image, ImageTk  # Required for image handling
+import os
 
 # @Sairam Konar
 # PPT ke COS na normally he le like Abhi kaise lete he CA1_Co_arr=[1,2,3,4,5,6] but PPT ke liye aise le  CA1_Co_arr=[[1,2],[3,4],[5],[6]] array of array where inside array is of group COs isse kiya hoga ki strcture maintain rahega.
@@ -1153,8 +1154,11 @@ class User_mode:
 
         def upload_file():
             file_path = filedialog.askopenfilename(filetypes=[("Excel files", "*.xlsx")])
-            path_entry.delete(0, ctk.END)  # Clear any existing text in the entry widget
-            path_entry.insert(0, file_path)  # Insert the file path into the entry widget
+            if file_path:
+                print(file_path)
+                file_name = os.path.basename(file_path)
+                print(file_name)
+                path_label.configure(text=file_name)
 
 
         def process_file():
@@ -1224,7 +1228,7 @@ class User_mode:
         button1 = create_button(" CO Information ", "Next", "Arial", 20, 200, 40, switch1, 725, 500)
         # button2 = create_button(" CO Mapping ", "Next", "Arial", 20, 200, 40, switch2, 725, 500)
         button2 = create_button(" CO Mapping ", "Next", "Arial", 20, 200, 40, switch2, 1000, 640)
-        button_upload = create_button(" Upload Excel File ", "Upload", "Arial", 15, 100, 30, upload_file, 100, 500)
+       
 
 
         path_entry=ctk.CTkEntry(tabview.tab(" Upload Excel File "))
@@ -1232,11 +1236,24 @@ class User_mode:
         # button_process=ctk.CTkButton(tabview.tab(" Upload Excel File "),text="Process",width=100,height=30,command=process_file)
         # button_process.place(x=500,y=500)
 
-        setEmailProcessedLabel = create_label(" Upload Excel File ", "Enter the Email ID to send the template.", "Arial", 20, 600, 400)
+        upload_Label = create_label(" Upload Excel File ", "Upload you excel file with the marks entered:", "Arial", 25, 550, 50)
+        path_label = create_label(" Upload Excel File ", "Path of file", "Arial", 15, 650, 110)
+        button_upload = create_button(" Upload Excel File ", "Upload", "Arial", 20, 200, 40, upload_file, 400, 100)
         
-        emailTextProcessed = create_entry_box(" Upload Excel File ", "", "Arial", 15, 500, 525, 450)
 
-        button_process = create_button(" Upload Excel File ", "Process", "Arial", 20, 200, 40, process_file, 500, 500)
+        line = ctk.CTkFrame(master=tabview.tab(" Upload Excel File "), height=2, width=1200, fg_color="white")
+        line.place(x=150,y=200)
+
+        process_Label = create_label(" Upload Excel File ", "Process the excel file you uploaded:", "Arial", 25, 600, 250)
+
+        setEmailProcessedLabel = create_label(" Upload Excel File ", "Enter the Email ID to send the calculated sheet.", "Arial", 20, 200, 400)
+        
+        important_label = create_label(" Upload Excel File ", "Important: Please fill the no. of CO\'s field and the CO\'s in the CO Information page and AL values in AL of tests page before processing the file", "Arial", 20, 100, 325)
+        important_label.configure(text_color="black", fg_color="yellow")
+
+        emailTextProcessed = create_entry_box(" Upload Excel File ", "", "Arial", 15, 500, 700, 400)
+
+        button_process = create_button(" Upload Excel File ", "Process", "Arial", 20, 200, 40, process_file, 650, 500)
 
         
 

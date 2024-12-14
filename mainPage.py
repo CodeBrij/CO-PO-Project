@@ -1151,9 +1151,10 @@ class User_mode:
 
         button = create_button(" AL of tests ", "Download", "Arial", 20, 200, 40, download, 650, 500)
 
-
         def upload_file():
+            global file_path
             file_path = filedialog.askopenfilename(filetypes=[("Excel files", "*.xlsx")])
+            print(f"Upload function: {file_path}")
             if file_path:
                 print(file_path)
                 file_name = os.path.basename(file_path)
@@ -1162,14 +1163,16 @@ class User_mode:
 
 
         def process_file():
+            global file_path
             if entry10.get() == "2":
                 al_values=[ALCA1Text.get(), ALCA2Text.get(), '-', ALMidTermText.get(), ALEndSemText.get()]
                 print(al_values)
             else:
                 al_values=[ALCA1Text.get(), ALCA2Text.get(), ALCA3Text.get(), ALMidTermText.get(), ALEndSemText.get()]
-            file_path = path_entry.get()
+            file_path = file_path
+            print("File Path : : : ", file_path)
             import Cal
-            Cal.cal_sheet(file_path, al_values, emailTextProcessed.get())
+            Cal.cal_sheet(file_path, al_values)
 
         # Using create_label, create_entry_box, and create_dropdown to recreate the UI
 

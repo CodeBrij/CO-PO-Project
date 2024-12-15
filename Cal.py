@@ -22,7 +22,7 @@ def cal_sheet(file_name, al_values_temp):
     file_name_only = file_name_only.replace("Template","")
 
     sheet = workbook['Midsem']
-   
+    cosCount=6
     for row in range(1,10):
         if(str(sheet[f'A{row}'].value)=="COs"):
             coRow = row
@@ -31,7 +31,6 @@ def cal_sheet(file_name, al_values_temp):
     for row in range(1,10):
         if (str(sheet[f'A{row}'].value)).startswith("Number of Students ="):
             total_roll=int((sheet[f'A{row}'].value).split('=')[-1].strip())
-            
             break 
 
     # target=((sheet[f'A{coRow+total_roll+3}'].value).split('>=')[-1].strip()).replace('%)', '')
@@ -101,6 +100,10 @@ def cal_sheet(file_name, al_values_temp):
 
     coTableRow = total_roll+coRow+9
 
+    if(sheet[f'F{coTableRow+6}'].value is None):
+        cosCount = 5
+
+    print(f"COscount:::::{cosCount}")
     columns_with_1 = []
     columns_with_2 = []
     columns_with_3 = []
@@ -170,12 +173,12 @@ def cal_sheet(file_name, al_values_temp):
         sheet[f'G{coTableRow+5}'] = average_formula
     else:
         sheet[f'G{coTableRow+5}'] = '-'
-
-    if columns_with_6:
-        average_formula = f"=ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+coRow+6}' for col_letter in columns_with_6])}),1)"
-        sheet[f'G{coTableRow+6}'] = average_formula
-    else:
-        sheet[f'G{coTableRow+6}'] = '-'
+    if(cosCount == 6):
+        if columns_with_6:
+            average_formula = f"=ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+coRow+6}' for col_letter in columns_with_6])}),1)"
+            sheet[f'G{coTableRow+6}'] = average_formula
+        else:
+            sheet[f'G{coTableRow+6}'] = '-'
     
     map_midsem_co_arr=[f"={sheet.title}!G{coTableRow+1}",f"={sheet.title}!G{coTableRow+2}",f"={sheet.title}!G{coTableRow+3}",f"={sheet.title}!G{coTableRow+4}",f"={sheet.title}!G{coTableRow+5}",f"={sheet.title}!G{coTableRow+6}"]
    #<----------------------End Sem------------------->
@@ -188,7 +191,7 @@ def cal_sheet(file_name, al_values_temp):
     sheet1[f'B{total_roll+5}'] = f'=ROUND(AVERAGE({endCol}4:{endCol}{total_roll+3}), 0)'
     target_cell = sheet1[f'B{total_roll+6}']
     if target_cell.value is None:  # Check if the cell is empty
-        target_cell.value = f'=COUNTIF({endCol}4:{endCol}{total_roll+3}, ">={float(al_values_temp[4]) / 100 * 80}")'
+        target_cell.value = f'=COUNTIF({endCol}4:{endCol}{total_roll+3}, ">={float(al_values_temp[4]) / 100 * 60}")'
     sheet1[f'B{total_roll+7}'] = f'=ROUND({sheet1[f"B{str(total_roll+6)}"].coordinate} / {sheet1[f"B{str(total_roll+4)}"].coordinate} * 100, 1)'
     sheet1[f'B{total_roll+8}'] = f'=COUNTIF({endCol}4:{endCol}{total_roll+3}, ">="&{endCol}{total_roll+5})'
     sheet1[f'B{total_roll+9}'] = f'=ROUND({sheet1[f"B{str(total_roll+8)}"].coordinate} / {sheet1[f"B{str(total_roll+4)}"].coordinate} * 100, 1)'
@@ -222,10 +225,11 @@ def cal_sheet(file_name, al_values_temp):
     else :
         sheet1[f'B{total_roll+18}']="-"
         
-    if 6 in check:
-        sheet1[f'B{total_roll+19}']=sheet1[f'B{total_roll+10}'].value
-    else :
-        sheet1[f'B{total_roll+19}']="-"
+    if(cosCount == 6):
+        if 6 in check:
+            sheet1[f'B{total_roll+19}']=sheet1[f'B{total_roll+10}'].value
+        else :
+            sheet1[f'B{total_roll+19}']="-"
     
     map_endsem_co_arr=[f'={sheet1.title}!B{total_roll+14}',f'={sheet1.title}!B{total_roll+15}',f'={sheet1.title}!B{total_roll+16}',f'={sheet1.title}!B{total_roll+17}',f'={sheet1.title}!B{total_roll+18}',f'={sheet1.title}!B{total_roll+19}']
     #<----------------------CA------------------->
@@ -354,11 +358,12 @@ def cal_sheet(file_name, al_values_temp):
         else:
             newSheet[f'D{total_roll+18}'] = '-'
 
-        if columns_QZ_6:
-            average_formula = f"=ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+10}' for col_letter in columns_QZ_6])}),1)"
-            newSheet[f'D{total_roll+19}'] = average_formula
-        else:
-            newSheet[f'D{total_roll+19}'] = '-'
+        if(cosCount == 6):
+            if columns_QZ_6:
+                average_formula = f"=ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+10}' for col_letter in columns_QZ_6])}),1)"
+                newSheet[f'D{total_roll+19}'] = average_formula
+            else:
+                newSheet[f'D{total_roll+19}'] = '-'
         
         map_quiz_co_arr=[f'={newSheet.title}!D{total_roll+14}',f'={newSheet.title}!D{total_roll+15}',f'={newSheet.title}!D{total_roll+16}',f'={newSheet.title}!D{total_roll+17}',f'={newSheet.title}!D{total_roll+18}',f'={newSheet.title}!D{total_roll+19}']
         
@@ -452,11 +457,12 @@ def cal_sheet(file_name, al_values_temp):
         else:
             mySheet2[f'C{total_roll+21}'] = '-'
 
-        if columns_CA_6:
-            average_formula = f"=ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+13}' for col_letter in columns_CA_6])}),1)"
-            mySheet2[f'C{total_roll+22}'] = average_formula
-        else:
-            mySheet2[f'C{total_roll+22}'] = '-'
+        if(cosCount == 6):
+            if columns_CA_6:
+                average_formula = f"=ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+13}' for col_letter in columns_CA_6])}),1)"
+                mySheet2[f'C{total_roll+22}'] = average_formula
+            else:
+                mySheet2[f'C{total_roll+22}'] = '-'
         
         map_CA_co_arr=[f'={mySheet2.title}!C{total_roll+17}',f'={mySheet2.title}!C{total_roll+18}',f'={mySheet2.title}!C{total_roll+19}',f'={mySheet2.title}!C{total_roll+20}',f'={mySheet2.title}!C{total_roll+21}',f'={mySheet2.title}!C{total_roll+22}']
         
@@ -551,6 +557,8 @@ def cal_sheet(file_name, al_values_temp):
 
         # Calculate and set the values for COs and Average AL
         cos = [1, 2, 3, 4, 5, 6]
+        if(cosCount == 5):
+            cos = [1, 2, 3, 4, 5]
         al_row_start = start_row_for_new_table + 1
         avg_al_cells = []
         for co in cos:
@@ -624,9 +632,13 @@ def cal_sheet(file_name, al_values_temp):
         mySheet3[avg_al_cells[2]] = generate_average_formula(columns_with_3)
         mySheet3[avg_al_cells[3]] = generate_average_formula(columns_with_4)
         mySheet3[avg_al_cells[4]] = generate_average_formula(columns_with_5)
-        mySheet3[avg_al_cells[5]] = generate_average_formula(columns_with_6)
+        if(cosCount==6):
+            mySheet3[avg_al_cells[5]] = generate_average_formula(columns_with_6)
         
-        map_CA_co_arr=[f'={mySheet3.title}!{avg_al_cells[0]}',f'={mySheet3.title}!{avg_al_cells[1]}',f'={mySheet3.title}!{avg_al_cells[2]}',f'={mySheet3.title}!{avg_al_cells[3]}',f'={mySheet3.title}!{avg_al_cells[4]}',f'={mySheet3.title}!{avg_al_cells[5]}']
+        if(cosCount==5):
+            map_CA_co_arr=[f'={mySheet3.title}!{avg_al_cells[0]}',f'={mySheet3.title}!{avg_al_cells[1]}',f'={mySheet3.title}!{avg_al_cells[2]}',f'={mySheet3.title}!{avg_al_cells[3]}',f'={mySheet3.title}!{avg_al_cells[4]}']
+        else:
+            map_CA_co_arr=[f'={mySheet3.title}!{avg_al_cells[0]}',f'={mySheet3.title}!{avg_al_cells[1]}',f'={mySheet3.title}!{avg_al_cells[2]}',f'={mySheet3.title}!{avg_al_cells[3]}',f'={mySheet3.title}!{avg_al_cells[4]}',f'={mySheet3.title}!{avg_al_cells[5]}']
         
         return map_CA_co_arr
         
@@ -743,16 +755,19 @@ def cal_sheet(file_name, al_values_temp):
     # sheet5[f'B{21+i}']=f'IF({map_midsem_co_arr[i]}="-"," ","✓")'
     
     # Remember for nptel and Quiz we have to make different options also change in template
-    for i in range(0,6):
+    attainmentEnd = 6
+    if(cosCount==5):
+        attainmentEnd=5
+    for i in range(0,attainmentEnd):
         sheet5[f'B{33+i}']=map_midsem_co_arr[i]
         sheet5[f'B{21+i}'] = f'=IF({map_midsem_co_arr[i][1:] if map_midsem_co_arr[i].startswith("=") else map_midsem_co_arr[i]}="-"," ","✓")'
 
     
-    for i in range(0,6):
+    for i in range(0, attainmentEnd):
         sheet5[f'C{33+i}']=my_CA1_Co_arr[i]
         sheet5[f'C{21+i}']=f'=IF({my_CA1_Co_arr[i][1:] if my_CA1_Co_arr[i].startswith("=") else my_CA1_Co_arr[i]}="-"," ","✓")'
         
-    for i in range(0,6):
+    for i in range(0,attainmentEnd):
         sheet5[f'D{33+i}']=my_CA2_Co_arr[i]
         # value = my_CA2_Co_arr[i]
         # print(f"Setting D{33+i} to {sheet5[f'D{33+i}'].value}")
@@ -760,48 +775,78 @@ def cal_sheet(file_name, al_values_temp):
         sheet5[f'D{21+i}']=f'=IF({my_CA2_Co_arr[i][1:] if my_CA2_Co_arr[i].startswith("=") else my_CA2_Co_arr[i]}="-"," ","✓")'
     
     if 'CA3' in workbook.sheetnames:
-        for i in range(0,6):
+        for i in range(0,attainmentEnd):
             sheet5[f'E{33+i}']=my_CA3_Co_arr[i]
             sheet5[f'E{21+i}']=f'=IF({my_CA3_Co_arr[i][1:] if my_CA3_Co_arr[i].startswith("=") else my_CA3_Co_arr[i]}="-"," ","✓")'
         
-        for i in range(0,6):
+        for i in range(0,attainmentEnd):
             sheet5[f'F{33+i}']=map_endsem_co_arr[i]
             sheet5[f'F{21+i}']=f'=IF({map_endsem_co_arr[i][1:] if map_endsem_co_arr[i].startswith("=") else map_endsem_co_arr[i]}="-"," ","✓")'
             
-        for i in range(0,6):
+        for i in range(0,attainmentEnd):
             sheet5[f'H{33+i}']=map_survey_co_arr[i]
             sheet5[f'G{21+i}']=f'=IF({map_survey_co_arr[i][1:] if map_survey_co_arr[i].startswith("=") else map_survey_co_arr[i]}="-"," ","✓")'
             
-        for i in range(0,6):
+        for i in range(0,attainmentEnd):
             sheet5[f'E{43+i}']=map_survey_co_arr[i] 
             
-        for i in range(0,6):
+        for i in range(0,attainmentEnd):
             # sheet5[f'G{33+i}']=f'=ROUND(0.7*F{33+i}+0.3*(AVERAGE(B{33+i},C{33+i},D{33+i},E{33+i})),1)'
             sheet5[f'G{33+i}']=f'=IF(AND(F{33+i}="-", COUNTIF(B{33+i}:E{33+i}, "-")=3), "-", IF(F{33+i}="-", ROUND(0.3*AVERAGE(B{33+i},C{33+i},D{33+i},E{33+i}), 1), IF(COUNTIF(B{33+i}:E{33+i}, "-")=4, ROUND(0.7*F{33+i}, 1), ROUND(0.7*F{33+i}+0.3*(AVERAGE(B{33+i},C{33+i},D{33+i},E{33+i})),1))))'
-        for i in range(0,6):
+        for i in range(0,attainmentEnd):
             sheet5[f'D{43+i}']=sheet5[f'G{33+i}'].value        
        
     else:    
-        for i in range(0,6):
+        for i in range(0,attainmentEnd):
             sheet5[f'E{33+i}']=map_endsem_co_arr[i]
             sheet5[f'E{21+i}']=f'=IF({map_endsem_co_arr[i][1:] if map_endsem_co_arr[i].startswith("=") else map_endsem_co_arr[i]}="-"," ","✓")'
                 
-        for i in range(0,6):
+        for i in range(0,attainmentEnd):
             sheet5[f'G{33+i}']=map_survey_co_arr[i]
             sheet5[f'F{21+i}']=f'=IF({map_survey_co_arr[i][1:] if map_survey_co_arr[i].startswith("=") else map_survey_co_arr[i]}="-"," ","✓")'
             
-        for i in range(0,6):
+        for i in range(0,attainmentEnd):
             sheet5[f'E{43+i}']=map_survey_co_arr[i] 
             
             
-        for i in range(0,6):
+        for i in range(0,attainmentEnd):
             # sheet5[f'F{33+i}']=f'=ROUND(0.7*E{33+i}+0.3*(AVERAGE(B{33+i},C{33+i},D{33+i})),1)'
             sheet5[f'F{33+i}']=f'=IF(AND(E{33+i}="-", COUNTIF(B{33+i}:D{33+i}, "-")=3), "-", IF(E{33+i}="-", ROUND(0.3*AVERAGE(B{33+i},C{33+i},D{33+i}), 1), IF(COUNTIF(B{33+i}:D{33+i}, "-")=3, ROUND(0.7*E{33+i}, 1), ROUND(0.7*E{33+i}+0.3*(AVERAGE(B{33+i},C{33+i},D{33+i})),1))))'
             
-        for i in range(0,6):
+        for i in range(0,attainmentEnd):
             sheet5[f'D{43+i}']=sheet5[f'F{33+i}'].value        
-            
-         
+        
+    if(cosCount == 6):    
+        map_co_arr=[f"={sheet5.title}!D43",f"={sheet5.title}!D44",f"={sheet5.title}!D45",f"={sheet5.title}!D46",f"={sheet5.title}!D47",f"={sheet5.title}!D48"]
+    else:
+        map_co_arr=[f"={sheet5.title}!D43",f"={sheet5.title}!D44",f"={sheet5.title}!D45",f"={sheet5.title}!D46",f"={sheet5.title}!D47"]
+
+    # --  ---   -- PO Attainment --  ---  -- #
+    sheet6=workbook['PO Attainment']
+
+    start0 = 16
+    start1 = 27
+    start2 = 38
+    column_array = ['B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O']
+
+    for j in range(0, cosCount):
+        for i in column_array:
+            sheet6[f'{i}{start1+j}'] = map_co_arr[j]
+            sheet6[f'{i}{start2+j}'] = f"=IF({i}{start0+j}=3, {i}{start1+j}, IF({i}{start0+j}=2, {i}{start1+j}*0.6, IF({i}{start0+j}=1, {i}{start1+j}*0.4, 0)))"
+    print("type bataooooo")
+    print(type(sheet6[f'{i}{start1+j}'].value))
+    for j in range(0, cosCount):
+        for i in column_array:
+            print(f"2nd tabel {sheet6[f'{i}{start1+j}'].value}")
+            print(sheet6[f'{i}{start0+j}'].value)
+            if(sheet6[f'{i}{start0+j}'].value is None):
+                 print("hehe")
+                 sheet6[f'{i}{start2+j}'].value = ""
+
+    for j in column_array:
+        sheet6[f'{j}44'] = f"=ROUND(AVERAGE({j}38:{j}43),1)"
+
+    ## sheet Done #
     # workbook.save('C:/Users/saira/Downloads/calTemplate.xlsx')
     selectedPath = filedialog.askdirectory()
     downloadCalculate = f'{selectedPath}/Calculated_{file_name_only}.xlsx'

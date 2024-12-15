@@ -18,6 +18,8 @@ from email import encoders
 def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_temp,CA2_Co_arr_temp,CA3_Co_arr_temp,al_values_temp, receiversEmail):
     workbook=Workbook() 
     print("Number of CAs:", basic_values_temp[10])
+    cosCount = (int)(basic_values_temp[14])  #no. of COs for the subject
+    print(f"Cos Count = no. of COs for the subject = {cosCount}")
     sheet1 = workbook.active
     sheet1.title = "Midsem"
     sheet2=workbook.create_sheet(title="Endsem")
@@ -142,9 +144,19 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
     sheet1[f'F{total_roll+22}'] = 'CO3'
     sheet1[f'F{total_roll+23}'] = 'CO4'
     sheet1[f'F{total_roll+24}'] = 'CO5'
-    sheet1[f'F{total_roll+25}'] = 'CO6'
+    print(f"i am coscout:::{cosCount}")
+    print(f"Type of cosCount: {type(cosCount)}")
+    if(cosCount == 6):
+        print("hello i am 6")
+        sheet1[f'F{total_roll+25}'] = 'CO6'
+    coTableEndMidsem = total_roll+26
+    if(cosCount==5):
+        coTableEndMidsem = total_roll+25
 
-    for i in range(total_roll+19,total_roll+26):
+    print(f"coTableEndMidsem : {coTableEndMidsem} ")
+    for i in range(total_roll+19,coTableEndMidsem):
+        print(f"F{i}")
+        print(f"G{i}")
         sheet1[f'F{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))
         sheet1[f'G{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))
         sheet1[f'F{i}'].alignment= Alignment(horizontal='center', vertical='center')
@@ -199,16 +211,23 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
     sheet2[f'A{total_roll+16}'] = 'CO3'
     sheet2[f'A{total_roll+17}'] = 'CO4'
     sheet2[f'A{total_roll+18}'] = 'CO5'
-    sheet2[f'A{total_roll+19}'] = 'CO6' 
+    if(cosCount == 6):
+        sheet2[f'A{total_roll+19}'] = 'CO6' 
     
-    for i in range(total_roll+13,total_roll+20):
+    coTableEndsem = total_roll+20
+    if(cosCount == 5):
+        coTableEndsem = total_roll+19
+    for i in range(total_roll+13,coTableEndsem):
+        print("EEEEEENNNNdsemmmmm")
+        print(f"A{i}")
+        print(f"B{i}")
         sheet2[f'A{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))
         sheet2[f'B{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))
         sheet2[f'A{i}'].alignment= Alignment(horizontal='center', vertical='center')
         sheet2[f'B{i}'].alignment= Alignment(horizontal='center', vertical='center')
         
    
-    def make_CA_Type_PPT(mysheet2,arr,al_value):
+    def make_CA_Type_PPT(mysheet2,arr,al_value,cosCount):
         
         groupSize = int(arr[0])
         mysheet2.column_dimensions['B'].width = 40
@@ -308,7 +327,7 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
                     )
                     
                     
-    def make_CA_Type_NPTEL(mysheet2,arr,al_value):
+    def make_CA_Type_NPTEL(mysheet2,arr,al_value,cosCount):
         mysheet2.column_dimensions['A'].width = 42
         mysheet2.column_dimensions['B'].width = 16
         mysheet2.merge_cells("A1:B1")
@@ -353,7 +372,10 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
             if i>=total_roll+7 :
                 mysheet2[f'A{i}'].alignment= Alignment(horizontal='left', vertical='center') 
         
-        for i in range(total_roll+16,total_roll+23):
+        coTableEndnptel = total_roll+23
+        if(cosCount==5):
+            coTableEndnptel = total_roll+22
+        for i in range(total_roll+16,coTableEndnptel):
             mysheet2[f'B{i}'].alignment= Alignment(horizontal='center', vertical='center')     
             mysheet2[f'B{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))
             mysheet2[f'C{i}'].alignment= Alignment(horizontal='center', vertical='center')     
@@ -368,9 +390,10 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
         mysheet2[f'B{total_roll+19}'] = 'CO3'
         mysheet2[f'B{total_roll+20}'] = 'CO4'
         mysheet2[f'B{total_roll+21}'] = 'CO5'
-        mysheet2[f'B{total_roll+22}'] = 'CO6' 
+        if(cosCount == 6):
+            mysheet2[f'B{total_roll+22}'] = 'CO6' 
     
-    def make_CA_Type_Quiz(mysheet,ca_array,al_value):
+    def make_CA_Type_Quiz(mysheet,ca_array,al_value,cosCount):
         temp=len(ca_array)
         # mysheet=sheet4
         
@@ -588,7 +611,10 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
         mysheet[f'A{total_roll+10}']=f"AL(Based on >={al_value}% Count) (All COs)"
         mysheet[f'A{total_roll+10}'].font=Font(bold=True)
         
-        for i in range(total_roll+13,total_roll+20):
+        coTableEndQuiz = total_roll+20
+        if(cosCount == 5):
+            coTableEndQuiz = total_roll+19
+        for i in range(total_roll+13,coTableEndQuiz):
             mysheet[f'C{i}'].alignment= Alignment(horizontal='center', vertical='center')     
             mysheet[f'C{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))
             mysheet[f'D{i}'].alignment= Alignment(horizontal='center', vertical='center')     
@@ -603,47 +629,48 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
         mysheet[f'C{total_roll+16}'] = 'CO3'
         mysheet[f'C{total_roll+17}'] = 'CO4'
         mysheet[f'C{total_roll+18}'] = 'CO5'
-        mysheet[f'C{total_roll+19}'] = 'CO6' 
+        if(cosCount==6):
+            mysheet[f'C{total_roll+19}'] = 'CO6' 
     
     print(basic_values_temp[10])       
     if basic_values_temp[10]=="2":
         if basic_values_temp[11]=="Quiz":
-            make_CA_Type_Quiz(sheet3,CA1_Co_arr_temp,al_values_temp[0])
+            make_CA_Type_Quiz(sheet3,CA1_Co_arr_temp,al_values_temp[0],cosCount)
         elif basic_values_temp[11]=="NPTEL Course":
-            make_CA_Type_NPTEL(sheet3,CA1_Co_arr_temp,al_values_temp[0]) 
+            make_CA_Type_NPTEL(sheet3,CA1_Co_arr_temp,al_values_temp[0],cosCount) 
         else :
-            make_CA_Type_PPT(sheet3,CA1_Co_arr_temp,al_values_temp[0])
+            make_CA_Type_PPT(sheet3,CA1_Co_arr_temp,al_values_temp[0],cosCount)
             
         print("Hello",basic_values_temp[10])
         if basic_values_temp[12]=="Quiz":
-            make_CA_Type_Quiz(sheet4,CA2_Co_arr_temp,al_values_temp[1])
+            make_CA_Type_Quiz(sheet4,CA2_Co_arr_temp,al_values_temp[1],cosCount)
         elif basic_values_temp[12]=="NPTEL Course":
-            make_CA_Type_NPTEL(sheet4,CA2_Co_arr_temp,al_values_temp[1])
+            make_CA_Type_NPTEL(sheet4,CA2_Co_arr_temp,al_values_temp[1],cosCount)
         else :
-            make_CA_Type_PPT(sheet4,CA2_Co_arr_temp,al_values_temp[1])
+            make_CA_Type_PPT(sheet4,CA2_Co_arr_temp,al_values_temp[1],cosCount)
             
     elif basic_values_temp[10]=="3":
         if basic_values_temp[11]=="Quiz":
-            make_CA_Type_Quiz(sheet3,CA1_Co_arr_temp,al_values_temp[0])
+            make_CA_Type_Quiz(sheet3,CA1_Co_arr_temp,al_values_temp[0],cosCount)
         elif basic_values_temp[11]=="NPTEL Course":
-            make_CA_Type_NPTEL(sheet3,CA1_Co_arr_temp,al_values_temp[0])
+            make_CA_Type_NPTEL(sheet3,CA1_Co_arr_temp,al_values_temp[0],cosCount)
         else :
-            make_CA_Type_PPT(sheet3,CA1_Co_arr_temp,al_values_temp[0])
+            make_CA_Type_PPT(sheet3,CA1_Co_arr_temp,al_values_temp[0],cosCount)
             
         print("Hi",basic_values_temp[10]) 
         if basic_values_temp[12]=="Quiz":
-            make_CA_Type_Quiz(sheet4,CA2_Co_arr_temp,al_values_temp[1])
+            make_CA_Type_Quiz(sheet4,CA2_Co_arr_temp,al_values_temp[1],cosCount)
         elif basic_values_temp[12]=="NPTEL Course":
-            make_CA_Type_NPTEL(sheet4,CA2_Co_arr_temp,al_values_temp[1]) 
+            make_CA_Type_NPTEL(sheet4,CA2_Co_arr_temp,al_values_temp[1],cosCount) 
         else:
-            make_CA_Type_PPT(sheet4,CA2_Co_arr_temp,al_values_temp[1])
+            make_CA_Type_PPT(sheet4,CA2_Co_arr_temp,al_values_temp[1],cosCount)
                  
         if basic_values_temp[13]=="Quiz":
-            make_CA_Type_Quiz(sheet7,CA3_Co_arr_temp,al_values_temp[2])
+            make_CA_Type_Quiz(sheet7,CA3_Co_arr_temp,al_values_temp[2],cosCount)
         elif basic_values_temp[13]=="NPTEL Course":
-            make_CA_Type_NPTEL(sheet7,CA3_Co_arr_temp,al_values_temp[2]) 
+            make_CA_Type_NPTEL(sheet7,CA3_Co_arr_temp,al_values_temp[2],cosCount) 
         else:
-            make_CA_Type_PPT(sheet7,CA3_Co_arr_temp,al_values_temp[2])
+            make_CA_Type_PPT(sheet7,CA3_Co_arr_temp,al_values_temp[2],cosCount)
         print("Hi",basic_values_temp[13])   
         
         
@@ -703,7 +730,8 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
     sheet5[f'I{total_roll+7}']= 'CO3' 
     sheet5[f'J{total_roll+7}']= 'CO4' 
     sheet5[f'K{total_roll+7}']= 'CO5' 
-    sheet5[f'L{total_roll+7}']= 'CO6'
+    if(cosCount==6):
+        sheet5[f'L{total_roll+7}']= 'CO6'
     
     
     
@@ -753,7 +781,8 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
         sheet6['A11']='CO3'
         sheet6['A12']='CO4'
         sheet6['A13']='CO5'
-        sheet6['A14']='CO6'
+        if(cosCount==6):
+            sheet6['A14']='CO6'
 
         # print(coTextArray)
 
@@ -763,13 +792,16 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
         sheet6['B11'].value=""+coTextArray[2]+""
         sheet6['B12'].value=""+coTextArray[3]+""
         sheet6['B13'].value=""+coTextArray[4]+""
-        sheet6['B14'].value=""+coTextArray[5]+""
-        
-        for i in range (9,15):
+        if(cosCount==6):
+            sheet6['B14'].value=""+coTextArray[5]+""
+        maxRange = 15
+        if(cosCount==5):
+            maxRange=14
+        for i in range (9,maxRange):
             sheet6[f'A{i}'].alignment= Alignment(horizontal='center', vertical='center')
             sheet6[f'B{i}'].alignment= Alignment(horizontal='left', vertical='center')         
         
-        for i in range(9,15):
+        for i in range(9,maxRange):
             for col in ['A','B', 'C', 'D', 'E', 'F', 'G','H']:
                 sheet6[f'{col}{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))  
                         
@@ -791,7 +823,10 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
             for col in ['A','B', 'C', 'D', 'E', 'F', 'G','H']:
                 sheet6[f'{col}{i}'].font=Font(bold=True)
         
-        for i in range(18,27):
+        maxRange2 = 27
+        if(cosCount==5):
+            maxRange2=26
+        for i in range(18,maxRange2):
             for col in ['A','B', 'C', 'D', 'E', 'F','G']:
                 sheet6[f'{col}{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000')) 
                 sheet6[f'{col}{i}'].alignment= Alignment(horizontal='center', vertical='center')     
@@ -816,7 +851,8 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
         sheet6['A23']='CO3'
         sheet6['A24']='CO4'
         sheet6['A25']='CO5'
-        sheet6['A26']='CO6'
+        if(cosCount==6):
+            sheet6['A26']='CO6'
         
         sheet6.merge_cells("A27:H27")
         sheet6.merge_cells("A28:H28")
@@ -835,7 +871,10 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
             for col in ['A','B', 'C', 'D', 'E', 'F', 'G','H']:
                 sheet6[f'{col}{i}'].font=Font(bold=True)
         
-        for i in range(30,39):
+        maxRange3 = 39
+        if(cosCount==5):
+            maxRange3 = 38
+        for i in range(30,maxRange3):
             for col in ['A','B', 'C', 'D', 'E', 'F', 'G','H']:
                 sheet6[f'{col}{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000')) 
                 sheet6[f'{col}{i}'].alignment= Alignment(horizontal='center', vertical='center')     
@@ -862,13 +901,17 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
         sheet6['A35']='CO3'
         sheet6['A36']='CO4'
         sheet6['A37']='CO5'
-        sheet6['A38']='CO6'
+        if(cosCount==6):
+            sheet6['A38']='CO6'
         
         sheet6.merge_cells("A39:H39")
         sheet6.merge_cells("A40:H40")
         sheet6.merge_cells("A41:H41")
         
-        for i in range(42,49):
+        maxRange4 = 49
+        if(cosCount == 5):
+            maxRange4 = 48
+        for i in range(42,maxRange4):
             for col in ['C', 'D', 'E']:
                 sheet6[f'{col}{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000')) 
                 sheet6[f'{col}{i}'].alignment= Alignment(horizontal='center', vertical='center')     
@@ -900,9 +943,9 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
         
         sheet6['C47']='CO5'
         sheet6['C47'].font=Font(bold=True)
-        
-        sheet6['C48']='CO6'
-        sheet6['C48'].font=Font(bold=True)
+        if(cosCount==6):
+            sheet6['C48']='CO6'
+            sheet6['C48'].font=Font(bold=True)
         
     else:
         sheet6.column_dimensions['A'].width =16
@@ -948,7 +991,8 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
         sheet6['A11']='CO3'
         sheet6['A12']='CO4'
         sheet6['A13']='CO5'
-        sheet6['A14']='CO6'
+        if(cosCount==6):
+            sheet6['A14']='CO6'
         
         # print(coTextArray)
 
@@ -957,12 +1001,17 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
         sheet6['B11'].value=""+coTextArray[2]+""
         sheet6['B12'].value=""+coTextArray[3]+""
         sheet6['B13'].value=""+coTextArray[4]+""
-        sheet6['B14'].value=""+coTextArray[5]+""
-        for i in range (9,15):
+        if(cosCount==6):
+            sheet6['B14'].value=""+coTextArray[5]+""
+        rangeMax = 15
+        if(cosCount==5):
+            rangeMax = 14
+        
+        for i in range (9,rangeMax):
             sheet6[f'A{i}'].alignment= Alignment(horizontal='center', vertical='center')
             sheet6[f'B{i}'].alignment= Alignment(horizontal='left', vertical='center')         
         
-        for i in range(9,15):
+        for i in range(9,rangeMax):
             for col in ['A','B', 'C', 'D', 'E', 'F', 'G','H']:
                 sheet6[f'{col}{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))  
                         
@@ -984,7 +1033,9 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
             for col in ['A','B', 'C', 'D', 'E', 'F', 'G','H']:
                 sheet6[f'{col}{i}'].font=Font(bold=True)
         
-        for i in range(18,27):
+        rangeMax2 = 27
+        if(cosCount==5): rangeMax = 26
+        for i in range(18,rangeMax2):
             for col in ['A','B', 'C', 'D', 'E', 'F']:
                 sheet6[f'{col}{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000')) 
                 sheet6[f'{col}{i}'].alignment= Alignment(horizontal='center', vertical='center')     
@@ -1008,7 +1059,8 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
         sheet6['A23']='CO3'
         sheet6['A24']='CO4'
         sheet6['A25']='CO5'
-        sheet6['A26']='CO6'
+        if(cosCount==6):
+            sheet6['A26']='CO6'
         
         sheet6.merge_cells("A27:H27")
         sheet6.merge_cells("A28:H28")
@@ -1026,8 +1078,9 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
         for i in range(28,33):
             for col in ['A','B', 'C', 'D', 'E', 'F', 'G','H']:
                 sheet6[f'{col}{i}'].font=Font(bold=True)
-        
-        for i in range(30,39):
+        rangeMax3 = 39
+        if(cosCount==5): rangeMax3=38
+        for i in range(30,rangeMax3):
             for col in ['A','B', 'C', 'D', 'E', 'F', 'G']:
                 sheet6[f'{col}{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000')) 
                 sheet6[f'{col}{i}'].alignment= Alignment(horizontal='center', vertical='center')     
@@ -1053,13 +1106,16 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
         sheet6['A35']='CO3'
         sheet6['A36']='CO4'
         sheet6['A37']='CO5'
-        sheet6['A38']='CO6'
+        if(cosCount==6):
+            sheet6['A38']='CO6'
         
         sheet6.merge_cells("A39:H39")
         sheet6.merge_cells("A40:H40")
         sheet6.merge_cells("A41:H41")
-        
-        for i in range(42,49):
+        rangeMax4 = 49
+        if(cosCount==5):
+            rangeMax4 = 48
+        for i in range(42,rangeMax4):
             for col in ['C', 'D', 'E']:
                 sheet6[f'{col}{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000')) 
                 sheet6[f'{col}{i}'].alignment= Alignment(horizontal='center', vertical='center')     
@@ -1092,8 +1148,9 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
         sheet6['C47']='CO5'
         sheet6['C47'].font=Font(bold=True)
         
-        sheet6['C48']='CO6'
-        sheet6['C48'].font=Font(bold=True)
+        if(cosCount == 6):
+            sheet6['C48']='CO6'
+            sheet6['C48'].font=Font(bold=True)
 
     #--------------------PO---------------------------
     for i in range (1,9):
@@ -1146,7 +1203,6 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
     PSO1) Professional Skills - The ability to develop programs for computer based systems of varying complexity and domains using standard practices.
     PSO2) Successful Career - The ability to adopt skills, languages, environment and platforms for creating innovative carrier paths, being successful entrepreneurs or for pursuing higher studies."""    
     
-    
     sheet8["A12"].value="CO - PO/PSO Mapping"                                                                                                                       
     sheet8["A12"].alignment= Alignment(horizontal='center', vertical='center')     
     sheet8["A12"].font=Font(bold=True)
@@ -1158,7 +1214,10 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
     sheet8.merge_cells("N14:O14")
     sheet8.merge_cells("A14:A15")
     
-    for i in range(14,22):
+    COrange = 22
+    if(cosCount == 5):
+        COrange = 21
+    for i in range(14,COrange):
         for col in ['A','B', 'C', 'D', 'E', 'F', 'G','H','I','J','K','L','M','N','O']:
             sheet8[f'{col}{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))  
             sheet8[f'{col}{i}'].alignment= Alignment(horizontal='center', vertical='center')  
@@ -1167,7 +1226,7 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
     for col in ['B', 'C', 'D', 'E', 'F', 'G','H','I','J','K','L','M','N','O']:
         sheet8[f'{col}15'].font=Font(bold=True)
 
-    for i in range(14,22):
+    for i in range(14,COrange):
         sheet8[f'A{i}'].font=Font(bold=True)
 
     sheet8['A16']='CO1'
@@ -1175,7 +1234,8 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
     sheet8['A18']='CO3'
     sheet8['A19']='CO4'
     sheet8['A20']='CO5'
-    sheet8['A21']='CO6' 
+    if(cosCount==6):
+        sheet8['A21']='CO6' 
 
     for col,i in zip(['B', 'C', 'D', 'E', 'F', 'G','H','I','J','K','L','M'],range(1,13)):
         sheet8[f'{col}15']=f'PO{i}'
@@ -1204,7 +1264,10 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
     sheet8.merge_cells("N25:O25")
     sheet8.merge_cells("A25:A26")
     
-    for i in range(25,33):
+    COrange = 33
+    if(cosCount == 5):
+        COrange = 32
+    for i in range(25,COrange):
         for col in ['A','B', 'C', 'D', 'E', 'F', 'G','H','I','J','K','L','M','N','O']:
             sheet8[f'{col}{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))  
             sheet8[f'{col}{i}'].alignment= Alignment(horizontal='center', vertical='center')  
@@ -1221,7 +1284,8 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
     sheet8['A29']='CO3'
     sheet8['A30']='CO4'
     sheet8['A31']='CO5'
-    sheet8['A32']='CO6' 
+    if(cosCount==6):
+        sheet8['A32']='CO6' 
 
     for col,i in zip(['B', 'C', 'D', 'E', 'F', 'G','H','I','J','K','L','M'],range(1,13)):
         sheet8[f'{col}26']=f'PO{i}'
@@ -1268,7 +1332,8 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
     sheet8['A40']='CO3'
     sheet8['A41']='CO4'
     sheet8['A42']='CO5'
-    sheet8['A43']='CO6' 
+    if(cosCount == 6):
+        sheet8['A43']='CO6' 
     sheet8['A44']='Avg PO'
 
     for col,i in zip(['B', 'C', 'D', 'E', 'F', 'G','H','I','J','K','L','M'],range(1,13)):

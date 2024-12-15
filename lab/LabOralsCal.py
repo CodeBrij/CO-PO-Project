@@ -12,6 +12,7 @@ target = sheet['A2'].value
 match = re.search(r'\d+(\.\d+)?', target)
 if match:
     targetvalue = float(match.group())
+    
 totalCOs = sheet['B2'].value
 total_roll = 0
 startRow = 4

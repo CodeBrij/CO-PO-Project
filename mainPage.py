@@ -220,7 +220,7 @@ class User_mode:
 
                     a1T.get(), a2T.get(), a3T.get(), a4T.get(), a5T.get(), a6T.get(),a2aT.get(),a2bT.get(), a3aT.get(), a3bT.get()]
             
-            basic_values=[entry1.get(),entry8.get(),yearDropDown.get(),entry2.get(),entry3.get(),entry4.get(),entry5.get(),entry7.get(),entry11.get(),None,entry10.get(),entry13.get(),entry14.get(),entry15.get()]
+            basic_values=[entry1.get(),entry8.get(),yearDropDown.get(),entry2.get(),entry3.get(),entry4.get(),entry5.get(),entry7.get(),entry11.get(),None,entry10.get(),entry13.get(),entry14.get(),entry15.get(),noOfCOOption.get()]
             midSem_Co_values=[a1T.get(), a2T.get(), a3T.get(), a4T.get(), a5T.get(), a6T.get(),a2aT.get(),a2bT.get(), a3aT.get(), a3bT.get()]
             receiversEmail = emailText.get()
             
@@ -1177,27 +1177,27 @@ class User_mode:
         # Using create_label, create_entry_box, and create_dropdown to recreate the UI
 
         # CO Information
-        enterCO = create_label(" CO Information ", "Enter the CO's", "Arial", 20, 700, 50)
-        noOfCOLabel = create_label(" CO Information ", "Select No. of CO's: ", "Arial", 15, 550, 100)
-        noOfCOOption = create_dropdown(" CO Information ", ['Select No of CO\'s', '5', '6'], "Arial", 15, 300, noOfCO, 750, 100)
+        enterCO = create_label(" CO Information ", "Enter the CO's", "Arial", 20, 640, 50)
+        noOfCOLabel = create_label(" CO Information ", "Select No. of CO's: ", "Arial", 15, 490, 100)
+        noOfCOOption = create_dropdown(" CO Information ", ['Select No of CO\'s', '5', '6'], "Arial", 15, 300, noOfCO, 690, 100)
 
-        CO1L = create_label(" CO Information ", "CO1: ", "Arial", 15, 550, 150)
-        CO1T = create_entry_box(" CO Information ", "", "Arial", 15, 500, 650, 150)
+        CO1L = create_label(" CO Information ", "CO1: ", "Arial", 15, 490, 150)
+        CO1T = create_entry_box(" CO Information ", "", "Arial", 15, 500, 590, 150)
 
-        CO2L = create_label(" CO Information ", "CO2: ", "Arial", 15, 550, 200)
-        CO2T = create_entry_box(" CO Information ", "", "Arial", 15, 500, 650, 200)
+        CO2L = create_label(" CO Information ", "CO2: ", "Arial", 15, 490, 200)
+        CO2T = create_entry_box(" CO Information ", "", "Arial", 15, 500, 590, 200)
 
-        CO3L = create_label(" CO Information ", "CO3: ", "Arial", 15, 550, 250)
-        CO3T = create_entry_box(" CO Information ", "", "Arial", 15, 500, 650, 250)
+        CO3L = create_label(" CO Information ", "CO3: ", "Arial", 15, 490, 250)
+        CO3T = create_entry_box(" CO Information ", "", "Arial", 15, 500, 590, 250)
 
-        CO4L = create_label(" CO Information ", "CO4: ", "Arial", 15, 550, 300)
-        CO4T = create_entry_box(" CO Information ", "", "Arial", 15, 500, 650, 300)
+        CO4L = create_label(" CO Information ", "CO4: ", "Arial", 15, 490, 300)
+        CO4T = create_entry_box(" CO Information ", "", "Arial", 15, 500, 590, 300)
 
-        CO5L = create_label(" CO Information ", "CO5: ", "Arial", 15, 550, 350)
-        CO5T = create_entry_box(" CO Information ", "", "Arial", 15, 500, 650, 350)
+        CO5L = create_label(" CO Information ", "CO5: ", "Arial", 15, 490, 350)
+        CO5T = create_entry_box(" CO Information ", "", "Arial", 15, 500, 590, 350)
 
-        CO6L = create_label(" CO Information ", "CO6: ", "Arial", 15, 550, 400)
-        CO6T = create_entry_box(" CO Information ", "", "Arial", 15, 500, 650, 400)
+        CO6L = create_label(" CO Information ", "CO6: ", "Arial", 15, 490, 400)
+        CO6T = create_entry_box(" CO Information ", "", "Arial", 15, 500, 590, 400)
         CO6T.configure(state="disabled", fg_color="gray")
 
         # AL of tests
@@ -1228,7 +1228,7 @@ class User_mode:
         # ALSurveyText = create_entry_box(" AL of tests ", "", "Arial", 15, 500, 575, 350)
 
         # Buttons
-        button1 = create_button(" CO Information ", "Next", "Arial", 20, 200, 40, switch1, 725, 500)
+        button1 = create_button(" CO Information ", "Next", "Arial", 20, 200, 40, switch1, 660, 500)
         # button2 = create_button(" CO Mapping ", "Next", "Arial", 20, 200, 40, switch2, 725, 500)
         button2 = create_button(" CO Mapping ", "Next", "Arial", 20, 200, 40, switch2, 1000, 640)
        

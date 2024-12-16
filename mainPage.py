@@ -835,6 +835,7 @@ class User_mode:
         tabview.add(" AL of tests ")
         # tabview.add(" Lab CO ")
         tabview.add(" Upload Excel File ")  # add tab at the end
+        tabview.add(" LO Information Template generation ")
         tabview.set(" Instructions ")  # set currently visible tab
 
         # Load the image and create a CTkImage
@@ -1257,6 +1258,120 @@ class User_mode:
         emailTextProcessed = create_entry_box(" Upload Excel File ", "", "Arial", 15, 500, 700, 400)
 
         button_process = create_button(" Upload Excel File ", "Process", "Arial", 20, 200, 40, process_file, 650, 500)
+
+        # LO page Information
+
+        label0 = create_label(" LO Information Template generation ", "Basic Details", "Arial", 20, 725, 5)
+
+        label1 = create_label(" LO Information Template generation ", "No. of Students :", "Arial", 15, 200, 55)
+
+        entry1 = create_entry_box(" LO Information Template generation ", "Enter no of students", "Arial", 15, 300, 400, 55)
+
+        newLabel = create_label(" LO Information Template generation ", "Year :", "Arial", 15, 200, 155)
+
+        yearDropDown = create_dropdown(" LO Information Template generation ", ["Select Year", "F.E", "S.E", "T.E", "B.E"], "Arial", 15, 300, semesterAndClass, 400, 155)
+
+        label8 = create_label(" LO Information Template generation ", "Department :", "Arial", 15, 200, 105)
+
+        entry8 = create_dropdown(" LO Information Template generation ", ["Select Department", "Humanities and Applied Science(FE)", "Information Technology", "Computer", "AI and Data Science", "Electronics and Telecommunication", "Electronics", "Instrumentation"], "Arial", 15, 300, None, 400, 105)
+
+        label2 = create_label(" LO Information Template generation ", "Semester :", "Arial", 15, 200, 205)
+
+        entry2 = create_dropdown(" LO Information Template generation ", ["Select Sem"], "Arial", 15, 300, subject, 400, 205)
+
+        label3 = create_label(" LO Information Template generation ", "Subject :", "Arial", 15, 200, 255)
+
+        entry3 = create_dropdown(" LO Information Template generation ", ["Select Subject"], "Arial", 15, 300, None, 400, 255)
+
+        label4 = create_label(" LO Information Template generation ", "Academic Year: ", "Arial", 15, 200, 305)
+
+        entry4 = create_entry_box(" LO Information Template generation ", "YYYY-YYYY", "Arial", 15, 300, 400, 305)
+        entry4.bind("<FocusOut>", validate_academic_year)
+
+        label5 = create_label(" LO Information Template generation ", "Subject Teacher :", "Arial", 15, 200, 355)
+
+        entry5 = create_entry_box(" LO Information Template generation ", "Subject Teacher", "Arial", 15, 300, 400, 355)
+
+        label7 = create_label(" LO Information Template generation ", "Class :", "Arial", 15, 200, 405)
+
+        # entry7 = create_entry_box(" LO Information Template generation ", "Eg.D10 C", "Arial", 15, 300, 400, 405)
+
+        entry7 = create_dropdown(" LO Information Template generation ", ["Select Class"], "Arial", 15, 300, None, 400, 405)
+
+        label11 = create_label(" LO Information Template generation ", "Endsems CO's", "Arial", 15, 875, 55)
+
+        entry11 = create_entry_box(" LO Information Template generation ", "1,2,3,4,5,6", "Arial", 15, 300, 1075, 55)
+
+        # label12 = create_label(" LO Information Template generation ", "Attainment Target :", "Arial", 15, 875, 55)
+
+        # entry12 = create_entry_box(" LO Information Template generation ", "52.5", "Arial", 15, 300, 1075, 55)
+
+        label10 = create_label(" LO Information Template generation ", "No. of CA's :", "Arial", 15, 875, 105)
+
+        entry10 = create_dropdown(" LO Information Template generation ", ["2", "3"], "Arial", 15, 300, disable, 1075, 105)
+
+        label13 = create_label(" LO Information Template generation ", "CA1 type :", "Arial", 15, 875, 155)
+
+        entry13 = create_dropdown(" LO Information Template generation ", ["Select Type", "Quiz", "NPTEL Course", "Presentation"], "Arial", 15, 300, ca1, 1075, 155)
+
+        noCA1Label = create_label(" LO Information Template generation ", "No of Question CA1 :", "Arial", 15, 875, 205)
+
+        noCA1Entry = create_dropdown(" LO Information Template generation ", ["Select No", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"], "Arial", 15, 300, noQuestion1, 1075, 205)
+        noCA1Entry.configure(state="disabled", fg_color="gray")
+
+        label14 = create_label(" LO Information Template generation ", "CA2 type :", "Arial", 15, 875, 255)
+
+        entry14 = create_dropdown(" LO Information Template generation ", ["Select Type", "Quiz", "NPTEL Course", "Presentation"], "Arial", 15, 300, ca2, 1075, 255)
+
+        noCA2Label = create_label(" LO Information Template generation ", "No of Question CA2 :", "Arial", 15, 875, 305)
+
+        noCA2Entry = create_dropdown(" LO Information Template generation ", ["Select No", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"], "Arial", 15, 300, noQuestion2, 1075, 305)
+        noCA2Entry.configure(state="disabled", fg_color="gray")
+
+        label15 = create_label(" LO Information Template generation ", "CA3 type :", "Arial", 15, 875, 355)
+
+        entry15 = create_dropdown(" LO Information Template generation ", ["Select Type", "Quiz", "NPTEL Course", "Presentation"], "Arial", 15, 300, ca3, 1075, 355)
+        entry15.configure(state="disabled", fg_color="gray")
+
+        noCA3Label = create_label(" LO Information Template generation ", "No of Question CA3 :", "Arial", 15, 875, 405)
+
+        noCA3Entry = create_dropdown(" LO Information Template generation ", ["Select No", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"], "Arial", 15, 300, noQuestion3, 1075, 405)
+        noCA3Entry.configure(state="disabled", fg_color="gray")
+
+        nptel = create_label(" LO Information Template generation ", "CO's for NPTEL (CA)", "Arial", 20, 700, 505)
+
+        nptelCA1Label = create_label(" LO Information Template generation ", "CA1: ", "Arial", 15, 100, 545)
+
+        nptelCA1Text = create_entry_box(" LO Information Template generation ", "1,2,3,4,5,6", "Arial", 15, 300, 200, 545)
+        nptelCA1Text.configure(state="disabled", fg_color="gray")
+
+        nptelCA2Label = create_label(" LO Information Template generation ", "CA2: ", "Arial", 15, 550, 545)
+
+        nptelCA2Text = create_entry_box(" LO Information Template generation ", "1,2,3,4,5,6", "Arial", 15, 300, 650, 545)
+        nptelCA2Text.configure(state="disabled", fg_color="gray")
+
+        nptelCA3Label = create_label(" LO Information Template generation ", "CA3: ", "Arial", 15, 1000, 545)
+
+        nptelCA3Text = create_entry_box(" LO Information Template generation ", "1,2,3,4,5,6", "Arial", 15, 300, 1100, 545)
+        nptelCA3Text.configure(state="disabled", fg_color="gray")
+
+        presentation = create_label(" LO Information Template generation ", "Maximum group size of Presentations (CA)", "Arial", 20, 590, 585)
+
+        presentationCA1Label = create_label(" LO Information Template generation ", "CA1: ", "Arial", 15, 100, 625)
+
+        presentationCA1Text = create_entry_box(" LO Information Template generation ", "Enter maximum number of students in a group", "Arial", 15, 300, 200, 625)
+        presentationCA1Text.configure(state="disabled", fg_color="gray")
+
+        presentationCA2Label = create_label(" LO Information Template generation ", "CA2: ", "Arial", 15, 550, 625)
+
+        presentationCA2Text = create_entry_box(" LO Information Template generation ", "Enter maximum number of students in a group", "Arial", 15, 300, 650, 625)
+        presentationCA2Text.configure(state="disabled", fg_color="gray")
+
+        presentationCA3Label = create_label(" LO Information Template generation ", "CA3: ", "Arial", 15, 1000, 625)
+
+        presentationCA3Text = create_entry_box(" LO Information Template generation ", "Enter maximum number of students in a group", "Arial", 15, 300, 1100, 625)
+        presentationCA3Text.configure(state="disabled", fg_color="gray")
+
 
         
 

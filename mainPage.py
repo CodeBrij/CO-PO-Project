@@ -1172,7 +1172,7 @@ class User_mode:
             file_path = file_path
             print("File Path : : : ", file_path)
             import Cal
-            Cal.cal_sheet(file_path, al_values, emailTextProcessed.get())
+            Cal.cal_sheet(file_path, emailTextProcessed.get())
 
         # Using create_label, create_entry_box, and create_dropdown to recreate the UI
 

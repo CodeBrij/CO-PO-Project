@@ -20,16 +20,11 @@ def cal_sheet(file_name, receiversEmail):
     file_name_only = os.path.basename(file_name)
     file_name_only = os.path.splitext(file_name_only)[0]
     file_name_only = file_name_only.replace("Template","")
-
-    al_values_temp = []
-
+  
     sheet0 = workbook['CO Information']
-    al_values_temp[0] = (int)(sheet0['B3'].value)
-    al_values_temp[1] = (int)(sheet0['B4'].value)
-    al_values_temp[2] = (int)(sheet0['B5'].value)
-    al_values_temp[3] = (int)(sheet0['B6'].value)
-    al_values_temp[4] = (int)(sheet0['B7'].value)
-    cosCount = (int)(sheet0['A9'].value)
+
+    al_values_temp = [ int(sheet0['B3'].value) if sheet0['B3'].value.isdigit() else None, int(sheet0['B4'].value) if sheet0['B4'].value.isdigit() else None, int(sheet0['B5'].value) if sheet0['B5'].value.isdigit() else None, int(sheet0['B6'].value) if sheet0['B6'].value.isdigit() else None, int(sheet0['B7'].value) if sheet0['B7'].value.isdigit() else None ]
+    cosCount = (int)(sheet0['B9'].value)
     sheet = workbook['Midsem']
     for row in range(1,10):
         if(str(sheet[f'A{row}'].value)=="COs"):

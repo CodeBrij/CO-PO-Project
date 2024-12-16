@@ -31,7 +31,7 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
     sheet5=workbook.create_sheet(title="Survey")
     sheet6=workbook.create_sheet(title='Attainment')
     sheet8=workbook.create_sheet(title='PO Attainment')
-    
+    sheet0=workbook.create_sheet(title="CO Information")
     
     sheet1.column_dimensions['A'].width = 42
     sheet1.merge_cells("A1:O1")
@@ -1368,7 +1368,23 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
             
 
 
-    #----------------------LO----------------------------
+    #----------------------CO Information - Optional----------------------------#
+
+    sheet0.merge_cells('A1:C1')
+    sheet0['A1'] = "Basic Information"
+    sheet0['B3'] = al_values_temp[0]
+    sheet0['B4'] = al_values_temp[1]
+    sheet0['B5'] = al_values_temp[2]
+    sheet0['B6'] = al_values_temp[3]
+    sheet0['B7'] = al_values_temp[4]
+    sheet0['B9'] = cosCount
+
+    sheet0['A3'] = "TargetCA1Text"
+    sheet0['A4'] = "TargetCA2Text"
+    sheet0['A5'] = "TargetCA3Text"
+    sheet0['A6'] = "TargetMidTermText"
+    sheet0['A7'] = "TargetEndSemText"
+    sheet0['A9'] = "No. of COs"
     
     selectedPath = filedialog.askdirectory()
     filePath = f'{selectedPath}/Template_{basic_values_temp[7]}_{basic_values_temp[4]}_{basic_values_temp[6]}_{basic_values_temp[5]}.xlsx'

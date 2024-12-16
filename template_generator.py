@@ -59,18 +59,18 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
     sheet1["A7"].value="Number of Students ="+basic_values_temp[0]+""
 
     sheet1["A8"]="Roll Nos."
-    sheet1["B8"]="1a"
-    sheet1["C8"]="1b"
-    sheet1["D8"]="1c"
-    sheet1["E8"]="1d"
-    sheet1["F8"]="1e"
-    sheet1["G8"]="1f"
-    sheet1["H8"]="Q1"
-    sheet1["I8"]="2a"
-    sheet1["J8"]="2b"
+    sheet1["B8"]="1a (2)"
+    sheet1["C8"]="1b (2)"
+    sheet1["D8"]="1c (2)"
+    sheet1["E8"]="1d (2)"
+    sheet1["F8"]="1e (2)"
+    sheet1["G8"]="1f (2)"
+    sheet1["H8"]="Q1 "
+    sheet1["I8"]="2a (5)"
+    sheet1["J8"]="2b (5)"
     sheet1["K8"]="Q2"
-    sheet1["L8"]="3a"
-    sheet1["M8"]="3b"
+    sheet1["L8"]="3a (5)"
+    sheet1["M8"]="3b (5)"
     sheet1["N8"]="Q3"
     sheet1["O8"]="Total"
 
@@ -168,7 +168,7 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
     sheet2.column_dimensions['B'].width =22
     sheet2['A1']="Roll No."  
     sheet2['A1'].font=Font(bold=True) 
-    sheet2['B1']="ESE(TH)"
+    sheet2['B1']="ESE(TH) (Max Marks: 60)"
     sheet2['B1'].font=Font(bold=True)     
     sheet2['B2']="ALL Qs"
     sheet2['B2'].font=Font(bold=True) 
@@ -238,8 +238,10 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
         mysheet2['C1'] = "Roll Number"
         mysheet2['D1'] = "Group Number"
         mysheet2['E1'] = "Topic(Presentation)"
-        mysheet2['F1'] = "Marks"  # New "Marks" column
+        mysheet2['F1'] = "Marks (Max per student = 10)"  # New "Marks" column
+        mysheet2.column_dimensions['F'].width = 30
         mysheet2['G1'] = "COs (Enter COs as digits with comma e.g. 1,2)"
+        mysheet2.column_dimensions['G'].width = 40
 
         # Make headers bold
         for col in ['A', 'B', 'C', 'D', 'E', 'F', 'G']:
@@ -334,10 +336,12 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
         mysheet2.merge_cells("A2:B2")
         mysheet2.merge_cells("A3:B3")
         mysheet2.merge_cells("A4:B4")
-        mysheet2['A1']="Type :NPTEL Total Questions :"+str(len(arr))
+        mysheet2['A1']="Type: NPTEL Course"
         mysheet2['A1'].font=Font(bold=True)
         mysheet2['A3']="CA Marksheet"
         mysheet2['A3'].font=Font(bold=True)
+        mysheet2['A4']="Maximum Marks = 10"
+        mysheet2['A4'].font=Font(bold=True)
         mysheet2['A5']="Roll No."
         mysheet2['A5'].font=Font(bold=True)
         mysheet2['B5']="CA1"
@@ -564,7 +568,7 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
             mysheet.merge_cells("A1:L1")
             myArr=['A','B', 'C', 'D', 'E', 'F', 'G','H','I', 'J','K','L']
         
-        mysheet['A1']="Type : Quiz      Total Questions :"+str(temp)
+        mysheet['A1']="Type : Quiz      Total Questions :"+str(temp)+"      Maximum Marks for each question = 2"
         mysheet['A1'].font=Font(bold=True)
         
         for i in range(1,4):
@@ -572,6 +576,8 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
                 mysheet[f'{col}{i}'].font=Font(bold=True)
                 
         mysheet.merge_cells('A3:B3')
+        mysheet['A3'] = "CO -->"
+        mysheet['A3'].font=Font(bold=True)
         
         
         for i in range(1 ,total_roll+1):

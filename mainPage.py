@@ -129,7 +129,7 @@ class User_mode:
                         if not validate_co_string(check_text_CA2[i]):
                             CTkMessagebox(title="Invalid Input", message="Please enter the valid format of CO", icon="warning")
                             return
-                tabview.set(" AL of tests ")
+                tabview.set(" Target Levels of all exams ")
 
             elif entry10.get()=="3":
                 if entry13.get() == "Quiz":
@@ -165,7 +165,7 @@ class User_mode:
                         if not (validate_co_string(check_text_CA3[i])):
                             CTkMessagebox(title="Invalid Input", message="Please enter the valid format of CO", icon="warning")
                             return
-                tabview.set(" AL of tests ")
+                tabview.set(" Target Levels of all exams ")
 
         def create_button(tab, name, font_name, font_size, w, h, com, x, y):
             button = ctk.CTkButton(master=tabview.tab(tab), text=name, width=w, height=h, font=(font_name, font_size), command=com)
@@ -832,7 +832,7 @@ class User_mode:
         tabview.add(" Basic Information ") 
         # add tab at the end
         tabview.add(" CO Mapping ")
-        tabview.add(" AL of tests ")
+        tabview.add(" Target Levels of all exams ")
         # tabview.add(" Lab CO ")
         tabview.add(" Upload Excel File ")  # add tab at the end
         tabview.set(" Instructions ")  # set currently visible tab
@@ -1149,7 +1149,7 @@ class User_mode:
         q10TCA3.configure(state="disabled", fg_color="gray")
 
 
-        button = create_button(" AL of tests ", "Download", "Arial", 20, 200, 40, download, 650, 500)
+        button = create_button(" Target Levels of all exams ", "Download", "Arial", 20, 200, 40, download, 650, 500)
 
         def upload_file():
             global file_path
@@ -1200,32 +1200,32 @@ class User_mode:
         CO6T = create_entry_box(" CO Information ", "", "Arial", 15, 500, 590, 400)
         CO6T.configure(state="disabled", fg_color="gray")
 
-        # AL of tests
-        ALlabel = create_label(" AL of tests ", "Enter the AL targets for each exam", "Arial", 20, 600, 50)
+        # Target Levels of all exams
+        ALlabel = create_label(" Target Levels of all exams ", "Enter the Target Levels for each exam", "Arial", 20, 600, 50)
 
         # CA1, CA2, CA3, MidTerm, EndSem, Labs
-        ALCA1Label = create_label(" AL of tests ", "CA1: ", "Arial", 15, 450, 100)
-        ALCA1Text = create_entry_box(" AL of tests ", "", "Arial", 15, 500, 575, 100)
+        ALCA1Label = create_label(" Target Levels of all exams ", "CA1: ", "Arial", 15, 450, 100)
+        ALCA1Text = create_entry_box(" Target Levels of all exams ", "", "Arial", 15, 500, 575, 100)
 
-        ALCA2Label = create_label(" AL of tests ", "CA2: ", "Arial", 15, 450, 150)
-        ALCA2Text = create_entry_box(" AL of tests ", "", "Arial", 15, 500, 575, 150)
+        ALCA2Label = create_label(" Target Levels of all exams ", "CA2: ", "Arial", 15, 450, 150)
+        ALCA2Text = create_entry_box(" Target Levels of all exams ", "", "Arial", 15, 500, 575, 150)
 
-        ALCA3Label = create_label(" AL of tests ", "CA3: ", "Arial", 15, 450, 200)
-        ALCA3Text = create_entry_box(" AL of tests ", "", "Arial", 15, 500, 575, 200)
+        ALCA3Label = create_label(" Target Levels of all exams ", "CA3: ", "Arial", 15, 450, 200)
+        ALCA3Text = create_entry_box(" Target Levels of all exams ", "", "Arial", 15, 500, 575, 200)
         ALCA3Text.configure(state="disabled", fg_color="gray")
 
-        ALMidTermLabel = create_label(" AL of tests ", "Mid Term: ", "Arial", 15, 450, 250)
-        ALMidTermText = create_entry_box(" AL of tests ", "", "Arial", 15, 500, 575, 250)
+        ALMidTermLabel = create_label(" Target Levels of all exams ", "Mid Term: ", "Arial", 15, 450, 250)
+        ALMidTermText = create_entry_box(" Target Levels of all exams ", "", "Arial", 15, 500, 575, 250)
 
-        ALEndSemLabel = create_label(" AL of tests ", "End Semester: ", "Arial", 15, 450, 300)
-        ALEndSemText = create_entry_box(" AL of tests ", "", "Arial", 15, 500, 575, 300)
+        ALEndSemLabel = create_label(" Target Levels of all exams ", "End Semester: ", "Arial", 15, 450, 300)
+        ALEndSemText = create_entry_box(" Target Levels of all exams ", "", "Arial", 15, 500, 575, 300)
 
-        setEmailLabel = create_label(" AL of tests ", "Enter the Email ID to send the template.", "Arial", 20, 600, 400)
+        setEmailLabel = create_label(" Target Levels of all exams ", "Enter the Email ID to send the template.", "Arial", 20, 600, 400)
         
-        emailText = create_entry_box(" AL of tests ", "", "Arial", 15, 500, 525, 450)
+        emailText = create_entry_box(" Target Levels of all exams ", "", "Arial", 15, 500, 525, 450)
 
-        # ALSurveyLabel = create_label(" AL of tests ", "Survey: ", "Arial", 15, 450, 350)
-        # ALSurveyText = create_entry_box(" AL of tests ", "", "Arial", 15, 500, 575, 350)
+        # ALSurveyLabel = create_label(" Target Levels of all exams ", "Survey: ", "Arial", 15, 450, 350)
+        # ALSurveyText = create_entry_box(" Target Levels of all exams ", "", "Arial", 15, 500, 575, 350)
 
         # Buttons
         button1 = create_button(" CO Information ", "Next", "Arial", 20, 200, 40, switch1, 660, 500)
@@ -1251,7 +1251,7 @@ class User_mode:
 
         setEmailProcessedLabel = create_label(" Upload Excel File ", "Enter the Email ID to send the calculated sheet.", "Arial", 20, 200, 400)
         
-        important_label = create_label(" Upload Excel File ", "Important: Please fill the no. of CO\'s field and the CO\'s in the CO Information page and AL values in AL of tests page before processing the file", "Arial", 20, 100, 325)
+        important_label = create_label(" Upload Excel File ", "Important: Please fill the no. of CO\'s field and the CO\'s in the CO Information page and AL values in Target Levels of all exams page before processing the file", "Arial", 20, 100, 325)
         important_label.configure(text_color="black", fg_color="yellow")
 
         emailTextProcessed = create_entry_box(" Upload Excel File ", "", "Arial", 15, 500, 700, 400)

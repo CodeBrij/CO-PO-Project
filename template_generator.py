@@ -239,7 +239,7 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
         mysheet2['D1'] = "Group Number"
         mysheet2['E1'] = "Topic(Presentation)"
         mysheet2['F1'] = "Marks"  # New "Marks" column
-        mysheet2['G1'] = "COs"
+        mysheet2['G1'] = "COs (Enter COs as digits with comma e.g. 1,2)"
 
         # Make headers bold
         for col in ['A', 'B', 'C', 'D', 'E', 'F', 'G']:

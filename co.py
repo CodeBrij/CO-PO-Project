@@ -8,6 +8,7 @@ from openpyxl import Workbook
 import threading
 from PIL import Image, ImageTk  # Required for image handling
 import os
+import sys
 
 # @Sairam Konar
 # PPT ke COS na normally he le like Abhi kaise lete he CA1_Co_arr=[1,2,3,4,5,6] but PPT ke liye aise le  CA1_Co_arr=[[1,2],[3,4],[5],[6]] array of array where inside array is of group COs isse kiya hoga ki strcture maintain rahega.
@@ -836,9 +837,18 @@ class User_mode:
         # tabview.add(" Lab CO ")
         tabview.add(" Upload Excel File ")  # add tab at the end
         tabview.set(" Instructions ")  # set currently visible tab
+        
+        def resource_path(relative_path):
+            """Get the absolute path to a resource, handling PyInstaller paths."""
+            if hasattr(sys, '_MEIPASS'):  # PyInstaller extracts files to _MEIPASS
+                return os.path.join(sys._MEIPASS, relative_path)
+            return os.path.join(os.path.abspath("."), relative_path)
+
+        # Use resource_path to access the image
+        image_path = resource_path("CO Calculator.png")
 
         # Load the image and create a CTkImage
-        background_image = Image.open("CO Calculator.png")
+        background_image = Image.open(image_path)
         bg_image = ctk.CTkImage(background_image, size=(screen_width - 100, screen_height-130))
 
         # Create a frame for the "Instructions" tab content

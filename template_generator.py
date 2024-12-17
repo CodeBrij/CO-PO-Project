@@ -1392,7 +1392,7 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
 
 
     #----------------------CO Information - Optional----------------------------#
-gi
+
     sheet0.merge_cells('A1:C1')
     sheet0['A1'] = "Basic Information"
     sheet0.merge_cells('A2:D2')

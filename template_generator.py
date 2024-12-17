@@ -240,13 +240,16 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
         mysheet2['E1'] = "Topic(Presentation)"
         mysheet2['F1'] = "Marks (Max per student = 10)"  # New "Marks" column
         mysheet2.column_dimensions['F'].width = 30
-        mysheet2['G1'] = "COs (Enter COs as digits with comma e.g. 1,2)"
+        mysheet2['G1'] = "COs(Enter COs as digits with comma e.g. 1,2)"
         mysheet2.column_dimensions['G'].width = 40
 
         # Make headers bold
         for col in ['A', 'B', 'C', 'D', 'E', 'F', 'G']:
             mysheet2[f'{col}1'].font = Font(bold=True)
 
+        mysheet2['G2'] = "Enter COs as digits with comma e.g. 1,2"
+        red_font = Font(color="FF0000") 
+        mysheet2['G2'].font = red_font
         # Fill in Sr. No.
         for i in range(1, total_roll + 1):
             mysheet2[f'A{i + 1}'] = i
@@ -1203,6 +1206,10 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
     sheet8["A9"].font=Font(bold=True)
     sheet8.merge_cells("A9:O9")
 
+    sheet8['A7'] = "Please fill up the CO - PO/PSO Mapping - Leave cell empty for no mapping"
+    red_font = Font(color="FF0000") 
+    sheet8['A7'].font = red_font
+
     sheet8.merge_cells("A10:O10")
     sheet8["A10"].value="""PO1) Basic Engineering knowledge: An ability to apply the fundamental knowledge in mathematics, science and engineering to solve problems in Computer engineering.
     PO2) Problem Analysis: Identify, formulate, research literature and analyze computer engineering problems reaching substantiated conclusions using first principles of mathematics, natural sciences and computer engineering and sciences.
@@ -1385,9 +1392,13 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
 
 
     #----------------------CO Information - Optional----------------------------#
-
+gi
     sheet0.merge_cells('A1:C1')
     sheet0['A1'] = "Basic Information"
+    sheet0.merge_cells('A2:D2')
+    sheet0['A2'] = "Delete this sheet after processing the template - Sheet for processing need"
+    red_font = Font(color="FF0000") 
+    sheet0['A2'].font = red_font
     sheet0['B3'] = al_values_temp[0]
     sheet0['B4'] = al_values_temp[1]
     sheet0['B5'] = al_values_temp[2]

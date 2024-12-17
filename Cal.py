@@ -23,7 +23,20 @@ def cal_sheet(file_name, receiversEmail):
   
     sheet0 = workbook['CO Information']
 
-    al_values_temp = [ int(sheet0['B3'].value) if sheet0['B3'].value.isdigit() else None, int(sheet0['B4'].value) if sheet0['B4'].value.isdigit() else None, int(sheet0['B5'].value) if sheet0['B5'].value.isdigit() else None, int(sheet0['B6'].value) if sheet0['B6'].value.isdigit() else None, int(sheet0['B7'].value) if sheet0['B7'].value.isdigit() else None ]
+    def to_float(value):
+        try:
+            return float(value)  # Convert to float (handles integers and decimals)
+        except (ValueError, TypeError):  
+            return '-'  # If conversion fails, return '-'
+
+    al_values_temp = [
+    to_float(sheet0['B3'].value),
+    to_float(sheet0['B4'].value),
+    to_float(sheet0['B5'].value),
+    to_float(sheet0['B6'].value),
+    to_float(sheet0['B7'].value)
+    ]   
+    print(al_values_temp)
     cosCount = (int)(sheet0['B9'].value)
     sheet = workbook['Midsem']
     for row in range(1,10):
@@ -246,6 +259,7 @@ def cal_sheet(file_name, receiversEmail):
         # mySheet=workbook[ca]
         
         match1 = re.search(r'Type :\s*([\w/]+)', mySheet['A1'].value)
+        print(match1)
         if match1:
             quiz_type = match1.group(1)
         

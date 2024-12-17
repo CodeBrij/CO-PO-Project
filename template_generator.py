@@ -336,7 +336,7 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
         mysheet2.merge_cells("A2:B2")
         mysheet2.merge_cells("A3:B3")
         mysheet2.merge_cells("A4:B4")
-        mysheet2['A1']="Type: NPTEL Course"
+        mysheet2['A1']="Type :NPTEL Course"
         mysheet2['A1'].font=Font(bold=True)
         mysheet2['A3']="CA Marksheet"
         mysheet2['A3'].font=Font(bold=True)

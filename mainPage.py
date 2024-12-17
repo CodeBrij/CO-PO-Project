@@ -1249,14 +1249,14 @@ class User_mode:
 
         process_Label = create_label(" Upload Excel File ", "Process the excel file you uploaded:", "Arial", 25, 600, 250)
 
-        setEmailProcessedLabel = create_label(" Upload Excel File ", "Enter the Email ID to send the calculated sheet.", "Arial", 20, 200, 400)
+        setEmailProcessedLabel = create_label(" Upload Excel File ", "Enter the Email ID to send the calculated sheet.", "Arial", 20, 200, 325)
         
-        important_label = create_label(" Upload Excel File ", "Important: Please fill the no. of CO\'s field and the CO\'s in the CO Information page and AL values in Target Levels of all exams page before processing the file", "Arial", 20, 100, 325)
-        important_label.configure(text_color="black", fg_color="yellow")
+        # important_label = create_label(" Upload Excel File ", "Important: Please fill the no. of CO\'s field and the CO\'s in the CO Information page and AL values in Target Levels of all exams page before processing the file", "Arial", 20, 100, 325)
+        # important_label.configure(text_color="black", fg_color="yellow")
 
-        emailTextProcessed = create_entry_box(" Upload Excel File ", "", "Arial", 15, 500, 700, 400)
+        emailTextProcessed = create_entry_box(" Upload Excel File ", "", "Arial", 15, 500, 700, 325)
 
-        button_process = create_button(" Upload Excel File ", "Process", "Arial", 20, 200, 40, process_file, 650, 500)
+        button_process = create_button(" Upload Excel File ", "Process", "Arial", 20, 200, 40, process_file, 650, 425)
 
         
 

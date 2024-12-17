@@ -696,9 +696,15 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
     sheet5['I1']="Q3"
     sheet5['J1']="Q4"
     sheet5['K1']="Q5"
-    sheet5['L1']="Q6"
+    if(cosCount == 6):
+        sheet5['L1']="Q6"
+
+    col_list = ['A','B', 'C', 'D', 'E', 'F', 'G','H','I', 'J','K']
+
+    if cosCount == 6:
+        col_list.append('L')
     
-    for col in  ['A','B', 'C', 'D', 'E', 'F', 'G','H','I', 'J','K','L'] :
+    for col in col_list :
             sheet5[f'{col}1'].font=Font(bold=True)
             
     for i in range(1 ,total_roll+1):
@@ -707,7 +713,7 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
         sheet5[f'F{i+1}']=""+basic_values_temp[1]+""
         
     for i in range(1,total_roll+2):
-        for col in ['A','B', 'C', 'D', 'E', 'F', 'G','H','I', 'J','K','L'] :
+        for col in col_list :
             sheet5[f'{col}{i}'].alignment= Alignment(horizontal='center', vertical='center')     
             sheet5[f'{col}{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))
     
@@ -721,8 +727,12 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
     sheet5[f'F{total_roll+7}'].font=Font(bold=True)
     sheet5[f'F{total_roll+8}']= 'AL'
     
+    col_list_2 = ['F','G','H','I','J','K']
+    if cosCount == 6:
+        col_list_2.append('L')
+
     for i in range(total_roll+4,total_roll+9):
-        for col in ['F','G','H','I','J','K','L'] :
+        for col in col_list_2 :
             sheet5[f'{col}{i}'].alignment= Alignment(horizontal='center', vertical='center')     
             sheet5[f'{col}{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))
             if col=="F":

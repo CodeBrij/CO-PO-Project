@@ -756,8 +756,13 @@ def cal_sheet(file_name, receiversEmail):
     #<----------------------Survey------------------->
     
     sheet4=workbook['Survey']
+
+    col_list = ['G','H','I','J','K']
+
+    if cosCount == 6:
+        col_list.append('L')
     
-    for col in ['G','H','I','J','K','L']:
+    for col in col_list:
         
         sheet4[f'{col}{total_roll+4}'] = f'=COUNT({col}2:{col}{total_roll+1})'
         sheet4[f'{col}{total_roll+5}'] = f'=COUNTIF({col}2:{col}{total_roll+1}, ">=4")'

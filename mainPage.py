@@ -1274,6 +1274,9 @@ class User_mode:
 
         # LO page Information
 
+        def process_file_lab():
+            return True
+
         label0_lab = create_label(" LO Information Template generation ", "Basic Details", "Arial", 20, 325, 5)
 
         label1_lab = create_label(" LO Information Template generation ", "No. of Students :", "Arial", 15, 100, 55)
@@ -1442,24 +1445,24 @@ class User_mode:
         # button_process=ctk.CTkButton(tabview.tab(" Upload Excel File "),text="Process",width=100,height=30,command=process_file)
         # button_process.place(x=500,y=500)
 
-        upload_Label = create_label(" Upload Excel File ", "Upload you excel file with the marks entered:", "Arial", 25, 550, 50)
-        path_label = create_label(" Upload Excel File ", "Path of file", "Arial", 15, 650, 110)
-        button_upload = create_button(" Upload Excel File ", "Upload", "Arial", 20, 200, 40, upload_file, 400, 100)
+        upload_Label = create_label(" Upload Excel File (Lab) ", "Upload you excel file with the marks entered:", "Arial", 25, 550, 50)
+        path_label = create_label(" Upload Excel File (Lab) ", "Path of file", "Arial", 15, 650, 110)
+        button_upload = create_button(" Upload Excel File (Lab) ", "Upload", "Arial", 20, 200, 40, upload_file, 400, 100)
         
 
-        line = ctk.CTkFrame(master=tabview.tab(" Upload Excel File "), height=2, width=1200, fg_color="white")
+        line = ctk.CTkFrame(master=tabview.tab(" Upload Excel File (Lab) "), height=2, width=1200, fg_color="white")
         line.place(x=150,y=200)
 
-        process_Label = create_label(" Upload Excel File ", "Process the excel file you uploaded:", "Arial", 25, 600, 250)
+        process_Label = create_label(" Upload Excel File (Lab) ", "Process the excel file you uploaded:", "Arial", 25, 600, 250)
 
-        setEmailProcessedLabel = create_label(" Upload Excel File ", "Enter the Email ID to send the calculated sheet.", "Arial", 20, 200, 400)
+        setEmailProcessedLabel = create_label(" Upload Excel File (Lab) ", "Enter the Email ID to send the calculated sheet.", "Arial", 20, 200, 400)
         
-        important_label = create_label(" Upload Excel File ", "Important: Please fill the no. of CO\'s field and the CO\'s in the CO Information page and AL values in AL of tests page before processing the file", "Arial", 20, 100, 325)
-        important_label.configure(text_color="black", fg_color="yellow")
+        # important_label = create_label(" Upload Excel File ", "Important: Please fill the no. of CO\'s field and the CO\'s in the CO Information page and AL values in AL of tests page before processing the file", "Arial", 20, 100, 325)
+        # important_label.configure(text_color="black", fg_color="yellow")
 
-        emailTextProcessed = create_entry_box(" Upload Excel File ", "", "Arial", 15, 500, 700, 400)
+        emailTextProcessed = create_entry_box(" Upload Excel File (Lab) ", "", "Arial", 15, 500, 700, 325)
 
-        button_process = create_button(" Upload Excel File ", "Process", "Arial", 20, 200, 40, process_file, 650, 500)
+        button_process = create_button(" Upload Excel File (Lab) ", "Process", "Arial", 20, 200, 40, process_file_lab, 650, 425)
 
         
 

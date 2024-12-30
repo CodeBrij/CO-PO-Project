@@ -9,6 +9,7 @@ def create_border():
 
 # User inputs
 subject = input("Enter the subject name: ")
+division= input("Enter the division: ")
 total_roll = int(input("Enter the total number of roll numbers: "))
 LOcount = int(input("Enter the total number of LOs: "))
 LabTarget = float(input("Enter the Lab Target: "))
@@ -351,6 +352,80 @@ def lab_template_generator():
     optSheet['B8'] = ProjectTarget
     optSheet['B9'] = lab_type
     optSheet['B10'] = assignmentCount
+
+    #######################################
+    sheet5 = workbook.create_sheet(title="Course Exit Survey")
+    sheet5.column_dimensions['B'].width =40
+    sheet5.column_dimensions['C'].width =40
+    sheet5.column_dimensions['F'].width =40
+    
+    sheet5['A1']="Sr. No."
+    sheet5['B1']="Email Address"
+    sheet5['C1']="Full name of Student"
+    sheet5['D1']="Roll No."
+    sheet5['E1']="Class"
+    sheet5['F1']="Branch"
+    sheet5['G1']="Q1"
+    sheet5['H1']="Q2"
+    sheet5['I1']="Q3"
+    sheet5['J1']="Q4"
+    sheet5['K1']="Q5"
+    if(LOcount == 6):
+        sheet5['L1']="Q6"
+
+    col_list = ['A','B', 'C', 'D', 'E', 'F', 'G','H','I', 'J','K']
+
+    if LOcount == 6:
+        col_list.append('L')
+    
+    for col in col_list :
+            sheet5[f'{col}1'].font=Font(bold=True)
+            
+    for i in range(1 ,total_roll+1):
+        sheet5[f'A{i+1}']=i
+        sheet5[f'E{i+1}']= division
+        sheet5[f'F{i+1}']=subject
+        
+    for i in range(1,total_roll+2):
+        for col in col_list :
+            sheet5[f'{col}{i}'].alignment= Alignment(horizontal='center', vertical='center')     
+            sheet5[f'{col}{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))
+    
+    sheet5[f'F{total_roll+4}']= 'Total' 
+    sheet5[f'F{total_roll+4}'].font=Font(bold=True) 
+    sheet5[f'F{total_roll+5}']= 'SA + A Count'
+    sheet5[f'F{total_roll+5}'].font=Font(bold=True)
+    sheet5[f'F{total_roll+6}']= 'SA + A Percentage' 
+    sheet5[f'F{total_roll+6}'].font=Font(bold=True)
+    sheet5[f'F{total_roll+7}']= 'LO Mapped' 
+    sheet5[f'F{total_roll+7}'].font=Font(bold=True)
+    sheet5[f'F{total_roll+8}']= 'AL'
+    
+    col_list_2 = ['F','G','H','I','J','K']
+    if LOcount == 6:
+        col_list_2.append('L')
+
+    for i in range(total_roll+4,total_roll+9):
+        for col in col_list_2 :
+            sheet5[f'{col}{i}'].alignment= Alignment(horizontal='center', vertical='center')     
+            sheet5[f'{col}{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))
+            if col=="F":
+                sheet5[f'F{i}'].alignment= Alignment(horizontal='left', vertical='center')     
+    
+            if i==total_roll+8:
+                sheet5[f'{col}{i}'].font=Font(bold=True)
+        
+    sheet5[f'G{total_roll+7}']= 'LO1' 
+    sheet5[f'H{total_roll+7}']= 'LO2' 
+    sheet5[f'I{total_roll+7}']= 'LO3' 
+    sheet5[f'J{total_roll+7}']= 'LO4' 
+    sheet5[f'K{total_roll+7}']= 'LO5' 
+    if(LOcount==6):
+        sheet5[f'L{total_roll+7}']= 'LO6'
+    
+
+    #########################################
+    lo_attainment = workbook.create_sheet(title="LO Attainment")
     
     # Save the workbook
     workbook.save(f"{subject}_Lab_Template.xlsx")

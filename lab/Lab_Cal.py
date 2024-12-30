@@ -442,6 +442,24 @@ def cal_lab_sheets() :
             i += 1  # Increment new_row for the next set of entries
 
         return assignment_lo_arr
+    
+    def cal_survey(sheet):
+        sheet4=workbook['Survey']
+
+        col_list = ['G','H','I','J','K']
+
+        if LOcount == 6:
+            col_list.append('L')
+        
+        for col in col_list:
+            
+            sheet4[f'{col}{total_roll+4}'] = f'=COUNT({col}2:{col}{total_roll+1})'
+            sheet4[f'{col}{total_roll+5}'] = f'=COUNTIF({col}2:{col}{total_roll+1}, ">=4")'
+            sheet4[f'{col}{total_roll+6}'] = f'=ROUND(({col}{total_roll+5}/{col}{total_roll+4}*100), 1)'
+            sheet4[f'{col}{total_roll+8}'] = f'=IF({col}{total_roll+6}<60,1,IF(AND({col}{total_roll+6}>59,{col}{total_roll+6}<70),2,IF(AND({col}{total_roll+6}>69,{col}{total_roll+6}<80),3,4)))'
+            
+        map_survey_lo_arr=[f'={sheet4.title}!G{total_roll+8}',f'={sheet4.title}!H{total_roll+8}',f'={sheet4.title}!I{total_roll+8}',f'={sheet4.title}!J{total_roll+8}',f'={sheet4.title}!K{total_roll+8}',f'={sheet4.title}!L{total_roll+8}']
+        return map_survey_lo_arr
 
 
     orals_lo_value = []
@@ -458,6 +476,7 @@ def cal_lab_sheets() :
                 nongroup_labs_lo_value = cal_ungroup_labs(workbook[sheet_names[i]])
         if(sheet_names[i] == "Mini Project"): mini_project_lo_value = cal_mini_project(workbook[sheet_names[i]])
         if(sheet_names[i] == "Assignment"): assignment_lo_value = cal_assignment(workbook[sheet_names[i]])
+        if(sheet_names[i] == "Course Exit Survey"): survey_lo_value = cal_survey(workbook[sheet_names[i]])
 
     print("Final Vales -- ")
     print(orals_lo_value)

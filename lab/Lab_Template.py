@@ -10,6 +10,10 @@ def create_border():
 # User inputs
 subject = input("Enter the subject name: ")
 division= input("Enter the division: ")
+branch = input("Enter the branch: ")
+academic_year = input("Enter the year: ")
+semester = input("Enter the sem = ")
+teacher_name = input("Enter the teacher name: ")
 total_roll = int(input("Enter the total number of roll numbers: "))
 LOcount = int(input("Enter the total number of LOs: "))
 LabTarget = float(input("Enter the Lab Target: "))
@@ -17,9 +21,15 @@ OralTarget = float(input("Enter the oral Target: "))
 AssignmentTarget = float(input("Enter the Assignment Target: "))
 ProjectTarget = float(input("Enter the Mini Project Target: "))
 lab_type = input("Enter the lab type ('non-group' or 'group'): ").strip().lower()
-miniProject = bool(input("Mini Project? 0 or 1??"))
-assignment = bool(input("Assignment hai? 0 or 1??"))
+miniProject = int(input("Mini Project? 0 or 1??"))
+assignment = int(input("Assignment hai? 0 or 1??"))
+lo_text_array = [None] * LOcount
 
+AssignmentTarget = None
+ProjectTarget = None
+assignmentCount=None
+for i in range(LOcount):
+    lo_text_array[i] = input(f"Enter the LO{i+1} description: ")
 # Non-Group Wise Template
 if lab_type == 'non-group':
     total_exp = int(input("Enter the total number of experiments: "))
@@ -40,13 +50,13 @@ else:
     critList = [0]
     loList = [0]
 
-if(miniProject):
+if(miniProject==1):
     projGroupSize = int(input("Enter the size of group: "))
     projCriteria = int(input("Enter the number of criteria for marks: "))
     projCritList = [input(f"Enter criteria {i + 1}: ") for i in range(projCriteria)]
     projLoList = [input(f"Enter the LO for criteria {i + 1}: ") for i in range(projCriteria)]
 
-if(assignment):
+if(assignment==1):
     assignmentCount = int(input("Enter the number of assignment: "))
     assignmentLOs = [input(f"Enter LOs for assignment{i + 1}: ") for i in range(assignmentCount)]
      
@@ -182,7 +192,7 @@ def lab_template_generator():
 
     ########################################################
     
-    if (miniProject):
+    if (miniProject==1):
         project_sheet = workbook.create_sheet(title="Mini Project")
         project_sheet.merge_cells('A1:E1')
         project_sheet['A1'] = f"{subject} Mini Project"
@@ -223,7 +233,7 @@ def lab_template_generator():
                 cell.border = create_border()
 
 ##############################
-    if (assignment):
+    if (assignment==1):
         temp=len(assignmentLOs)
         # assignment_sheet=sheet4
         assignment_sheet = workbook.create_sheet(title="Assignment")
@@ -332,26 +342,7 @@ def lab_template_generator():
             assignment_sheet[f'C{total_roll+19}'] = 'LO6' 
 
     #########################################
-    optSheet = workbook.create_sheet(title="Optional")
-
-    optSheet['A1'] = subject
-    optSheet['A3'] = "Total Students"
-    optSheet['A4'] = "LOsCount"
-    optSheet['A5'] = "Labs"
-    optSheet['A6'] = "Orals"
-    optSheet['A7'] = "Assignment"
-    optSheet['A8'] = "MiniProject"
-    optSheet['A9'] = "lab_type"
-    optSheet['A10'] = "assignmentCount"
     
-    optSheet['B3'] = total_roll
-    optSheet['B4'] = LOcount
-    optSheet['B5'] = LabTarget
-    optSheet['B6'] = OralTarget
-    optSheet['B7'] = AssignmentTarget
-    optSheet['B8'] = ProjectTarget
-    optSheet['B9'] = lab_type
-    optSheet['B10'] = assignmentCount
 
     #######################################
     sheet5 = workbook.create_sheet(title="Course Exit Survey")
@@ -425,8 +416,646 @@ def lab_template_generator():
     
 
     #########################################
-    lo_attainment = workbook.create_sheet(title="LO Attainment")
+    lo_attainment_sheet = workbook.create_sheet(title="LO Attainment")
+
+    if (miniProject==1 and assignment==1):
+        lo_attainment_sheet.column_dimensions['A'].width =16
+        lo_attainment_sheet.column_dimensions['B'].width =25
+        lo_attainment_sheet.column_dimensions['C'].width =25
+        lo_attainment_sheet.column_dimensions['D'].width =25
+        lo_attainment_sheet.column_dimensions['E'].width =25
+        lo_attainment_sheet.column_dimensions['F'].width =34
+        lo_attainment_sheet.column_dimensions['G'].width =25
+        
+        for i in range (1,9):
+            lo_attainment_sheet.merge_cells(f"A{i}:H{i}")
+            lo_attainment_sheet[f'A{i}'].font=Font(bold=True)
+            
+        
+        for i in range (9,15):
+            lo_attainment_sheet.merge_cells(f"B{i}:H{i}") 
+            
+        
+
+        lo_attainment_sheet["A1"].value="Vivekanand Education Society's Institute of Technology"
+        lo_attainment_sheet["A1"].alignment= Alignment(horizontal='center', vertical='center')     
+        
+        lo_attainment_sheet["A2"].value="Department of "+branch+""
+        lo_attainment_sheet["A2"].alignment= Alignment(horizontal='center', vertical='center')     
+        
+        lo_attainment_sheet["A3"].value="Academic Year :"+academic_year+""
+        lo_attainment_sheet["A3"].alignment= Alignment(horizontal='center', vertical='center')     
+        
+        lo_attainment_sheet["A5"].value="  Subject : "+subject+"                                                                                                                                                                       Class : "+division+""
+        lo_attainment_sheet["A5"].alignment= Alignment(horizontal='left', vertical='center')     
+        
+        lo_attainment_sheet["A6"].value="  Subject Teacher :"+teacher_name+"                                                                                                                                                                Semester : "+semester+""
+        lo_attainment_sheet["A6"].alignment= Alignment(horizontal='left', vertical='center')     
+        
+        
+        lo_attainment_sheet['A8']='Course Outcomes(COs): Upon successful completion of this course, students will be able to:'
+        lo_attainment_sheet['A8'].font=Font(bold=True)
+        lo_attainment_sheet["A8"].alignment= Alignment(horizontal='left', vertical='center')     
+        
+        lo_attainment_sheet['A9'] ='LO1'
+        lo_attainment_sheet['A10']='LO2'
+        lo_attainment_sheet['A11']='LO3'
+        lo_attainment_sheet['A12']='LO4'
+        lo_attainment_sheet['A13']='LO5'
+        if(LOcount==6):
+            lo_attainment_sheet['A14']='LO6'
+        
+
+        lo_attainment_sheet['B9'].value =""+lo_text_array[0]+""
+        lo_attainment_sheet['B10'].value=""+lo_text_array[1]+""
+        lo_attainment_sheet['B11'].value=""+lo_text_array[2]+""
+        lo_attainment_sheet['B12'].value=""+lo_text_array[3]+""
+        lo_attainment_sheet['B13'].value=""+lo_text_array[4]+""
+        if(LOcount==6):
+            lo_attainment_sheet['B14'].value=""+lo_text_array[5]+""
+        rangeMax = 15
+        if(LOcount==5):
+            rangeMax = 14
+        
+        for i in range (9,rangeMax):
+            lo_attainment_sheet[f'A{i}'].alignment= Alignment(horizontal='center', vertical='center')
+            lo_attainment_sheet[f'B{i}'].alignment= Alignment(horizontal='left', vertical='center')         
+        
+        for i in range(9,rangeMax):
+            for col in ['A','B', 'C', 'D', 'E', 'F', 'G','H']:
+                lo_attainment_sheet[f'{col}{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))  
+                        
+        lo_attainment_sheet.merge_cells("A15:H15")
+        lo_attainment_sheet.merge_cells("A16:H16")
+        
+        lo_attainment_sheet['A16']='CO Rubrics Mapping'
+        lo_attainment_sheet['A16'].alignment= Alignment(horizontal='center', vertical='center')     
+        
+        lo_attainment_sheet.merge_cells("A17:H17")
+        
+        lo_attainment_sheet.merge_cells("A18:A19")  
+        lo_attainment_sheet.merge_cells("F18:F19")
+        
+        lo_attainment_sheet.merge_cells("B18:E18")
+        lo_attainment_sheet.merge_cells("B19:D19") 
+        
+        for i in range(16,21):
+            for col in ['A','B', 'C', 'D', 'E', 'F', 'G','H']:
+                lo_attainment_sheet[f'{col}{i}'].font=Font(bold=True)
+        
+        rangeMax2 = 27
+        if(LOcount==5): rangeMax = 26
+        for i in range(18,rangeMax2):
+            for col in ['A','B', 'C', 'D', 'E', 'F']:
+                lo_attainment_sheet[f'{col}{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000')) 
+                lo_attainment_sheet[f'{col}{i}'].alignment= Alignment(horizontal='center', vertical='center')     
+                    
+        lo_attainment_sheet['A18']='Assessment'
+        lo_attainment_sheet['B18']='Direct Assessment' 
+        lo_attainment_sheet['F18']='Indirect Assessment' 
+        
+        lo_attainment_sheet['B19']='Internal Assessment' 
+        lo_attainment_sheet['E19']='External Assessment' 
+        
+        lo_attainment_sheet['A20']="LOs"
+        lo_attainment_sheet['B20']="Lab Work"
+        lo_attainment_sheet['C20']="Assignments"
+        lo_attainment_sheet['D20']="Mini Project"
+        lo_attainment_sheet['E20']="ESE(PR/OR)"
+        lo_attainment_sheet['F20']="Course Exit Survey"
+        
+        lo_attainment_sheet['A21']='LO1'
+        lo_attainment_sheet['A22']='LO2'
+        lo_attainment_sheet['A23']='LO3'
+        lo_attainment_sheet['A24']='LO4'
+        lo_attainment_sheet['A25']='LO5'
+        if(LOcount==6):
+            lo_attainment_sheet['A26']='LO6'
+        
+        lo_attainment_sheet.merge_cells("A27:H27")
+        lo_attainment_sheet.merge_cells("A28:H28")
+        lo_attainment_sheet.merge_cells("A29:H29")
+        
+        lo_attainment_sheet['A28']='LO Attainment (Level)'
+        lo_attainment_sheet['A28'].alignment= Alignment(horizontal='center', vertical='center')     
+        
+        lo_attainment_sheet.merge_cells("A30:A31")
+        lo_attainment_sheet.merge_cells("G30:G31")
+        
+        lo_attainment_sheet.merge_cells("B30:F30")
+        lo_attainment_sheet.merge_cells("B31:D31")
+        
+        for i in range(28,33):
+            for col in ['A','B', 'C', 'D', 'E', 'F', 'G','H']:
+                lo_attainment_sheet[f'{col}{i}'].font=Font(bold=True)
+        rangeMax3 = 39
+        if(LOcount==5): rangeMax3=38
+        for i in range(30,rangeMax3):
+            for col in ['A','B', 'C', 'D', 'E', 'F', 'G']:
+                lo_attainment_sheet[f'{col}{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000')) 
+                lo_attainment_sheet[f'{col}{i}'].alignment= Alignment(horizontal='center', vertical='center')     
+        
+        lo_attainment_sheet['A30']='Assessment'
+        lo_attainment_sheet['B30']='Direct Assessment'
+        lo_attainment_sheet['G30']='Indirect Assessment'
+        
+        lo_attainment_sheet['B31']='Internal Assessment'
+        lo_attainment_sheet['E31']='External Assessment'
+        lo_attainment_sheet['F31']='Attainment Level'
+        
+        lo_attainment_sheet['A32']="LOs"
+        lo_attainment_sheet['B32']="Lab Work"
+        lo_attainment_sheet['C32']="Assignments"
+        lo_attainment_sheet['D32']="Mini Project"
+        lo_attainment_sheet['E32']="ESE(PR/OR)"
+        lo_attainment_sheet['F32']="70% (External) + 30% (Internal)"
+        lo_attainment_sheet['G32']="Course Exit Survey"
+        
+        lo_attainment_sheet['A33']='LO1'
+        lo_attainment_sheet['A34']='LO2'
+        lo_attainment_sheet['A35']='LO3'
+        lo_attainment_sheet['A36']='LO4'
+        lo_attainment_sheet['A37']='LO5'
+        if(LOcount==6):
+            lo_attainment_sheet['A38']='LO6'
+        
+        lo_attainment_sheet.merge_cells("A39:H39")
+        lo_attainment_sheet.merge_cells("A40:H40")
+        lo_attainment_sheet.merge_cells("A41:H41")
+        rangeMax4 = 49
+        if(LOcount==5):
+            rangeMax4 = 48
+        for i in range(42,rangeMax4):
+            for col in ['C', 'D']:
+                lo_attainment_sheet[f'{col}{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000')) 
+                lo_attainment_sheet[f'{col}{i}'].alignment= Alignment(horizontal='center', vertical='center')     
+        
+        lo_attainment_sheet['A40']='Final LO Attainment'
+        lo_attainment_sheet['A40'].font=Font(bold=True)
+        lo_attainment_sheet['A40'].alignment= Alignment(horizontal='center', vertical='center')     
+        
+        lo_attainment_sheet['C42']='Course Outcomes'
+        lo_attainment_sheet['C42'].font=Font(bold=True)
+        
+        lo_attainment_sheet['D42']='Final LO Attainment Level'
+        lo_attainment_sheet['D42'].font=Font(bold=True)
+        
+        lo_attainment_sheet['C43']='LO1'
+        lo_attainment_sheet['C43'].font=Font(bold=True)
+        
+        lo_attainment_sheet['C44']='LO2'
+        lo_attainment_sheet['C44'].font=Font(bold=True)
+        
+        lo_attainment_sheet['C45']='LO3'
+        lo_attainment_sheet['C45'].font=Font(bold=True)
+        
+        lo_attainment_sheet['C46']='LO4'
+        lo_attainment_sheet['C46'].font=Font(bold=True)
+        
+        lo_attainment_sheet['C47']='LO5'
+        lo_attainment_sheet['C47'].font=Font(bold=True)
+        
+        if(LOcount == 6):
+            lo_attainment_sheet['C48']='LO6'
+            lo_attainment_sheet['C48'].font=Font(bold=True)
+
+    else:
+        project_or_assignment = "Mini Project" if(miniProject == 1) else "Assignments"
+        lo_attainment_sheet.column_dimensions['A'].width =16
+        lo_attainment_sheet.column_dimensions['B'].width =25
+        lo_attainment_sheet.column_dimensions['C'].width =25
+        lo_attainment_sheet.column_dimensions['D'].width =25
+        lo_attainment_sheet.column_dimensions['E'].width =25
+        lo_attainment_sheet.column_dimensions['F'].width =34
+        lo_attainment_sheet.column_dimensions['G'].width =25
+        
+        for i in range (1,9):
+            lo_attainment_sheet.merge_cells(f"A{i}:H{i}")
+            lo_attainment_sheet[f'A{i}'].font=Font(bold=True)
+            
+        
+        for i in range (9,15):
+            lo_attainment_sheet.merge_cells(f"B{i}:H{i}") 
+            
+        
+
+        lo_attainment_sheet["A1"].value="Vivekanand Education Society's Institute of Technology"
+        lo_attainment_sheet["A1"].alignment= Alignment(horizontal='center', vertical='center')     
+        
+        lo_attainment_sheet["A2"].value="Department of "+branch+""
+        lo_attainment_sheet["A2"].alignment= Alignment(horizontal='center', vertical='center')     
+        
+        lo_attainment_sheet["A3"].value="Academic Year :"+academic_year+""
+        lo_attainment_sheet["A3"].alignment= Alignment(horizontal='center', vertical='center')     
+        
+        lo_attainment_sheet["A5"].value="  Subject : "+subject+"                                                                                                                                                                       Class : "+division+""
+        lo_attainment_sheet["A5"].alignment= Alignment(horizontal='left', vertical='center')     
+        
+        lo_attainment_sheet["A6"].value="  Subject Teacher :"+teacher_name+"                                                                                                                                                                Semester : "+semester+""
+        lo_attainment_sheet["A6"].alignment= Alignment(horizontal='left', vertical='center')     
+        
+        
+        lo_attainment_sheet['A8']='Course Outcomes(COs): Upon successful completion of this course, students will be able to:'
+        lo_attainment_sheet['A8'].font=Font(bold=True)
+        lo_attainment_sheet["A8"].alignment= Alignment(horizontal='left', vertical='center')     
+        
+        lo_attainment_sheet['A9'] ='LO1'
+        lo_attainment_sheet['A10']='LO2'
+        lo_attainment_sheet['A11']='LO3'
+        lo_attainment_sheet['A12']='LO4'
+        lo_attainment_sheet['A13']='LO5'
+        if(LOcount==6):
+            lo_attainment_sheet['A14']='LO6'
+        
+
+        lo_attainment_sheet['B9'].value =""+lo_text_array[0]+""
+        lo_attainment_sheet['B10'].value=""+lo_text_array[1]+""
+        lo_attainment_sheet['B11'].value=""+lo_text_array[2]+""
+        lo_attainment_sheet['B12'].value=""+lo_text_array[3]+""
+        lo_attainment_sheet['B13'].value=""+lo_text_array[4]+""
+        if(LOcount==6):
+            lo_attainment_sheet['B14'].value=""+lo_text_array[5]+""
+        rangeMax = 15
+        if(LOcount==5):
+            rangeMax = 14
+        
+        for i in range (9,rangeMax):
+            lo_attainment_sheet[f'A{i}'].alignment= Alignment(horizontal='center', vertical='center')
+            lo_attainment_sheet[f'B{i}'].alignment= Alignment(horizontal='left', vertical='center')         
+        
+        for i in range (9,rangeMax):
+            for col in ['A','B', 'C', 'D', 'E', 'F', 'G','H']:
+                lo_attainment_sheet[f'{col}{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))  
+                        
+        lo_attainment_sheet.merge_cells("A15:H15")
+        lo_attainment_sheet.merge_cells("A16:H16")
+        
+        lo_attainment_sheet['A16']='CO Rubrics Mapping'
+        lo_attainment_sheet['A16'].alignment= Alignment(horizontal='center', vertical='center')     
+        
+        lo_attainment_sheet.merge_cells("A17:H17")
+        
+        lo_attainment_sheet.merge_cells("A18:A19")  
+        lo_attainment_sheet.merge_cells("F18:F19")
+        
+        lo_attainment_sheet.merge_cells("B18:E18")
+        lo_attainment_sheet.merge_cells("B19:D19") 
+        
+        for i in range(16,21):
+            for col in ['A','B', 'C', 'D', 'E', 'F', 'G','H']:
+                lo_attainment_sheet[f'{col}{i}'].font=Font(bold=True)
+        
+        rangeMax2 = 27
+        if(LOcount==5): rangeMax = 26
+        for i in range(18,rangeMax2):
+            for col in ['A','B', 'C', 'D', 'E']:
+                lo_attainment_sheet[f'{col}{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000')) 
+                lo_attainment_sheet[f'{col}{i}'].alignment= Alignment(horizontal='center', vertical='center')     
+                    
+        lo_attainment_sheet['A18']='Assessment'
+        lo_attainment_sheet['B18']='Direct Assessment' 
+        lo_attainment_sheet['E18']='Indirect Assessment' 
+        
+        lo_attainment_sheet['B19']='Internal Assessment' 
+        lo_attainment_sheet['D19']='External Assessment' 
+        
+        lo_attainment_sheet['A20']="LOs"
+        lo_attainment_sheet['B20']="Lab Work"
+        lo_attainment_sheet['C20']=project_or_assignment
+        lo_attainment_sheet['D20']="ESE(PR/OR)"
+        lo_attainment_sheet['E20']="Course Exit Survey"
+        
+        lo_attainment_sheet['A21']='LO1'
+        lo_attainment_sheet['A22']='LO2'
+        lo_attainment_sheet['A23']='LO3'
+        lo_attainment_sheet['A24']='LO4'
+        lo_attainment_sheet['A25']='LO5'
+        if(LOcount==6):
+            lo_attainment_sheet['A26']='LO6'
+        
+        lo_attainment_sheet.merge_cells("A27:H27")
+        lo_attainment_sheet.merge_cells("A28:H28")
+        lo_attainment_sheet.merge_cells("A29:H29")
+        
+        lo_attainment_sheet['A28']='LO Attainment (Level)'
+        lo_attainment_sheet['A28'].alignment= Alignment(horizontal='center', vertical='center')     
+        
+        lo_attainment_sheet.merge_cells("A30:A31")
+        lo_attainment_sheet.merge_cells("G30:G31")
+        
+        lo_attainment_sheet.merge_cells("B30:F30")
+        lo_attainment_sheet.merge_cells("B31:D31")
+        
+        for i in range(28,33):
+            for col in ['A','B', 'C', 'D', 'E', 'F', 'G','H']:
+                lo_attainment_sheet[f'{col}{i}'].font=Font(bold=True)
+        rangeMax3 = 39
+        if(LOcount==5): rangeMax3=38
+        for i in range(30,rangeMax3):
+            for col in ['A','B', 'C', 'D', 'E', 'F', 'G']:
+                lo_attainment_sheet[f'{col}{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000')) 
+                lo_attainment_sheet[f'{col}{i}'].alignment= Alignment(horizontal='center', vertical='center')     
+        
+        lo_attainment_sheet['A30']='Assessment'
+        lo_attainment_sheet['B30']='Direct Assessment'
+        lo_attainment_sheet['G30']='Indirect Assessment'
+        
+        lo_attainment_sheet['B31']='Internal Assessment'
+        lo_attainment_sheet['E31']='External Assessment'
+        lo_attainment_sheet['F31']='Attainment Level'
+        
+        lo_attainment_sheet['A32']="LOs"
+        lo_attainment_sheet['B32']="Lab Work"
+        lo_attainment_sheet['C32']=project_or_assignment
+        lo_attainment_sheet['D32']="Average"
+        lo_attainment_sheet['E32']="ESE(PR/OR)"
+        lo_attainment_sheet['F32']="70% (External) + 30% (Internal)"
+        lo_attainment_sheet['G32']="Course Exit Survey"
+        
+        lo_attainment_sheet['A33']='LO1'
+        lo_attainment_sheet['A34']='LO2'
+        lo_attainment_sheet['A35']='LO3'
+        lo_attainment_sheet['A36']='LO4'
+        lo_attainment_sheet['A37']='LO5'
+        if(LOcount==6):
+            lo_attainment_sheet['A38']='LO6'
+        
+        lo_attainment_sheet.merge_cells("A39:H39")
+        lo_attainment_sheet.merge_cells("A40:H40")
+        lo_attainment_sheet.merge_cells("A41:H41")
+        rangeMax4 = 49
+        if(LOcount==5):
+            rangeMax4 = 48
+        for i in range(42,rangeMax4):
+            for col in ['C', 'D']:
+                lo_attainment_sheet[f'{col}{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000')) 
+                lo_attainment_sheet[f'{col}{i}'].alignment= Alignment(horizontal='center', vertical='center')     
+        
+        lo_attainment_sheet['A40']='Final LO Attainment'
+        lo_attainment_sheet['A40'].font=Font(bold=True)
+        lo_attainment_sheet['A40'].alignment= Alignment(horizontal='center', vertical='center')     
+        
+        lo_attainment_sheet['C42']='Course Outcomes'
+        lo_attainment_sheet['C42'].font=Font(bold=True)
+        
+        lo_attainment_sheet['D42']='Final LO Attainment Level'
+        lo_attainment_sheet['D42'].font=Font(bold=True)
+        
+        lo_attainment_sheet['C43']='LO1'
+        lo_attainment_sheet['C43'].font=Font(bold=True)
+        
+        lo_attainment_sheet['C44']='LO2'
+        lo_attainment_sheet['C44'].font=Font(bold=True)
+        
+        lo_attainment_sheet['C45']='LO3'
+        lo_attainment_sheet['C45'].font=Font(bold=True)
+        
+        lo_attainment_sheet['C46']='LO4'
+        lo_attainment_sheet['C46'].font=Font(bold=True)
+        
+        lo_attainment_sheet['C47']='LO5'
+        lo_attainment_sheet['C47'].font=Font(bold=True)
+        
+        if(LOcount == 6):
+            lo_attainment_sheet['C48']='LO6'
+            lo_attainment_sheet['C48'].font=Font(bold=True)
+
+        
+    #########################################
+    #PO ATtainment#
+    if True:
+        po_attainment_sheet = workbook.create_sheet(title="PO Attainment")
+        for i in range (1,9):
+            po_attainment_sheet.merge_cells(f"A{i}:O{i}")
+            po_attainment_sheet[f'A{i}'].font=Font(bold=True)
+                    
+        po_attainment_sheet["A1"].value="Vivekanand Education Society's Institute of Technology"
+        po_attainment_sheet["A1"].alignment= Alignment(horizontal='center', vertical='center')     
+
+        po_attainment_sheet["A2"].value="Department of "+branch+""
+        po_attainment_sheet["A2"].alignment= Alignment(horizontal='center', vertical='center')     
+
+        po_attainment_sheet["A3"].value="Academic Year :"+academic_year+""
+        po_attainment_sheet["A3"].alignment= Alignment(horizontal='center', vertical='center')     
+
+        po_attainment_sheet["A5"].value="  Subject : "+subject+"                                                                                                                                                                       Class : "+division+""
+        po_attainment_sheet["A5"].alignment= Alignment(horizontal='left', vertical='center')     
+
+        po_attainment_sheet["A6"].value="  Subject Teacher :"+teacher_name+"                                                                                                                                                                Semester : "+semester+""
+        po_attainment_sheet["A6"].alignment= Alignment(horizontal='left', vertical='center')     
+
+        po_attainment_sheet["A9"].value="Programme Outcomes(POs):"                                                                                                                       
+        po_attainment_sheet["A9"].alignment= Alignment(horizontal='left', vertical='center')     
+        po_attainment_sheet["A9"].font=Font(bold=True)
+        po_attainment_sheet.merge_cells("A9:O9")
+
+        po_attainment_sheet['A7'] = "Please fill up the CO - PO/PSO Mapping - Leave cell empty for no mapping"
+        red_font = Font(color="FF0000") 
+        po_attainment_sheet['A7'].font = red_font
+
+        po_attainment_sheet.merge_cells("A10:O10")
+        po_attainment_sheet["A10"].value="""PO1) Basic Engineering knowledge: An ability to apply the fundamental knowledge in mathematics, science and engineering to solve problems in Computer engineering.
+        PO2) Problem Analysis: Identify, formulate, research literature and analyze computer engineering problems reaching substantiated conclusions using first principles of mathematics, natural sciences and computer engineering and sciences.
+        PO3) Design/ Development of Solutions: Design solutions for complex computer engineering problems and design system components or processes that meet specified needs with appropriate consideration for public health and safety, cultural, societal and environmental considerations.
+        PO4) Conduct investigations of complex engineering problems using research-based knowledge and research methods including design of experiments, analysis and interpretation of data and synthesis of information to provide valid conclusions
+        PO5) Modern Tool Usage: Create, select and apply appropriate techniques, resources and modern computer engineering and IT tools including prediction and modeling to complex engineering activities with an understanding of the limitations. 
+        PO6) The Engineer and Society: Apply reasoning informed by contextual knowledge to assess societal, health, safety, legal and cultural issues and the consequent responsibilities relevant to computer engineering practice.
+        PO7) Environment and Sustainability: Understand the impact of professional computer engineering solutions in societal and environmental contexts and demonstrate knowledge of and need for sustainable development. 
+        PO8) Ethics: Apply ethical principles and commit to professional ethics and responsibilities and norms of computer engineering practice.
+        PO9) Individual and Team Work: Function effectively as an individual, and as a member or leader in diverse teams and in multidisciplinary settings. 
+        PO10) Communication: Communicate effectively on complex engineering activities with the engineering community and with society at large, such as being able to comprehend and write effective reports and design documentation, make effective presentations and give and receive clear instructions 
+        PO11) Project Management and Finance: Demonstrate knowledge and understanding of computer engineering and management principles and apply these to one's own work, as a member and leader in a team, to manage projects and in multidisciplinary environments.
+        PO12) Life-long Learning: Recognize the need for and have the preparation and ability to engage in independent and lifelong learning in the broadest context of technological change.
+        PSO1) Professional Skills - The ability to develop programs for computer based systems of varying complexity and domains using standard practices.
+        PSO2) Successful Career - The ability to adopt skills, languages, environment and platforms for creating innovative carrier paths, being successful entrepreneurs or for pursuing higher studies."""    
+        
+        po_attainment_sheet["A12"].value="CO - PO/PSO Mapping"                                                                                                                       
+        po_attainment_sheet["A12"].alignment= Alignment(horizontal='center', vertical='center')     
+        po_attainment_sheet["A12"].font=Font(bold=True)
+        po_attainment_sheet.merge_cells("A12:O12")
+        
+
+        
+        po_attainment_sheet.merge_cells("B14:M14")
+        po_attainment_sheet.merge_cells("N14:O14")
+        po_attainment_sheet.merge_cells("A14:A15")
+        
+        COrange = 22
+        if(LOcount == 5):
+            COrange = 21
+        for i in range(14,COrange):
+            for col in ['A','B', 'C', 'D', 'E', 'F', 'G','H','I','J','K','L','M','N','O']:
+                po_attainment_sheet[f'{col}{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))  
+                po_attainment_sheet[f'{col}{i}'].alignment= Alignment(horizontal='center', vertical='center')  
+            
+
+        for col in ['B', 'C', 'D', 'E', 'F', 'G','H','I','J','K','L','M','N','O']:
+            po_attainment_sheet[f'{col}15'].font=Font(bold=True)
+
+        for i in range(14,COrange):
+            po_attainment_sheet[f'A{i}'].font=Font(bold=True)
+
+        po_attainment_sheet['A16']='LO1'
+        po_attainment_sheet['A17']='LO2'
+        po_attainment_sheet['A18']='LO3'
+        po_attainment_sheet['A19']='LO4'
+        po_attainment_sheet['A20']='LO5'
+        if(LOcount==6):
+            po_attainment_sheet['A21']='LO6' 
+
+        for col,i in zip(['B', 'C', 'D', 'E', 'F', 'G','H','I','J','K','L','M'],range(1,13)):
+            po_attainment_sheet[f'{col}15']=f'PO{i}'
+        
+        po_attainment_sheet['N15']='PSO1' 
+        po_attainment_sheet['O15']='PSO2'  
+
+        po_attainment_sheet['A14']='Course Outcomes'
+        po_attainment_sheet['A14'].alignment= Alignment(horizontal='center', vertical='center',wrap_text=True)  ######  With Wrap Text
+        po_attainment_sheet['B14']='Programme Outcomes' 
+        po_attainment_sheet['B14'].font=Font(bold=True)
+        po_attainment_sheet['N14']="PSOs" 
+        po_attainment_sheet['N14'].font=Font(bold=True)
+            
+            
+            
+            
+        po_attainment_sheet["A23"].value="Direct PO Attainment"                                                                                                                       
+        po_attainment_sheet["A23"].alignment= Alignment(horizontal='center', vertical='center')     
+        po_attainment_sheet["A23"].font=Font(bold=True)
+        po_attainment_sheet.merge_cells("A23:O23")
+        
+
+        
+        po_attainment_sheet.merge_cells("B25:M25")
+        po_attainment_sheet.merge_cells("N25:O25")
+        po_attainment_sheet.merge_cells("A25:A26")
+        
+        COrange = 33
+        if(LOcount == 5):
+            COrange = 32
+        for i in range(25,COrange):
+            for col in ['A','B', 'C', 'D', 'E', 'F', 'G','H','I','J','K','L','M','N','O']:
+                po_attainment_sheet[f'{col}{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))  
+                po_attainment_sheet[f'{col}{i}'].alignment= Alignment(horizontal='center', vertical='center')  
+            
+
+        for col in ['B', 'C', 'D', 'E', 'F', 'G','H','I','J','K','L','M','N','O']:
+            po_attainment_sheet[f'{col}26'].font=Font(bold=True)
+
+        for i in range(25,33):
+            po_attainment_sheet[f'A{i}'].font=Font(bold=True)
+
+        po_attainment_sheet['A27']='LO1'
+        po_attainment_sheet['A28']='LO2'
+        po_attainment_sheet['A29']='LO3'
+        po_attainment_sheet['A30']='LO4'
+        po_attainment_sheet['A31']='LO5'
+        if(LOcount==6):
+            po_attainment_sheet['A32']='CO6' 
+
+        for col,i in zip(['B', 'C', 'D', 'E', 'F', 'G','H','I','J','K','L','M'],range(1,13)):
+            po_attainment_sheet[f'{col}26']=f'PO{i}'
+        
+        po_attainment_sheet['N26']='PSO1' 
+        po_attainment_sheet['O26']='PSO2'  
+
+        po_attainment_sheet['A25']='Course Outcomes(COs)'
+        po_attainment_sheet['A25'].alignment= Alignment(horizontal='center', vertical='center',wrap_text=True)  ######  With Wrap Text
+        po_attainment_sheet['B25']='Programme Outcomes(POs)' 
+        po_attainment_sheet['B25'].font=Font(bold=True)
+        po_attainment_sheet['N25']="PSOs"
+        po_attainment_sheet['N25'].font=Font(bold=True)
+
+
+
+            
+        po_attainment_sheet["A34"].value="Direct PO Attainment (After Applying CO-PO Mapping)"                                                                                                                       
+        po_attainment_sheet["A34"].alignment= Alignment(horizontal='center', vertical='center')     
+        po_attainment_sheet["A34"].font=Font(bold=True)
+        po_attainment_sheet.merge_cells("A34:O34")
+        
+
+        
+        po_attainment_sheet.merge_cells("B36:M36")
+        po_attainment_sheet.merge_cells("N36:O36")
+        po_attainment_sheet.merge_cells("A36:A37")
+        
+        for i in range(36,45):
+            for col in ['A','B', 'C', 'D', 'E', 'F', 'G','H','I','J','K','L','M','N','O']:
+                po_attainment_sheet[f'{col}{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))  
+                po_attainment_sheet[f'{col}{i}'].alignment= Alignment(horizontal='center', vertical='center')  
+            
+
+        for col in ['B', 'C', 'D', 'E', 'F', 'G','H','I','J','K','L','M','N','O']:
+            po_attainment_sheet[f'{col}37'].font=Font(bold=True)
+            po_attainment_sheet[f'{col}44'].font=Font(bold=True)
+
+        for i in range(36,45):
+            po_attainment_sheet[f'A{i}'].font=Font(bold=True)
+
+        po_attainment_sheet['A38']='LO1'
+        po_attainment_sheet['A39']='LO2'
+        po_attainment_sheet['A40']='LO3'
+        po_attainment_sheet['A41']='LO4'
+        po_attainment_sheet['A42']='LO5'
+        if(LOcount == 6):
+            po_attainment_sheet['A43']='LO6' 
+        po_attainment_sheet['A44']='Avg PO'
+
+        for col,i in zip(['B', 'C', 'D', 'E', 'F', 'G','H','I','J','K','L','M'],range(1,13)):
+            po_attainment_sheet[f'{col}37']=f'PO{i}'
+        
+        po_attainment_sheet['N37']='PSO1' 
+        po_attainment_sheet['O37']='PSO2'  
+
+        po_attainment_sheet['A36']='Course Outcomes(COs)'
+        po_attainment_sheet['A36'].alignment= Alignment(horizontal='center', vertical='center',wrap_text=True)  ######  With Wrap Text
+        po_attainment_sheet['B36']='Programme Outcomes(POs)' 
+        po_attainment_sheet['B36'].font=Font(bold=True)
+        po_attainment_sheet['N36']="PSOs"
+        po_attainment_sheet['N36'].font=Font(bold=True)
+
+        po_attainment_sheet['A47']='AL' 
+        po_attainment_sheet['A47'].font=Font(bold=True)
+        po_attainment_sheet['B47']='%'
+        po_attainment_sheet['B47'].font=Font(bold=True)
+        po_attainment_sheet['A48']='1' 
+        po_attainment_sheet['A49']='2' 
+        po_attainment_sheet['A50']='3' 
+        po_attainment_sheet['B48']='40' 
+        po_attainment_sheet['B49']='60' 
+        po_attainment_sheet['B50']='100'
+
+        for i in range(47,51):
+                po_attainment_sheet[f'A{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))  
+                po_attainment_sheet[f'A{i}'].alignment= Alignment(horizontal='center', vertical='center')  
+                po_attainment_sheet[f'B{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))  
+                po_attainment_sheet[f'B{i}'].alignment= Alignment(horizontal='center', vertical='center')  
+            
+    #######################################3
+    optSheet = workbook.create_sheet(title="Optional")
+
+    optSheet['A1'] = subject
+    optSheet['A3'] = "Total Students"
+    optSheet['A4'] = "LOsCount"
+    optSheet['A5'] = "Labs"
+    optSheet['A6'] = "Orals"
+    optSheet['A7'] = "Assignment"
+    optSheet['A8'] = "MiniProject"
+    optSheet['A9'] = "lab_type"
+    optSheet['A10'] = "assignmentCount"
+    optSheet['A11'] = "Exp Count"
     
+    optSheet['B3'] = total_roll
+    optSheet['B4'] = LOcount
+    optSheet['B5'] = LabTarget
+    optSheet['B6'] = OralTarget
+    optSheet['B7'] = AssignmentTarget
+    optSheet['B8'] = ProjectTarget
+    optSheet['B9'] = lab_type
+    optSheet['B10'] = assignmentCount
+    optSheet['B10'] = total_exp
+
     # Save the workbook
     workbook.save(f"{subject}_Lab_Template.xlsx")
     print(f"Workbook saved successfully as {subject}_Lab_Template.xlsx")

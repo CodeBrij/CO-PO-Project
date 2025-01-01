@@ -22,7 +22,7 @@ def cal_lab_sheets() :
     lab_type = optSheet['B9'].value
     assignmentCount = int(optSheet['B10'].value)
     assignment_col = [get_column_letter(i) for i in range(3, 3 + assignmentCount)]
-    # expCount = int(optSheet['B11'].value)
+    expCount = int(optSheet['B11'].value)
 
     def cal_orals(sheet):
         targetvalue = OralTarget
@@ -79,12 +79,12 @@ def cal_lab_sheets() :
         # Extract target value from cell A2
         targetvalue = LabTarget
 
-        # Extract expCount value from cell B2
-        expCount = sheet['B2'].value
-        match = re.search(r'\d+', expCount)
-        if match:
-            total_exp = int(match.group())
-
+        # # Extract expCount value from cell B2
+        # expCount = sheet['B2'].value
+        # match = re.search(r'\d+', expCount)
+        # if match:
+        #     total_exp = int(match.group())
+        total_exp = expCount
         # Find the last non-empty row
         i = 10
         while sheet[f'A{i}'].value is not None:
@@ -458,8 +458,8 @@ def cal_lab_sheets() :
             sheet4[f'{col}{total_roll+6}'] = f'=ROUND(({col}{total_roll+5}/{col}{total_roll+4}*100), 1)'
             sheet4[f'{col}{total_roll+8}'] = f'=IF({col}{total_roll+6}<60,1,IF(AND({col}{total_roll+6}>59,{col}{total_roll+6}<70),2,IF(AND({col}{total_roll+6}>69,{col}{total_roll+6}<80),3,4)))'
             
-        map_survey_lo_arr=[f'={sheet4.title}!G{total_roll+8}',f'={sheet4.title}!H{total_roll+8}',f'={sheet4.title}!I{total_roll+8}',f'={sheet4.title}!J{total_roll+8}',f'={sheet4.title}!K{total_roll+8}',f'={sheet4.title}!L{total_roll+8}']
-        return map_survey_lo_arr
+        course_exit_survey_lo_value=[f'={sheet4.title}!G{total_roll+8}',f'={sheet4.title}!H{total_roll+8}',f'={sheet4.title}!I{total_roll+8}',f'={sheet4.title}!J{total_roll+8}',f'={sheet4.title}!K{total_roll+8}',f'={sheet4.title}!L{total_roll+8}']
+        return course_exit_survey_lo_value
 
 
     orals_lo_value = []
@@ -467,6 +467,8 @@ def cal_lab_sheets() :
     nongroup_labs_lo_value = []
     mini_project_lo_value = []
     assignment_lo_value = []
+    course_exit_survey_lo_value = []
+
     for i in range(len(sheet_names)):
         if(sheet_names[i] == "Orals"): orals_lo_value = cal_orals(workbook[sheet_names[i]]);
         if(sheet_names[i] == "Lab"): 
@@ -476,15 +478,132 @@ def cal_lab_sheets() :
                 nongroup_labs_lo_value = cal_ungroup_labs(workbook[sheet_names[i]])
         if(sheet_names[i] == "Mini Project"): mini_project_lo_value = cal_mini_project(workbook[sheet_names[i]])
         if(sheet_names[i] == "Assignment"): assignment_lo_value = cal_assignment(workbook[sheet_names[i]])
-        if(sheet_names[i] == "Course Exit Survey"): survey_lo_value = cal_survey(workbook[sheet_names[i]])
+        if(sheet_names[i] == "Course Exit Survey"): course_exit_survey_lo_value = cal_survey(workbook[sheet_names[i]])
 
-    print("Final Vales -- ")
+    print("Final Values --- ")
     print(orals_lo_value)
     print(group_labs_lo_value)
     print(nongroup_labs_lo_value)
     print(mini_project_lo_value)
     print(assignment_lo_value)
+    print(course_exit_survey_lo_value)
     
+    def lo_attainment(sheet):            
+        # Remember for nptel and Quiz we have to make different options also change in template
+        if(len(assignment_lo_value)!=0 and len(mini_project_lo_value)!=0):
+            labs_lo_value = nongroup_labs_lo_value if (len(group_labs_lo_value) == 0) else group_labs_lo_value
+
+            attainmentEnd = 6
+            if(LOcount==5):
+                attainmentEnd=5
+            for i in range(0,attainmentEnd):
+                sheet[f'B{33+i}']=labs_lo_value[i]
+                sheet[f'B{21+i}'] = f'=IF({labs_lo_value[i][1:] if labs_lo_value[i].startswith("=") else labs_lo_value[i]}="-"," ","✓")'
+
+            
+            for i in range(0, attainmentEnd):
+                sheet[f'C{33+i}']=mini_project_lo_value[i] 
+                sheet[f'C{21+i}']=f'=IF({mini_project_lo_value[i][1:] if mini_project_lo_value[i].startswith("=") else mini_project_lo_value[i]}="-"," ","✓")'
+                
+            for i in range(0,attainmentEnd):                
+                sheet[f'D{33+i}']=assignment_lo_value[i]
+                # value = my_CA2_Co_arr[i]
+                # print(f"Setting D{33+i} to {sheet[f'D{33+i}'].value}")
+                sheet[f'D{21+i}']=f'=IF({assignment_lo_value[i][1:] if assignment_lo_value[i].startswith("=") else assignment_lo_value[i]}="-"," ","✓")'
+                
+                
+            for i in range(0,attainmentEnd):
+                sheet[f'E{33+i}']=orals_lo_value[i]
+                sheet[f'E{21+i}']=f'=IF({orals_lo_value[i][1:] if orals_lo_value[i].startswith("=") else orals_lo_value[i]}="-"," ","✓")'
+                        
+            for i in range(0,attainmentEnd):
+                sheet[f'G{33+i}']=course_exit_survey_lo_value[i]
+                sheet[f'F{21+i}']=f'=IF({course_exit_survey_lo_value[i][1:] if course_exit_survey_lo_value[i].startswith("=") else course_exit_survey_lo_value[i]}="-"," ","✓")'
+                    
+            for i in range(0,attainmentEnd):
+                sheet[f'E{43+i}']=course_exit_survey_lo_value[i] 
+                    
+                    
+            for i in range(0,attainmentEnd):
+                    # sheet[f'F{33+i}']=f'=ROUND(0.7*E{33+i}+0.3*(AVERAGE(B{33+i},C{33+i},D{33+i})),1)'
+                sheet[f'F{33+i}']=f'=IF(AND(E{33+i}="-", COUNTIF(B{33+i}:D{33+i}, "-")=3), "-", IF(E{33+i}="-", ROUND(0.3*AVERAGE(B{33+i},C{33+i},D{33+i}), 1), IF(COUNTIF(B{33+i}:D{33+i}, "-")=3, ROUND(0.7*E{33+i}, 1), ROUND(0.7*E{33+i}+0.3*(AVERAGE(B{33+i},C{33+i},D{33+i})),1))))'
+                    
+            for i in range(0,attainmentEnd):
+                sheet[f'D{43+i}']=sheet[f'F{33+i}'].value        
+                
+            if(LOcount == 6):    
+                map_lo_arr=[f"={sheet.title}!D43",f"={sheet.title}!D44",f"={sheet.title}!D45",f"={sheet.title}!D46",f"={sheet.title}!D47",f"={sheet.title}!D48"]
+            else:
+                map_lo_arr=[f"={sheet.title}!D43",f"={sheet.title}!D44",f"={sheet.title}!D45",f"={sheet.title}!D46",f"={sheet.title}!D47"]
+
+        else:
+            labs_lo_value = nongroup_labs_lo_value if (len(group_labs_lo_value) == 0) else group_labs_lo_value
+
+            attainmentEnd = 6
+            if(LOcount==5):
+                attainmentEnd=5
+            for i in range(0,attainmentEnd):
+                sheet[f'B{33+i}']=labs_lo_value[i]
+                sheet[f'B{21+i}'] = f'=IF({labs_lo_value[i][1:] if labs_lo_value[i].startswith("=") else labs_lo_value[i]}="-"," ","✓")'
+
+            if(len(mini_project_lo_value)==0):
+                for i in range(0, attainmentEnd):
+                    sheet[f'C{33+i}']=assignment_lo_value[i] 
+                    sheet[f'C{21+i}']=f'=IF({assignment_lo_value[i][1:] if assignment_lo_value[i].startswith("=") else assignment_lo_value[i]}="-"," ","✓")'
+            else:
+                for i in range(0, attainmentEnd):
+                    sheet[f'C{33+i}']=mini_project_lo_value[i] 
+                    sheet[f'C{21+i}']=f'=IF({mini_project_lo_value[i][1:] if mini_project_lo_value[i].startswith("=") else mini_project_lo_value[i]}="-"," ","✓")'
+                
+                
+            for i in range(0,attainmentEnd):
+                sheet[f'E{33+i}']=orals_lo_value[i]
+                sheet[f'D{21+i}']=f'=IF({orals_lo_value[i][1:] if orals_lo_value[i].startswith("=") else orals_lo_value[i]}="-"," ","✓")'
+                sheet[f'D{33+i}']=f'=AVERAGE(B{33+i}:C{33+i})'
+
+            for i in range(0,attainmentEnd):
+                sheet[f'G{33+i}']=course_exit_survey_lo_value[i]
+                sheet[f'E{21+i}']=f'=IF({course_exit_survey_lo_value[i][1:] if course_exit_survey_lo_value[i].startswith("=") else course_exit_survey_lo_value[i]}="-"," ","✓")'
+                    
+                    
+            for i in range(0,attainmentEnd):
+                    # sheet[f'F{33+i}']=f'=ROUND(0.7*E{33+i}+0.3*(AVERAGE(B{33+i},C{33+i},D{33+i})),1)'
+                sheet[f'F{33+i}']=f'=ROUND((0.7*E{33+i}+0.3*D{33+i}),1)'                    
+            for i in range(0,attainmentEnd):
+                sheet[f'D{43+i}']=f"=ROUND(0.8*F{33+i}+0.2*G{33+i},1)"      
+                
+            if(LOcount == 6):    
+                map_lo_arr=[f"={sheet.title}!D43",f"={sheet.title}!D44",f"={sheet.title}!D45",f"={sheet.title}!D46",f"={sheet.title}!D47",f"={sheet.title}!D48"]
+            else:
+                map_lo_arr=[f"={sheet.title}!D43",f"={sheet.title}!D44",f"={sheet.title}!D45",f"={sheet.title}!D46",f"={sheet.title}!D47"]
+
+        return map_lo_arr
+    
+    def po_attainment(sheet):
+        start0 = 16
+        start1 = 27
+        start2 = 38
+        column_array = ['B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O']
+
+        for j in range(0, LOcount):
+            for i in column_array:
+                sheet[f'{i}{start1+j}'] = map_lo_arr[j]
+                sheet[f'{i}{start2+j}'] = f"=IF({i}{start0+j}=3, {i}{start1+j}, IF({i}{start0+j}=2, {i}{start1+j}*0.6, IF({i}{start0+j}=1, {i}{start1+j}*0.4, 0)))"
+        print("type bataooooo")
+        print(type(sheet[f'{i}{start1+j}'].value))
+        for j in range(0, LOcount):
+            for i in column_array:
+                print(f"2nd tabel {sheet[f'{i}{start1+j}'].value}")
+                print(sheet[f'{i}{start0+j}'].value)
+                if(sheet[f'{i}{start0+j}'].value is None):
+                    print("hehe")
+                    sheet[f'{i}{start2+j}'].value = ""
+
+        for j in column_array:
+            sheet[f'{j}44'] = f"=ROUND(AVERAGE({j}38:{j}43),1)"
+
+    lo_attainment(workbook["LO Attainment"])
+    po_attainment(workbook["PO Attainment"])
     # Save the modified workbook after calculations
     workbook.save('DSA_Lab_Calculated.xlsx')  # Save to a new file or overwrite the original
     print("Workbook saved successfully!")

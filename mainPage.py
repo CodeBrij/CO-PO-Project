@@ -8,6 +8,7 @@ from openpyxl import Workbook
 import threading
 from PIL import Image, ImageTk  # Required for image handling
 import os
+import sys
 
 # @Sairam Konar
 # PPT ke COS na normally he le like Abhi kaise lete he CA1_Co_arr=[1,2,3,4,5,6] but PPT ke liye aise le  CA1_Co_arr=[[1,2],[3,4],[5],[6]] array of array where inside array is of group COs isse kiya hoga ki strcture maintain rahega.
@@ -220,7 +221,7 @@ class User_mode:
 
                     a1T.get(), a2T.get(), a3T.get(), a4T.get(), a5T.get(), a6T.get(),a2aT.get(),a2bT.get(), a3aT.get(), a3bT.get()]
             
-            basic_values=[entry1.get(),entry8.get(),yearDropDown.get(),entry2.get(),entry3.get(),entry4.get(),entry5.get(),entry7.get(),entry11.get(),None,entry10.get(),entry13.get(),entry14.get(),entry15.get()]
+            basic_values=[entry1.get(),entry8.get(),yearDropDown.get(),entry2.get(),entry3.get(),entry4.get(),entry5.get(),entry7.get(),entry11.get(),None,entry10.get(),entry13.get(),entry14.get(),entry15.get(),noOfCOOption.get()]
             midSem_Co_values=[a1T.get(), a2T.get(), a3T.get(), a4T.get(), a5T.get(), a6T.get(),a2aT.get(),a2bT.get(), a3aT.get(), a3bT.get()]
             receiversEmail = emailText.get()
             
@@ -428,9 +429,9 @@ class User_mode:
             
         def validate_co_string(coString):
             validate_co_array = []
-            print(coString)
+            # print(coString)
             coString = coString.replace(" ", "")
-            print(coString)
+            # print(coString)
             if noOfCOOption.get() == "Select No of CO\'s":
                 CTkMessagebox(title = "Error", message="Select No of CO\'s", icon="cancel")
             elif noOfCOOption.get() == "5":
@@ -444,7 +445,7 @@ class User_mode:
 
             # Extract digits from the input string
             digits = list(map(int, coString.split(',')))
-            print(digits)
+            # print(digits)
 
             # Check each digit is within the valid_digits array
             if not all(digit in validate_co_array for digit in digits):
@@ -524,18 +525,28 @@ class User_mode:
             if option == "Select Year":
                 entry2.configure(values=["Select Sem"])
                 entry7.configure(values=["Select Class"])
+                entry2_lab.configure(values=["Select Sem"])
+                entry7_lab.configure(values=["Select Class"])
             elif option == "F.E":
                 entry2.configure(values=["Select Sem","I","II"])
                 entry7.configure(values=["Select Class", "D5A", "D5B", "D5C"])
+                entry2_lab.configure(values=["Select Sem","I","II"])
+                entry7_lab.configure(values=["Select Class", "D5A", "D5B", "D5C"])
             elif option == "S.E":
                 entry2.configure(values=["Select Sem","III","IV"])
                 entry7.configure(values=["Select Class", "D10A", "D10B", "D10C"])
+                entry2_lab.configure(values=["Select Sem","III","IV"])
+                entry7_lab.configure(values=["Select Class", "D10A", "D10B", "D10C"])
             elif option == "T.E":
                 entry2.configure(values=["Select Sem","V","VI"])
                 entry7.configure(values=["Select Class", "D15A", "D15B", "D15C"])
+                entry2_lab.configure(values=["Select Sem","V","VI"])
+                entry7_lab.configure(values=["Select Class", "D15A", "D15B", "D15C"])
             elif option == "B.E":
                 entry2.configure(values=["Select Sem","VII","VIII"])
                 entry7.configure(values=["Select Class", "D20A", "D20B", "D20C"])
+                entry2_lab.configure(values=["Select Sem","VII","VIII"])
+                entry7_lab.configure(values=["Select Class", "D20A", "D20B", "D20C"])
 
 
         def noQuestion1(option):
@@ -759,22 +770,31 @@ class User_mode:
         def subject(option):
             if option == "Select Sem":
                 entry3.configure(values=["Select Subject"])
+                entry3_lab.configure(values=["Select Subject"])
             elif option == "I":
                 entry3.configure(values=["Select Subject","Universal Human Values - 1","Fundamentals of Vedic Mathematics (Indian Knowledge System)", "Basic Electrical Engineering", "Engineering Drawing", "Engineering Mechanics", "Engineering Physics", "Matrices and Differential Calculus", "Python Programming"])
+                entry3_lab.configure(values=["Select Subject","Universal Human Values - 1","Fundamentals of Vedic Mathematics (Indian Knowledge System)", "Basic Electrical Engineering", "Engineering Drawing", "Engineering Mechanics", "Engineering Physics", "Matrices and Differential Calculus", "Python Programming"])
             elif option == "II":
                 entry3.configure(values=["Select Subject","Universal Human Values - 2","Basic Workshop Practice", "Computer Programming", "Integral Calculus and Complex Numbers", "Biology for Engineers", "Engineering Chemistry", "Professional Communication and Ethics - 1"])
+                entry3_lab.configure(values=["Select Subject","Universal Human Values - 2","Basic Workshop Practice", "Computer Programming", "Integral Calculus and Complex Numbers", "Biology for Engineers", "Engineering Chemistry", "Professional Communication and Ethics - 1"])
             elif option == "III":
                 entry3.configure(values=["Select Subject","Engineering Mathematics III", "Data Structures and Analysis", "Database Management System", "Principle of Communications", "Paradigm and computer programming fundamentals"])
+                entry3_lab.configure(values=["Select Subject","Engineering Mathematics III", "Data Structures and Analysis", "Database Management System", "Principle of Communications", "Paradigm and computer programming fundamentals"])
             elif option == "IV":
                 entry3.configure(values=["Select Subject","Engineering Mathematics IV", "Computer Network and Network Design", "Operating System", "Automata Theory", "Computer Organization and Architecture"])
+                entry3_lab.configure(values=["Select Subject","Engineering Mathematics IV", "Computer Network and Network Design", "Operating System", "Automata Theory", "Computer Organization and Architecture"])
             elif option == "V":
                 entry3.configure(values=["Select Subject","Internet Programming", "Computer Network Security", "Entrepreneurship and E- business", "Software Engineering", "Advance Data Management Technologies", "Advanced Data structure and Analysis"])
+                entry3_lab.configure(values=["Select Subject","Internet Programming", "Computer Network Security", "Entrepreneurship and E- business", "Software Engineering", "Advance Data Management Technologies", "Advanced Data structure and Analysis"])
             elif option == "VI":
                 entry3.configure(values=["Select Subject","Data Mining & Business Intelligence", "Web X.0", "Wireless Technology", "AI and DS 1", "Optional Course 2"])
+                entry3_lab.configure(values=["Select Subject","Data Mining & Business Intelligence", "Web X.0", "Wireless Technology", "AI and DS 1", "Optional Course 2"])
             elif option == "VII":
                 entry3.configure(values=["Select Subject","AI and DS II", "Internet of Everything", "Department Optional Course 3", "Department Optional Course 4", "Institute Optional Course 1"])
+                entry3_lab.configure(values=["Select Subject","AI and DS II", "Internet of Everything", "Department Optional Course 3", "Department Optional Course 4", "Institute Optional Course 1"])
             elif option == "VIII":
                 entry3.configure(values=["Select Subject","Blockchain and DLT", "Department Optional Course 5", "Department Optional Course 6", "Institute Optional Course 2"])
+                entry3_lab.configure(values=["Select Subject","Blockchain and DLT", "Department Optional Course 5", "Department Optional Course 6", "Institute Optional Course 2"])
 
         def disable(option):
             if option == "3":
@@ -800,16 +820,6 @@ class User_mode:
                 CO6T.configure(state="normal",fg_color=["#F9F9FA", "#343638"])
             else :
                 CO6T.configure(state="disabled",fg_color="gray")
-
-        def exp_group(option):
-            if option == "Group Students":
-                group_size_exp_entry.configure(state="normal", fg_color=["F9F9FA", "#343638"])
-            else:
-                group_size_exp_entry.configure(state="disabled",fg_color="gray")
-            if option == "Individual Students":
-                no_of_exp_dropdown.configure(state="normal", fg_color=["F9F9FA", "#1F6AA5"])
-            else:
-                no_of_exp_dropdown.configure(state="disabled", fg_color="gray")
                
                 
         ctk.set_appearance_mode("system")  # Modes: system (default), light, dark
@@ -851,8 +861,16 @@ class User_mode:
         tabview.add(" Upload Excel File (Lab) ")
         tabview.set(" LO Mapping ")  # set currently visible tab
 
+        def resource_path(relative_path):
+            """Get the absolute path to a resource, handling PyInstaller paths."""
+            if hasattr(sys, '_MEIPASS'):  # PyInstaller extracts files to _MEIPASS
+                return os.path.join(sys._MEIPASS, relative_path)
+            return os.path.join(os.path.abspath("."), relative_path)
+
+        # Use resource_path to access the image
+        image_path = resource_path("CO Calculator.png")
         # Load the image and create a CTkImage
-        background_image = Image.open("CO Calculator.png")
+        background_image = Image.open(image_path)
         bg_image = ctk.CTkImage(background_image, size=(screen_width - 100, screen_height-130))
 
         # Create a frame for the "Instructions" tab content
@@ -1274,6 +1292,152 @@ class User_mode:
 
         # LO page Information
 
+        def lo_check(option):
+            if option == "Select No of LO\'s":
+                for entry in LO_entry.values():
+                    entry.configure(state="disabled", fg_color="gray")
+            else:
+                option = int(option)
+                for i in range (1, option+1):
+                    LO_entry[f"LO{i}_entry"].configure(state="normal", fg_color=["F9F9FA", "#343638"])
+                for i in range (option+1, 7):
+                    LO_entry[f"LO{i}_entry"].configure(state="disabled", fg_color="gray")
+        
+        def exp_group(option):
+            factor_title_entry = [factor_1_title_entry, factor_2_title_entry, factor_3_title_entry, factor_4_title_entry, factor_5_title_entry]
+            factor_lo_entry = [factor_1_lo_entry, factor_2_lo_entry, factor_3_lo_entry, factor_4_lo_entry, factor_5_lo_entry]
+            if option == "Group Students":
+                group_size_exp_entry.configure(state="normal", fg_color=["F9F9FA", "#343638"])
+                for entry in factor_title_entry:
+                    entry.configure(state="normal", fg_color=["F9F9FA", "#343638"])
+                for entry in factor_lo_entry:
+                    entry.configure(state="normal", fg_color=["F9F9FA", "#343638"])
+                for entry in exp_lo_entry.values():
+                    entry.configure(state="disabled", fg_color="gray")
+                
+            else:
+                group_size_exp_entry.configure(state="disabled",fg_color="gray")
+                for entry in factor_title_entry:
+                    entry.configure(state="disabled",fg_color="gray")
+                for entry in factor_lo_entry:
+                    entry.configure(state="disabled",fg_color="gray")
+            if option == "Individual Students":
+                no_of_exp_dropdown.configure(state="normal", fg_color=["F9F9FA", "#1F6AA5"])
+            else:
+                no_of_exp_dropdown.configure(state="disabled", fg_color="gray")
+                for entry in exp_lo_entry.values():
+                    entry.configure(state="disabled", fg_color="gray")
+
+        def exp_fields(option):
+            if option == "Select no of experiments":
+                for entry in exp_lo_entry.values():
+                    entry.configure(state="disabled", fg_color="gray")
+            else:
+                option = int(option)
+                for i in range (1, option+1):
+                    exp_lo_entry[f"exp{i}_lo_entry"].configure(state="normal", fg_color=["F9F9FA", "#343638"])
+                for i in range (option+1, 16):
+                    exp_lo_entry[f"exp{i}_lo_entry"].configure(state="disabled", fg_color="gray")
+
+        def assignment_fields(option):
+            if option == "Select no of Assignments":
+                for entry in assignment_lo_entry.values():
+                    entry.configure(state="disabled", fg_color="gray")
+            else:
+                option = int(option)
+                for i in range (1, option+1):
+                    assignment_lo_entry[f"assignment_{i}_lo_entry"].configure(state="normal", fg_color=["F9F9FA", "#343638"])
+                for i in range (option+1, 4):
+                    assignment_lo_entry[f"assignment_{i}_lo_entry"].configure(state="disabled", fg_color="gray")
+
+        def validate_lo_string(loString):
+            validate_lo_array = []
+            # print(coString)
+            loString = loString.replace(" ", "")
+            # print(coString)
+            if noOfLOOption.get() == "Select No of CO\'s":
+                CTkMessagebox(title = "Error", message="Select No of CO\'s", icon="cancel")
+            elif noOfLOOption.get() == "5":
+                validate_lo_array = [1,2,3,4,5]
+            elif noOfLOOption.get() == "6":
+                validate_lo_array = [1,2,3,4,5,6]
+            
+            pattern = r'^(\d,)*\d$'
+            if not re.match(pattern, loString):
+                return False
+
+            # Extract digits from the input string
+            digits = list(map(int, loString.split(',')))
+            # print(digits)
+
+            # Check each digit is within the valid_digits array
+            if not all(digit in validate_lo_array for digit in digits):
+                return False
+
+            # Ensure there are no consecutive identical digits
+            if len(digits) != len(set(digits)):
+                return False
+
+            return True
+
+        def switch_lab():
+            if noOfLOOption.get() == "Select No of LO\'s":
+                CTkMessagebox(title = "Error", message="Select No of LO\'s", icon="cancel")
+            else:
+                option = noOfLOOption.get()
+                option = int(option)
+                for i in range (1, option+1):
+                    if LO_entry[f"LO{i}_entry"].get() == "":
+                        CTkMessagebox(title = "Error", message="Please fill all the LO\'s", icon="cancel")
+                        return
+                tabview.set(" LO Information Template generation ")
+                
+        def switch_1_lab():
+            if noOfLOOption.get() == "Select No of LO\'s":
+                CTkMessagebox(title = "Error", message="Select No of LO\'s on the previous page", icon="cancel")
+            if (entry1_lab.get() == "" or yearDropDown_lab.get() == "Select Year" or entry8_lab.get() == "Select Department" or entry2_lab.get() == "Select Sem" or entry3_lab.get() == "Select Subject" or entry4_lab.get() == "" or entry5_lab.get() == "" or entry7_lab.get() == "Select Class"):
+                CTkMessagebox(title = "Error", message="Please fill all the basic details", icon="cancel")
+                return
+            elif no_of_assignments_dropdown.get() == "Select no of Assignments":
+                CTkMessagebox(title = "Error", message="Please select the number of assignments", icon="cancel")
+                return
+            elif (oral_marks_target_entry.get() == "" or mini_project_marks_target_entry.get() == "" or term_work_marks_target_entry.get() == ""):
+                CTkMessagebox(title = "Error", message="Please fill all the marks targets", icon="cancel")
+                return
+            elif termWork_dropdown.get() == "Select Type":
+                CTkMessagebox(title = "Error", message="Please select the type of term work", icon="cancel")
+                return
+            elif termWork_dropdown.get() == "Group Students":
+                size = group_size_exp_entry.get()
+                if size == "":
+                    CTkMessagebox(title = "Error", message="Please fill the group size", icon="cancel")
+                    return
+                elif (not (size.isdigit()) or int(size) < 0):
+                    CTkMessagebox(title = "Error", message="Please enter a valid group size", icon="cancel")
+                    return
+                elif (factor_1_title_entry.get() == "" or factor_2_title_entry.get() == "" or factor_3_title_entry.get() == "" or factor_4_title_entry.get() == "" or factor_5_title_entry.get() == ""):
+                    CTkMessagebox(title = "Error", message="Please fill all the factors", icon="cancel")
+                    return
+                check_text_group_LO = [factor_1_lo_entry.get(), factor_2_lo_entry.get(), factor_3_lo_entry.get(), factor_4_lo_entry.get(), factor_5_lo_entry.get()]
+                if "" in check_text_group_LO:
+                    CTkMessagebox(title = "Error", message="Please fill all LO\'s for the factors", icon="cancel")
+                    return
+                for text in check_text_group_LO:
+                    if not validate_lo_string(text):
+                        CTkMessagebox(title = "Error", message="Please fill LO\'s in valid format", icon="cancel")
+                        return
+            elif termWork_dropdown.get() == "Individual Students":
+                if no_of_exp_dropdown.get() == "Select no of experiments":
+                    CTkMessagebox(title = "Error", message="Please select the number of experiments", icon="cancel")
+                    return
+            tabview.set(" LO Mapping ")
+                
+            
+
+        def switch_2_lab():
+            tabview.set(" Upload Excel File (Lab) ")
+
+
         def process_file_lab():
             return True
 
@@ -1325,12 +1489,12 @@ class User_mode:
 
         no_of_exp_label = create_label(" LO Information Template generation ", "Enter no. of experiments: ", "Arial", 15, 100, 555)
 
-        no_of_exp_dropdown = create_dropdown(" LO Information Template generation ", ["Select no of experimanets","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"], "Arial", 15, 300, None, 400, 555)
+        no_of_exp_dropdown = create_dropdown(" LO Information Template generation ", ["Select no of experiments","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"], "Arial", 15, 300, exp_fields, 400, 555)
         no_of_exp_dropdown.configure(state="disabled",fg_color="gray")
 
         no_of_assignments_label = create_label(" LO Information Template generation ", "Enter no. of Assignments: ", "Arial", 15, 100, 605)
         
-        no_of_assignments_dropdown = create_dropdown(" LO Information Template generation ", ["Select no of Assignemnts", "2", "3"], "Arial", 15, 300, None, 400, 605)
+        no_of_assignments_dropdown = create_dropdown(" LO Information Template generation ", ["Select no of Assignments", "2", "3"], "Arial", 15, 300, assignment_fields, 400, 605)
 
         label_10_lab = create_label(" LO Information Template generation ", "Enter factors for group term work and their LO\'s ", "Arial", 20, 875, 5)
 
@@ -1351,24 +1515,34 @@ class User_mode:
         factor_5_label = create_label(" LO Information Template generation ", "5", "Arial", 15, 825, 305)
 
         factor_1_title_entry = create_entry_box(" LO Information Template generation ", "Enter title", "Arial", 15, 150, 1025, 105)
+        factor_1_title_entry.configure(state="disabled",fg_color="gray")
 
         factor_2_title_entry = create_entry_box(" LO Information Template generation ", "Enter title", "Arial", 15, 150, 1025, 155)
+        factor_2_title_entry.configure(state="disabled",fg_color="gray")
 
         factor_3_title_entry = create_entry_box(" LO Information Template generation ", "Enter title", "Arial", 15, 150, 1025, 205)
+        factor_3_title_entry.configure(state="disabled",fg_color="gray")
 
         factor_4_title_entry = create_entry_box(" LO Information Template generation ", "Enter title", "Arial", 15, 150, 1025, 255)
+        factor_4_title_entry.configure(state="disabled",fg_color="gray")    
 
         factor_5_title_entry = create_entry_box(" LO Information Template generation ", "Enter title", "Arial", 15, 150, 1025, 305)
+        factor_5_title_entry.configure(state="disabled",fg_color="gray")
 
         factor_1_lo_entry = create_entry_box(" LO Information Template generation ", "1,2,3,4,5,6", "Arial", 15, 150, 1225, 105)
+        factor_1_lo_entry.configure(state="disabled",fg_color="gray")
 
         factor_2_lo_entry = create_entry_box(" LO Information Template generation ", "1,2,3,4,5,6", "Arial", 15, 150, 1225, 155)
+        factor_2_lo_entry.configure(state="disabled",fg_color="gray")
 
         factor_3_lo_entry = create_entry_box(" LO Information Template generation ", "1,2,3,4,5,6", "Arial", 15, 150, 1225, 205)
+        factor_3_lo_entry.configure(state="disabled",fg_color="gray")
 
         factor_4_lo_entry = create_entry_box(" LO Information Template generation ", "1,2,3,4,5,6", "Arial", 15, 150, 1225, 255)
+        factor_4_lo_entry.configure(state="disabled",fg_color="gray")
     
         factor_5_lo_entry = create_entry_box(" LO Information Template generation ", "1,2,3,4,5,6", "Arial", 15, 150, 1225, 305)
+        factor_5_lo_entry.configure(state="disabled",fg_color="gray")
 
         label_14_lab = create_label(" LO Information Template generation ", "Enter target levels of the tests: ", "Arial", 20, 950, 355)
 
@@ -1376,17 +1550,15 @@ class User_mode:
 
         oral_marks_target_entry = create_entry_box(" LO Information Template generation ", "", "Arial", 15, 300, 1025, 405)
 
-        experiment_marks_target_label = create_label(" LO Information Template generation ", "Experiment: ", "Arial", 15, 825, 455)
-
-        experiment_marks_target_entry = create_entry_box(" LO Information Template generation ", "", "Arial", 15, 300, 1025, 455)
-
         mini_project_marks_target_label = create_label(" LO Information Template generation ", "Mini Project: ", "Arial", 15, 825, 505)
 
         mini_project_marks_target_entry = create_entry_box(" LO Information Template generation ", "", "Arial", 15, 300, 1025, 505)
 
-        term_work_marks_target_label = create_label(" LO Information Template generation ", "Term Work: ", "Arial", 15, 825, 555)
+        term_work_marks_target_label = create_label(" LO Information Template generation ", "Term Work: ", "Arial", 15, 825, 455)
 
-        term_work_marks_target_entry = create_entry_box(" LO Information Template generation ", "", "Arial", 15, 300, 1025, 555)
+        term_work_marks_target_entry = create_entry_box(" LO Information Template generation ", "", "Arial", 15, 300, 1025, 455)
+
+        next_1_lab_button = create_button(" LO Information Template generation ", "Next", "Arial", 20, 250, 40, switch_1_lab, 1020, 600)
 
         label_15_lab = create_label(" LO Mapping ", "Enter the LO mapped for the following situations", "Arial", 20, 500, 5)
 
@@ -1411,6 +1583,9 @@ class User_mode:
             exp_lo_entry[f"exp{i}_lo_entry"] = create_entry_box(" LO Mapping ", "1,2,3,4,5,6", "Arial", 15, 200, 1100, 105+(50*(c-1)))
             c = c + 1
 
+        for entry in exp_lo_entry.values():
+            entry.configure(state="disabled", fg_color="gray")
+
         mini_project_lo_lables = create_label(" LO Mapping ", "Mini project", "Arial", 15, 700, 375)
 
         mini_project_lo_label = {}
@@ -1429,9 +1604,14 @@ class User_mode:
             assignment_lo_label[f"assignment_{i}_lo_label"] = create_label(" LO Mapping ", f"Assignment {i}: ", "Arial", 15, 200 + (400*(i-1)), 545)
             assignment_lo_entry[f"assignment_{i}_lo_entry"] = create_entry_box(" LO Mapping ", "1,2,3,4,5,6", "Arial", 15, 175, 350 + (400*(i-1)), 545)
 
+        for entry in assignment_lo_entry.values():
+            entry.configure(state="disabled", fg_color="gray")
+
+        next_2_lab_button = create_button(" LO Mapping ", "Next", "Arial", 20, 200, 40, switch_2_lab, 650, 600)
+
         enterLO = create_label(" LO Information ", "Enter the LO's", "Arial", 20, 700, 50)
         noOfLOLabel = create_label(" LO Information ", "Select No. of LO's: ", "Arial", 15, 550, 100)
-        noOfLOOption = create_dropdown(" LO Information ", ['Select No of LO\'s', '5', '6'], "Arial", 15, 300, None, 750, 100)
+        noOfLOOption = create_dropdown(" LO Information ", ['Select No of LO\'s', '5', '6'], "Arial", 15, 300, lo_check, 750, 100)
 
         LO_label = {}
         LO_entry = {}
@@ -1440,29 +1620,34 @@ class User_mode:
             LO_label[f"LO{i}_label"] = create_label(" LO Information ", f"LO{i}: ", "Arial", 15, 550, 150 + (50*(i-1)))
             LO_entry[f"LO{i}_entry"] = create_entry_box(" LO Information ", "", "Arial", 15, 500, 650, 150 + (50*(i-1)))
 
-        path_entry=ctk.CTkEntry(tabview.tab(" Upload Excel File "))
+        for entry in LO_entry.values():
+            entry.configure(state="disabled", fg_color="gray")
+
+        next_lab_button = create_button(" LO Information ", "Next", "Arial", 20, 200, 40, switch_lab, 725, 500)
+
+        path_entry_lab=ctk.CTkEntry(tabview.tab(" Upload Excel File "))
         
         # button_process=ctk.CTkButton(tabview.tab(" Upload Excel File "),text="Process",width=100,height=30,command=process_file)
         # button_process.place(x=500,y=500)
 
-        upload_Label = create_label(" Upload Excel File (Lab) ", "Upload you excel file with the marks entered:", "Arial", 25, 550, 50)
-        path_label = create_label(" Upload Excel File (Lab) ", "Path of file", "Arial", 15, 650, 110)
-        button_upload = create_button(" Upload Excel File (Lab) ", "Upload", "Arial", 20, 200, 40, upload_file, 400, 100)
+        upload_Label_lab = create_label(" Upload Excel File (Lab) ", "Upload you excel file with the marks entered:", "Arial", 25, 550, 50)
+        path_label_lab = create_label(" Upload Excel File (Lab) ", "Path of file", "Arial", 15, 650, 110)
+        button_upload_lab = create_button(" Upload Excel File (Lab) ", "Upload", "Arial", 20, 200, 40, upload_file, 400, 100)
         
 
-        line = ctk.CTkFrame(master=tabview.tab(" Upload Excel File (Lab) "), height=2, width=1200, fg_color="white")
-        line.place(x=150,y=200)
+        line_lab = ctk.CTkFrame(master=tabview.tab(" Upload Excel File (Lab) "), height=2, width=1200, fg_color="white")
+        line_lab.place(x=150,y=200)
 
-        process_Label = create_label(" Upload Excel File (Lab) ", "Process the excel file you uploaded:", "Arial", 25, 600, 250)
+        process_Label_lab = create_label(" Upload Excel File (Lab) ", "Process the excel file you uploaded:", "Arial", 25, 600, 250)
 
-        setEmailProcessedLabel = create_label(" Upload Excel File (Lab) ", "Enter the Email ID to send the calculated sheet.", "Arial", 20, 200, 400)
+        setEmailProcessedLabel_lab = create_label(" Upload Excel File (Lab) ", "Enter the Email ID to send the calculated sheet.", "Arial", 20, 200, 325)
         
         # important_label = create_label(" Upload Excel File ", "Important: Please fill the no. of CO\'s field and the CO\'s in the CO Information page and AL values in AL of tests page before processing the file", "Arial", 20, 100, 325)
         # important_label.configure(text_color="black", fg_color="yellow")
 
-        emailTextProcessed = create_entry_box(" Upload Excel File (Lab) ", "", "Arial", 15, 500, 700, 325)
+        emailTextProcessed_lab = create_entry_box(" Upload Excel File (Lab) ", "", "Arial", 15, 500, 700, 325)
 
-        button_process = create_button(" Upload Excel File (Lab) ", "Process", "Arial", 20, 200, 40, process_file_lab, 650, 425)
+        button_process_lab = create_button(" Upload Excel File (Lab) ", "Process", "Arial", 20, 200, 40, process_file_lab, 650, 425)
 
         
 

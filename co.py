@@ -130,7 +130,7 @@ class User_mode:
                         if not validate_co_string(check_text_CA2[i]):
                             CTkMessagebox(title="Invalid Input", message="Please enter the valid format of CO", icon="warning")
                             return
-                tabview.set(" AL of tests ")
+                tabview.set(" Target level of tests ")
 
             elif entry10.get()=="3":
                 if entry13.get() == "Quiz":
@@ -166,7 +166,7 @@ class User_mode:
                         if not (validate_co_string(check_text_CA3[i])):
                             CTkMessagebox(title="Invalid Input", message="Please enter the valid format of CO", icon="warning")
                             return
-                tabview.set(" AL of tests ")
+                tabview.set(" Target level of tests ")
 
         def create_button(tab, name, font_name, font_size, w, h, com, x, y):
             button = ctk.CTkButton(master=tabview.tab(tab), text=name, width=w, height=h, font=(font_name, font_size), command=com)
@@ -852,7 +852,7 @@ class User_mode:
         tabview.add(" Basic Information ") 
         # add tab at the end
         tabview.add(" CO Mapping ")
-        tabview.add(" AL of tests ")
+        tabview.add(" Target level of tests ")
         # tabview.add(" Lab CO ")
         tabview.add(" Upload Excel File ")  # add tab at the end
         tabview.add(" LO Information ")
@@ -1181,7 +1181,7 @@ class User_mode:
         q10TCA3.configure(state="disabled", fg_color="gray")
 
 
-        button = create_button(" AL of tests ", "Download", "Arial", 20, 200, 40, download, 650, 500)
+        button = create_button(" Target level of tests ", "Download", "Arial", 20, 200, 40, download, 650, 500)
 
         def upload_file():
             global file_path
@@ -1232,32 +1232,32 @@ class User_mode:
         CO6T = create_entry_box(" CO Information ", "", "Arial", 15, 500, 650, 400)
         CO6T.configure(state="disabled", fg_color="gray")
 
-        # AL of tests
-        ALlabel = create_label(" AL of tests ", "Enter the AL targets for each exam", "Arial", 20, 600, 50)
+        # Target level of tests
+        ALlabel = create_label(" Target level of tests ", "Enter the AL targets for each exam", "Arial", 20, 600, 50)
 
         # CA1, CA2, CA3, MidTerm, EndSem, Labs
-        ALCA1Label = create_label(" AL of tests ", "CA1: ", "Arial", 15, 450, 100)
-        ALCA1Text = create_entry_box(" AL of tests ", "", "Arial", 15, 500, 575, 100)
+        ALCA1Label = create_label(" Target level of tests ", "CA1: ", "Arial", 15, 450, 100)
+        ALCA1Text = create_entry_box(" Target level of tests ", "", "Arial", 15, 500, 575, 100)
 
-        ALCA2Label = create_label(" AL of tests ", "CA2: ", "Arial", 15, 450, 150)
-        ALCA2Text = create_entry_box(" AL of tests ", "", "Arial", 15, 500, 575, 150)
+        ALCA2Label = create_label(" Target level of tests ", "CA2: ", "Arial", 15, 450, 150)
+        ALCA2Text = create_entry_box(" Target level of tests ", "", "Arial", 15, 500, 575, 150)
 
-        ALCA3Label = create_label(" AL of tests ", "CA3: ", "Arial", 15, 450, 200)
-        ALCA3Text = create_entry_box(" AL of tests ", "", "Arial", 15, 500, 575, 200)
+        ALCA3Label = create_label(" Target level of tests ", "CA3: ", "Arial", 15, 450, 200)
+        ALCA3Text = create_entry_box(" Target level of tests ", "", "Arial", 15, 500, 575, 200)
         ALCA3Text.configure(state="disabled", fg_color="gray")
 
-        ALMidTermLabel = create_label(" AL of tests ", "Mid Term: ", "Arial", 15, 450, 250)
-        ALMidTermText = create_entry_box(" AL of tests ", "", "Arial", 15, 500, 575, 250)
+        ALMidTermLabel = create_label(" Target level of tests ", "Mid Term: ", "Arial", 15, 450, 250)
+        ALMidTermText = create_entry_box(" Target level of tests ", "", "Arial", 15, 500, 575, 250)
 
-        ALEndSemLabel = create_label(" AL of tests ", "End Semester: ", "Arial", 15, 450, 300)
-        ALEndSemText = create_entry_box(" AL of tests ", "", "Arial", 15, 500, 575, 300)
+        ALEndSemLabel = create_label(" Target level of tests ", "End Semester: ", "Arial", 15, 450, 300)
+        ALEndSemText = create_entry_box(" Target level of tests ", "", "Arial", 15, 500, 575, 300)
 
-        setEmailLabel = create_label(" AL of tests ", "Enter the Email ID to send the template.", "Arial", 20, 600, 400)
+        setEmailLabel = create_label(" Target level of tests ", "Enter the Email ID to send the template.", "Arial", 20, 600, 400)
         
-        emailText = create_entry_box(" AL of tests ", "", "Arial", 15, 500, 525, 450)
+        emailText = create_entry_box(" Target level of tests ", "", "Arial", 15, 500, 525, 450)
 
-        # ALSurveyLabel = create_label(" AL of tests ", "Survey: ", "Arial", 15, 450, 350)
-        # ALSurveyText = create_entry_box(" AL of tests ", "", "Arial", 15, 500, 575, 350)
+        # ALSurveyLabel = create_label(" Target level of tests ", "Survey: ", "Arial", 15, 450, 350)
+        # ALSurveyText = create_entry_box(" Target level of tests ", "", "Arial", 15, 500, 575, 350)
 
         # Buttons
         button1 = create_button(" CO Information ", "Next", "Arial", 20, 200, 40, switch1, 725, 500)
@@ -1283,7 +1283,7 @@ class User_mode:
 
         setEmailProcessedLabel = create_label(" Upload Excel File ", "Enter the Email ID to send the calculated sheet.", "Arial", 20, 200, 400)
         
-        important_label = create_label(" Upload Excel File ", "Important: Please fill the no. of CO\'s field and the CO\'s in the CO Information page and AL values in AL of tests page before processing the file", "Arial", 20, 100, 325)
+        important_label = create_label(" Upload Excel File ", "Important: Please fill the no. of CO\'s field and the CO\'s in the CO Information page and AL values in Target level of tests page before processing the file", "Arial", 20, 100, 325)
         important_label.configure(text_color="black", fg_color="yellow")
 
         emailTextProcessed = create_entry_box(" Upload Excel File ", "", "Arial", 15, 500, 700, 400)
@@ -1401,7 +1401,7 @@ class User_mode:
             elif no_of_assignments_dropdown.get() == "Select no of Assignments":
                 CTkMessagebox(title = "Error", message="Please select the number of assignments", icon="cancel")
                 return
-            elif (oral_marks_target_entry.get() == "" or mini_project_marks_target_entry.get() == "" or term_work_marks_target_entry.get() == ""):
+            elif (oral_marks_target_entry.get() == "" or mini_project_marks_target_entry.get() == "" or term_work_marks_target_entry.get() == "" or assignment_target_entry.get() == ""):
                 CTkMessagebox(title = "Error", message="Please fill all the marks targets", icon="cancel")
                 return
             elif termWork_dropdown.get() == "Select Type":
@@ -1436,6 +1436,35 @@ class User_mode:
 
         def switch_2_lab():
             tabview.set(" Upload Excel File (Lab) ")
+
+        def download_template_lab():
+            loTextArray = [""]
+            if noOfLOOption.get() == "5":
+                loTextArray = [LO_entry["LO1_entry"].get(), LO_entry["LO2_entry"].get(), LO_entry["LO3_entry"].get(), LO_entry["LO4_entry"].get(), LO_entry["LO5_entry"].get(), "-"]
+            elif noOfLOOption.get() == "6":
+                loTextArray = [LO_entry["LO1_entry"].get(), LO_entry["LO2_entry"].get(), LO_entry["LO3_entry"].get(), LO_entry["LO4_entry"].get(), LO_entry["LO5_entry"].get(), LO_entry["LO6_entry"].get()]
+            else:
+                CTkMessagebox(title = "Error", message="Select No of LO\'s", icon="cancel")
+
+            basic_values_lo = [entry3_lab.get(), entry7_lab.get(), entry8_lab.get(), entry4_lab.get(), entry2_lab.get(), entry5_lab.get(), entry1_lab.get(), noOfLOOption.get(), term_work_marks_target_entry.get(), oral_marks_target_entry.get(), assignment_target_entry.get(), mini_project_marks_target_entry.get(), termWork_dropdown.get(), no_of_assignments_dropdown.get(), loTextArray, no_of_exp_dropdown.get()]
+            exp_lo = []
+            if no_of_exp_dropdown.get() != "Select no of experiments":
+                for i in range (0, int(no_of_exp_dropdown.get())):
+                    exp_lo.append(exp_lo_entry[f"exp{i+1}_lo_entry"].get())
+            basic_values_lo.append(exp_lo)
+            basic_values_lo.append(group_size_exp_entry.get())
+            critList = [factor_1_title_entry.get(), factor_2_title_entry.get(), factor_3_title_entry.get(), factor_4_title_entry.get(), factor_5_title_entry.get()]
+            loList = [factor_1_lo_entry.get(), factor_2_lo_entry.get(), factor_3_lo_entry.get(), factor_4_lo_entry.get(), factor_5_lo_entry.get()]
+            basic_values_lo.append(critList)
+            basic_values_lo.append(loList)
+            basic_values_lo.append(group_size_mini_project_entry.get())
+            projLoList = [mini_project_lo_entry[f"mini_project_factor{i}_lo_entry"].get() for i in range (1, 5)]
+            basic_values_lo.append(projLoList)
+            assignmentLOs = [assignment_lo_entry[f"assignment_{i}_lo_entry"].get() for i in range (1, int(no_of_assignments_dropdown.get()))]
+            basic_values_lo.append(assignmentLOs)
+            from lab.Lab_Template import lab_template_generator
+            lab_template_generator(basic_values_lo)
+            
 
 
         def process_file_lab():
@@ -1495,6 +1524,10 @@ class User_mode:
         no_of_assignments_label = create_label(" LO Information Template generation ", "Enter no. of Assignments: ", "Arial", 15, 100, 605)
         
         no_of_assignments_dropdown = create_dropdown(" LO Information Template generation ", ["Select no of Assignments", "2", "3"], "Arial", 15, 300, assignment_fields, 400, 605)
+
+        group_size_mini_project_label = create_label(" LO Information Template generation ", "Enter max no of students in group \n(Mini Project): ", "Arial", 15, 100, 655)
+
+        group_size_mini_project_entry = create_entry_box(" LO Information Template generation ", "", "Arial", 15, 300, 400, 655)
 
         label_10_lab = create_label(" LO Information Template generation ", "Enter factors for group term work and their LO\'s ", "Arial", 20, 875, 5)
 
@@ -1558,6 +1591,10 @@ class User_mode:
 
         term_work_marks_target_entry = create_entry_box(" LO Information Template generation ", "", "Arial", 15, 300, 1025, 455)
 
+        assignment_target_label = create_label(" LO Information Template generation ", "Assignment: ", "Arial", 15, 825, 555)
+        
+        assignment_target_entry = create_entry_box(" LO Information Template generation ", "", "Arial", 15, 300, 1025, 555)
+
         next_1_lab_button = create_button(" LO Information Template generation ", "Next", "Arial", 20, 250, 40, switch_1_lab, 1020, 600)
 
         label_15_lab = create_label(" LO Mapping ", "Enter the LO mapped for the following situations", "Arial", 20, 500, 5)
@@ -1607,7 +1644,7 @@ class User_mode:
         for entry in assignment_lo_entry.values():
             entry.configure(state="disabled", fg_color="gray")
 
-        next_2_lab_button = create_button(" LO Mapping ", "Next", "Arial", 20, 200, 40, switch_2_lab, 650, 600)
+        next_2_lab_button = create_button(" LO Mapping ", "Download", "Arial", 20, 200, 40, download_template_lab, 650, 600)
 
         enterLO = create_label(" LO Information ", "Enter the LO's", "Arial", 20, 700, 50)
         noOfLOLabel = create_label(" LO Information ", "Select No. of LO's: ", "Arial", 15, 550, 100)
@@ -1642,7 +1679,7 @@ class User_mode:
 
         setEmailProcessedLabel_lab = create_label(" Upload Excel File (Lab) ", "Enter the Email ID to send the calculated sheet.", "Arial", 20, 200, 325)
         
-        # important_label = create_label(" Upload Excel File ", "Important: Please fill the no. of CO\'s field and the CO\'s in the CO Information page and AL values in AL of tests page before processing the file", "Arial", 20, 100, 325)
+        # important_label = create_label(" Upload Excel File ", "Important: Please fill the no. of CO\'s field and the CO\'s in the CO Information page and AL values in Target level of tests page before processing the file", "Arial", 20, 100, 325)
         # important_label.configure(text_color="black", fg_color="yellow")
 
         emailTextProcessed_lab = create_entry_box(" Upload Excel File (Lab) ", "", "Arial", 15, 500, 700, 325)

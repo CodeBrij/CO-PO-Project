@@ -1460,8 +1460,9 @@ class User_mode:
             basic_values_lo.append(group_size_mini_project_entry.get())
             projLoList = [mini_project_lo_entry[f"mini_project_factor{i}_lo_entry"].get() for i in range (1, 5)]
             basic_values_lo.append(projLoList)
-            assignmentLOs = [assignment_lo_entry[f"assignment_{i}_lo_entry"].get() for i in range (1, int(no_of_assignments_dropdown.get()))]
+            assignmentLOs = [assignment_lo_entry[f"assignment_{i}_lo_entry"].get() for i in range (1, (int(no_of_assignments_dropdown.get()))+1)]
             basic_values_lo.append(assignmentLOs)
+            print(basic_values_lo)
             from lab.Lab_Template import lab_template_generator
             lab_template_generator(basic_values_lo)
             

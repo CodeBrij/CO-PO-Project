@@ -33,11 +33,13 @@ def lab_template_generator(basic_values_lo):
     ProjectTarget = float(basic_values_lo[11])
     lab_type = basic_values_lo[12]
     # miniProject = int(input("Mini Project? 0 or 1??"))
-    assignmentCount = basic_values_lo[13]
+    assignmentCount = int(basic_values_lo[13])
     lo_text_array = basic_values_lo[14]
 
-    AssignmentTarget = None
-    ProjectTarget = None
+    print(assignmentCount)
+
+    # AssignmentTarget = None
+    # ProjectTarget = None
 
     # for i in range(LOcount):
     #     lo_text_array[i] = input(f"Enter the LO{i+1} description: ")
@@ -119,7 +121,7 @@ def lab_template_generator(basic_values_lo):
         cell2.border = create_border()  # Add border to footer cells
 
 
-    if (lab_type=="non-group"):
+    if (lab_type=="Individual Students"):
         lab_sheet = workbook.create_sheet(title="Lab")
         lab_sheet['A1'] = f"{subject} Lab Work - Ungrouped"
         lab_sheet['A1'].font = Font(size=14, bold=True)
@@ -159,7 +161,7 @@ def lab_template_generator(basic_values_lo):
                 cell.alignment = Alignment(horizontal='center', vertical='center')
 
 ##############################################################################
-    if (lab_type=="group"):
+    if (lab_type=="Group Students"):
         lab_sheet = workbook.create_sheet(title="Lab")
         lab_sheet.merge_cells('A1:E1')
         lab_sheet['A1'] = f"{subject} Lab Work - Grouped"
@@ -186,16 +188,16 @@ def lab_template_generator(basic_values_lo):
             lab_sheet[f"B{current_row}"] = roll_no
             lab_sheet[f"C{current_row}"] = f"Student {roll_no}"
 
-        for i in range(criteria):
-            lab_sheet.cell(row=3, column=5 + i, value=critList[i])
-            lab_sheet.cell(row=4, column=5 + i, value=loList[i])
+        for i in range(1,6):
+            lab_sheet.cell(row=3, column=5 + i, value=critList[i-1])
+            lab_sheet.cell(row=4, column=5 + i, value=loList[i-1])
 
         current_row = startCell + total_roll - 1
         lab_sheet[f'A{current_row+2}'] = f"Count>={LabTarget}%"
         lab_sheet[f'A{current_row+3}'] = f"%Count"
         lab_sheet[f'A{current_row+4}'] = "AL"
 
-        for row in lab_sheet.iter_rows(min_row=3, max_row=current_row + 4, min_col=1, max_col=4 + criteria):
+        for row in lab_sheet.iter_rows(min_row=3, max_row=current_row + 4, min_col=1, max_col=4 + 5):
             for cell in row:
                 cell.border = create_border()
 
@@ -228,9 +230,9 @@ def lab_template_generator(basic_values_lo):
         project_sheet[f"B{current_row}"] = roll_no
         project_sheet[f"C{current_row}"] = f"Student {roll_no}"
 
-    # for i in range(projCriteria):
-    #     project_sheet.cell(row=3, column=5 + i, value=projCritList[i])
-    #     project_sheet.cell(row=4, column=5 + i, value=projLoList[i])
+    for i in range(1,5):
+        project_sheet.cell(row=3, column=5 + i, value=f'Factor {i}')
+        project_sheet.cell(row=4, column=5 + i, value=projLoList[i-1])
 
     current_row = startCell + total_roll - 1
     project_sheet[f'A{current_row+2}'] = f"Count>={ProjectTarget}%"
@@ -243,7 +245,7 @@ def lab_template_generator(basic_values_lo):
 
 ##############################
    
-    temp=len(assignmentLOs)
+    
     # assignment_sheet=sheet4
     assignment_sheet = workbook.create_sheet(title="Assignment")
     assignment_sheet.column_dimensions['B'].width =42
@@ -251,7 +253,7 @@ def lab_template_generator(basic_values_lo):
     assignment_sheet['A2']="Roll No."
     assignment_sheet['B2']="Name"
     
-    if temp==1 :
+    if assignmentCount==1 :
         assignment_sheet['C2']="Assignment1"
         assignment_sheet['C3']= assignmentLOs[0]
         assignment_sheet.merge_cells("A1:C1")
@@ -259,7 +261,7 @@ def lab_template_generator(basic_values_lo):
         myArr=['A','B','C']
         
     
-    elif temp==2:
+    elif assignmentCount==2:
         assignment_sheet['C2']="Assignment1"
         assignment_sheet['D2']="Assignment2"
         
@@ -269,7 +271,7 @@ def lab_template_generator(basic_values_lo):
 
         myArr=['A','B', 'C', 'D']
         
-    elif temp==3:
+    elif assignmentCount==3:
         assignment_sheet['C2']="Assignment1"
         assignment_sheet['D2']="Assignment2"
         assignment_sheet['E2']="Assignment3"
@@ -299,7 +301,7 @@ def lab_template_generator(basic_values_lo):
         assignment_sheet.merge_cells(f'A{i}:B{i}')
         
     for i in range(1,total_roll+11):
-        for j,col in enumerate(myArr[:temp+2]) :
+        for j,col in enumerate(myArr[:assignmentCount+2]) :
             assignment_sheet[f'{col}{i}'].alignment= Alignment(horizontal='center', vertical='center')     
             assignment_sheet[f'{col}{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))
             if i>total_roll+3 :
@@ -307,12 +309,13 @@ def lab_template_generator(basic_values_lo):
             
     for i in range(total_roll+4,total_roll+11):
         start_index=1
-        for j, col in enumerate(myArr[start_index:temp+2],start=start_index+1) :
+        for j, col in enumerate(myArr[start_index:assignmentCount+2],start=start_index+1) :
             assignment_sheet[f'{col}{i}'].alignment= Alignment(horizontal='center', vertical='center')     
             assignment_sheet[f'{col}{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))
         if i==total_roll+10:
             assignment_sheet[f'{col}{i}'].font=Font(bold=True)        
-            
+
+    print(assignmentCount)  
 
     assignment_sheet[f'A{total_roll+4}']="Count(Attempted)"       
     assignment_sheet[f'A{total_roll+5}']="Average Marks"
@@ -864,7 +867,7 @@ def lab_template_generator(basic_values_lo):
     optSheet['B8'] = ProjectTarget
     optSheet['B9'] = lab_type
     optSheet['B10'] = assignmentCount
-    optSheet['B10'] = total_exp
+    optSheet['B11'] = total_exp
 
     selectedPath = filedialog.askdirectory()
     filepath = f'{selectedPath}/Lab_Template_{subject}_{division}_{teacher_name}_{academic_year}.xlsx'

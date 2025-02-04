@@ -188,9 +188,9 @@ def lab_template_generator(basic_values_lo):
             lab_sheet[f"B{current_row}"] = roll_no
             lab_sheet[f"C{current_row}"] = f"Student {roll_no}"
 
-        for i in range(1,6):
-            lab_sheet.cell(row=3, column=5 + i, value=critList[i-1])
-            lab_sheet.cell(row=4, column=5 + i, value=loList[i-1])
+        for i in range(0,5):
+            lab_sheet.cell(row=3, column=5 + i, value=critList[i])
+            lab_sheet.cell(row=4, column=5 + i, value=loList[i])
 
         current_row = startCell + total_roll - 1
         lab_sheet[f'A{current_row+2}'] = f"Count>={LabTarget}%"
@@ -230,9 +230,9 @@ def lab_template_generator(basic_values_lo):
         project_sheet[f"B{current_row}"] = roll_no
         project_sheet[f"C{current_row}"] = f"Student {roll_no}"
 
-    for i in range(1,5):
-        project_sheet.cell(row=3, column=5 + i, value=f'Factor {i}')
-        project_sheet.cell(row=4, column=5 + i, value=projLoList[i-1])
+    for i in range(0,4):
+        project_sheet.cell(row=3, column=5 + i, value=f'Factor {i+1}')
+        project_sheet.cell(row=4, column=5 + i, value=projLoList[i])
 
     current_row = startCell + total_roll - 1
     project_sheet[f'A{current_row+2}'] = f"Count>={ProjectTarget}%"

@@ -1467,9 +1467,25 @@ class User_mode:
             lab_template_generator(basic_values_lo)
             
 
+        def upload_lab_file():
+            global file_path_lab
+            file_path_lab = filedialog.askopenfilename(filetypes=[("Excel files", "*.xlsx")])
+            print(f"Upload function: {file_path_lab}")
+            if file_path_lab:
+                print(file_path_lab)
+                file_name_lab = os.path.basename(file_path_lab)
+                print(file_name_lab)
+                path_label_lab.configure(text=file_name_lab)
+
+
 
         def process_file_lab():
-            return True
+            global file_path_lab
+            file_path_lab = file_path_lab
+            from lab.Lab_Cal import cal_lab_sheets
+            cal_lab_sheets(file_path_lab)
+
+            
 
         label0_lab = create_label(" LO Information Template generation ", "Basic Details", "Arial", 20, 325, 5)
 
@@ -1670,7 +1686,7 @@ class User_mode:
 
         upload_Label_lab = create_label(" Upload Excel File (Lab) ", "Upload you excel file with the marks entered:", "Arial", 25, 550, 50)
         path_label_lab = create_label(" Upload Excel File (Lab) ", "Path of file", "Arial", 15, 650, 110)
-        button_upload_lab = create_button(" Upload Excel File (Lab) ", "Upload", "Arial", 20, 200, 40, upload_file, 400, 100)
+        button_upload_lab = create_button(" Upload Excel File (Lab) ", "Upload", "Arial", 20, 200, 40, upload_lab_file, 400, 100)
         
 
         line_lab = ctk.CTkFrame(master=tabview.tab(" Upload Excel File (Lab) "), height=2, width=1200, fg_color="white")

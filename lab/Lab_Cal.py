@@ -1,11 +1,18 @@
 import re
+import openpyxl
 from openpyxl.styles import *
 from openpyxl import *
 from openpyxl.utils import *
+import os
+from tkinter import filedialog
+from CTkMessagebox import CTkMessagebox
 
-def cal_lab_sheets() :
+def cal_lab_sheets(file_name) :
 
-    workbook = load_workbook('DSA_Lab_Template.xlsx')
+    workbook = openpyxl.load_workbook(file_name)
+    file_name_only = os.path.basename(file_name)
+    file_name_only = os.path.splitext(file_name_only)[0]
+    file_name_only = file_name_only.replace("Template","")
     # List all sheet names
     sheet_names = workbook.sheetnames
 
@@ -579,7 +586,7 @@ def cal_lab_sheets() :
 
         return map_lo_arr
     
-    def po_attainment(sheet):
+    def po_attainment(sheet, map_lo_arr):
         start0 = 16
         start1 = 27
         start2 = 38
@@ -602,10 +609,14 @@ def cal_lab_sheets() :
         for j in column_array:
             sheet[f'{j}44'] = f"=ROUND(AVERAGE({j}38:{j}43),1)"
 
-    lo_attainment(workbook["LO Attainment"])
-    po_attainment(workbook["PO Attainment"])
+    map_lo_arr_temp = lo_attainment(workbook["LO Attainment"])
+    po_attainment(workbook["PO Attainment"], map_lo_arr_temp)
     # Save the modified workbook after calculations
-    workbook.save('DSA_Lab_Calculated.xlsx')  # Save to a new file or overwrite the original
-    print("Workbook saved successfully!")
+    
+    selected_path = filedialog.askdirectory()
+    filepath = f'{selected_path}/Lab_Calculated_{file_name_only}.xlsx'
 
-cal_lab_sheets()
+    workbook.save(filepath)
+    CTkMessagebox(message=f"Calculated excel sheet downloaded successfully at {downloadCalculate}.",icon="check", option_1="OK")
+
+

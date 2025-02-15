@@ -142,7 +142,7 @@ def cal_lab_sheets(file_name) :
         for i in range(total_roll):
             sheet[f'{avgCol}{i+6}'] = f'=ROUND(AVERAGE({startCol}{i+6}:{endCol}{i+6}),1)'
 
-        los_dict = {}
+        los_dict = {f"LO{i}" : [] for i in range (1,LOcount+1)}
             
         for col in range(ord(startCol), ord(endCol) + 1):
                 current_col_letter = chr(col)
@@ -230,7 +230,7 @@ def cal_lab_sheets(file_name) :
 
         # Getting the LOs from the LOs row
 
-        los_dict = {}
+        los_dict = {f"LO{i}" : [] for i in range (1,LOcount+1)}
             
         for col in range(ord(startCol), ord(alphabets[endCol]) + 1):
                 current_col_letter = chr(col)
@@ -291,7 +291,7 @@ def cal_lab_sheets(file_name) :
             # Add border to the cells
             sheet[f'B{new_row+1}'].border = thin_border
             sheet[f'C{new_row+1}'].border = thin_border
-            group_labs_lo_arr.append(f'={sheet.title}!C{new_row+1}')
+            group_labs_lo_arr.append(f'=\'{sheet.title}\'!C{new_row+1}')
             
             new_row += 1  # Increment new_row for the next set of entries
         
@@ -328,7 +328,7 @@ def cal_lab_sheets(file_name) :
 
         # Getting the LOs from the LOs row
 
-        los_dict = {}
+        los_dict = {f"LO{i}" : [] for i in range (1,LOcount+1)}
             
         for col in range(ord(startCol), ord(alphabets[endCol]) + 1):
                 current_col_letter = chr(col)
@@ -389,7 +389,7 @@ def cal_lab_sheets(file_name) :
             # Add border to the cells
             sheet[f'B{new_row+1}'].border = thin_border
             sheet[f'C{new_row+1}'].border = thin_border
-            mini_project_lo_arr.append(f'={sheet.title}!C{new_row+1}')
+            mini_project_lo_arr.append(f'=\'{sheet.title}\'!C{new_row+1}')
             
             new_row += 1  # Increment new_row for the next set of entries
         
@@ -409,11 +409,13 @@ def cal_lab_sheets(file_name) :
             sheet[f'{col}{total_roll+10}'] = f'=IF({sheet[f"{col}{total_roll+7}"].coordinate}<60, 1, IF(AND({sheet[f"{col}{total_roll+7}"].coordinate}>59, {sheet[f"{col}{total_roll+7}"].coordinate}<70), 2, IF(AND({sheet[f"{col}{total_roll+7}"].coordinate}>69, {sheet[f"{col}{total_roll+7}"].coordinate}<80), 3, 4)))'
     
         print("Assignmet col: ", assignment_col)
-        los_dict = {}
+        los_dict = {f"LO{i}" : [] for i in range (1,LOcount+1)}
             
         for col in assignment_col:
+                print(col)
                 current_col_letter = col
                 cell_value = sheet[f'{current_col_letter}3'].value
+                print(f"Cell value {cell_value}")
                 
                 if cell_value:  # If the cell has a value
                     values = cell_value.split(',')
@@ -444,14 +446,16 @@ def cal_lab_sheets(file_name) :
             # Add border to the cells
             sheet[f'C{total_roll+14+i}'].border = thin_border
             sheet[f'D{total_roll+14+i}'].border = thin_border
-            assignment_lo_arr.append(f'={sheet.title}!D{total_roll+14+i}')
+            assignment_lo_arr.append(f'=\'{sheet.title}\'!D{total_roll+14+i}')
             
-            i += 1  # Increment new_row for the next set of entries
+            i += 1 
+            
+            print(f"Function {assignment_lo_arr}") # Increment new_row for the next set of entries
 
         return assignment_lo_arr
     
     def cal_survey(sheet):
-        sheet4=workbook['Survey']
+        sheet4=workbook['Course Exit Survey']
 
         col_list = ['G','H','I','J','K']
 
@@ -465,7 +469,7 @@ def cal_lab_sheets(file_name) :
             sheet4[f'{col}{total_roll+6}'] = f'=ROUND(({col}{total_roll+5}/{col}{total_roll+4}*100), 1)'
             sheet4[f'{col}{total_roll+8}'] = f'=IF({col}{total_roll+6}<60,1,IF(AND({col}{total_roll+6}>59,{col}{total_roll+6}<70),2,IF(AND({col}{total_roll+6}>69,{col}{total_roll+6}<80),3,4)))'
             
-        course_exit_survey_lo_value=[f'={sheet4.title}!G{total_roll+8}',f'={sheet4.title}!H{total_roll+8}',f'={sheet4.title}!I{total_roll+8}',f'={sheet4.title}!J{total_roll+8}',f'={sheet4.title}!K{total_roll+8}',f'={sheet4.title}!L{total_roll+8}']
+        course_exit_survey_lo_value=[f'=\'{sheet4.title}\'!G{total_roll+8}',f'=\'{sheet4.title}\'!H{total_roll+8}',f'=\'{sheet4.title}\'!I{total_roll+8}',f'=\'{sheet4.title}\'!J{total_roll+8}',f'=\'{sheet4.title}\'!K{total_roll+8}',f'=\'{sheet4.title}\'!L{total_roll+8}']
         return course_exit_survey_lo_value
 
 
@@ -477,9 +481,9 @@ def cal_lab_sheets(file_name) :
     course_exit_survey_lo_value = []
 
     for i in range(len(sheet_names)):
-        if(sheet_names[i] == "Orals"): orals_lo_value = cal_orals(workbook[sheet_names[i]]);
+        if(sheet_names[i] == "Orals"): orals_lo_value = cal_orals(workbook[sheet_names[i]])
         if(sheet_names[i] == "Lab"): 
-            if(lab_type=="group"):
+            if(lab_type=="Group Students"):
                 group_labs_lo_value = cal_group_labs(workbook[sheet_names[i]])
             else:
                 nongroup_labs_lo_value = cal_ungroup_labs(workbook[sheet_names[i]])
@@ -500,10 +504,15 @@ def cal_lab_sheets(file_name) :
         if(len(assignment_lo_value)!=0 and len(mini_project_lo_value)!=0):
             labs_lo_value = nongroup_labs_lo_value if (len(group_labs_lo_value) == 0) else group_labs_lo_value
 
+            print(labs_lo_value)
+            print(group_labs_lo_value)
+            print(nongroup_labs_lo_value)
+
             attainmentEnd = 6
             if(LOcount==5):
                 attainmentEnd=5
             for i in range(0,attainmentEnd):
+                print(i)
                 sheet[f'B{33+i}']=labs_lo_value[i]
                 sheet[f'B{21+i}'] = f'=IF({labs_lo_value[i][1:] if labs_lo_value[i].startswith("=") else labs_lo_value[i]}="-"," ","✓")'
 
@@ -512,7 +521,9 @@ def cal_lab_sheets(file_name) :
                 sheet[f'C{33+i}']=mini_project_lo_value[i] 
                 sheet[f'C{21+i}']=f'=IF({mini_project_lo_value[i][1:] if mini_project_lo_value[i].startswith("=") else mini_project_lo_value[i]}="-"," ","✓")'
                 
-            for i in range(0,attainmentEnd):                
+
+            for i in range(0,attainmentEnd):   
+                print(f"Assignment: {i}")             
                 sheet[f'D{33+i}']=assignment_lo_value[i]
                 # value = my_CA2_Co_arr[i]
                 # print(f"Setting D{33+i} to {sheet[f'D{33+i}'].value}")
@@ -539,9 +550,9 @@ def cal_lab_sheets(file_name) :
                 sheet[f'D{43+i}']=sheet[f'F{33+i}'].value        
                 
             if(LOcount == 6):    
-                map_lo_arr=[f"={sheet.title}!D43",f"={sheet.title}!D44",f"={sheet.title}!D45",f"={sheet.title}!D46",f"={sheet.title}!D47",f"={sheet.title}!D48"]
+                map_lo_arr=[f"=\'{sheet.title}\'!D43",f"=\'{sheet.title}\'!D44",f"=\'{sheet.title}\'!D45",f"=\'{sheet.title}\'!D46",f"=\'{sheet.title}\'!D47",f"=\'{sheet.title}\'!D48"]
             else:
-                map_lo_arr=[f"={sheet.title}!D43",f"={sheet.title}!D44",f"={sheet.title}!D45",f"={sheet.title}!D46",f"={sheet.title}!D47"]
+                map_lo_arr=[f"=\'{sheet.title}\'!D43",f"=\'{sheet.title}\'!D44",f"=\'{sheet.title}\'!D45",f"=\'{sheet.title}\'!D46",f"=\'{sheet.title}\'!D47"]
 
         else:
             labs_lo_value = nongroup_labs_lo_value if (len(group_labs_lo_value) == 0) else group_labs_lo_value
@@ -580,9 +591,9 @@ def cal_lab_sheets(file_name) :
                 sheet[f'D{43+i}']=f"=ROUND(0.8*F{33+i}+0.2*G{33+i},1)"      
                 
             if(LOcount == 6):    
-                map_lo_arr=[f"={sheet.title}!D43",f"={sheet.title}!D44",f"={sheet.title}!D45",f"={sheet.title}!D46",f"={sheet.title}!D47",f"={sheet.title}!D48"]
+                map_lo_arr=[f"=\'{sheet.title}\'!D43",f"=\'{sheet.title}\'!D44",f"=\'{sheet.title}\'!D45",f"=\'{sheet.title}\'!D46",f"=\'{sheet.title}\'!D47",f"=\'{sheet.title}\'!D48"]
             else:
-                map_lo_arr=[f"={sheet.title}!D43",f"={sheet.title}!D44",f"={sheet.title}!D45",f"={sheet.title}!D46",f"={sheet.title}!D47"]
+                map_lo_arr=[f"=\'{sheet.title}\'!D43",f"=\'{sheet.title}\'!D44",f"=\'{sheet.title}\'!D45",f"=\'{sheet.title}\'!D46",f"=\'{sheet.title}\'!D47"]
 
         return map_lo_arr
     
@@ -607,9 +618,10 @@ def cal_lab_sheets(file_name) :
                     sheet[f'{i}{start2+j}'].value = ""
 
         for j in column_array:
-            sheet[f'{j}44'] = f"=ROUND(AVERAGE({j}38:{j}43),1)"
+            sheet[f'{j}44'] = f"=IFERROR(ROUND(AVERAGE({j}38:{j}43),1), \"-\")"
 
     map_lo_arr_temp = lo_attainment(workbook["LO Attainment"])
+    print(f"Map LO Arr = {map_lo_arr_temp}")
     po_attainment(workbook["PO Attainment"], map_lo_arr_temp)
     # Save the modified workbook after calculations
     
@@ -617,6 +629,6 @@ def cal_lab_sheets(file_name) :
     filepath = f'{selected_path}/Lab_Calculated_{file_name_only}.xlsx'
 
     workbook.save(filepath)
-    CTkMessagebox(message=f"Calculated excel sheet downloaded successfully at {downloadCalculate}.",icon="check", option_1="OK")
+    CTkMessagebox(message=f"Calculated excel sheet downloaded successfully at {filepath}.",icon="check", option_1="OK")
 
 

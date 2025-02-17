@@ -1597,8 +1597,7 @@ class User_mode:
             tabview.add(" LO Information ")
             tabview.add(" LO Information Template generation ")
             tabview.add(" LO Mapping ")
-            tabview.add(" Upload Excel File (Lab) ")
-            tabview.set(" LO Mapping ")       
+            tabview.add(" Upload Excel File (Lab) ")      
 
 
             label0_lab = create_label(" LO Information Template generation ", "Basic Details", "Arial", 20, 325, 5)
@@ -1843,19 +1842,99 @@ class User_mode:
         # Set the window position and size
         self.app.geometry(f"{screen_width}x{screen_height}+{x_position}+{y_position}")
 
-        co_button = ctk.CTkButton(self.app, text="CO Calculations", command=self.open_co_window)
-        co_button.pack(pady=10)
-
-        lo_button = ctk.CTkButton(self.app, text="lo Calculations", command=self.open_lo_window)
-        lo_button.pack(pady=10)
+        
         
         self.main_frame = ctk.CTkFrame(master=self.app)
         self.main_frame.pack(expand=True, fill="both", padx=10, pady=10)
-        self.main_frame.columnconfigure(1, weight=1)
-        self.main_frame.rowconfigure(2, weight=1)
-               
-        tabview = ctk.CTkTabview(self.main_frame,corner_radius=20)
-        tabview.pack(expand=True, fill="both", padx=10, pady=5)
+        self.main_frame.columnconfigure(0, weight=1)
+        self.main_frame.rowconfigure(0, weight=1)
+
+        # # Half-width and full-height of main_frame for coframe
+        # self.coframe = ctk.CTkFrame(master=self.main_frame)
+        # self.coframe.place(relx=0, rely=0, relwidth=0.5, relheight=1)
+
+        # # Half-width and full-height of main_frame for loframe
+        # self.loframe = ctk.CTkFrame(master=self.main_frame)
+        # self.loframe.place(relx=0.5, rely=0, relwidth=0.5, relheight=1)
+        
+        # Padding around coframe and loframe
+        frame_padding = 0.01  # Adjust this to increase/decrease padding (e.g., 1% of the width/height)
+
+        # Half-width and full-height of main_frame for coframe with padding
+        self.coframe = ctk.CTkFrame(master=self.main_frame)
+        self.coframe.place(
+            relx=frame_padding,  # Start slightly inward (left padding)
+            rely=frame_padding,  # Start slightly downward (top padding)
+            relwidth=0.5 - (frame_padding),  # Reduce width for padding on both sides
+            relheight=1 - (2*frame_padding)  # Reduce height for padding on top and bottom
+        )
+
+        # Half-width and full-height of main_frame for loframe with padding
+        self.loframe = ctk.CTkFrame(master=self.main_frame)
+        self.loframe.place(
+            relx=0.5 + frame_padding,  # Start slightly after the midpoint (left padding)
+            rely=frame_padding,  # Start slightly downward (top padding)
+            relwidth=0.5 - (frame_padding),  # Reduce width for padding on both sides
+            relheight=1 - (2*frame_padding)  # Reduce height for padding on top and bottom
+        )
+        
+        def resource_path(relative_path):
+            """Get the absolute path to a resource, handling PyInstaller paths."""
+            if hasattr(sys, '_MEIPASS'):  # PyInstaller extracts files to _MEIPASS
+                return os.path.join(sys._MEIPASS, relative_path)
+            return os.path.join(os.path.abspath("."), relative_path)
+
+        image_path = resource_path("Course-outcome-final-1.png")
+
+        # Load the image and create a CTkImage
+        background_image = Image.open(image_path)
+        bg_image = ctk.CTkImage(background_image, size=(512,313))
+
+        
+
+        # Add a label to hold the background image
+        bg_label = ctk.CTkLabel(master=self.coframe, image=bg_image, text="")
+        bg_label.place(relx=0.5, rely=0.45, anchor="center")
+        
+        image_path1 = resource_path("Lab-outcome-final-1.png")
+
+        # Load the image and create a CTkImage
+        background_image1 = Image.open(image_path1)
+        bg_image1 = ctk.CTkImage(background_image1, size=(512,313))
+
+        
+
+        # Add a label to hold the background image
+        bg_label1 = ctk.CTkLabel(master=self.loframe, image=bg_image1, text="")
+        bg_label1.place(relx=0.5, rely=0.45, anchor="center")
+
+        cobutton = ctk.CTkButton(self.coframe,width=180,height=40, text="CO - PO",font=("Helvetica",25), command=self.open_co_window)
+        cobutton.place(x=280,y=600) 
+        
+    
+        lobutton = ctk.CTkButton(self.loframe,width=180,height=40, text="LO",font=("Helvetica", 25), command=self.open_lo_window)
+        lobutton.place(x=280,y=600)
+
+        
+        
+        # def start_button_event():
+        #     if check_var.get()=='off':
+        #         CTkMessagebox(title="Error", message="Please Check the box.",icon="cancel")
+        #     else:
+        #         import co
+        #         self.app.destroy()
+        #         co.User_mode()
+                
+
+
+        # check_var = ctk.StringVar(value="off")
+        # checkbox = ctk.CTkCheckBox(self.main_frame, text="I have Read the instructions",font=("Helvetica", 20),
+        #                                     variable=check_var, onvalue="on", offvalue="off")
+        
+        # checkbox.place(x=500,y=600)     
+        
+        # button1 = ctk.CTkButton(self.main_frame, text="Start",font=("Helvetica", 20), command=start_button_event)
+        # button1.place(x=800,y=600)
 
          # add tab at the end # set currently visible tab
 

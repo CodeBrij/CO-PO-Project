@@ -1288,7 +1288,7 @@ class User_mode:
             button_process = create_button(" Upload Excel File ", "Process", "Arial", 20, 200, 40, process_file, 650, 500)
 
             back_button = ctk.CTkButton(co_window, text="Back", command=lambda: self.go_back(co_window))
-            back_button.pack(pady=20)
+            back_button.place(x=1300,y=40)
 
             co_window.mainloop()
 
@@ -1849,7 +1849,7 @@ class User_mode:
         
 
             back_button = ctk.CTkButton(lo_window, text="Back", command=lambda: self.go_back(lo_window))
-            back_button.pack(pady=20)
+            back_button.place(x=1300,y=40)
 
             lo_window.mainloop()
     

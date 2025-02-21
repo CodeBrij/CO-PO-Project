@@ -1478,8 +1478,35 @@ class User_mode:
                 tabview.set(" Upload Excel File (Lab) ")
 
             def download_template_lab():
+                if(noOfLOOption.get() == "Select No of LO\'s"):
+                    CTkMessagebox(title = "Error", message="Enter No of LOs in page 1", icon="cancel")
 
                 LOcount = int(noOfLOOption.get())
+
+                if(termWork_dropdown.get() == "Individual Students"):
+                    exp_no = []
+                    for i in range (0,int(no_of_exp_dropdown)):
+                        exp_no.append(exp_lo_entry[f"exp{i+1}_lo_entry"].get())
+                    for text in exp_no:
+                        if not (validate_lo_string(text)):
+                            CTkMessagebox(title = "Error", message="Enter all LO\'s of Experiments", icon="cancel")
+                            return
+                factor_no = []
+                for i in range (0,4):
+                    factor_no.append(mini_project_lo_entry[f"mini_project_factor{i+1}_lo_entry"].get())
+                for text in factor_no:
+                    if not (validate_lo_string(text)):
+                        CTkMessagebox(title = "Error", message="Enter all LO\'s of Factors of Mini Projects", icon="cancel")
+                        return
+                assignment_lo = []
+                for i in range (0, int(no_of_assignments_dropdown)):
+                    assignment_lo.appned(assignment_lo_entry[f'assignment_{i+1}_lo_entry'].get())
+                for text in assignment_lo:
+                    if not (validate_lo_string(text)):
+                        CTkMessagebox(title = "Error", message="Enter all LO\'s of Assignments", icon="cancel")
+                        return
+  
+                           
                 
                 loTextArray = [""]
                 if noOfLOOption.get() == "5":

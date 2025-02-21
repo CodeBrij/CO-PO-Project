@@ -1478,6 +1478,9 @@ class User_mode:
                 tabview.set(" Upload Excel File (Lab) ")
 
             def download_template_lab():
+
+                LOcount = int(noOfLOOption.get())
+                
                 loTextArray = [""]
                 if noOfLOOption.get() == "5":
                     loTextArray = [LO_entry["LO1_entry"].get(), LO_entry["LO2_entry"].get(), LO_entry["LO3_entry"].get(), LO_entry["LO4_entry"].get(), LO_entry["LO5_entry"].get(), "-"]

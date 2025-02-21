@@ -43,7 +43,7 @@ def cal_lab_sheets(file_name) :
                 startCal = i
                 break  
 
-        print(total_roll, startRow, endRow, startCal, targetvalue)
+        print(total_roll, startRow, endRow, startCal, targetvalue, LOcount)
 
         # Calc. started
         sheet[f'C{startCal}'] = total_roll
@@ -196,6 +196,10 @@ def cal_lab_sheets(file_name) :
             ungroup_labs_lo_arr.append(f'={sheet.title}!C{new_row+1}')
             
             new_row += 1  # Increment new_row for the next set of entries
+
+            for i in range (0, LOcount):
+                if sheet[f'C{new_row+i}'].value == '=ROUND(AVERAGE(),1)':
+                    sheet[f'C{new_row+i}'] = "-"
         
         return ungroup_labs_lo_arr
     
@@ -392,6 +396,14 @@ def cal_lab_sheets(file_name) :
             mini_project_lo_arr.append(f'=\'{sheet.title}\'!C{new_row+1}')
             
             new_row += 1  # Increment new_row for the next set of entries
+
+            new_row_new = calRow+5
+
+            for i in range (0, LOcount):
+                print(f'Row No: {new_row_new+i}')
+                print(sheet[f'C{new_row_new+i}'].value)
+                if sheet[f'C{new_row_new+i}'].value == "=ROUND(AVERAGE(),1)":
+                    sheet[f'C{new_row_new+i}'] = "-"
         
         return mini_project_lo_arr
 
@@ -451,6 +463,17 @@ def cal_lab_sheets(file_name) :
             i += 1 
             
             print(f"Function {assignment_lo_arr}") # Increment new_row for the next set of entries
+        
+        print("Bhai idhar dekh++++++++++++++++++++++++")
+        print("Bhai idhar dekh++++++++++++++++++++++++")
+        print("Bhai idhar dekh++++++++++++++++++++++++")
+        print("Bhai idhar dekh++++++++++++++++++++++++")
+        print(sheet[f'D{total_roll+14+3}'].value)
+        print(sheet[f'D{total_roll+14+1}'].value)
+        for i in range (0, LOcount):
+            if sheet[f'D{total_roll+14+i}'].value == '=ROUND(AVERAGE(),1)':
+                sheet[f'D{total_roll+14+i}'] = "-"
+
 
         return assignment_lo_arr
     
@@ -518,16 +541,16 @@ def cal_lab_sheets(file_name) :
 
             
             for i in range(0, attainmentEnd):
-                sheet[f'C{33+i}']=mini_project_lo_value[i] 
-                sheet[f'C{21+i}']=f'=IF({mini_project_lo_value[i][1:] if mini_project_lo_value[i].startswith("=") else mini_project_lo_value[i]}="-"," ","✓")'
+                sheet[f'D{33+i}']=mini_project_lo_value[i] 
+                sheet[f'D{21+i}']=f'=IF({mini_project_lo_value[i][1:] if mini_project_lo_value[i].startswith("=") else mini_project_lo_value[i]}="-"," ","✓")'
                 
 
             for i in range(0,attainmentEnd):   
                 print(f"Assignment: {i}")             
-                sheet[f'D{33+i}']=assignment_lo_value[i]
+                sheet[f'C{33+i}']=assignment_lo_value[i]
                 # value = my_CA2_Co_arr[i]
                 # print(f"Setting D{33+i} to {sheet[f'D{33+i}'].value}")
-                sheet[f'D{21+i}']=f'=IF({assignment_lo_value[i][1:] if assignment_lo_value[i].startswith("=") else assignment_lo_value[i]}="-"," ","✓")'
+                sheet[f'C{21+i}']=f'=IF({assignment_lo_value[i][1:] if assignment_lo_value[i].startswith("=") else assignment_lo_value[i]}="-"," ","✓")'
                 
                 
             for i in range(0,attainmentEnd):
@@ -538,8 +561,8 @@ def cal_lab_sheets(file_name) :
                 sheet[f'G{33+i}']=course_exit_survey_lo_value[i]
                 sheet[f'F{21+i}']=f'=IF({course_exit_survey_lo_value[i][1:] if course_exit_survey_lo_value[i].startswith("=") else course_exit_survey_lo_value[i]}="-"," ","✓")'
                     
-            for i in range(0,attainmentEnd):
-                sheet[f'E{43+i}']=course_exit_survey_lo_value[i] 
+            # for i in range(0,attainmentEnd):
+            #     sheet[f'E{43+i}']=course_exit_survey_lo_value[i] 
                     
                     
             for i in range(0,attainmentEnd):

@@ -1485,7 +1485,7 @@ class User_mode:
 
                 if(termWork_dropdown.get() == "Individual Students"):
                     exp_no = []
-                    for i in range (0,int(no_of_exp_dropdown)):
+                    for i in range (0,int(no_of_exp_dropdown.get())):
                         exp_no.append(exp_lo_entry[f"exp{i+1}_lo_entry"].get())
                     for text in exp_no:
                         if not (validate_lo_string(text)):
@@ -1855,7 +1855,7 @@ class User_mode:
     
     def open_main_page(self):
         
-        ctk.set_appearance_mode("system")  # Modes: system (default), light, dark
+        ctk.set_appearance_mode("dark")  # Modes: system (default), light, dark
         ctk.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
         
         

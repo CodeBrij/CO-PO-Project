@@ -866,7 +866,7 @@ def cal_sheet(file_name, receiversEmail):
                  sheet6[f'{i}{start2+j}'].value = ""
 
     for j in column_array:
-        sheet6[f'{j}44'] = f"=ROUND(AVERAGE({j}38:{j}43),1)"
+        sheet6[f'{j}44'] = f"=IFERROR(ROUND(AVERAGE({j}38:{j}43),1),0)"
 
     ## sheet Done #
     # workbook.save('C:/Users/saira/Downloads/calTemplate.xlsx')

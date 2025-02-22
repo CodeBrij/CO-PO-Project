@@ -1230,7 +1230,7 @@ class User_mode:
             CO6T.configure(state="disabled", fg_color="gray")
 
             # Target level of tests
-            ALlabel = create_label(" Target level of tests ", "Enter the AL targets for each exam", "Arial", 20, 600, 50)
+            ALlabel = create_label(" Target level of tests ", "Enter the Target levels for each exam", "Arial", 20, 600, 50)
 
             # CA1, CA2, CA3, MidTerm, EndSem, Labs
             ALCA1Label = create_label(" Target level of tests ", "CA1: ", "Arial", 15, 450, 100)
@@ -1288,7 +1288,7 @@ class User_mode:
             button_process = create_button(" Upload Excel File ", "Process", "Arial", 20, 200, 40, process_file, 650, 500)
 
             back_button = ctk.CTkButton(co_window, text="Back", command=lambda: self.go_back(co_window))
-            back_button.pack(pady=20)
+            back_button.place(x=1300,y=40)
 
             co_window.mainloop()
 
@@ -1499,8 +1499,8 @@ class User_mode:
                         CTkMessagebox(title = "Error", message="Enter all LO\'s of Factors of Mini Projects", icon="cancel")
                         return
                 assignment_lo = []
-                for i in range (0, int(no_of_assignments_dropdown)):
-                    assignment_lo.appned(assignment_lo_entry[f'assignment_{i+1}_lo_entry'].get())
+                for i in range (0, int(no_of_assignments_dropdown.get())):
+                    assignment_lo.append(assignment_lo_entry[f'assignment_{i+1}_lo_entry'].get())
                 for text in assignment_lo:
                     if not (validate_lo_string(text)):
                         CTkMessagebox(title = "Error", message="Enter all LO\'s of Assignments", icon="cancel")
@@ -1849,7 +1849,7 @@ class User_mode:
         
 
             back_button = ctk.CTkButton(lo_window, text="Back", command=lambda: self.go_back(lo_window))
-            back_button.pack(pady=20)
+            back_button.place(x=1300,y=40)
 
             lo_window.mainloop()
     

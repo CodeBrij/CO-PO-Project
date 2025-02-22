@@ -533,7 +533,7 @@ def lab_template_generator(basic_values_lo):
     lo_attainment_sheet['B20']="Lab Work"
     lo_attainment_sheet['C20']="Assignments"
     lo_attainment_sheet['D20']="Mini Project"
-    lo_attainment_sheet['E20']="ESE(PR/OR)"
+    lo_attainment_sheet['E20']="Orals"
     lo_attainment_sheet['F20']="Course Exit Survey"
     
     lo_attainment_sheet['A21']='LO1'
@@ -579,7 +579,7 @@ def lab_template_generator(basic_values_lo):
     lo_attainment_sheet['B32']="Lab Work"
     lo_attainment_sheet['C32']="Assignments"
     lo_attainment_sheet['D32']="Mini Project"
-    lo_attainment_sheet['E32']="ESE(PR/OR)"
+    lo_attainment_sheet['E32']="Orals"
     lo_attainment_sheet['F32']="70% (External) + 30% (Internal)"
     lo_attainment_sheet['G32']="Course Exit Survey"
     

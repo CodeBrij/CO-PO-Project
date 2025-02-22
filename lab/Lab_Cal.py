@@ -298,7 +298,15 @@ def cal_lab_sheets(file_name) :
             group_labs_lo_arr.append(f'=\'{sheet.title}\'!C{new_row+1}')
             
             new_row += 1  # Increment new_row for the next set of entries
-        
+
+            new_row_new = calRow + 5
+
+            for i in range (0, LOcount):
+                print(f'Row No: {new_row_new+i}')
+                print(sheet[f'C{new_row_new+i}'].value)
+                if sheet[f'C{new_row_new+i}'].value == "=ROUND(AVERAGE(),1)":
+                    sheet[f'C{new_row_new+i}'] = "-"
+
         return group_labs_lo_arr
 
     def cal_mini_project(sheet):
@@ -411,14 +419,14 @@ def cal_lab_sheets(file_name) :
         for col in assignment_col:
         
             sheet[f'{col}{total_roll+4}'] = f'=COUNT({col}4:{col}{total_roll+3})'
-            sheet[f'{col}{total_roll+5}'] = f'=ROUND(AVERAGE({col}4:{col}{total_roll+3}), 0)'
+            sheet[f'{col}{total_roll+5}'] = f'=IFERROR(ROUND(AVERAGE({col}4:{col}{total_roll+3}), 0),0)'
             target_cell = sheet[f'{col}{total_roll+6}']
             if target_cell.value is None:  # Check if the cell is empty
-                target_cell.value = f'=COUNTIF({col}4:{col}{total_roll+3}, ">={float(AssignmentTarget) / 100 * 10}")'
-            sheet[f'{col}{total_roll+7}'] = f'=ROUND({sheet[f"{col}{total_roll+6}"].coordinate} / {sheet[f"{col}{total_roll+4}"].coordinate} * 100, 1)'
-            sheet[f'{col}{total_roll+8}'] = f'=COUNTIF({col}3:{col}{total_roll+3}, ">="&{col}{total_roll+5})'
-            sheet[f'{col}{total_roll+9}'] = f'=ROUND({sheet[f"{col}{total_roll+8}"].coordinate} / {sheet[f"{col}{total_roll+4}"].coordinate} * 100, 1)'
-            sheet[f'{col}{total_roll+10}'] = f'=IF({sheet[f"{col}{total_roll+7}"].coordinate}<60, 1, IF(AND({sheet[f"{col}{total_roll+7}"].coordinate}>59, {sheet[f"{col}{total_roll+7}"].coordinate}<70), 2, IF(AND({sheet[f"{col}{total_roll+7}"].coordinate}>69, {sheet[f"{col}{total_roll+7}"].coordinate}<80), 3, 4)))'
+                target_cell.value = f'=IFERROR(COUNTIF({col}4:{col}{total_roll+3}, ">={float(AssignmentTarget) / 100 * 10}"),0)'
+            sheet[f'{col}{total_roll+7}'] = f'=IFERROR(ROUND({sheet[f"{col}{total_roll+6}"].coordinate} / {sheet[f"{col}{total_roll+4}"].coordinate} * 100, 1),0)'
+            sheet[f'{col}{total_roll+8}'] = f'=IFERROR(COUNTIF({col}3:{col}{total_roll+3}, ">="&{col}{total_roll+5}),0)'
+            sheet[f'{col}{total_roll+9}'] = f'=IFERROR(ROUND({sheet[f"{col}{total_roll+8}"].coordinate} / {sheet[f"{col}{total_roll+4}"].coordinate} * 100, 1),0)'
+            sheet[f'{col}{total_roll+10}'] = f'=IFERROR(IF({sheet[f"{col}{total_roll+7}"].coordinate}<60, 1, IF(AND({sheet[f"{col}{total_roll+7}"].coordinate}>59, {sheet[f"{col}{total_roll+7}"].coordinate}<70), 2, IF(AND({sheet[f"{col}{total_roll+7}"].coordinate}>69, {sheet[f"{col}{total_roll+7}"].coordinate}<80), 3, 4))),0)'
     
         print("Assignmet col: ", assignment_col)
         los_dict = {f"LO{i}" : [] for i in range (1,LOcount+1)}
@@ -453,7 +461,7 @@ def cal_lab_sheets(file_name) :
             columns = los_dict[key]  # Get the list of columns for the current LO
             column_ranges = ','.join([f'{col}{total_roll+10}' for col in columns])  # Create the range for AVERAGE formula
             sheet[f'C{total_roll+14+i}'] = key
-            sheet[f'D{total_roll+14+i}'] = f'=ROUND(AVERAGE({column_ranges}),1)'  # AVERAGE formula
+            sheet[f'D{total_roll+14+i}'] = f'=IFERROR(ROUND(AVERAGE({column_ranges}),1),0)'  # AVERAGE formula
 
             # Add border to the cells
             sheet[f'C{total_roll+14+i}'].border = thin_border
@@ -471,7 +479,7 @@ def cal_lab_sheets(file_name) :
         print(sheet[f'D{total_roll+14+3}'].value)
         print(sheet[f'D{total_roll+14+1}'].value)
         for i in range (0, LOcount):
-            if sheet[f'D{total_roll+14+i}'].value == '=ROUND(AVERAGE(),1)':
+            if sheet[f'D{total_roll+14+i}'].value == '=IFERROR(ROUND(AVERAGE(),1),0)':
                 sheet[f'D{total_roll+14+i}'] = "-"
 
 
@@ -487,10 +495,10 @@ def cal_lab_sheets(file_name) :
         
         for col in col_list:
             
-            sheet4[f'{col}{total_roll+4}'] = f'=COUNT({col}2:{col}{total_roll+1})'
-            sheet4[f'{col}{total_roll+5}'] = f'=COUNTIF({col}2:{col}{total_roll+1}, ">=4")'
-            sheet4[f'{col}{total_roll+6}'] = f'=ROUND(({col}{total_roll+5}/{col}{total_roll+4}*100), 1)'
-            sheet4[f'{col}{total_roll+8}'] = f'=IF({col}{total_roll+6}<60,1,IF(AND({col}{total_roll+6}>59,{col}{total_roll+6}<70),2,IF(AND({col}{total_roll+6}>69,{col}{total_roll+6}<80),3,4)))'
+            sheet4[f'{col}{total_roll+4}'] = f'=IFERROR(COUNT({col}2:{col}{total_roll+1}),0)'
+            sheet4[f'{col}{total_roll+5}'] = f'=IFERROR(COUNTIF({col}2:{col}{total_roll+1}, ">=4"),0)'
+            sheet4[f'{col}{total_roll+6}'] = f'=IFERROR(ROUND(({col}{total_roll+5}/{col}{total_roll+4}*100), 1),0)'
+            sheet4[f'{col}{total_roll+8}'] = f'=IFERROR(IF({col}{total_roll+6}<60,1,IF(AND({col}{total_roll+6}>59,{col}{total_roll+6}<70),2,IF(AND({col}{total_roll+6}>69,{col}{total_roll+6}<80),3,4))),0)'
             
         course_exit_survey_lo_value=[f'=\'{sheet4.title}\'!G{total_roll+8}',f'=\'{sheet4.title}\'!H{total_roll+8}',f'=\'{sheet4.title}\'!I{total_roll+8}',f'=\'{sheet4.title}\'!J{total_roll+8}',f'=\'{sheet4.title}\'!K{total_roll+8}',f'=\'{sheet4.title}\'!L{total_roll+8}']
         return course_exit_survey_lo_value

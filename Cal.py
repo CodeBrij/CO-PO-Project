@@ -64,43 +64,43 @@ def cal_sheet(file_name, receiversEmail):
         sheet[f'{column_letter}{total_roll+coRow}']=f'=COUNT({column_letter}{coRow}:{column_letter}{total_roll+coRow-1})'
 
     for row in range (coRow,total_roll+coRow):    
-        sheet[f'H{row}']=f'=ROUND(SUM(B{row}:G{row}),0)'
+        sheet[f'H{row}']=f'=IFERROR(ROUND(SUM(B{row}:G{row}),0),0)'
 
     for row in range (coRow,total_roll+coRow):    
-        sheet[f'K{row}']=f'=ROUND(SUM(I{row}:J{row}),0)'
+        sheet[f'K{row}']=f'=IFERROR(ROUND(SUM(I{row}:J{row}),0),0)'
         
     for row in range (coRow,total_roll+coRow):    
-        sheet[f'N{row}']=f'=ROUND(SUM(L{row}:M{row}),0)'
+        sheet[f'N{row}']=f'=IFERROR(ROUND(SUM(L{row}:M{row}),0),0)'
             
     for row in range (coRow,total_roll+coRow):    
-        sheet[f'O{row}']=f'=ROUND(SUM(H{row},K{row},N{row}),0)'
+        sheet[f'O{row}']=f'=IFERROR(ROUND(SUM(H{row},K{row},N{row}),0),0)'
 
     for col in range (2,16):
         column_letter = openpyxl.utils.get_column_letter(col)
-        formula = f'=IF(COUNT({column_letter}{coRow}:{column_letter}{total_roll+coRow-1})=0, "-", ROUND(AVERAGE({column_letter}{coRow}:{column_letter}{total_roll+coRow-1}), 0))'
+        formula = f'=IFERROR(IF(COUNT({column_letter}{coRow}:{column_letter}{total_roll+coRow-1})=0, "-", ROUND(AVERAGE({column_letter}{coRow}:{column_letter}{total_roll+coRow-1}), 0)),0)'
         sheet[f'{column_letter}{total_roll+coRow+1}'] = formula
     
     for col in range (2,8):
         column_letter = openpyxl.utils.get_column_letter(col)
         target_cell = sheet[f'{column_letter}{total_roll+coRow+2}']
         if target_cell.value is None:  # Check if the cell is empty
-            target_cell.value = f'=COUNTIF({column_letter}{coRow}:{column_letter}{total_roll+coRow-1},">={float(al_values_temp[3])/100 * 2}")'
+            target_cell.value = f'=IFERROR(COUNTIF({column_letter}{coRow}:{column_letter}{total_roll+coRow-1},">={float(al_values_temp[3])/100 * 2}"),0)'
     for col in range (8,16):
         column_letter = openpyxl.utils.get_column_letter(col)
         target_cell = sheet[f'{column_letter}{total_roll+coRow+2}']
         if target_cell.value is None:  # Check if the cell is empty
-            target_cell.value = f'=COUNTIF({column_letter}{coRow}:{column_letter}{total_roll+coRow-1},">={float(al_values_temp[3])/100 * 5}")'
+            target_cell.value = f'=IFERROR(COUNTIF({column_letter}{coRow}:{column_letter}{total_roll+coRow-1},">={float(al_values_temp[3])/100 * 5}"),0)'
 
     for col in range (2,16):
         column_letter = openpyxl.utils.get_column_letter(col)
         sheet[f'{column_letter}{total_roll+coRow+3}'] = (
-            f'=ROUND(IFERROR({column_letter}{total_roll+coRow+2}/{column_letter}{total_roll+coRow}, 0)*100, 1)'
+            f'=IFERROR(ROUND(IFERROR({column_letter}{total_roll+coRow+2}/{column_letter}{total_roll+coRow}, 0)*100, 1),0)'
         )
 
 
     for col in range (2,16):
         column_letter = openpyxl.utils.get_column_letter(col)
-        sheet[f'{column_letter}{total_roll+coRow+4}']=f'=COUNTIF({column_letter}{coRow}:{column_letter}{total_roll+coRow-1},">="&{column_letter}{total_roll+coRow+1})'
+        sheet[f'{column_letter}{total_roll+coRow+4}']=f'=IFERROR(COUNTIF({column_letter}{coRow}:{column_letter}{total_roll+coRow-1},">="&{column_letter}{total_roll+coRow+1}),0)'
 
     for col in range (2,16):
         column_letter = openpyxl.utils.get_column_letter(col)
@@ -111,7 +111,7 @@ def cal_sheet(file_name, receiversEmail):
 
     for col in range (2,16):
         column_letter = openpyxl.utils.get_column_letter(col)
-        sheet[f'{column_letter}{total_roll+coRow+6}']=f'=IF({column_letter}{total_roll+coRow+3}<60,1,IF(AND({column_letter}{total_roll+coRow+3}>59,{column_letter}{total_roll+coRow+3}<70),2,IF(AND({column_letter}{total_roll+coRow+3}>69,{column_letter}{total_roll+coRow+3}<80),3,4)))'
+        sheet[f'{column_letter}{total_roll+coRow+6}']=f'=IFERROR(IF({column_letter}{total_roll+coRow+3}<60,1,IF(AND({column_letter}{total_roll+coRow+3}>59,{column_letter}{total_roll+coRow+3}<70),2,IF(AND({column_letter}{total_roll+coRow+3}>69,{column_letter}{total_roll+coRow+3}<80),3,4))),0)'
         
 
     coTableRow = total_roll+coRow+9
@@ -160,38 +160,38 @@ def cal_sheet(file_name, receiversEmail):
 
     # Calculate the average using Excel formula
     if columns_with_1:
-        average_formula = f"=ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+coRow+6}' for col_letter in columns_with_1])}),1)"
+        average_formula = f"=IFERROR(ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+coRow+6}' for col_letter in columns_with_1])}),1),0)"
         sheet[f'G{coTableRow+1}'] = average_formula
     else:
         sheet[f'G{coTableRow+1}'] = '-'
 
         
     if columns_with_2:
-        average_formula = f"=ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+coRow+6}' for col_letter in columns_with_2])}),1)"
+        average_formula = f"=IFERROR(ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+coRow+6}' for col_letter in columns_with_2])}),1),0)"
         sheet[f'G{coTableRow+2}'] = average_formula
     else:
         sheet[f'G{coTableRow+2}'] = '-'
     
     if columns_with_3:
-        average_formula = f"=ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+coRow+6}' for col_letter in columns_with_3])}),1)"
+        average_formula = f"=IFERROR(ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+coRow+6}' for col_letter in columns_with_3])}),1),0)"
         sheet[f'G{coTableRow+3}'] = average_formula
     else:
         sheet[f'G{coTableRow+3}'] = '-'
         
     if columns_with_4:
-        average_formula = f"=ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+coRow+6}' for col_letter in columns_with_4])}),1)"
+        average_formula = f"=IFERROR(ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+coRow+6}' for col_letter in columns_with_4])}),1),0)"
         sheet[f'G{coTableRow+4}'] = average_formula
     else:
         sheet[f'G{coTableRow+4}'] = '-'
 
     if columns_with_5:
-        average_formula = f"=ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+coRow+6}' for col_letter in columns_with_5])}),1)"
+        average_formula = f"=IFERROR(ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+coRow+6}' for col_letter in columns_with_5])}),1),0)"
         sheet[f'G{coTableRow+5}'] = average_formula
     else:
         sheet[f'G{coTableRow+5}'] = '-'
     if(cosCount == 6):
         if columns_with_6:
-            average_formula = f"=ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+coRow+6}' for col_letter in columns_with_6])}),1)"
+            average_formula = f"=IFERROR(ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+coRow+6}' for col_letter in columns_with_6])}),1),0)"
             sheet[f'G{coTableRow+6}'] = average_formula
         else:
             sheet[f'G{coTableRow+6}'] = '-'
@@ -203,15 +203,15 @@ def cal_sheet(file_name, receiversEmail):
 
     endCol='B'
     
-    sheet1[f'B{total_roll+4}'] = f'=COUNT({endCol}4:{endCol}{total_roll+3})'
-    sheet1[f'B{total_roll+5}'] = f'=ROUND(AVERAGE({endCol}4:{endCol}{total_roll+3}), 0)'
+    sheet1[f'B{total_roll+4}'] = f'=IFERROR(COUNT({endCol}4:{endCol}{total_roll+3}),0)'
+    sheet1[f'B{total_roll+5}'] = f'=IFERROR(COUNT({endCol}4:{endCol}{total_roll+3}),0)'
     target_cell = sheet1[f'B{total_roll+6}']
     if target_cell.value is None:  # Check if the cell is empty
-        target_cell.value = f'=COUNTIF({endCol}4:{endCol}{total_roll+3}, ">={float(al_values_temp[4]) / 100 * 60}")'
-    sheet1[f'B{total_roll+7}'] = f'=ROUND({sheet1[f"B{str(total_roll+6)}"].coordinate} / {sheet1[f"B{str(total_roll+4)}"].coordinate} * 100, 1)'
-    sheet1[f'B{total_roll+8}'] = f'=COUNTIF({endCol}4:{endCol}{total_roll+3}, ">="&{endCol}{total_roll+5})'
-    sheet1[f'B{total_roll+9}'] = f'=ROUND({sheet1[f"B{str(total_roll+8)}"].coordinate} / {sheet1[f"B{str(total_roll+4)}"].coordinate} * 100, 1)'
-    sheet1[f'B{total_roll+10}'] = f'=IF({sheet1[f"B{str(total_roll+7)}"].coordinate}<60, 1, IF(AND({sheet1[f"B{str(total_roll+7)}"].coordinate}>59, {sheet1[f"B{str(total_roll+7)}"].coordinate}<70), 2, IF(AND({sheet1[f"B{str(total_roll+7)}"].coordinate}>69, {sheet1[f"B{str(total_roll+7)}"].coordinate}<80), 3, 4)))'
+        target_cell.value = f'=IFERROR(COUNTIF({endCol}4:{endCol}{total_roll+3}, ">={float(al_values_temp[4]) / 100 * 60}"),0)'
+    sheet1[f'B{total_roll+7}'] = f'=IFERROR(ROUND({sheet1[f"B{str(total_roll+6)}"].coordinate} / {sheet1[f"B{str(total_roll+4)}"].coordinate} * 100, 1),0)'
+    sheet1[f'B{total_roll+8}'] = f'=IFERROR(COUNTIF({endCol}4:{endCol}{total_roll+3}, ">="&{endCol}{total_roll+5}),0)'
+    sheet1[f'B{total_roll+9}'] = f'=IFERROR(ROUND({sheet1[f"B{str(total_roll+8)}"].coordinate} / {sheet1[f"B{str(total_roll+4)}"].coordinate} * 100, 1),0)'
+    sheet1[f'B{total_roll+10}'] = f'=IFERROR(IF({sheet1[f"B{str(total_roll+7)}"].coordinate}<60, 1, IF(AND({sheet1[f"B{str(total_roll+7)}"].coordinate}>59, {sheet1[f"B{str(total_roll+7)}"].coordinate}<70), 2, IF(AND({sheet1[f"B{str(total_roll+7)}"].coordinate}>69, {sheet1[f"B{str(total_roll+7)}"].coordinate}<80), 3, 4))),0)'
     
         
     check = [int(val.strip()) for val in str(sheet1['B3'].value)[2:].split(',') if val.strip().isdigit()]
@@ -219,33 +219,32 @@ def cal_sheet(file_name, receiversEmail):
     if 1 in check:
         sheet1[f'B{total_roll+14}']=sheet1[f'B{total_roll+10}'].value
     else :
-        sheet1[f'B{total_roll+14}']="-"
-    
+        sheet1[f'B{total_roll+14}']=0    
     if 2 in check:
         sheet1[f'B{total_roll+15}']=sheet1[f'B{total_roll+10}'].value
     else :
-        sheet1[f'B{total_roll+15}']="-"
+        sheet1[f'B{total_roll+15}']=0
         
     if 3 in check:
         sheet1[f'B{total_roll+16}']=sheet1[f'B{total_roll+10}'].value
     else :
-        sheet1[f'B{total_roll+16}']="-"
+        sheet1[f'B{total_roll+16}']=0
         
     if 4 in check:
         sheet1[f'B{total_roll+17}']=sheet1[f'B{total_roll+10}'].value
     else :
-        sheet1[f'B{total_roll+17}']="-"
+        sheet1[f'B{total_roll+17}']=0
         
     if 5 in check:
         sheet1[f'B{total_roll+18}']=sheet1[f'B{total_roll+10}'].value
     else :
-        sheet1[f'B{total_roll+18}']="-"
+        sheet1[f'B{total_roll+18}']=0
         
     if(cosCount == 6):
         if 6 in check:
             sheet1[f'B{total_roll+19}']=sheet1[f'B{total_roll+10}'].value
         else :
-            sheet1[f'B{total_roll+19}']="-"
+            sheet1[f'B{total_roll+19}']=0
     
     map_endsem_co_arr=[f'={sheet1.title}!B{total_roll+14}',f'={sheet1.title}!B{total_roll+15}',f'={sheet1.title}!B{total_roll+16}',f'={sheet1.title}!B{total_roll+17}',f'={sheet1.title}!B{total_roll+18}',f'={sheet1.title}!B{total_roll+19}']
     #<----------------------CA------------------->
@@ -304,15 +303,15 @@ def cal_sheet(file_name, receiversEmail):
     def cal_quiz(newSheet,col_arr,al_value):
         for col in col_arr:
         
-            newSheet[f'{col}{total_roll+4}'] = f'=COUNT({col}4:{col}{total_roll+3})'
-            newSheet[f'{col}{total_roll+5}'] = f'=ROUND(AVERAGE({col}4:{col}{total_roll+3}), 0)'
+            newSheet[f'{col}{total_roll+4}'] = f'=IFERROR(COUNT({col}4:{col}{total_roll+3}),0)'
+            newSheet[f'{col}{total_roll+5}'] = f'=IFERROR(ROUND(AVERAGE({col}4:{col}{total_roll+3}), 0),0)'
             target_cell = newSheet[f'{col}{total_roll+6}']
             if target_cell.value is None:  # Check if the cell is empty
-                target_cell.value = f'=COUNTIF({col}4:{col}{total_roll+3}, ">={float(al_value) / 100 * 2}")'
-            newSheet[f'{col}{total_roll+7}'] = f'=ROUND({newSheet[f"{col}{total_roll+6}"].coordinate} / {newSheet[f"{col}{total_roll+4}"].coordinate} * 100, 1)'
-            newSheet[f'{col}{total_roll+8}'] = f'=COUNTIF({col}3:{col}{total_roll+3}, ">="&{col}{total_roll+5})'
-            newSheet[f'{col}{total_roll+9}'] = f'=ROUND({newSheet[f"{col}{total_roll+8}"].coordinate} / {newSheet[f"{col}{total_roll+4}"].coordinate} * 100, 1)'
-            newSheet[f'{col}{total_roll+10}'] = f'=IF({newSheet[f"{col}{total_roll+7}"].coordinate}<60, 1, IF(AND({newSheet[f"{col}{total_roll+7}"].coordinate}>59, {newSheet[f"{col}{total_roll+7}"].coordinate}<70), 2, IF(AND({newSheet[f"{col}{total_roll+7}"].coordinate}>69, {newSheet[f"{col}{total_roll+7}"].coordinate}<80), 3, 4)))'
+                target_cell.value = f'=IFERROR(COUNTIF({col}4:{col}{total_roll+3}, ">={float(al_value) / 100 * 2}"),0)'
+            newSheet[f'{col}{total_roll+7}'] = f'=IFERROR(ROUND({newSheet[f"{col}{total_roll+6}"].coordinate} / {newSheet[f"{col}{total_roll+4}"].coordinate} * 100, 1),0)'
+            newSheet[f'{col}{total_roll+8}'] = f'=IFERROR(COUNTIF({col}3:{col}{total_roll+3}, ">="&{col}{total_roll+5}),0)'
+            newSheet[f'{col}{total_roll+9}'] = f'=IFERROR(ROUND({newSheet[f"{col}{total_roll+8}"].coordinate} / {newSheet[f"{col}{total_roll+4}"].coordinate} * 100, 1),0)'
+            newSheet[f'{col}{total_roll+10}'] = f'=IFERROR(IF({newSheet[f"{col}{total_roll+7}"].coordinate}<60, 1, IF(AND({newSheet[f"{col}{total_roll+7}"].coordinate}>59, {newSheet[f"{col}{total_roll+7}"].coordinate}<70), 2, IF(AND({newSheet[f"{col}{total_roll+7}"].coordinate}>69, {newSheet[f"{col}{total_roll+7}"].coordinate}<80), 3, 4))),0)'
     
         columns_QZ_1 = []
         columns_QZ_2 = []
@@ -345,39 +344,39 @@ def cal_sheet(file_name, receiversEmail):
 
         # Calculate the average using Excel formula
         if columns_QZ_1:
-            average_formula = f"=ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+10}' for col_letter in columns_QZ_1])}),1)"
+            average_formula = f"=IFERROR(ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+10}' for col_letter in columns_QZ_1])}),1),0)"
             newSheet[f'D{total_roll+14}'] = average_formula
         else:
             newSheet[f'D{total_roll+14}'] = '-'
 
             
         if columns_QZ_2:
-            average_formula = f"=ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+10}' for col_letter in columns_QZ_2])}),1)"
+            average_formula = f"=IFERROR(ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+10}' for col_letter in columns_QZ_2])}),1),0)"
             newSheet[f'D{total_roll+15}'] = average_formula
         else:
             newSheet[f'D{total_roll+15}'] = '-'
         
         if columns_QZ_3:
-            average_formula = f"=ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+10}' for col_letter in columns_QZ_3])}),1)"
+            average_formula = f"=IFERROR(ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+10}' for col_letter in columns_QZ_3])}),1),0)"
             newSheet[f'D{total_roll+16}'] = average_formula
         else:
             newSheet[f'D{total_roll+16}'] = '-'
             
         if columns_QZ_4:
-            average_formula = f"=ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+10}' for col_letter in columns_QZ_4])}),1)"
+            average_formula = f"=IFERROR(ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+10}' for col_letter in columns_QZ_4])}),1),0)"
             newSheet[f'D{total_roll+17}'] = average_formula
         else:
             newSheet[f'D{total_roll+17}'] = '-'
 
         if columns_QZ_5:
-            average_formula = f"=ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+10}' for col_letter in columns_QZ_5])}),1)"
+            average_formula = f"=IFERROR(ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+10}' for col_letter in columns_QZ_5])}),1),0)"
             newSheet[f'D{total_roll+18}'] = average_formula
         else:
             newSheet[f'D{total_roll+18}'] = '-'
 
         if(cosCount == 6):
             if columns_QZ_6:
-                average_formula = f"=ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+10}' for col_letter in columns_QZ_6])}),1)"
+                average_formula = f"=IFERROR(ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+10}' for col_letter in columns_QZ_6])}),1),0)"
                 newSheet[f'D{total_roll+19}'] = average_formula
             else:
                 newSheet[f'D{total_roll+19}'] = '-'
@@ -404,13 +403,13 @@ def cal_sheet(file_name, receiversEmail):
         
         for col in ['B']:
             
-            mySheet2[f'{col}{total_roll+7}'] = f'=COUNT({col}7:{col}{total_roll+6})'
-            mySheet2[f'{col}{total_roll+8}'] = f'=ROUND(AVERAGE({col}7:{col}{total_roll+6}), 0)'
-            mySheet2[f'{col}{total_roll+9}'] = f'=COUNTIF({col}7:{col}{total_roll+6}, ">={float(al_value) / 100 * 10}")'
-            mySheet2[f'{col}{total_roll+10}'] = f'=ROUND({mySheet2[f"{col}{total_roll+9}"].coordinate} / {mySheet2[f"{col}{total_roll+7}"].coordinate} * 100, 1)'
-            mySheet2[f'{col}{total_roll+11}'] = f'=COUNTIF({col}7:{col}{total_roll+6}, ">="&{col}{total_roll+8})'
-            mySheet2[f'{col}{total_roll+12}'] = f'=ROUND({mySheet2[f"{col}{total_roll+11}"].coordinate} / {mySheet2[f"{col}{total_roll+7}"].coordinate} * 100, 1)'
-            mySheet2[f'{col}{total_roll+13}'] = f'=IF({mySheet2[f"{col}{total_roll+10}"].coordinate}<60, 1, IF(AND({mySheet2[f"{col}{total_roll+10}"].coordinate}>59, {mySheet2[f"{col}{total_roll+10}"].coordinate}<70), 2, IF(AND({mySheet2[f"{col}{total_roll+10}"].coordinate}>69, {mySheet2[f"{col}{total_roll+10}"].coordinate}<80), 3, 4)))'
+            mySheet2[f'{col}{total_roll+7}'] = f'=IFERROR(COUNT({col}7:{col}{total_roll+6}),0)'
+            mySheet2[f'{col}{total_roll+8}'] = f'=IFERROR(ROUND(AVERAGE({col}7:{col}{total_roll+6}), 0),0)'
+            mySheet2[f'{col}{total_roll+9}'] = f'=IFERROR(COUNTIF({col}7:{col}{total_roll+6}, ">={float(al_value) / 100 * 10}"),0)'
+            mySheet2[f'{col}{total_roll+10}'] = f'=IFERROR(ROUND({mySheet2[f"{col}{total_roll+9}"].coordinate} / {mySheet2[f"{col}{total_roll+7}"].coordinate} * 100, 1))'
+            mySheet2[f'{col}{total_roll+11}'] = f'=IFERROR(COUNTIF({col}7:{col}{total_roll+6}, ">="&{col}{total_roll+8}),0)'
+            mySheet2[f'{col}{total_roll+12}'] = f'=IFERROR(ROUND({mySheet2[f"{col}{total_roll+11}"].coordinate} / {mySheet2[f"{col}{total_roll+7}"].coordinate} * 100, 1),0)'
+            mySheet2[f'{col}{total_roll+13}'] = f'=IFERROR(IF({mySheet2[f"{col}{total_roll+10}"].coordinate}<60, 1, IF(AND({mySheet2[f"{col}{total_roll+10}"].coordinate}>59, {mySheet2[f"{col}{total_roll+10}"].coordinate}<70), 2, IF(AND({mySheet2[f"{col}{total_roll+10}"].coordinate}>69, {mySheet2[f"{col}{total_roll+10}"].coordinate}<80), 3, 4))),0)'
         
         
         columns_CA_1 = []
@@ -444,39 +443,39 @@ def cal_sheet(file_name, receiversEmail):
 
         # Calculate the average using Excel formula
         if columns_CA_1:
-            average_formula = f"=ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+13}' for col_letter in columns_CA_1])}),1)"
+            average_formula = f"=IFERROR(ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+13}' for col_letter in columns_CA_1])}),1),0)"
             mySheet2[f'C{total_roll+17}'] = average_formula
         else:
             mySheet2[f'C{total_roll+17}'] = '-'
 
             
         if columns_CA_2:
-            average_formula = f"=ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+13}' for col_letter in columns_CA_2])}),1)"
+            average_formula = f"=IFERROR(ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+13}' for col_letter in columns_CA_2])}),1),0)"
             mySheet2[f'C{total_roll+18}'] = average_formula
         else:
             mySheet2[f'C{total_roll+18}'] = '-'
         
         if columns_CA_3:
-            average_formula = f"=ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+13}' for col_letter in columns_CA_3])}),1)"
+            average_formula = f"=IFERROR(ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+13}' for col_letter in columns_CA_3])}),1),0)"
             mySheet2[f'C{total_roll+19}'] = average_formula
         else:
             mySheet2[f'C{total_roll+19}'] = '-'
             
         if columns_CA_4:
-            average_formula = f"=ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+13}' for col_letter in columns_CA_4])}),1)"
+            average_formula = f"=IFERROR(ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+13}' for col_letter in columns_CA_4])}),1),0)"
             mySheet2[f'C{total_roll+20}'] = average_formula
         else:
             mySheet2[f'C{total_roll+20}'] = '-'
 
         if columns_CA_5:
-            average_formula = f"=ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+13}' for col_letter in columns_CA_5])}),1)"
+            average_formula = f"=IFERROR(ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+13}' for col_letter in columns_CA_5])}),1),0)"
             mySheet2[f'C{total_roll+21}'] = average_formula
         else:
             mySheet2[f'C{total_roll+21}'] = '-'
 
         if(cosCount == 6):
             if columns_CA_6:
-                average_formula = f"=ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+13}' for col_letter in columns_CA_6])}),1)"
+                average_formula = f"=IFERROR(ROUND(AVERAGE({','.join([f'{col_letter}{total_roll+13}' for col_letter in columns_CA_6])}),1),0)"
                 mySheet2[f'C{total_roll+22}'] = average_formula
             else:
                 mySheet2[f'C{total_roll+22}'] = '-'
@@ -551,10 +550,10 @@ def cal_sheet(file_name, receiversEmail):
 
         for i in range(num_groups):
             # Set the value in the top-left cell of the merged range
-            mySheet3[f'H{groupStart}'] = f'=COUNT(F{groupStart}:F{endGroup})'
-            mySheet3[f'I{groupStart}'] = f'=COUNTIF(F{groupStart}:F{endGroup},">={condition}")'
-            mySheet3[f'J{groupStart}'] = f'=ROUND((I{groupStart}/H{groupStart})*100,1)'
-            mySheet3[f'K{groupStart}'] = f'=IF(J{groupStart}<60,1,IF(AND(J{groupStart}>59,J{groupStart}<70),2,IF(AND(J{groupStart}>69,J{groupStart}<80),3,4)))'
+            mySheet3[f'H{groupStart}'] = f'=IFERROR(COUNT(F{groupStart}:F{endGroup}),0)'
+            mySheet3[f'I{groupStart}'] = f'=IFERROR(COUNTIF(F{groupStart}:F{endGroup},">={condition}"),0)'
+            mySheet3[f'J{groupStart}'] = f'=IFERROR(ROUND((I{groupStart}/H{groupStart})*100,1),0)'
+            mySheet3[f'K{groupStart}'] = f'=IFERROR(IF(J{groupStart}<60,1,IF(AND(J{groupStart}>59,J{groupStart}<70),2,IF(AND(J{groupStart}>69,J{groupStart}<80),3,4))),0)'
 
             groupStart += groupSize
             endGroup += groupSize
@@ -639,7 +638,7 @@ def cal_sheet(file_name, receiversEmail):
         def generate_average_formula(column_list):
             if column_list:
                 # Join the list of column numbers into a string without square brackets
-                return f"=ROUND(AVERAGE({','.join([f'K{col}' for col in column_list])}),1)"
+                return f"=IFERROR(ROUND(AVERAGE({','.join([f'K{col}' for col in column_list])}),1),0)"
             else:
                 return '-'
 
@@ -764,10 +763,10 @@ def cal_sheet(file_name, receiversEmail):
     
     for col in col_list:
         
-        sheet4[f'{col}{total_roll+4}'] = f'=COUNT({col}2:{col}{total_roll+1})'
-        sheet4[f'{col}{total_roll+5}'] = f'=COUNTIF({col}2:{col}{total_roll+1}, ">=4")'
-        sheet4[f'{col}{total_roll+6}'] = f'=ROUND(({col}{total_roll+5}/{col}{total_roll+4}*100), 1)'
-        sheet4[f'{col}{total_roll+8}'] = f'=IF({col}{total_roll+6}<60,1,IF(AND({col}{total_roll+6}>59,{col}{total_roll+6}<70),2,IF(AND({col}{total_roll+6}>69,{col}{total_roll+6}<80),3,4)))'
+        sheet4[f'{col}{total_roll+4}'] = f'=IFERROR(COUNT({col}2:{col}{total_roll+1}),0)'
+        sheet4[f'{col}{total_roll+5}'] = f'=IFERROR(COUNTIF({col}2:{col}{total_roll+1}, ">=4"),0)'
+        sheet4[f'{col}{total_roll+6}'] = f'=IFERROR(ROUND(({col}{total_roll+5}/{col}{total_roll+4}*100), 1),0)'
+        sheet4[f'{col}{total_roll+8}'] = f'=IFERROR(IF({col}{total_roll+6}<60,1,IF(AND({col}{total_roll+6}>59,{col}{total_roll+6}<70),2,IF(AND({col}{total_roll+6}>69,{col}{total_roll+6}<80),3,4))),0)'
         
     map_survey_co_arr=[f'={sheet4.title}!G{total_roll+8}',f'={sheet4.title}!H{total_roll+8}',f'={sheet4.title}!I{total_roll+8}',f'={sheet4.title}!J{total_roll+8}',f'={sheet4.title}!K{total_roll+8}',f'={sheet4.title}!L{total_roll+8}']
     
@@ -814,7 +813,7 @@ def cal_sheet(file_name, receiversEmail):
             
         for i in range(0,attainmentEnd):
             # sheet5[f'G{33+i}']=f'=ROUND(0.7*F{33+i}+0.3*(AVERAGE(B{33+i},C{33+i},D{33+i},E{33+i})),1)'
-            sheet5[f'G{33+i}']=f'=IF(AND(F{33+i}="-", COUNTIF(B{33+i}:E{33+i}, "-")=3), "-", IF(F{33+i}="-", ROUND(0.3*AVERAGE(B{33+i},C{33+i},D{33+i},E{33+i}), 1), IF(COUNTIF(B{33+i}:E{33+i}, "-")=4, ROUND(0.7*F{33+i}, 1), ROUND(0.7*F{33+i}+0.3*(AVERAGE(B{33+i},C{33+i},D{33+i},E{33+i})),1))))'
+            sheet5[f'G{33+i}']=f'=IFERROR(IF(AND(F{33+i}="-", COUNTIF(B{33+i}:E{33+i}, "-")=3), "-", IF(F{33+i}="-", ROUND(0.3*AVERAGE(B{33+i},C{33+i},D{33+i},E{33+i}), 1), IF(COUNTIF(B{33+i}:E{33+i}, "-")=4, ROUND(0.7*F{33+i}, 1), ROUND(0.7*F{33+i}+0.3*(AVERAGE(B{33+i},C{33+i},D{33+i},E{33+i})),1)))),0)'
         for i in range(0,attainmentEnd):
             sheet5[f'D{43+i}']=sheet5[f'G{33+i}'].value        
        
@@ -833,7 +832,7 @@ def cal_sheet(file_name, receiversEmail):
             
         for i in range(0,attainmentEnd):
             # sheet5[f'F{33+i}']=f'=ROUND(0.7*E{33+i}+0.3*(AVERAGE(B{33+i},C{33+i},D{33+i})),1)'
-            sheet5[f'F{33+i}']=f'=IF(AND(E{33+i}="-", COUNTIF(B{33+i}:D{33+i}, "-")=3), "-", IF(E{33+i}="-", ROUND(0.3*AVERAGE(B{33+i},C{33+i},D{33+i}), 1), IF(COUNTIF(B{33+i}:D{33+i}, "-")=3, ROUND(0.7*E{33+i}, 1), ROUND(0.7*E{33+i}+0.3*(AVERAGE(B{33+i},C{33+i},D{33+i})),1))))'
+            sheet5[f'F{33+i}']=f'=IFERROR(IF(AND(E{33+i}="-", COUNTIF(B{33+i}:D{33+i}, "-")=3), "-", IF(E{33+i}="-", ROUND(0.3*AVERAGE(B{33+i},C{33+i},D{33+i}), 1), IF(COUNTIF(B{33+i}:D{33+i}, "-")=3, ROUND(0.7*E{33+i}, 1), ROUND(0.7*E{33+i}+0.3*(AVERAGE(B{33+i},C{33+i},D{33+i})),1)))),0)'
             
         for i in range(0,attainmentEnd):
             sheet5[f'D{43+i}']=sheet5[f'F{33+i}'].value        
@@ -854,7 +853,7 @@ def cal_sheet(file_name, receiversEmail):
     for j in range(0, cosCount):
         for i in column_array:
             sheet6[f'{i}{start1+j}'] = map_co_arr[j]
-            sheet6[f'{i}{start2+j}'] = f"=IF({i}{start0+j}=3, {i}{start1+j}, IF({i}{start0+j}=2, {i}{start1+j}*0.6, IF({i}{start0+j}=1, {i}{start1+j}*0.4, 0)))"
+            sheet6[f'{i}{start2+j}'] = f"=IFERROR(IF({i}{start0+j}=3, {i}{start1+j}, IF({i}{start0+j}=2, {i}{start1+j}*0.6, IF({i}{start0+j}=1, {i}{start1+j}*0.4, 0))),0)"
     print("type bataooooo")
     print(type(sheet6[f'{i}{start1+j}'].value))
     for j in range(0, cosCount):

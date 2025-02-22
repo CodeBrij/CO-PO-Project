@@ -6,8 +6,13 @@ from openpyxl.utils import *
 import os
 from tkinter import filedialog
 from CTkMessagebox import CTkMessagebox
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email import encoders
 
-def cal_lab_sheets(file_name) :
+def cal_lab_sheets(file_name, receiversmail) :
 
     workbook = openpyxl.load_workbook(file_name)
     file_name_only = os.path.basename(file_name)
@@ -19,6 +24,8 @@ def cal_lab_sheets(file_name) :
     # Print the sheet names
     print(sheet_names)
     optSheet = workbook["Optional"]
+    print("bhai dekh idhar+++++++++++")
+    print(receiversmail)
 
     total_roll = int(optSheet['B3'].value)
     LOcount = int(optSheet['B4'].value)
@@ -472,10 +479,6 @@ def cal_lab_sheets(file_name) :
             
             print(f"Function {assignment_lo_arr}") # Increment new_row for the next set of entries
         
-        print("Bhai idhar dekh++++++++++++++++++++++++")
-        print("Bhai idhar dekh++++++++++++++++++++++++")
-        print("Bhai idhar dekh++++++++++++++++++++++++")
-        print("Bhai idhar dekh++++++++++++++++++++++++")
         print(sheet[f'D{total_roll+14+3}'].value)
         print(sheet[f'D{total_roll+14+1}'].value)
         for i in range (0, LOcount):
@@ -660,6 +663,60 @@ def cal_lab_sheets(file_name) :
     filepath = f'{selected_path}/Lab_Calculated_{file_name_only}.xlsx'
 
     workbook.save(filepath)
+    print(f"Workbook saved successfully at {filepath}")
+
     CTkMessagebox(message=f"Calculated excel sheet downloaded successfully at {filepath}.",icon="check", option_1="OK")
 
+    def send_email(sender_email, sender_password, recipient_email, subject, body, file_path):
+        try:
+            # Create a multipart message
+            message = MIMEMultipart()
+            message['From'] = sender_email
+            message['To'] = recipient_email
+            message['Subject'] = subject
+
+            # Attach the email body
+            message.attach(MIMEText(body, 'plain'))
+
+            # Attach the file
+            with open(file_path, "rb") as attachment:
+                part = MIMEBase("application", "octet-stream")
+                part.set_payload(attachment.read())
+
+            encoders.encode_base64(part)
+            part.add_header(
+                "Content-Disposition",
+                f"attachment; filename={os.path.basename(file_path)}"
+            )
+            message.attach(part)
+
+            # Connect to the SMTP server and send the email
+            with smtplib.SMTP('smtp.gmail.com', 587) as server:
+                server.starttls()
+                server.login(sender_email, sender_password)
+                server.sendmail(sender_email, recipient_email, message.as_string())
+            print("Email sent successfully!")
+
+        except Exception as e:
+            print(f"Error sending email: {e}")
+
+    # Main processing code
+    def send_file():
+        # Simulating file processing
+        downloadCalculate = filepath
+
+        # Notify the user
+        print(f"Calculated excel sheet downloaded successfully at {downloadCalculate}.")
+
+        # Input recipient email and other email details
+        email_address = receiversmail
+        sender_email = "copoautomation@gmail.com"  # Replace with your email
+        sender_password = "jbzs zfrc ibrg nelp"      # Replace with your email's app password
+        subject = "Template Excel File"
+        body = f"Please find the attached template Excel file - Lab_Calculated_{file_name_only}.xlsx"
+
+        # Send the file via email
+        send_email(sender_email, sender_password, email_address, subject, body, downloadCalculate)
+
+    send_file()
 

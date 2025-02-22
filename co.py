@@ -1197,11 +1197,11 @@ class User_mode:
                     al_values=[ALCA1Text.get(), ALCA2Text.get(), '-', ALMidTermText.get(), ALEndSemText.get()]
                     print(al_values)
                 else:
-                    al_values=[ALCA1Text.get(), ALCA2Text.get(), ALCA3Text.get(), ALMidTermText.get(), ALEndSemText.get()]
+                    al_values=[ALCA1Text.get(), ALCA2Text.get(), ALCA3Text.get(), ALMidTermText.get(), ALEndSemText.get(),]
                 file_path = file_path
                 print("File Path : : : ", file_path)
                 import Cal
-                Cal.cal_sheet(file_path, al_values)
+                Cal.cal_sheet(file_path, emailTextProcessed.get())
 
             # Using create_label, create_entry_box, and create_dropdown to recreate the UI
 
@@ -1532,6 +1532,7 @@ class User_mode:
                 basic_values_lo.append(projLoList)
                 assignmentLOs = [assignment_lo_entry[f"assignment_{i}_lo_entry"].get() for i in range (1, (int(no_of_assignments_dropdown.get()))+1)]
                 basic_values_lo.append(assignmentLOs)
+                basic_values_lo.append(emailTextTemplate_lab.get())
                 print(basic_values_lo)
                 from lab.Lab_Template import lab_template_generator
                 lab_template_generator(basic_values_lo)
@@ -1553,7 +1554,7 @@ class User_mode:
                 global file_path_lab
                 file_path_lab = file_path_lab
                 from lab.Lab_Cal import cal_lab_sheets
-                cal_lab_sheets(file_path_lab)
+                cal_lab_sheets(file_path_lab, emailTextProcessed_lab.get())
             
             def semesterAndClass(option):
                 if option == "Select Year":
@@ -1805,6 +1806,10 @@ class User_mode:
                 entry.configure(state="disabled", fg_color="gray")
 
             next_2_lab_button = create_button(" LO Mapping ", "Download", "Arial", 20, 200, 40, download_template_lab, 650, 600)
+
+            setEmailLabel = create_label(" LO Mapping ", "Enter the Email ID to send the template.", "Arial", 20, 560, 650)
+
+            emailTextTemplate_lab = create_entry_box(" LO Mapping ", "", "Arial", 15, 500, 500, 690)
 
             enterLO = create_label(" LO Information ", "Enter the LO's", "Arial", 20, 700, 50)
             noOfLOLabel = create_label(" LO Information ", "Select No. of LO's: ", "Arial", 15, 550, 100)

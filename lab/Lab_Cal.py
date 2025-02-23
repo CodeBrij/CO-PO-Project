@@ -663,6 +663,7 @@ def cal_lab_sheets(file_name, receiversmail) :
     filepath = f'{selected_path}/Lab_Calculated_{file_name_only}.xlsx'
 
     workbook.save(filepath)
+    workbook.close()
     print(f"Workbook saved successfully at {filepath}")
 
     CTkMessagebox(message=f"Calculated excel sheet downloaded successfully at {filepath}.",icon="check", option_1="OK")

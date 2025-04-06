@@ -48,10 +48,16 @@ class User_mode:
             tabview.pack(expand=True, fill="both", padx=10, pady=5)
 
             tabview.add(" Instructions ") 
-            tabview.add(" CO Information ") 
             tabview.add(" Basic Information ") 
+            tabview.add(" CO Information ") 
+            tabview.add(" Mid Terms & End Semesters ") 
+            tabview.add(" CA 1 ") 
+            tabview.add(" CA 2 ") 
+            tabview.add(" CA 3 ") 
+            
+            
             # add tab at the end
-            tabview.add(" CO Mapping ")
+            # tabview.add(" CO Mapping ")
             tabview.add(" Target level of tests ")
             # tabview.add(" Lab CO ")
             tabview.add(" Upload Excel File ") 
@@ -923,259 +929,391 @@ class User_mode:
 
             entry7 = create_dropdown(" Basic Information ", ["Select Class"], "Arial", 15, 300, None, 400, 405)
 
-            label11 = create_label(" Basic Information ", "Endsems CO's", "Arial", 15, 875, 55)
+            label11 = create_label(" Mid Terms & End Semesters ", "Endsems CO's", "Arial", 15, 875, 55)
 
-            entry11 = create_entry_box(" Basic Information ", "1,2,3,4,5,6", "Arial", 15, 300, 1075, 55)
+            entry11 = create_entry_box(" Mid Terms & End Semesters ", "1,2,3,4,5,6", "Arial", 15, 300, 1075, 55)
 
             # label12 = create_label(" Basic Information ", "Attainment Target :", "Arial", 15, 875, 55)
 
             # entry12 = create_entry_box(" Basic Information ", "52.5", "Arial", 15, 300, 1075, 55)
 
-            label10 = create_label(" Basic Information ", "No. of CA's :", "Arial", 15, 875, 105)
+            label10 = create_label(" CA 3 ", "Is CA3 Applicable: ", "Arial", 15, 200, 55)
 
-            entry10 = create_dropdown(" Basic Information ", ["2", "3"], "Arial", 15, 300, disable, 1075, 105)
+            entry10 = create_dropdown(" CA 3 ", ["Yes", "No"], "Arial", 15, 300, disable, 500, 55)
 
-            label13 = create_label(" Basic Information ", "CA1 type :", "Arial", 15, 875, 155)
+            label13 = create_label(" CA 1 ", "CA1 type :", "Arial", 15, 200, 55)
 
-            entry13 = create_dropdown(" Basic Information ", ["Select Type", "Quiz", "NPTEL Course", "Presentation"], "Arial", 15, 300, ca1, 1075, 155)
+            entry13 = create_dropdown(" CA 1 ", ["Select Type", "Quiz", "NPTEL Course", "Presentation", "Test", "Implementation", "Other"], "Arial", 15, 300, ca1, 500, 55)
 
-            noCA1Label = create_label(" Basic Information ", "No of Question CA1 :", "Arial", 15, 875, 205)
+            noCA1Label = create_label(" CA 1 ", "No of Question CA1 (Quiz/Test) :", "Arial", 15, 200, 105)
 
-            noCA1Entry = create_dropdown(" Basic Information ", ["Select No", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"], "Arial", 15, 300, noQuestion1, 1075, 205)
+            noCA1Entry = create_dropdown(" CA 1 ", ["Select No", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"], "Arial", 15, 300, noQuestion1, 500, 105)
             noCA1Entry.configure(state="disabled", fg_color="gray")
 
-            label14 = create_label(" Basic Information ", "CA2 type :", "Arial", 15, 875, 255)
+            label14 = create_label(" CA 2 ", "CA2 type :", "Arial", 15, 200, 55)
 
-            entry14 = create_dropdown(" Basic Information ", ["Select Type", "Quiz", "NPTEL Course", "Presentation"], "Arial", 15, 300, ca2, 1075, 255)
+            entry14 = create_dropdown(" CA 2 ", ["Select Type", "Quiz", "NPTEL Course", "Presentation", "Test", "Implementation", "Other"], "Arial", 15, 300, ca2, 500, 55)
 
-            noCA2Label = create_label(" Basic Information ", "No of Question CA2 :", "Arial", 15, 875, 305)
+            noCA2Label = create_label(" CA 2 ", "No of Question CA2 (Quiz/Test) :", "Arial", 15, 200, 105)
 
-            noCA2Entry = create_dropdown(" Basic Information ", ["Select No", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"], "Arial", 15, 300, noQuestion2, 1075, 305)
+            noCA2Entry = create_dropdown(" CA 2 ", ["Select No", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"], "Arial", 15, 300, noQuestion2, 500, 105)
             noCA2Entry.configure(state="disabled", fg_color="gray")
 
-            label15 = create_label(" Basic Information ", "CA3 type :", "Arial", 15, 875, 355)
+            label15 = create_label(" CA 3 ", "CA3 type :", "Arial", 15, 200, 105)
 
-            entry15 = create_dropdown(" Basic Information ", ["Select Type", "Quiz", "NPTEL Course", "Presentation"], "Arial", 15, 300, ca3, 1075, 355)
+            entry15 = create_dropdown(" CA 3 ", ["Select Type", "Quiz", "NPTEL Course", "Presentation", "Test", "Implementation", "Other"], "Arial", 15, 300, ca3, 500, 105)
             entry15.configure(state="disabled", fg_color="gray")
 
-            noCA3Label = create_label(" Basic Information ", "No of Question CA3 :", "Arial", 15, 875, 405)
+            noCA3Label = create_label(" CA 3 ", "No of Question CA3 (Quiz/Test) :", "Arial", 15, 200, 155)
 
-            noCA3Entry = create_dropdown(" Basic Information ", ["Select No", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"], "Arial", 15, 300, noQuestion3, 1075, 405)
+            noCA3Entry = create_dropdown(" CA 3 ", ["Select No", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"], "Arial", 15, 300, noQuestion3, 500, 155)
             noCA3Entry.configure(state="disabled", fg_color="gray")
 
-            nptel = create_label(" Basic Information ", "CO's for NPTEL (CA)", "Arial", 20, 700, 505)
+            nptelCA1 = create_label(" CA 1 ", "CO's for NPTEL (CA)", "Arial", 20, 220, 505)
+            nptelCA2 = create_label(" CA 2 ", "CO's for NPTEL (CA)", "Arial", 20, 220, 505)
+            nptelCA3 = create_label(" CA 3 ", "CO's for NPTEL (CA)", "Arial", 20, 220, 555)
 
-            nptelCA1Label = create_label(" Basic Information ", "CA1: ", "Arial", 15, 100, 545)
+            nptelCA1Label = create_label(" CA 1 ", "NPTEL: ", "Arial", 15, 100, 555)
 
-            nptelCA1Text = create_entry_box(" Basic Information ", "1,2,3,4,5,6", "Arial", 15, 300, 200, 545)
+            nptelCA1Text = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 300, 200, 555)
             nptelCA1Text.configure(state="disabled", fg_color="gray")
 
-            nptelCA2Label = create_label(" Basic Information ", "CA2: ", "Arial", 15, 550, 545)
+            nptelCA2Label = create_label(" CA 2 ", "NPTEL: ", "Arial", 15, 100, 555)
 
-            nptelCA2Text = create_entry_box(" Basic Information ", "1,2,3,4,5,6", "Arial", 15, 300, 650, 545)
+            nptelCA2Text = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 300, 200, 555)
             nptelCA2Text.configure(state="disabled", fg_color="gray")
 
-            nptelCA3Label = create_label(" Basic Information ", "CA3: ", "Arial", 15, 1000, 545)
+            nptelCA3Label = create_label(" CA 3 ", "NPTEL: ", "Arial", 15, 100, 605)
 
-            nptelCA3Text = create_entry_box(" Basic Information ", "1,2,3,4,5,6", "Arial", 15, 300, 1100, 545)
+            nptelCA3Text = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 300, 200, 605)
             nptelCA3Text.configure(state="disabled", fg_color="gray")
 
-            presentation = create_label(" Basic Information ", "Maximum group size of Presentations (CA)", "Arial", 20, 590, 585)
+            presentationcA1 = create_label(" CA 1 ", "Maximum group size of Presentations (CA)", "Arial", 20, 590, 505)
+            presentationCA2 = create_label(" CA 2 ", "Maximum group size of Presentations (CA)", "Arial", 20, 590, 505)
+            presentationCA3 = create_label(" CA 3 ", "Maximum group size of Presentations (CA)", "Arial", 20, 590, 555)
 
-            presentationCA1Label = create_label(" Basic Information ", "CA1: ", "Arial", 15, 100, 625)
+            presentationCA1Label = create_label(" CA 1 ", "Group Size: ", "Arial", 15, 600, 555)
 
-            presentationCA1Text = create_entry_box(" Basic Information ", "Enter maximum number of students in a group", "Arial", 15, 300, 200, 625)
+            presentationCA1Text = create_entry_box(" CA 1 ", "Enter maximum number of students in a group", "Arial", 15, 300, 700, 555)
             presentationCA1Text.configure(state="disabled", fg_color="gray")
 
-            presentationCA2Label = create_label(" Basic Information ", "CA2: ", "Arial", 15, 550, 625)
+            presentationCA2Label = create_label(" CA 2 ", "Group Size: ", "Arial", 15, 600, 555)
 
-            presentationCA2Text = create_entry_box(" Basic Information ", "Enter maximum number of students in a group", "Arial", 15, 300, 650, 625)
+            presentationCA2Text = create_entry_box(" CA 2 ", "Enter maximum number of students in a group", "Arial", 15, 300, 700, 555)
             presentationCA2Text.configure(state="disabled", fg_color="gray")
 
-            presentationCA3Label = create_label(" Basic Information ", "CA3: ", "Arial", 15, 1000, 625)
+            presentationCA3Label = create_label(" CA 3 ", "Group Size: ", "Arial", 15, 600, 605)
 
-            presentationCA3Text = create_entry_box(" Basic Information ", "Enter maximum number of students in a group", "Arial", 15, 300, 1100, 625)
+            presentationCA3Text = create_entry_box(" CA 3 ", "Enter maximum number of students in a group", "Arial", 15, 300, 700, 605)
             presentationCA3Text.configure(state="disabled", fg_color="gray")
 
 
-            label6 = create_label(" CO Mapping ", "COs for Midterm", "Arial", 20, 375, 20)
+            label6 = create_label(" Mid Terms & End Semesters ", "COs for Midterm", "Arial", 20, 375, 20)
 
-            a1L = create_label(" CO Mapping ", "1a :", "Arial", 15, 200, 60)
-            a2L = create_label(" CO Mapping ", "1b :", "Arial", 15, 200, 110)
-            a3L = create_label(" CO Mapping ", "1c :", "Arial", 15, 200, 160)
-            a4L = create_label(" CO Mapping ", "1d :", "Arial", 15, 200, 210)
-            a5L = create_label(" CO Mapping ", "1e :", "Arial", 15, 200, 260)
-            a6L = create_label(" CO Mapping ", "1f :", "Arial", 15, 500, 60)
-            a2aL = create_label(" CO Mapping ", "2a :", "Arial", 15, 500, 110)
-            a2bL = create_label(" CO Mapping ", "2b :", "Arial", 15, 500, 160)
-            a3aL = create_label(" CO Mapping ", "3a :", "Arial", 15, 500, 210)
-            a3bL = create_label(" CO Mapping ", "3b :", "Arial", 15, 500, 260)
+            a1L = create_label(" Mid Terms & End Semesters ", "1a :", "Arial", 15, 200, 60)
+            a2L = create_label(" Mid Terms & End Semesters ", "1b :", "Arial", 15, 200, 110)
+            a3L = create_label(" Mid Terms & End Semesters ", "1c :", "Arial", 15, 200, 160)
+            a4L = create_label(" Mid Terms & End Semesters ", "1d :", "Arial", 15, 200, 210)
+            a5L = create_label(" Mid Terms & End Semesters ", "1e :", "Arial", 15, 200, 260)
+            a6L = create_label(" Mid Terms & End Semesters ", "1f :", "Arial", 15, 500, 60)
+            a2aL = create_label(" Mid Terms & End Semesters ", "2a :", "Arial", 15, 500, 110)
+            a2bL = create_label(" Mid Terms & End Semesters ", "2b :", "Arial", 15, 500, 160)
+            a3aL = create_label(" Mid Terms & End Semesters ", "3a :", "Arial", 15, 500, 210)
+            a3bL = create_label(" Mid Terms & End Semesters ", "3b :", "Arial", 15, 500, 260)
 
 
-            a1T=ctk.CTkEntry(master=tabview.tab(" CO Mapping "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
+            a1T=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
             a1T.place(x=250,y=60)
 
-            a2T=ctk.CTkEntry(master=tabview.tab(" CO Mapping "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
+            a2T=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
             a2T.place(x=250,y=110)
 
-            a3T=ctk.CTkEntry(master=tabview.tab(" CO Mapping "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
+            a3T=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
             a3T.place(x=250,y=160)
 
-            a4T=ctk.CTkEntry(master=tabview.tab(" CO Mapping "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
+            a4T=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
             a4T.place(x=250,y=210)
 
-            a5T=ctk.CTkEntry(master=tabview.tab(" CO Mapping "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
+            a5T=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
             a5T.place(x=250,y=260)
 
-            a6T=ctk.CTkEntry(master=tabview.tab(" CO Mapping "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
+            a6T=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
             a6T.place(x=550,y=60)
 
 
-            a2aT=ctk.CTkEntry(master=tabview.tab(" CO Mapping "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
+            a2aT=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
             a2aT.place(x=550,y=110)
 
 
-            a2bT=ctk.CTkEntry(master=tabview.tab(" CO Mapping "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
+            a2bT=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
             a2bT.place(x=550,y=160)
 
 
-            a3aT=ctk.CTkEntry(master=tabview.tab(" CO Mapping "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
+            a3aT=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
             a3aT.place(x=550,y=210)
 
 
-            a3bT=ctk.CTkEntry(master=tabview.tab(" CO Mapping "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
+            a3bT=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
             a3bT.place(x=550,y=260)
 
             #For Quiz
 
             # COs for CA1 Quiz
-            label9 = create_label(" CO Mapping ", "COs for CA1 Quiz", "Arial", 20, 375, 340)
+            label9 = create_label(" CA 1 ", "COs for CA1 Quiz/Test", "Arial", 20, 350, 205)
+            label9_marks = create_label(" CA 1 ", "Marks of Questions for CA1 Quiz/Test", "Arial", 20, 1000, 205)
 
-            q1LCA1 = create_label(" CO Mapping ", "Q1 :", "Arial", 15, 200, 380)
-            q1TCA1 = create_entry_box(" CO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 380)
+            q1LCA1 = create_label(" CA 1 ", "Q1 :", "Arial", 15, 200, 255)
+            q1TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 255)
+            q1TCA1.configure(state="disabled", fg_color="gray")
+            
+            q1LCA1 = create_label(" CA 1 ", "Q1 :", "Arial", 15, 200, 255)
+            q1TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 255)
             q1TCA1.configure(state="disabled", fg_color="gray")
 
-            q2LCA1 = create_label(" CO Mapping ", "Q2 :", "Arial", 15, 200, 430)
-            q2TCA1 = create_entry_box(" CO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 430)
+            q2LCA1 = create_label(" CA 1 ", "Q2 :", "Arial", 15, 200, 305)
+            q2TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 305)
             q2TCA1.configure(state="disabled", fg_color="gray")
 
-            q3LCA1 = create_label(" CO Mapping ", "Q3 :", "Arial", 15, 200, 480)
-            q3TCA1 = create_entry_box(" CO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 480)
+            q3LCA1 = create_label(" CA 1 ", "Q3 :", "Arial", 15, 200, 355)
+            q3TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 355)
             q3TCA1.configure(state="disabled", fg_color="gray")
 
-            q4LCA1 = create_label(" CO Mapping ", "Q4 :", "Arial", 15, 200, 530)
-            q4TCA1 = create_entry_box(" CO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 530)
+            q4LCA1 = create_label(" CA 1 ", "Q4 :", "Arial", 15, 200, 405)
+            q4TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 405)
             q4TCA1.configure(state="disabled", fg_color="gray")
 
-            q5LCA1 = create_label(" CO Mapping ", "Q5 :", "Arial", 15, 200, 580)
-            q5TCA1 = create_entry_box(" CO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 580)
+            q5LCA1 = create_label(" CA 1 ", "Q5 :", "Arial", 15, 200, 455)
+            q5TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 455)
             q5TCA1.configure(state="disabled", fg_color="gray")
 
-            q6LCA1 = create_label(" CO Mapping ", "Q6 :", "Arial", 15, 500, 380)
-            q6TCA1 = create_entry_box(" CO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 380)
+            q6LCA1 = create_label(" CA 1 ", "Q6 :", "Arial", 15, 500, 255)
+            q6TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 255)
             q6TCA1.configure(state="disabled", fg_color="gray")
 
-            q7LCA1 = create_label(" CO Mapping ", "Q7 :", "Arial", 15, 500, 430)
-            q7TCA1 = create_entry_box(" CO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 430)
+            q7LCA1 = create_label(" CA 1 ", "Q7 :", "Arial", 15, 500, 305)
+            q7TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 305)
             q7TCA1.configure(state="disabled", fg_color="gray")
 
-            q8LCA1 = create_label(" CO Mapping ", "Q8 :", "Arial", 15, 500, 480)
-            q8TCA1 = create_entry_box(" CO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 480)
+            q8LCA1 = create_label(" CA 1 ", "Q8 :", "Arial", 15, 500, 355)
+            q8TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 355)
             q8TCA1.configure(state="disabled", fg_color="gray")
 
-            q9LCA1 = create_label(" CO Mapping ", "Q9 :", "Arial", 15, 500, 530)
-            q9TCA1 = create_entry_box(" CO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 530)
+            q9LCA1 = create_label(" CA 1 ", "Q9 :", "Arial", 15, 500, 405)
+            q9TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 550,405)
             q9TCA1.configure(state="disabled", fg_color="gray")
 
-            q10LCA1 = create_label(" CO Mapping ", "Q10 :", "Arial", 15, 500, 580)
-            q10TCA1 = create_entry_box(" CO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 580)
+            q10LCA1 = create_label(" CA 1 ", "Q10 :", "Arial", 15, 500, 455)
+            q10TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 455)
             q10TCA1.configure(state="disabled", fg_color="gray")
 
-            # COs for CA2 Quiz
-            label18 = create_label(" CO Mapping ", "COs for CA2 Quiz", "Arial", 20, 1025, 20)
+            q1LCA1marks = create_label(" CA 1 ", "Q1 :", "Arial", 15, 900, 255)
+            q1TCA1marks = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 255)
+            q1TCA1marks.configure(state="disabled", fg_color="gray")
 
-            q1LCA2 = create_label(" CO Mapping ", "Q1 :", "Arial", 15, 850, 60)
-            q1TCA2 = create_entry_box(" CO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 900, 60)
+            q2LCA1marks = create_label(" CA 1 ", "Q2 :", "Arial", 15, 900, 305)
+            q2TCA1marks = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 305)
+            q2TCA1marks.configure(state="disabled", fg_color="gray")
+
+            q3LCA1marks = create_label(" CA 1 ", "Q3 :", "Arial", 15, 900, 355)
+            q3TCA1marks = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 355)
+            q3TCA1marks.configure(state="disabled", fg_color="gray")
+
+            q4LCA1marks = create_label(" CA 1 ", "Q4 :", "Arial", 15, 900, 405)
+            q4TCA1marks = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 405)
+            q4TCA1marks.configure(state="disabled", fg_color="gray")
+
+            q5LCA1marks = create_label(" CA 1 ", "Q5 :", "Arial", 15, 900, 455)
+            q5TCA1marks = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 455)
+            q5TCA1marks.configure(state="disabled", fg_color="gray")
+
+            q6LCA1marks = create_label(" CA 1 ", "Q6 :", "Arial", 15, 1200, 255)
+            q6TCA1marks = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 255)
+            q6TCA1marks.configure(state="disabled", fg_color="gray")
+
+            q7LCA1marks = create_label(" CA 1 ", "Q7 :", "Arial", 15, 1200, 305)
+            q7TCA1marks = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 305)
+            q7TCA1marks.configure(state="disabled", fg_color="gray")
+
+            q8LCA1marks = create_label(" CA 1 ", "Q8 :", "Arial", 15, 1200, 355)
+            q8TCA1marks = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 355)
+            q8TCA1marks.configure(state="disabled", fg_color="gray")
+
+            q9LCA1marks = create_label(" CA 1 ", "Q9 :", "Arial", 15, 1200, 405)
+            q9TCA1marks = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250,405)
+            q9TCA1marks.configure(state="disabled", fg_color="gray")
+
+            q10LCA1marks = create_label(" CA 1 ", "Q10 :", "Arial", 15, 1200, 455)
+            q10TCA1marks = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 455)
+            q10TCA1marks.configure(state="disabled", fg_color="gray")
+
+
+            # COs for CA2 Quiz
+            label18 = create_label(" CA 2 ", "COs for CA2 Quiz/Test", "Arial", 20, 350, 205)
+            label18marks = create_label(" CA 2 ", "Marks of Questions for CA2 Quiz/Test", "Arial", 20, 1000, 205)
+
+            q1LCA2 = create_label(" CA 2 ", "Q1 :", "Arial", 15, 200, 255)
+            q1TCA2 = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 255)
             q1TCA2.configure(state="disabled", fg_color="gray")
 
-            q2LCA2 = create_label(" CO Mapping ", "Q2 :", "Arial", 15, 850, 110)
-            q2TCA2 = create_entry_box(" CO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 900, 110)
+            q2LCA2 = create_label(" CA 2 ", "Q2 :", "Arial", 15, 200, 305)
+            q2TCA2 = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 305)
             q2TCA2.configure(state="disabled", fg_color="gray")
 
-            q3LCA2 = create_label(" CO Mapping ", "Q3 :", "Arial", 15, 850, 160)
-            q3TCA2 = create_entry_box(" CO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 900, 160)
+            q3LCA2 = create_label(" CA 2 ", "Q3 :", "Arial", 15, 200, 355)
+            q3TCA2 = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 355)
             q3TCA2.configure(state="disabled", fg_color="gray")
 
-            q4LCA2 = create_label(" CO Mapping ", "Q4 :", "Arial", 15, 850, 210)
-            q4TCA2 = create_entry_box(" CO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 900, 210)
+            q4LCA2 = create_label(" CA 2 ", "Q4 :", "Arial", 15, 200, 405)
+            q4TCA2 = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 405)
             q4TCA2.configure(state="disabled", fg_color="gray")
 
-            q5LCA2 = create_label(" CO Mapping ", "Q5 :", "Arial", 15, 850, 260)
-            q5TCA2 = create_entry_box(" CO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 900, 260)
+            q5LCA2 = create_label(" CA 2 ", "Q5 :", "Arial", 15, 200, 455)
+            q5TCA2 = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 455)
             q5TCA2.configure(state="disabled", fg_color="gray")
 
-            q6LCA2 = create_label(" CO Mapping ", "Q6 :", "Arial", 15, 1150, 60)
-            q6TCA2 = create_entry_box(" CO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 1200, 60)
+            q6LCA2 = create_label(" CA 2 ", "Q6 :", "Arial", 15, 500, 255)
+            q6TCA2 = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 255)
             q6TCA2.configure(state="disabled", fg_color="gray")
 
-            q7LCA2 = create_label(" CO Mapping ", "Q7 :", "Arial", 15, 1150, 110)
-            q7TCA2 = create_entry_box(" CO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 1200, 110)
+            q7LCA2 = create_label(" CA 2 ", "Q7 :", "Arial", 15,500, 305)
+            q7TCA2 = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 305)
             q7TCA2.configure(state="disabled", fg_color="gray")
 
-            q8LCA2 = create_label(" CO Mapping ", "Q8 :", "Arial", 15, 1150, 160)
-            q8TCA2 = create_entry_box(" CO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 1200, 160)
+            q8LCA2 = create_label(" CA 2 ", "Q8 :", "Arial", 15, 500, 355)
+            q8TCA2 = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 355)
             q8TCA2.configure(state="disabled", fg_color="gray")
 
-            q9LCA2 = create_label(" CO Mapping ", "Q9 :", "Arial", 15, 1150, 210)
-            q9TCA2 = create_entry_box(" CO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 1200, 210)
+            q9LCA2 = create_label(" CA 2 ", "Q9 :", "Arial", 15, 500, 405)
+            q9TCA2 = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 405)
             q9TCA2.configure(state="disabled", fg_color="gray")
 
-            q10LCA2 = create_label(" CO Mapping ", "Q10 :", "Arial", 15, 1150, 260)
-            q10TCA2 = create_entry_box(" CO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 1200, 260)
+            q10LCA2 = create_label(" CA 2 ", "Q10 :", "Arial", 15, 500, 455)
+            q10TCA2 = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 455)
             q10TCA2.configure(state="disabled", fg_color="gray")
+            
+            q1LCA2marks = create_label(" CA 2 ", "Q1 :", "Arial", 15, 900, 255)
+            q1TCA2marks = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 255)
+            q1TCA2marks.configure(state="disabled", fg_color="gray")
+
+            q2LCA2marks = create_label(" CA 2 ", "Q2 :", "Arial", 15, 900, 305)
+            q2TCA2marks = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 305)
+            q2TCA2marks.configure(state="disabled", fg_color="gray")
+
+            q3LCA2marks = create_label(" CA 2 ", "Q3 :", "Arial", 15, 900, 355)
+            q3TCA2marks = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 355)
+            q3TCA2marks.configure(state="disabled", fg_color="gray")
+
+            q4LCA2marks = create_label(" CA 2 ", "Q4 :", "Arial", 15, 900, 405)
+            q4TCA2marks = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 405)
+            q4TCA2marks.configure(state="disabled", fg_color="gray")
+
+            q5LCA2marks = create_label(" CA 2 ", "Q5 :", "Arial", 15, 900, 455)
+            q5TCA2marks = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 455)
+            q5TCA2marks.configure(state="disabled", fg_color="gray")
+
+            q6LCA2marks = create_label(" CA 2 ", "Q6 :", "Arial", 15, 1200, 255)
+            q6TCA2marks = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 255)
+            q6TCA2marks.configure(state="disabled", fg_color="gray")
+
+            q7LCA2marks = create_label(" CA 2 ", "Q7 :", "Arial", 15, 1200, 305)
+            q7TCA2marks = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 305)
+            q7TCA2marks.configure(state="disabled", fg_color="gray")
+
+            q8LCA2marks = create_label(" CA 2 ", "Q8 :", "Arial", 15, 1200, 355)
+            q8TCA2marks = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 355)
+            q8TCA2marks.configure(state="disabled", fg_color="gray")
+
+            q9LCA2marks = create_label(" CA 2 ", "Q9 :", "Arial", 15, 1200, 405)
+            q9TCA2marks = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250,405)
+            q9TCA2marks.configure(state="disabled", fg_color="gray")
+
+            q10LCA2marks = create_label(" CA 2 ", "Q10 :", "Arial", 15, 1200, 455)
+            q10TCA2marks = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 455)
+            q10TCA2marks.configure(state="disabled", fg_color="gray")
 
             # COs for CA3 Quiz
-            label21 = create_label(" CO Mapping ", "COs for CA3 Quiz", "Arial", 20, 1025, 340)
+            label21 = create_label(" CA 3 ", "COs for CA3 Quiz/Test", "Arial", 20, 350, 255)
+            label21marks = create_label(" CA 3 ", "Marks of Questions for CA3 Quiz/Test", "Arial", 20, 1000, 255)
 
-            q1LCA3 = create_label(" CO Mapping ", "Q1 :", "Arial", 15, 850, 380)
-            q1TCA3 = create_entry_box(" CO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 900, 380)
+            q1LCA3 = create_label(" CA 3 ", "Q1 :", "Arial", 15, 200, 305)
+            q1TCA3 = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 305)
             q1TCA3.configure(state="disabled", fg_color="gray")
 
-            q2LCA3 = create_label(" CO Mapping ", "Q2 :", "Arial", 15, 850, 430)
-            q2TCA3 = create_entry_box(" CO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 900, 430)
+            q2LCA3 = create_label(" CA 3 ", "Q2 :", "Arial", 15, 200, 355)
+            q2TCA3 = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 355)
             q2TCA3.configure(state="disabled", fg_color="gray")
 
-            q3LCA3 = create_label(" CO Mapping ", "Q3 :", "Arial", 15, 850, 480)
-            q3TCA3 = create_entry_box(" CO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 900, 480)
+            q3LCA3 = create_label(" CA 3 ", "Q3 :", "Arial", 15, 200, 405)
+            q3TCA3 = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 405)
             q3TCA3.configure(state="disabled", fg_color="gray")
 
-            q4LCA3 = create_label(" CO Mapping ", "Q4 :", "Arial", 15, 850, 530)
-            q4TCA3 = create_entry_box(" CO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 900, 530)
+            q4LCA3 = create_label(" CA 3 ", "Q4 :", "Arial", 15, 200, 455)
+            q4TCA3 = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 455)
             q4TCA3.configure(state="disabled", fg_color="gray")
 
-            q5LCA3 = create_label(" CO Mapping ", "Q5 :", "Arial", 15, 850, 580)
-            q5TCA3 = create_entry_box(" CO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 900, 580)
+            q5LCA3 = create_label(" CA 3 ", "Q5 :", "Arial", 15, 200, 505)
+            q5TCA3 = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 505)
             q5TCA3.configure(state="disabled", fg_color="gray")
 
-            q6LCA3 = create_label(" CO Mapping ", "Q6 :", "Arial", 15, 1150, 380)
-            q6TCA3 = create_entry_box(" CO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 1200, 380)
+            q6LCA3 = create_label(" CA 3 ", "Q6 :", "Arial", 15, 500, 305)
+            q6TCA3 = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 305)
             q6TCA3.configure(state="disabled", fg_color="gray")
 
-            q7LCA3 = create_label(" CO Mapping ", "Q7 :", "Arial", 15, 1150, 430)
-            q7TCA3 = create_entry_box(" CO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 1200, 430)
+            q7LCA3 = create_label(" CA 3 ", "Q7 :", "Arial", 15, 500, 355)
+            q7TCA3 = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 355)
             q7TCA3.configure(state="disabled", fg_color="gray")
 
-            q8LCA3 = create_label(" CO Mapping ", "Q8 :", "Arial", 15, 1150, 480)
-            q8TCA3 = create_entry_box(" CO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 1200, 480)
+            q8LCA3 = create_label(" CA 3 ", "Q8 :", "Arial", 15, 500, 405)
+            q8TCA3 = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 405)
             q8TCA3.configure(state="disabled", fg_color="gray")
 
-            q9LCA3 = create_label(" CO Mapping ", "Q9 :", "Arial", 15, 1150, 530)
-            q9TCA3 = create_entry_box(" CO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 1200, 530)
+            q9LCA3 = create_label(" CA 3 ", "Q9 :", "Arial", 15, 500, 455)
+            q9TCA3 = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 455)
             q9TCA3.configure(state="disabled", fg_color="gray")
 
-            q10LCA3 = create_label(" CO Mapping ", "Q10 :", "Arial", 15, 1150, 580)
-            q10TCA3 = create_entry_box(" CO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 1200, 580)
+            q10LCA3 = create_label(" CA 3 ", "Q10 :", "Arial", 15, 500, 505)
+            q10TCA3 = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 505)
             q10TCA3.configure(state="disabled", fg_color="gray")
+            
+            q1LCA3marks = create_label(" CA 3 ", "Q1 :", "Arial", 15, 900, 305)
+            q1TCA3marks = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 305)
+            q1TCA3marks.configure(state="disabled", fg_color="gray")
+
+            q2LCA3marks = create_label(" CA 3 ", "Q2 :", "Arial", 15, 900, 355)
+            q2TCA3marks = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 355)
+            q2TCA3marks.configure(state="disabled", fg_color="gray")
+
+            q3LCA3marks = create_label(" CA 3 ", "Q3 :", "Arial", 15, 900, 405)
+            q3TCA3marks = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 405)
+            q3TCA3marks.configure(state="disabled", fg_color="gray")
+
+            q4LCA3marks = create_label(" CA 3 ", "Q4 :", "Arial", 15, 900, 455)
+            q4TCA3marks = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 455)
+            q4TCA3marks.configure(state="disabled", fg_color="gray")
+
+            q5LCA3marks = create_label(" CA 3 ", "Q5 :", "Arial", 15, 900, 505)
+            q5TCA3marks = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 505)
+            q5TCA3marks.configure(state="disabled", fg_color="gray")
+
+            q6LCA3marks = create_label(" CA 3 ", "Q6 :", "Arial", 15, 1200, 305)
+            q6TCA3marks = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 305)
+            q6TCA3marks.configure(state="disabled", fg_color="gray")
+
+            q7LCA3marks = create_label(" CA 3 ", "Q7 :", "Arial", 15, 1200, 355)
+            q7TCA3marks = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 355)
+            q7TCA3marks.configure(state="disabled", fg_color="gray")
+
+            q8LCA3marks = create_label(" CA 3 ", "Q8 :", "Arial", 15, 1200, 405)
+            q8TCA3marks = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 405)
+            q8TCA3marks.configure(state="disabled", fg_color="gray")
+
+            q9LCA3marks = create_label(" CA 3 ", "Q9 :", "Arial", 15, 1200, 455)
+            q9TCA3marks = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250,455)
+            q9TCA3marks.configure(state="disabled", fg_color="gray")
+
+            q10LCA3marks = create_label(" CA 3 ", "Q10 :", "Arial", 15, 1200, 505)
+            q10TCA3marks = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 505)
+            q10TCA3marks.configure(state="disabled", fg_color="gray")
 
 
             button = create_button(" Target level of tests ", "Download", "Arial", 20, 200, 40, download, 650, 500)
@@ -1259,7 +1397,7 @@ class User_mode:
             # Buttons
             button1 = create_button(" CO Information ", "Next", "Arial", 20, 200, 40, switch1, 725, 500)
             # button2 = create_button(" CO Mapping ", "Next", "Arial", 20, 200, 40, switch2, 725, 500)
-            button2 = create_button(" CO Mapping ", "Next", "Arial", 20, 200, 40, switch2, 1000, 640)
+            button2 = create_button(" CA 3 ", "Next", "Arial", 20, 200, 40, switch2, 1000, 640)
 
 
 

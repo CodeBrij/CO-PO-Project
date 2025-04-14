@@ -66,77 +66,24 @@ class User_mode:
                 if (entry1.get() == "" or yearDropDown.get() == "Select Year" or
                     entry8.get() == "Select Department" or entry2.get() == "Select Sem" or
                     entry3.get() == "Select Subject" or entry4.get() == "" or
-                    entry5.get() == "" or entry7.get() == "Select Class" or
-                    entry11.get() == ""):
-                    CTkMessagebox(title="Error", message="Please fill all the required fields.", icon="cancel")
+                    entry5.get() == "" or entry7.get() == "Select Class" ):
+                    return CTkMessagebox(title="Error", message="Please fill all the required fields.", icon="cancel")
                 elif not entry1.get().isdigit() or int(entry1.get()) < 0:
-                    CTkMessagebox(title="Invalid Input", message="Please enter valid No Of Students", icon="warning")
-                elif not validate_co_string(entry11.get()):
-                    CTkMessagebox(title="Invalid Input", message="Please enter the CO in valid format", icon="warning")
-                elif entry10.get() == "2":
-                    if entry13.get() == "Select Type" or entry14.get() == "Select Type":
-                        CTkMessagebox(title="Error", message="Select type of CA", icon="cancel")
-                    elif entry13.get() == "Presentation" and presentationCA1Text.get() == "":
-                        CTkMessagebox(title="Error", message="Please fill the maximum students in a group.", icon="cancel")
-                    elif entry13.get() == "NPTEL Course" and nptelCA1Text.get() == "":
-                        CTkMessagebox(title="Error", message="Please fill the CO number for NPTEL course.", icon="cancel")
-                    elif entry13.get() == "Quiz" and noCA1Entry.get() == "Select No":
-                        CTkMessagebox(title="Error", message="Please select number of questions in CA1", icon="cancel")
-                    elif entry14.get() == "Presentation" and presentationCA2Text.get() == "":
-                        CTkMessagebox(title="Error", message="Please fill the maximum students in a group.", icon="cancel")
-                    elif entry14.get() == "NPTEL Course" and nptelCA2Text.get() == "":
-                        CTkMessagebox(title="Error", message="Please fill the CO number for NPTEL course.", icon="cancel")
-                    elif entry14.get() == "Quiz" and noCA2Entry.get() == "Select No":
-                        CTkMessagebox(title="Error", message="Please select number of questions in CA2", icon="cancel")
-                    elif entry13.get() == "NPTEL Course" and not validate_co_string(nptelCA1Text.get()):
-                        CTkMessagebox(title="Invalid Input", message="Please enter the CO in valid format (CA1, NPTEL Course)", icon="warning")
-                    elif entry14.get() == "NPTEL Course" and not validate_co_string(nptelCA2Text.get()):
-                        CTkMessagebox(title="Invalid Input", message="Please enter the CO in valid format (CA2, NPTEL Course)", icon="warning")
-                    else:
-                        tabview.set(" CO Mapping ")
-               
-                elif entry10.get() == "3":
-                    if entry13.get() == "Select Type" or entry14 == "Select Type":
-                        CTkMessagebox(title="Error", message="Select type of CA", icon="cancel")
-                    elif entry13.get() == "Presentation" and presentationCA1Text.get() == "":
-                        CTkMessagebox(title="Error", message="Please fill the maximum students in a group.", icon="cancel")
-                    elif entry13.get() == "NPTEL Course" and nptelCA1Text.get() == "":
-                        CTkMessagebox(title="Error", message="Please fill the CO number for NPTEL course", icon="cancel")
-                    elif entry13.get() == "Quiz" and noCA1Entry.get() == "Select No":
-                        CTkMessagebox(title="Error", message="Please select number of questions in CA1", icon="cancel")
-                    elif entry14.get() == "Presentation" and presentationCA2Text.get() == "":
-                        CTkMessagebox(title="Error", message="Please fill the maximum students in a group.", icon="cancel")
-                    elif entry14.get() == "NPTEL Course" and nptelCA2Text.get() == "":
-                        CTkMessagebox(title="Error", message="Please fill the CO number for NPTEL course", icon="cancel")
-                    elif entry14.get() == "Quiz" and noCA2Entry.get() == "Select No":
-                        CTkMessagebox(title="Error", message="Please select number of questions in CA2", icon="cancel")
-                    elif entry15.get() == "Presentation" and presentationCA3Text.get() == "":
-                        CTkMessagebox(title="Error", message="Please fill the maximum students in a group.", icon="cancel")
-                    elif entry15.get() == "NPTEL Course" and nptelCA3Text.get() == "":
-                        CTkMessagebox(title="Error", message="Please fill the CO number for NPTEL course", icon="cancel")
-                    elif entry15.get() == "Quiz" and noCA3Entry.get() == "Select No":
-                        CTkMessagebox(title="Error", message="Please select number of questions in CA3", icon="cancel")
-                    elif entry13.get() == "NPTEL Course" and not validate_co_string(nptelCA1Text.get()):
-                        CTkMessagebox(title="Error", message="Please enter the CO in valid format (CA1, NPTEL Course)", icon="cancel")
-                    elif entry14.get() == "NPTEL Course" and not validate_co_string(nptelCA2Text.get()):
-                        CTkMessagebox(title="Error", message="Please enter the CO in valid format (CA2, NPTEL Course)", icon="cancel")
-                    elif entry15.get() == "NPTEL Course" and not validate_co_string(nptelCA3Text.get()):
-                        CTkMessagebox(title="Error", message="Please enter the CO in valid format (CA3, NPTEL Course)", icon="cancel")
-                    else:
-                        tabview.set(" CO Mapping ")
+                    return CTkMessagebox(title="Invalid Input", message="Please enter valid No Of Students", icon="warning")
+                tabview.set(" CO Information ")
                 # self.pathName = f"{yearDropDown.get()}_{entry2.get()}_{entry3.get()}_{entry7.get()}_{entry5.get()}_{entry4.get()}.xlsx"
                 # self.pathName = self.pathName.replace(" ","_")
     
             def switch1():
                 if noOfCOOption.get() == "5":
                     if CO1T.get() != "" and CO2T.get() != "" and CO3T.get() != "" and CO4T.get() != "" and CO5T.get() != "":
-                        tabview.set(" Basic Information ")
+                        tabview.set(" Mid Terms & End Semesters ")
                         valid_CO = [1,2,3,4,5]
                     else:
                         CTkMessagebox(title="Error", message="Please enter all the 5 CO's", icon="cancel")
                 elif noOfCOOption.get() == "6":
                     if CO1T.get() != "" and CO2T.get() != "" and CO3T.get() != "" and CO4T.get() != "" and CO5T.get() != "" and CO6T.get() != "":
-                        tabview.set(" Basic Information ")
+                        tabview.set(" Mid Terms & End Semesters ")
                         valid_CO = [1,2,3,4,5,6]
                     else:
                         CTkMessagebox(title="Error", message="Please enter all the 6 CO's", icon="cancel")
@@ -148,7 +95,7 @@ class User_mode:
                     CTkMessagebox(title="Error", message="Please enter CO\'s for all questions", icon="cancel")
                 elif not (validate_co_string(a1T.get()) and validate_co_string(a2T.get()) and validate_co_string(a3T.get()) and validate_co_string(a4T.get()) and validate_co_string(a5T.get()) and validate_co_string(a6T.get()) and validate_co_string(a2aT.get()) and validate_co_string(a2bT.get()) and validate_co_string(a3aT.get()) and validate_co_string(a3bT.get())):
                     CTkMessagebox(title="Error", message="Please enter valid format of CO string", icon="cancel")
-                elif entry10.get() == "2":
+                elif entry10.get() == "No":
                     if entry13.get() == "Quiz":
                         check_text_CA1 = [q1TCA1.get(), q2TCA1.get(), q3TCA1.get(), q4TCA1.get(), q5TCA1.get(), q6TCA1.get(), q7TCA1.get(), q8TCA1.get(), q9TCA1.get(), q10TCA1.get()]
                         no_of_text_fields = int(noCA1Entry.get())
@@ -173,7 +120,7 @@ class User_mode:
                                 return
                     tabview.set(" Target level of tests ")
     
-                elif entry10.get()=="3":
+                elif entry10.get()=="Yes":
                     if entry13.get() == "Quiz":
                         check_text_CA1 = [q1TCA1.get(), q2TCA1.get(), q3TCA1.get(), q4TCA1.get(), q5TCA1.get(), q6TCA1.get(), q7TCA1.get(), q8TCA1.get(), q9TCA1.get(), q10TCA1.get()]
                         no_of_text_fields = int(noCA1Entry.get())
@@ -266,7 +213,7 @@ class User_mode:
                 midSem_Co_values=[a1T.get(), a2T.get(), a3T.get(), a4T.get(), a5T.get(), a6T.get(),a2aT.get(),a2bT.get(), a3aT.get(), a3bT.get()]
                 receiversEmail = emailText.get()
                 
-                if entry10.get()=="2":
+                if entry10.get()=="No":
                     al_values=[ALCA1Text.get(), ALCA2Text.get(), '-', ALMidTermText.get(), ALEndSemText.get()]
                     if entry13.get()=="Select Type":
                         CTkMessagebox(title="Error", message="Please Select Type of CA 1.", icon="cancel")
@@ -443,7 +390,7 @@ class User_mode:
                     CTkMessagebox(title="Error", message="Please fill in all required fields.", icon="cancel")
                 elif any(ca2 == "" for ca2 in CA2_Co_arr):
                     CTkMessagebox(title="Error", message="Please fill in all required fields.", icon="cancel")
-                elif entry10.get()=="3":
+                elif entry10.get()=="Yes":
                     if any(ca3 == "" for ca3 in CA3_Co_arr):
                         CTkMessagebox(title="Error", message="Please fill in all required fields.", icon="cancel")
                     else :
@@ -456,12 +403,12 @@ class User_mode:
                 else:
                     # import template_generator
                     # print(entry10.get())
-                    if entry10.get()=="2": 
+                    if entry10.get()=="No": 
                         import template_generator
                         # print("Hi v1",basic_values[10]) 
                         template_generator.template_gen(coTextArray,basic_values,midSem_Co_values,CA1_Co_arr,CA2_Co_arr,[],al_values,receiversEmail)
                         # CTkMessagebox(message="Excel template downloaded successfully.",icon="check", option_1="OK")
-                    elif entry10.get()=="3":
+                    elif entry10.get()=="Yes":
                         import template_generator
                         # print("Hi v2",basic_values[10]) 
                         # print("Hi v2",CA3_Co_arr) 
@@ -502,20 +449,20 @@ class User_mode:
                 
             def ca1(option):
                 if  option == "Select Type":
-                    for disca in [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1,noCA1Entry,nptelCA1Text,presentationCA1Text]:
+                    for disca in [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1,noCA1Entry,nptelCA1Text,presentationCA1Text, q1TCA1marks,q2TCA1marks,q3TCA1marks,q4TCA1marks,q5TCA1marks,q6TCA1marks,q7TCA1marks,q8TCA1marks,q9TCA1marks,q10TCA1marks]:
                         disca.configure(state="disabled", fg_color="gray")
               
                 elif option == "NPTEL Course":
-                    for disca in [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1,noCA1Entry,presentationCA1Text]:
+                    for disca in [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1,noCA1Entry,presentationCA1Text, q1TCA1marks,q2TCA1marks,q3TCA1marks,q4TCA1marks,q5TCA1marks,q6TCA1marks,q7TCA1marks,q8TCA1marks,q9TCA1marks,q10TCA1marks]:
                         disca.configure(state="disabled", fg_color="gray")
                     nptelCA1Text.configure(state="normal", fg_color=["#F9F9FA", "#343638"]) 
                 
                 elif option == "Presentation":
-                    for preca in [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1,noCA1Entry,nptelCA1Text]:
+                    for preca in [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1,noCA1Entry,nptelCA1Text,q1TCA1marks,q2TCA1marks,q3TCA1marks,q4TCA1marks,q5TCA1marks,q6TCA1marks,q7TCA1marks,q8TCA1marks,q9TCA1marks,q10TCA1marks]:
                         preca.configure(state="disabled", fg_color="gray")
                     presentationCA1Text.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                else:
-                    for ca in [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1]:
+                elif option == "Quiz" or option == "Test":
+                    for ca in [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1, q1TCA1marks,q2TCA1marks,q3TCA1marks,q4TCA1marks,q5TCA1marks,q6TCA1marks,q7TCA1marks,q8TCA1marks,q9TCA1marks,q10TCA1marks]:
                         ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
                     noCA1Entry.configure(state="normal", fg_color=["#3B8ED0", "#1F6AA5"])
                     nptelCA1Text.configure(state="disabled", fg_color="gray") 
@@ -523,18 +470,18 @@ class User_mode:
                     
             def ca2(option):
                 if  option == "Select Type":
-                    for disca in [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2,noCA2Entry,nptelCA2Text,presentationCA2Text]:
+                    for disca in [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2,noCA2Entry,nptelCA2Text,presentationCA2Text, q1TCA2marks,q2TCA2marks,q3TCA2marks,q4TCA2marks,q5TCA2marks,q6TCA2marks,q7TCA2marks,q8TCA2marks,q9TCA2marks,q10TCA2marks]:
                         disca.configure(state="disabled", fg_color="gray")
                 elif option == "NPTEL Course":
-                    for disca in [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2,noCA2Entry,presentationCA2Text]:
+                    for disca in [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2,noCA2Entry,presentationCA2Text, q1TCA2marks,q2TCA2marks,q3TCA2marks,q4TCA2marks,q5TCA2marks,q6TCA2marks,q7TCA2marks,q8TCA2marks,q9TCA2marks,q10TCA2marks]:
                         disca.configure(state="disabled", fg_color="gray")
                     nptelCA2Text.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
                 elif option == "Presentation":
-                    for preca in [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2,noCA2Entry,nptelCA2Text]:
+                    for preca in [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2,noCA2Entry,nptelCA2Text, q1TCA2marks,q2TCA2marks,q3TCA2marks,q4TCA2marks,q5TCA2marks,q6TCA2marks,q7TCA2marks,q8TCA2marks,q9TCA2marks,q10TCA2marks]:
                         preca.configure(state="disabled", fg_color="gray")
                     presentationCA2Text.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                else:
-                    for ca in [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2]:
+                elif option == "Test" or option == "Quiz":
+                    for ca in [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2, q1TCA2marks,q2TCA2marks,q3TCA2marks,q4TCA2marks,q5TCA2marks,q6TCA2marks,q7TCA2marks,q8TCA2marks,q9TCA2marks,q10TCA2marks]:
                         ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
                     noCA2Entry.configure(state="normal", fg_color=["#3B8ED0", "#1F6AA5"])
                     nptelCA2Text.configure(state="disabled", fg_color="gray") 
@@ -543,20 +490,20 @@ class User_mode:
     
             def ca3(option):
                 if  option == "Select Type":
-                    for disca in [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3,noCA3Entry,nptelCA3Text,presentationCA3Text]:
+                    for disca in [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3,noCA3Entry,nptelCA3Text,presentationCA3Text,q1TCA3marks,q2TCA3marks,q3TCA3marks,q4TCA3marks,q5TCA3marks,q6TCA3marks,q7TCA3marks,q8TCA3marks,q9TCA3marks,q10TCA3marks]:
                         disca.configure(state="disabled", fg_color="gray")
                     
                 elif option == "NPTEL Course":
-                    for disca in [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3,noCA3Entry,presentationCA3Text]:
+                    for disca in [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3,noCA3Entry,presentationCA3Text,q1TCA3marks,q2TCA3marks,q3TCA3marks,q4TCA3marks,q5TCA3marks,q6TCA3marks,q7TCA3marks,q8TCA3marks,q9TCA3marks,q10TCA3marks]:
                         disca.configure(state="disabled", fg_color="gray")
                     nptelCA3Text.configure(state="normal", fg_color=["#F9F9FA", "#343638"])    
                 
                 elif option == "Presentation":
-                    for preca in [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3,noCA3Entry,nptelCA3Text]:
+                    for preca in [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3,noCA3Entry,nptelCA3Text,q1TCA3marks,q2TCA3marks,q3TCA3marks,q4TCA3marks,q5TCA3marks,q6TCA3marks,q7TCA3marks,q8TCA3marks,q9TCA3marks,q10TCA3marks]:
                         preca.configure(state="disabled", fg_color="gray")
                     presentationCA3Text.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                else:
-                    for ca in [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3]:
+                elif option == "Quiz" or option == "Test":
+                    for ca in [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3,q1TCA3marks,q2TCA3marks,q3TCA3marks,q4TCA3marks,q5TCA3marks,q6TCA3marks,q7TCA3marks,q8TCA3marks,q9TCA3marks,q10TCA3marks]:
                         ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
                     noCA3Entry.configure(state="normal", fg_color=["#3B8ED0", "#1F6AA5"])
                     nptelCA3Text.configure(state="disabled", fg_color="gray") 
@@ -838,9 +785,9 @@ class User_mode:
                     # entry3_lab.configure(values=["Select Subject","Blockchain and DLT", "Department Optional Course 5", "Department Optional Course 6", "Institute Optional Course 2"])
     
             def disable(option):
-                if option == "3":
-                    for entry in [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3,ALCA3Text]:
-                        entry.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+                if option == "Yes":
+                    # for entry in [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3,ALCA3Text]:
+                    #     entry.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
                     entry15.configure(state="normal", fg_color=["#3B8ED0", "#1F6AA5"])
                    
                 else:
@@ -890,48 +837,48 @@ class User_mode:
             overlay_label = ctk.CTkLabel(master=instructions_tab, text="")
             overlay_label.place(relx=0.5, rely=0.1, anchor="center")
 
-            button = create_button(" Basic Information ", "Next", "Arial", 20, 150, 40, switch, 725, 690)
+            button = create_button(" Basic Information ", "Next", "Arial", 20, 150, 40, None, 725, 490)
 
             label0 = create_label(" Basic Information ", "Basic Details", "Arial", 20, 725, 5)
 
-            label1 = create_label(" Basic Information ", "No. of Students :", "Arial", 15, 200, 55)
+            label1 = create_label(" Basic Information ", "No. of Students :", "Arial", 15, 550, 55)
 
-            entry1 = create_entry_box(" Basic Information ", "Enter no of students", "Arial", 15, 300, 400, 55)
+            entry1 = create_entry_box(" Basic Information ", "Enter no of students", "Arial", 15, 300, 750, 55)
 
-            newLabel = create_label(" Basic Information ", "Year :", "Arial", 15, 200, 155)
+            newLabel = create_label(" Basic Information ", "Year :", "Arial", 15, 550, 155)
 
-            yearDropDown = create_dropdown(" Basic Information ", ["Select Year", "F.E", "S.E", "T.E", "B.E"], "Arial", 15, 300, semesterAndClass, 400, 155)
+            yearDropDown = create_dropdown(" Basic Information ", ["Select Year", "F.E", "S.E", "T.E", "B.E"], "Arial", 15, 300, semesterAndClass, 750, 155)
 
-            label8 = create_label(" Basic Information ", "Department :", "Arial", 15, 200, 105)
+            label8 = create_label(" Basic Information ", "Department :", "Arial", 15, 550, 105)
 
-            entry8 = create_dropdown(" Basic Information ", ["Select Department", "Humanities and Applied Science(FE)", "Information Technology", "Computer", "AI and Data Science", "Electronics and Telecommunication", "Electronics", "Instrumentation"], "Arial", 15, 300, None, 400, 105)
+            entry8 = create_dropdown(" Basic Information ", ["Select Department", "Humanities and Applied Science(FE)", "Information Technology", "Computer", "AI and Data Science", "Electronics and Telecommunication", "Electronics", "Instrumentation"], "Arial", 15, 300, None, 750, 105)
 
-            label2 = create_label(" Basic Information ", "Semester :", "Arial", 15, 200, 205)
+            label2 = create_label(" Basic Information ", "Semester :", "Arial", 15,550, 205)
 
-            entry2 = create_dropdown(" Basic Information ", ["Select Sem"], "Arial", 15, 300, subject, 400, 205)
+            entry2 = create_dropdown(" Basic Information ", ["Select Sem"], "Arial", 15, 300, subject,750, 205)
 
-            label3 = create_label(" Basic Information ", "Subject :", "Arial", 15, 200, 255)
+            label3 = create_label(" Basic Information ", "Subject :", "Arial", 15, 550, 255)
 
-            entry3 = create_dropdown(" Basic Information ", ["Select Subject"], "Arial", 15, 300, None, 400, 255)
+            entry3 = create_dropdown(" Basic Information ", ["Select Subject"], "Arial", 15, 300, None, 750, 255)
 
-            label4 = create_label(" Basic Information ", "Academic Year: ", "Arial", 15, 200, 305)
+            label4 = create_label(" Basic Information ", "Academic Year: ", "Arial", 15, 550, 305)
 
-            entry4 = create_entry_box(" Basic Information ", "YYYY-YYYY", "Arial", 15, 300, 400, 305)
+            entry4 = create_entry_box(" Basic Information ", "YYYY-YYYY", "Arial", 15, 300, 750, 305)
             entry4.bind("<FocusOut>", validate_academic_year)
 
-            label5 = create_label(" Basic Information ", "Subject Teacher :", "Arial", 15, 200, 355)
+            label5 = create_label(" Basic Information ", "Subject Teacher :", "Arial", 15, 550, 355)
 
-            entry5 = create_entry_box(" Basic Information ", "Subject Teacher", "Arial", 15, 300, 400, 355)
+            entry5 = create_entry_box(" Basic Information ", "Subject Teacher", "Arial", 15, 300, 750, 355)
 
-            label7 = create_label(" Basic Information ", "Class :", "Arial", 15, 200, 405)
+            label7 = create_label(" Basic Information ", "Class :", "Arial", 15, 550, 405)
 
             # entry7 = create_entry_box(" Basic Information ", "Eg.D10 C", "Arial", 15, 300, 400, 405)
 
-            entry7 = create_dropdown(" Basic Information ", ["Select Class"], "Arial", 15, 300, None, 400, 405)
+            entry7 = create_dropdown(" Basic Information ", ["Select Class"], "Arial", 15, 300, None, 750, 405)
 
-            label11 = create_label(" Mid Terms & End Semesters ", "Endsems CO's", "Arial", 15, 875, 55)
+            label11 = create_label(" Mid Terms & End Semesters ", "Endsems CO's", "Arial", 20, 725, 390)
 
-            entry11 = create_entry_box(" Mid Terms & End Semesters ", "1,2,3,4,5,6", "Arial", 15, 300, 1075, 55)
+            entry11 = create_entry_box(" Mid Terms & End Semesters ", "1,2,3,4,5,6", "Arial", 15, 300, 650, 425)
 
             # label12 = create_label(" Basic Information ", "Attainment Target :", "Arial", 15, 875, 55)
 
@@ -969,92 +916,92 @@ class User_mode:
             noCA3Entry = create_dropdown(" CA 3 ", ["Select No", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"], "Arial", 15, 300, noQuestion3, 500, 155)
             noCA3Entry.configure(state="disabled", fg_color="gray")
 
-            nptelCA1 = create_label(" CA 1 ", "CO's for NPTEL (CA)", "Arial", 20, 220, 505)
-            nptelCA2 = create_label(" CA 2 ", "CO's for NPTEL (CA)", "Arial", 20, 220, 505)
-            nptelCA3 = create_label(" CA 3 ", "CO's for NPTEL (CA)", "Arial", 20, 220, 555)
+            nptelCA1 = create_label(" CA 1 ", "CO's for NPTEL (CA)", "Arial", 20, 470, 505)
+            nptelCA2 = create_label(" CA 2 ", "CO's for NPTEL (CA)", "Arial", 20, 470, 505)
+            nptelCA3 = create_label(" CA 3 ", "CO's for NPTEL (CA)", "Arial", 20, 470, 555)
 
-            nptelCA1Label = create_label(" CA 1 ", "NPTEL: ", "Arial", 15, 100, 555)
+            nptelCA1Label = create_label(" CA 1 ", "NPTEL: ", "Arial", 15, 350, 555)
 
-            nptelCA1Text = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 300, 200, 555)
+            nptelCA1Text = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 300, 450, 555)
             nptelCA1Text.configure(state="disabled", fg_color="gray")
 
-            nptelCA2Label = create_label(" CA 2 ", "NPTEL: ", "Arial", 15, 100, 555)
+            nptelCA2Label = create_label(" CA 2 ", "NPTEL: ", "Arial", 15, 350, 555)
 
-            nptelCA2Text = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 300, 200, 555)
+            nptelCA2Text = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 300, 450, 555)
             nptelCA2Text.configure(state="disabled", fg_color="gray")
 
-            nptelCA3Label = create_label(" CA 3 ", "NPTEL: ", "Arial", 15, 100, 605)
+            nptelCA3Label = create_label(" CA 3 ", "NPTEL: ", "Arial", 15, 350, 605)
 
-            nptelCA3Text = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 300, 200, 605)
+            nptelCA3Text = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 300, 450, 605)
             nptelCA3Text.configure(state="disabled", fg_color="gray")
 
-            presentationcA1 = create_label(" CA 1 ", "Maximum group size of Presentations (CA)", "Arial", 20, 590, 505)
-            presentationCA2 = create_label(" CA 2 ", "Maximum group size of Presentations (CA)", "Arial", 20, 590, 505)
-            presentationCA3 = create_label(" CA 3 ", "Maximum group size of Presentations (CA)", "Arial", 20, 590, 555)
+            presentationcA1 = create_label(" CA 1 ", "Maximum group size of Presentations (CA)", "Arial", 20, 870, 505)
+            presentationCA2 = create_label(" CA 2 ", "Maximum group size of Presentations (CA)", "Arial", 20, 870, 505)
+            presentationCA3 = create_label(" CA 3 ", "Maximum group size of Presentations (CA)", "Arial", 20, 870, 555)
 
-            presentationCA1Label = create_label(" CA 1 ", "Group Size: ", "Arial", 15, 600, 555)
+            presentationCA1Label = create_label(" CA 1 ", "Group Size: ", "Arial", 15, 850, 555)
 
-            presentationCA1Text = create_entry_box(" CA 1 ", "Enter maximum number of students in a group", "Arial", 15, 300, 700, 555)
+            presentationCA1Text = create_entry_box(" CA 1 ", "Enter maximum number of students in a group", "Arial", 15, 350, 950, 555)
             presentationCA1Text.configure(state="disabled", fg_color="gray")
 
-            presentationCA2Label = create_label(" CA 2 ", "Group Size: ", "Arial", 15, 600, 555)
+            presentationCA2Label = create_label(" CA 2 ", "Group Size: ", "Arial", 15, 850, 555)
 
-            presentationCA2Text = create_entry_box(" CA 2 ", "Enter maximum number of students in a group", "Arial", 15, 300, 700, 555)
+            presentationCA2Text = create_entry_box(" CA 2 ", "Enter maximum number of students in a group", "Arial", 15, 300, 950, 555)
             presentationCA2Text.configure(state="disabled", fg_color="gray")
 
-            presentationCA3Label = create_label(" CA 3 ", "Group Size: ", "Arial", 15, 600, 605)
+            presentationCA3Label = create_label(" CA 3 ", "Group Size: ", "Arial", 15, 850, 605)
 
-            presentationCA3Text = create_entry_box(" CA 3 ", "Enter maximum number of students in a group", "Arial", 15, 300, 700, 605)
+            presentationCA3Text = create_entry_box(" CA 3 ", "Enter maximum number of students in a group", "Arial", 15, 300, 950, 605)
             presentationCA3Text.configure(state="disabled", fg_color="gray")
 
 
-            label6 = create_label(" Mid Terms & End Semesters ", "COs for Midterm", "Arial", 20, 375, 20)
+            label6 = create_label(" Mid Terms & End Semesters ", "COs for Midterm", "Arial", 20, 725, 20)
 
-            a1L = create_label(" Mid Terms & End Semesters ", "1a :", "Arial", 15, 200, 60)
-            a2L = create_label(" Mid Terms & End Semesters ", "1b :", "Arial", 15, 200, 110)
-            a3L = create_label(" Mid Terms & End Semesters ", "1c :", "Arial", 15, 200, 160)
-            a4L = create_label(" Mid Terms & End Semesters ", "1d :", "Arial", 15, 200, 210)
-            a5L = create_label(" Mid Terms & End Semesters ", "1e :", "Arial", 15, 200, 260)
-            a6L = create_label(" Mid Terms & End Semesters ", "1f :", "Arial", 15, 500, 60)
-            a2aL = create_label(" Mid Terms & End Semesters ", "2a :", "Arial", 15, 500, 110)
-            a2bL = create_label(" Mid Terms & End Semesters ", "2b :", "Arial", 15, 500, 160)
-            a3aL = create_label(" Mid Terms & End Semesters ", "3a :", "Arial", 15, 500, 210)
-            a3bL = create_label(" Mid Terms & End Semesters ", "3b :", "Arial", 15, 500, 260)
+            a1L = create_label(" Mid Terms & End Semesters ", "1a :", "Arial", 15, 550, 60)
+            a2L = create_label(" Mid Terms & End Semesters ", "1b :", "Arial", 15, 550, 110)
+            a3L = create_label(" Mid Terms & End Semesters ", "1c :", "Arial", 15, 550, 160)
+            a4L = create_label(" Mid Terms & End Semesters ", "1d :", "Arial", 15, 550, 210)
+            a5L = create_label(" Mid Terms & End Semesters ", "1e :", "Arial", 15, 550, 260)
+            a6L = create_label(" Mid Terms & End Semesters ", "1f :", "Arial", 15, 550, 310)
+            a2aL = create_label(" Mid Terms & End Semesters ", "2a :", "Arial", 15, 850, 60)
+            a2bL = create_label(" Mid Terms & End Semesters ", "2b :", "Arial", 15, 850, 110)
+            a3aL = create_label(" Mid Terms & End Semesters ", "3a :", "Arial", 15, 850, 160)
+            a3bL = create_label(" Mid Terms & End Semesters ", "3b :", "Arial", 15, 850, 210)
 
 
             a1T=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
-            a1T.place(x=250,y=60)
+            a1T.place(x=600,y=60)
 
             a2T=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
-            a2T.place(x=250,y=110)
+            a2T.place(x=600,y=110)
 
             a3T=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
-            a3T.place(x=250,y=160)
+            a3T.place(x=600,y=160)
 
             a4T=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
-            a4T.place(x=250,y=210)
+            a4T.place(x=600,y=210)
 
             a5T=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
-            a5T.place(x=250,y=260)
+            a5T.place(x=600,y=260)
 
             a6T=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
-            a6T.place(x=550,y=60)
+            a6T.place(x=600,y=310)
 
 
             a2aT=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
-            a2aT.place(x=550,y=110)
+            a2aT.place(x=900,y=60)
 
 
             a2bT=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
-            a2bT.place(x=550,y=160)
+            a2bT.place(x=900,y=110)
 
 
             a3aT=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
-            a3aT.place(x=550,y=210)
+            a3aT.place(x=900,y=160)
 
 
             a3bT=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
-            a3bT.place(x=550,y=260)
+            a3bT.place(x=900,y=210)
 
             #For Quiz
 
@@ -1331,7 +1278,7 @@ class User_mode:
 
             def process_file():
                 global file_path
-                if entry10.get() == "2":
+                if entry10.get() == "No":
                     al_values=[ALCA1Text.get(), ALCA2Text.get(), '-', ALMidTermText.get(), ALEndSemText.get()]
                     print(al_values)
                 else:
@@ -1371,21 +1318,26 @@ class User_mode:
             ALlabel = create_label(" Target level of tests ", "Enter the Target levels for each exam", "Arial", 20, 600, 50)
 
             # CA1, CA2, CA3, MidTerm, EndSem, Labs
-            ALCA1Label = create_label(" Target level of tests ", "CA1: ", "Arial", 15, 450, 100)
-            ALCA1Text = create_entry_box(" Target level of tests ", "", "Arial", 15, 500, 575, 100)
+            ALlabelCA1 = create_label(" CA 1 ", "Enter the Target level for CA 1", "Arial", 20, 600, 605)
+            ALCA1Label = create_label(" CA 1 ", "CA1: ", "Arial", 15, 450, 655)
+            ALCA1Text = create_entry_box(" CA 1 ", "", "Arial", 15, 500, 550, 655)
 
-            ALCA2Label = create_label(" Target level of tests ", "CA2: ", "Arial", 15, 450, 150)
-            ALCA2Text = create_entry_box(" Target level of tests ", "", "Arial", 15, 500, 575, 150)
+            ALlabelCA2 = create_label(" CA 2 ", "Enter the Target level for CA 2", "Arial", 20, 600, 605)
+            ALCA2Label = create_label(" CA 2 ", "CA2: ", "Arial", 15, 450, 655)
+            ALCA2Text = create_entry_box(" CA 2 ", "", "Arial", 15, 500, 575, 655)
 
-            ALCA3Label = create_label(" Target level of tests ", "CA3: ", "Arial", 15, 450, 200)
-            ALCA3Text = create_entry_box(" Target level of tests ", "", "Arial", 15, 500, 575, 200)
+            ALlabelCA3 = create_label(" CA 3 ", "Enter the Target level for CA 3", "Arial", 20, 600, 655)
+            ALCA3Label = create_label(" CA 3 ", "CA3: ", "Arial", 15, 450, 700)
+            ALCA3Text = create_entry_box(" CA 3 ", "", "Arial", 15, 500, 550, 700)
             ALCA3Text.configure(state="disabled", fg_color="gray")
 
-            ALMidTermLabel = create_label(" Target level of tests ", "Mid Term: ", "Arial", 15, 450, 250)
-            ALMidTermText = create_entry_box(" Target level of tests ", "", "Arial", 15, 500, 575, 250)
+            ALlabelMidTerm = create_label(" Mid Terms & End Semesters ", "Enter the Target level for Midterms and End Semsesters", "Arial", 20, 600, 505)
+            ALMidTermLabel = create_label(" Mid Terms & End Semesters ", "Mid Term: ", "Arial", 15, 450, 555)
+            ALMidTermText = create_entry_box(" Mid Terms & End Semesters ", "", "Arial", 15, 500, 550, 555)
 
-            ALEndSemLabel = create_label(" Target level of tests ", "End Semester: ", "Arial", 15, 450, 300)
-            ALEndSemText = create_entry_box(" Target level of tests ", "", "Arial", 15, 500, 575, 300)
+           
+            ALEndSemLabel = create_label(" Mid Terms & End Semesters ", "End Semester: ", "Arial", 15, 450, 605)
+            ALEndSemText = create_entry_box(" Mid Terms & End Semesters ", "", "Arial", 15, 500, 550, 605)
 
             setEmailLabel = create_label(" Target level of tests ", "Enter the Email ID to send the template.", "Arial", 20, 600, 400)
 
@@ -1395,9 +1347,9 @@ class User_mode:
             # ALSurveyText = create_entry_box(" Target level of tests ", "", "Arial", 15, 500, 575, 350)
 
             # Buttons
-            button1 = create_button(" CO Information ", "Next", "Arial", 20, 200, 40, switch1, 725, 500)
+            button1 = create_button(" CO Information ", "Next", "Arial", 20, 200, 40, None, 725, 500)
             # button2 = create_button(" CO Mapping ", "Next", "Arial", 20, 200, 40, switch2, 725, 500)
-            button2 = create_button(" CA 3 ", "Next", "Arial", 20, 200, 40, switch2, 1000, 640)
+            button2 = create_button(" Mid Terms & End Semesters ", "Next", "Arial", 20, 200, 40, None, 1050, 640)
 
 
 

@@ -32,13 +32,16 @@ class User_mode:
             screen_width=co_window.winfo_screenwidth()
             screen_height=co_window.winfo_screenheight()
        
-        # Calculate the coordinates for centering the window
-            x_position = 0
-            y_position = 0
+            # Set window size (like 80% of screen)
+            window_width = int(screen_width * 0.8)
+            window_height = int(screen_height * 0.8)
+            # Center the window
+            x = (screen_width - window_width) // 2
+            y = (screen_height - window_height) // 2
 
-             # Create a new CO Calculations window
+            # Create a new CO Calculations window
             co_window.title("CO Calculations")
-            co_window.geometry(f"{screen_width}x{screen_height}+{x_position}+{y_position}")
+            co_window.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
             main_frame = ctk.CTkFrame(master=co_window)
             main_frame.pack(expand=True, fill="both", padx=10, pady=10)
@@ -1695,17 +1698,20 @@ class User_mode:
             self.app.destroy() 
             
             lo_window = ctk.CTk()  # Close the current window
-
+            
             screen_width=lo_window.winfo_screenwidth()
             screen_height=lo_window.winfo_screenheight()
-       
-        # Calculate the coordinates for centering the window
-            x_losition = 0
-            y_losition = 0
+
+            # Set window size (like 80% of screen)
+            window_width = int(screen_width * 0.8)
+            window_height = int(screen_height * 0.8)
+            # Center the window
+            x = (screen_width - window_width) // 2
+            y = (screen_height - window_height) // 2
 
              # Create a new lo Calculations window
             lo_window.title("lo Calculations")
-            lo_window.geometry(f"{screen_width}x{screen_height}+{x_losition}+{y_losition}")
+            lo_window.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
             main_frame = ctk.CTkFrame(master=lo_window)
             main_frame.pack(expand=True, fill="both", padx=10, pady=10)
@@ -1955,12 +1961,16 @@ class User_mode:
         screen_width=self.app.winfo_screenwidth()
         screen_height=self.app.winfo_screenheight()
        
-        # Calculate the coordinates for centering the window
-        x_position = 0
-        y_position = 0
-        
+         
+        # Set window size (like 80% of screen)
+        window_width = int(screen_width * 0.8)
+        window_height = int(screen_height * 0.8)
+        # Center the window
+        x = (screen_width - window_width) // 2
+        y = (screen_height - window_height) // 2
+
         # Set the window position and size
-        self.app.geometry(f"{screen_width}x{screen_height}+{x_position}+{y_position}")
+        self.app.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
         
         

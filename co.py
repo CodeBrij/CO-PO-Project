@@ -64,20 +64,19 @@ class User_mode:
             tabview.add(" Target level of tests ")
             # tabview.add(" Lab CO ")
             tabview.add(" Upload Excel File ") 
-
-            def switch():
+            
+            def switch_to_co_information():
                 if (entry1.get() == "" or yearDropDown.get() == "Select Year" or
                     entry8.get() == "Select Department" or entry2.get() == "Select Sem" or
                     entry3.get() == "Select Subject" or entry4.get() == "" or
                     entry5.get() == "" or entry7.get() == "Select Class" ):
-                    return CTkMessagebox(title="Error", message="Please fill all the required fields.", icon="cancel")
+                        return CTkMessagebox(title="Error", message="Please fill all the required fields.", icon="cancel")
                 elif not entry1.get().isdigit() or int(entry1.get()) < 0:
                     return CTkMessagebox(title="Invalid Input", message="Please enter valid No Of Students", icon="warning")
-                tabview.set(" CO Information ")
-                # self.pathName = f"{yearDropDown.get()}_{entry2.get()}_{entry3.get()}_{entry7.get()}_{entry5.get()}_{entry4.get()}.xlsx"
-                # self.pathName = self.pathName.replace(" ","_")
-    
-            def switch1():
+                else:
+                    tabview.set(" CO Information ")
+                    
+            def switch_to_MidTerm_EndSem():
                 if noOfCOOption.get() == "5":
                     if CO1T.get() != "" and CO2T.get() != "" and CO3T.get() != "" and CO4T.get() != "" and CO5T.get() != "":
                         tabview.set(" Mid Terms & End Semesters ")
@@ -92,6 +91,9 @@ class User_mode:
                         CTkMessagebox(title="Error", message="Please enter all the 6 CO's", icon="cancel")
                 else:
                     CTkMessagebox(title="Error", message="Please Select No Of CO's", icon="cancel")
+
+            def switch_to_CA1():
+                return True
     
             def switch2():
                 if a1T.get()=="" or a2T.get()=="" or a3T.get()=="" or a4T.get()=="" or a5T.get()=="" or a6T.get()=="" or a2aT.get()=="" or a2bT.get()=="" or a3aT == "" or a3bT.get()=="":
@@ -180,6 +182,9 @@ class User_mode:
                 return dropdown
             
             def download():
+                CA1M_Co_arr = []
+                CA2M_Co_arr = []
+                CA3M_Co_arr = []
                 # Get the values from the Entry widgets
                 # values = [entry1.get(), entry2.get(), entry3.get(), entry4.get(), entry5.get(),
                 #         a1T.get(), a2T.get(), a3T.get(), a4T.get(), a5T.get(), a6T.get(),
@@ -220,162 +225,139 @@ class User_mode:
                     al_values=[ALCA1Text.get(), ALCA2Text.get(), '-', ALMidTermText.get(), ALEndSemText.get()]
                     if entry13.get()=="Select Type":
                         CTkMessagebox(title="Error", message="Please Select Type of CA 1.", icon="cancel")
-                    elif entry13.get()=="Quiz":
+                    elif entry13.get()=="Quiz" or entry13.get() == "Test":
                         if noCA1Entry.get()=="Select No" :
                             CTkMessagebox(title="Error", message="Please Select No Of Question in CA 1.", icon="cancel")
-                        elif noCA1Entry.get()=="1" :
-                            CA1_Co_arr=[q1TCA1.get()]
-                        elif noCA1Entry.get()=="2" :
-                            CA1_Co_arr=[q1TCA1.get(),q2TCA1.get()]
-                        elif noCA1Entry.get()=="3" :
-                            CA1_Co_arr=[q1TCA1.get(),q2TCA1.get(),q3TCA1.get()]
-                        elif noCA1Entry.get()=="4" :
-                            CA1_Co_arr=[q1TCA1.get(),q2TCA1.get(),q3TCA1.get(),q4TCA1.get()]
-                        elif noCA1Entry.get()=="5" :
-                            CA1_Co_arr=[q1TCA1.get(),q2TCA1.get(),q3TCA1.get(),q4TCA1.get(),q5TCA1.get()]
-                        elif noCA1Entry.get()=="6" :
-                            CA1_Co_arr=[q1TCA1.get(),q2TCA1.get(),q3TCA1.get(),q4TCA1.get(),q5TCA1.get(),q6TCA1.get()]
-                        elif noCA1Entry.get()=="7" :
-                            CA1_Co_arr=[q1TCA1.get(),q2TCA1.get(),q3TCA1.get(),q4TCA1.get(),q5TCA1.get(),q6TCA1.get(),q7TCA1.get()]
-                        elif noCA1Entry.get()=="8" :
-                            CA1_Co_arr=[q1TCA1.get(),q2TCA1.get(),q3TCA1.get(),q4TCA1.get(),q5TCA1.get(),q6TCA1.get(),q7TCA1.get(),q8TCA1.get()]
-                        elif noCA1Entry.get()=="9" :
-                            CA1_Co_arr=[q1TCA1.get(),q2TCA1.get(),q3TCA1.get(),q4TCA1.get(),q5TCA1.get(),q6TCA1.get(),q7TCA1.get(),q8TCA1.get(),q9TCA1.get()]
                         else:
-                            CA1_Co_arr=[q1TCA1.get(),q2TCA1.get(),q3TCA1.get(),q4TCA1.get(),q5TCA1.get(),q6TCA1.get(),q7TCA1.get(),q8TCA1.get(),q9TCA1.get(),q10TCA1.get()]       
+                            caQT = [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1]
+                            caQM = [q1TCA1marks,q2TCA1marks,q3TCA1marks,q4TCA1marks,q5TCA1marks,q6TCA1marks,q7TCA1marks,q8TCA1marks,q9TCA1marks,q10TCA1marks]
+                            option = int(noCA1Entry.get())
+                            CA1_Co_arr = []
+                            CA1M_Co_arr = []
+                            for i in range (0, option):
+                                CA1_Co_arr.append(caQT[i].get())
+                                CA1M_Co_arr.append(caQM[i].get())
+                            
+                        # elif noCA1Entry.get()=="1" :
+                        #     CA1_Co_arr=[q1TCA1.get()]
+                        # elif noCA1Entry.get()=="2" :
+                        #     CA1_Co_arr=[q1TCA1.get(),q2TCA1.get()]
+                        # elif noCA1Entry.get()=="3" :
+                        #     CA1_Co_arr=[q1TCA1.get(),q2TCA1.get(),q3TCA1.get()]
+                        # elif noCA1Entry.get()=="4" :
+                        #     CA1_Co_arr=[q1TCA1.get(),q2TCA1.get(),q3TCA1.get(),q4TCA1.get()]
+                        # elif noCA1Entry.get()=="5" :
+                        #     CA1_Co_arr=[q1TCA1.get(),q2TCA1.get(),q3TCA1.get(),q4TCA1.get(),q5TCA1.get()]
+                        # elif noCA1Entry.get()=="6" :
+                        #     CA1_Co_arr=[q1TCA1.get(),q2TCA1.get(),q3TCA1.get(),q4TCA1.get(),q5TCA1.get(),q6TCA1.get()]
+                        # elif noCA1Entry.get()=="7" :
+                        #     CA1_Co_arr=[q1TCA1.get(),q2TCA1.get(),q3TCA1.get(),q4TCA1.get(),q5TCA1.get(),q6TCA1.get(),q7TCA1.get()]
+                        # elif noCA1Entry.get()=="8" :
+                        #     CA1_Co_arr=[q1TCA1.get(),q2TCA1.get(),q3TCA1.get(),q4TCA1.get(),q5TCA1.get(),q6TCA1.get(),q7TCA1.get(),q8TCA1.get()]
+                        # elif noCA1Entry.get()=="9" :
+                        #     CA1_Co_arr=[q1TCA1.get(),q2TCA1.get(),q3TCA1.get(),q4TCA1.get(),q5TCA1.get(),q6TCA1.get(),q7TCA1.get(),q8TCA1.get(),q9TCA1.get()]
+                        # else:
+                        #     CA1_Co_arr=[q1TCA1.get(),q2TCA1.get(),q3TCA1.get(),q4TCA1.get(),q5TCA1.get(),q6TCA1.get(),q7TCA1.get(),q8TCA1.get(),q9TCA1.get(),q10TCA1.get()]       
                     
                     elif entry13.get()=="Presentation":
                         CA1_Co_arr = [presentationCA1Text.get()]
-                    else:
+                    elif entry13.get()=="NPTEL Course":
                         CA1_Co_arr=[nptelCA1Text.get()]
-                     
+                    else:
+                        CA1_Co_arr=[1,2,3,4,5,6]
+
                             
                     if entry14.get()=="Select Type":
                         CTkMessagebox(title="Error", message="Please Select Type of CA 2.", icon="cancel")
-                    elif entry14.get()=="Quiz":
+                    elif entry14.get()=="Quiz" or entry14.get() == "Test":
                         if noCA2Entry.get()=="Select No" :
-                            CTkMessagebox(title="Error", message="Please Select No Of Question in CA 2.", icon="cancel")
-                        elif noCA2Entry.get()=="1" :
-                            CA2_Co_arr=[q1TCA2.get()]
-                        elif noCA2Entry.get()=="2" :
-                            CA2_Co_arr=[q1TCA2.get(),q2TCA2.get()]
-                        elif noCA2Entry.get()=="3" :
-                            CA2_Co_arr=[q1TCA2.get(),q2TCA2.get(),q3TCA2.get()]
-                        elif noCA2Entry.get()=="4" :
-                            CA2_Co_arr=[q1TCA2.get(),q2TCA2.get(),q3TCA2.get(),q4TCA2.get()]
-                        elif noCA2Entry.get()=="5" :
-                            CA2_Co_arr=[q1TCA2.get(),q2TCA2.get(),q3TCA2.get(),q4TCA2.get(),q5TCA2.get()]
-                        elif noCA2Entry.get()=="6" :
-                            CA2_Co_arr=[q1TCA2.get(),q2TCA2.get(),q3TCA2.get(),q4TCA2.get(),q5TCA2.get(),q6TCA2.get()]
-                        elif noCA2Entry.get()=="7" :
-                            CA2_Co_arr=[q1TCA2.get(),q2TCA2.get(),q3TCA2.get(),q4TCA2.get(),q5TCA2.get(),q6TCA2.get(),q7TCA2.get()]
-                        elif noCA2Entry.get()=="8" :
-                            CA2_Co_arr=[q1TCA2.get(),q2TCA2.get(),q3TCA2.get(),q4TCA2.get(),q5TCA2.get(),q6TCA2.get(),q7TCA2.get(),q8TCA2.get()]
-                        elif noCA2Entry.get()=="9" :
-                            CA2_Co_arr=[q1TCA2.get(),q2TCA2.get(),q3TCA2.get(),q4TCA2.get(),q5TCA2.get(),q6TCA2.get(),q7TCA2.get(),q8TCA2.get(),q9TCA2.get()]
-                        else :
-                            CA2_Co_arr=[q1TCA2.get(),q2TCA2.get(),q3TCA2.get(),q4TCA2.get(),q5TCA2.get(),q6TCA2.get(),q7TCA2.get(),q8TCA2.get(),q9TCA2.get(),q10TCA2.get()]
+                            CTkMessagebox(title="Error", message="Please Select No Of Question in CA 1.", icon="cancel")
+                        else:
+                            caQT = [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2]
+                            caQM = [q1TCA2marks,q2TCA2marks,q3TCA2marks,q4TCA2marks,q5TCA2marks,q6TCA2marks,q7TCA2marks,q8TCA2marks,q9TCA2marks,q10TCA2marks]
+                            option = int(noCA2Entry.get())
+                            CA2_Co_arr = []
+                            CA2M_Co_arr = []
+                            for i in range (0, option):
+                                CA2_Co_arr.append(caQT[i].get())
+                                CA2M_Co_arr.append(caQM[i].get())
                     
                     elif entry14.get()=="Presentation":
                         CA2_Co_arr = [presentationCA2Text.get()]
-                    else:
+                    elif entry14.get()=="NPTEL Course":
                         CA2_Co_arr=[nptelCA2Text.get()]
+                    else:
+                        CA2_Co_arr=[1,2,3,4,5,6]
                         
                 else:
                     al_values=[ALCA1Text.get(), ALCA2Text.get(), ALCA3Text.get(), ALMidTermText.get(), ALEndSemText.get()]
                     if entry13.get()=="Select Type":
                         CTkMessagebox(title="Error", message="Please Select Type of CA 1.", icon="cancel")
-                    elif entry13.get()=="Quiz":
+                    elif entry13.get()=="Quiz" or entry13.get()=="Test":
                         if noCA1Entry.get()=="Select No" :
                             CTkMessagebox(title="Error", message="Please Select No Of Question in CA 1.", icon="cancel")
-                        elif noCA1Entry.get()=="1" :
-                            CA1_Co_arr=[q1TCA1.get()]
-                        elif noCA1Entry.get()=="2" :
-                            CA1_Co_arr=[q1TCA1.get(),q2TCA1.get()]
-                        elif noCA1Entry.get()=="3" :
-                            CA1_Co_arr=[q1TCA1.get(),q2TCA1.get(),q3TCA1.get()]
-                        elif noCA1Entry.get()=="4" :
-                            CA1_Co_arr=[q1TCA1.get(),q2TCA1.get(),q3TCA1.get(),q4TCA1.get()]
-                        elif noCA1Entry.get()=="5" :
-                            CA1_Co_arr=[q1TCA1.get(),q2TCA1.get(),q3TCA1.get(),q4TCA1.get(),q5TCA1.get()]
-                        elif noCA1Entry.get()=="6" :
-                            CA1_Co_arr=[q1TCA1.get(),q2TCA1.get(),q3TCA1.get(),q4TCA1.get(),q5TCA1.get(),q6TCA1.get()]
-                        elif noCA1Entry.get()=="7" :
-                            CA1_Co_arr=[q1TCA1.get(),q2TCA1.get(),q3TCA1.get(),q4TCA1.get(),q5TCA1.get(),q6TCA1.get(),q7TCA1.get()]
-                        elif noCA1Entry.get()=="8" :
-                            CA1_Co_arr=[q1TCA1.get(),q2TCA1.get(),q3TCA1.get(),q4TCA1.get(),q5TCA1.get(),q6TCA1.get(),q7TCA1.get(),q8TCA1.get()]
-                        elif noCA1Entry.get()=="9" :
-                            CA1_Co_arr=[q1TCA1.get(),q2TCA1.get(),q3TCA1.get(),q4TCA1.get(),q5TCA1.get(),q6TCA1.get(),q7TCA1.get(),q8TCA1.get(),q9TCA1.get()]
                         else:
-                            CA1_Co_arr=[q1TCA1.get(),q2TCA1.get(),q3TCA1.get(),q4TCA1.get(),q5TCA1.get(),q6TCA1.get(),q7TCA1.get(),q8TCA1.get(),q9TCA1.get(),q10TCA1.get()]
+                            caQT = [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1]
+                            caQM = [q1TCA1marks,q2TCA1marks,q3TCA1marks,q4TCA1marks,q5TCA1marks,q6TCA1marks,q7TCA1marks,q8TCA1marks,q9TCA1marks,q10TCA1marks]
+                            option = int(noCA1Entry.get())
+                            CA1_Co_arr = []
+                            CA1M_Co_arr = []
+                            for i in range (0, option):
+                                CA1_Co_arr.append(caQT[i].get())
+                                CA1M_Co_arr.append(caQM[i].get())
                     
                     elif entry13.get()=="Presentation":
                         CA1_Co_arr = [presentationCA1Text.get()]
-                    else:
+                    elif entry13.get()=="NPTEL Course":
                         CA1_Co_arr=[nptelCA1Text.get()]
+                    else:
+                        CA1_Co_arr=[1,2,3,4,5,6]
                     
                         
                     if entry14.get()=="Select Type":
                         CTkMessagebox(title="Error", message="Please Select Type of CA 2.", icon="cancel")
-                    elif entry14.get()=="Quiz":
+                    elif entry14.get()=="Quiz" or entry14.get() == "Test":
                         if noCA2Entry.get()=="Select No" :
-                            CTkMessagebox(title="Error", message="Please Select No Of Question in CA 2.", icon="cancel")
-                        elif noCA2Entry.get()=="1" :
-                            CA2_Co_arr=[q1TCA2.get()]
-                        elif noCA2Entry.get()=="2" :
-                            CA2_Co_arr=[q1TCA2.get(),q2TCA2.get()]
-                        elif noCA2Entry.get()=="3" :
-                            CA2_Co_arr=[q1TCA2.get(),q2TCA2.get(),q3TCA2.get()]
-                        elif noCA2Entry.get()=="4" :
-                            CA2_Co_arr=[q1TCA2.get(),q2TCA2.get(),q3TCA2.get(),q4TCA2.get()]
-                        elif noCA2Entry.get()=="5" :
-                            CA2_Co_arr=[q1TCA2.get(),q2TCA2.get(),q3TCA2.get(),q4TCA2.get(),q5TCA2.get()]
-                        elif noCA2Entry.get()=="6" :
-                            CA2_Co_arr=[q1TCA2.get(),q2TCA2.get(),q3TCA2.get(),q4TCA2.get(),q5TCA2.get(),q6TCA2.get()]
-                        elif noCA2Entry.get()=="7" :
-                            CA2_Co_arr=[q1TCA2.get(),q2TCA2.get(),q3TCA2.get(),q4TCA2.get(),q5TCA2.get(),q6TCA2.get(),q7TCA2.get()]
-                        elif noCA2Entry.get()=="8" :
-                            CA2_Co_arr=[q1TCA2.get(),q2TCA2.get(),q3TCA2.get(),q4TCA2.get(),q5TCA2.get(),q6TCA2.get(),q7TCA2.get(),q8TCA2.get()]
-                        elif noCA2Entry.get()=="9" :
-                            CA2_Co_arr=[q1TCA2.get(),q2TCA2.get(),q3TCA2.get(),q4TCA2.get(),q5TCA2.get(),q6TCA2.get(),q7TCA2.get(),q8TCA2.get(),q9TCA2.get()]
-                        else :
-                            CA2_Co_arr=[q1TCA2.get(),q2TCA2.get(),q3TCA2.get(),q4TCA2.get(),q5TCA2.get(),q6TCA2.get(),q7TCA2.get(),q8TCA2.get(),q9TCA2.get(),q10TCA2.get()]
+                            CTkMessagebox(title="Error", message="Please Select No Of Question in CA 1.", icon="cancel")
+                        else:
+                            caQT = [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2]
+                            caQM = [q1TCA2marks,q2TCA2marks,q3TCA2marks,q4TCA2marks,q5TCA2marks,q6TCA2marks,q7TCA2marks,q8TCA2marks,q9TCA2marks,q10TCA2marks]
+                            option = int(noCA2Entry.get())
+                            CA2_Co_arr = []
+                            CA2M_Co_arr = []
+                            for i in range (0, option):
+                                CA2_Co_arr.append(caQT[i].get())
+                                CA2M_Co_arr.append(caQM[i].get())
                     
                     elif entry14.get()=="Presentation":
                         CA2_Co_arr = [presentationCA2Text.get()]
-                    else:
+                    elif entry14.get()=="NPTEL Course":
                         CA2_Co_arr=[nptelCA2Text.get()]
+                    else:
+                        CA2_Co_arr=[1,2,3,4,5,6]
                         
                     if entry15.get()=="Select Type":
                         CTkMessagebox(title="Error", message="Please Select Type of CA 3.", icon="cancel")
-                    elif entry15.get()=="Quiz":
+                    elif entry15.get()=="Quiz" or entry15.get() == "Test":
                         if noCA3Entry.get()=="Select No" :
                             CTkMessagebox(title="Error", message="Please Select No Of Question in CA 3.", icon="cancel")
-                        elif noCA3Entry.get()=="1" :
-                            CA3_Co_arr=[q1TCA3.get()]
-                        elif noCA3Entry.get()=="2" :
-                            CA3_Co_arr=[q1TCA3.get(),q2TCA3.get()]
-                        elif noCA3Entry.get()=="3" :
-                            CA3_Co_arr=[q1TCA3.get(),q2TCA3.get(),q3TCA3.get()]
-                        elif noCA3Entry.get()=="4" :
-                            CA3_Co_arr=[q1TCA3.get(),q2TCA3.get(),q3TCA3.get(),q4TCA3.get()]
-                        elif noCA3Entry.get()=="5" :
-                            CA3_Co_arr=[q1TCA3.get(),q2TCA3.get(),q3TCA3.get(),q4TCA3.get(),q5TCA3.get()]
-                        elif noCA3Entry.get()=="6" :
-                            CA3_Co_arr=[q1TCA3.get(),q2TCA3.get(),q3TCA3.get(),q4TCA3.get(),q5TCA3.get(),q6TCA3.get()]
-                        elif noCA3Entry.get()=="7" :
-                            CA3_Co_arr=[q1TCA3.get(),q2TCA3.get(),q3TCA3.get(),q4TCA3.get(),q5TCA3.get(),q6TCA3.get(),q7TCA3.get()]
-                        elif noCA3Entry.get()=="8" :
-                            CA3_Co_arr=[q1TCA3.get(),q2TCA3.get(),q3TCA3.get(),q4TCA3.get(),q5TCA3.get(),q6TCA3.get(),q7TCA3.get(),q8TCA3.get()]
-                        elif noCA3Entry.get()=="9" :
-                            CA3_Co_arr=[q1TCA3.get(),q2TCA3.get(),q3TCA3.get(),q4TCA3.get(),q5TCA3.get(),q6TCA3.get(),q7TCA3.get(),q8TCA3.get(),q9TCA3.get()]
-                        else :
-                            CA3_Co_arr=[q1TCA3.get(),q2TCA3.get(),q3TCA3.get(),q4TCA3.get(),q5TCA3.get(),q6TCA3.get(),q7TCA3.get(),q8TCA3.get(),q9TCA3.get(),q10TCA3.get()]
+                        else:
+                            caQT = [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3]
+                            caQM = [q1TCA3marks,q2TCA3marks,q3TCA3marks,q4TCA3marks,q5TCA3marks,q6TCA3marks,q7TCA3marks,q8TCA3marks,q9TCA3marks,q10TCA3marks]
+                            option = int(noCA3Entry.get())
+                            CA3_Co_arr = []
+                            CA3M_Co_arr = []
+                            for i in range (0, option):
+                                print(caQT[i].get())
+                                CA3_Co_arr.append(caQT[i].get())
+                                CA3M_Co_arr.append(caQM[i].get())
                     
                     elif entry15.get()=="Presentation":
                         CA3_Co_arr = [presentationCA3Text.get()]
-                    else:
+                    elif entry15.get()=="NPTEL Course":
                         CA3_Co_arr=[nptelCA3Text.get()]
+                    else: 
+                        CA3_Co_arr=[1,2,3,4,5,6]
                         
                 if basic_values[1]=="Select Department":
                     CTkMessagebox(title="Error", message="Please Select Department.", icon="cancel")
@@ -394,11 +376,12 @@ class User_mode:
                 elif any(ca2 == "" for ca2 in CA2_Co_arr):
                     CTkMessagebox(title="Error", message="Please fill in all required fields.", icon="cancel")
                 elif entry10.get()=="Yes":
+                    print(f"Ye rha CA3 {CA3_Co_arr}")
                     if any(ca3 == "" for ca3 in CA3_Co_arr):
                         CTkMessagebox(title="Error", message="Please fill in all required fields.", icon="cancel")
                     else :
                         import template_generator
-                        template_generator.template_gen(coTextArray,basic_values,midSem_Co_values,CA1_Co_arr,CA2_Co_arr,CA3_Co_arr,al_values, receiversEmail)
+                        template_generator.template_gen(coTextArray,basic_values,midSem_Co_values,CA1_Co_arr,CA2_Co_arr,CA3_Co_arr,CA1M_Co_arr,CA2M_Co_arr,CA3M_Co_arr,al_values, receiversEmail)
                         # template_generator.template_gen(basic_values,midSem_Co_values,CA1_Co_arr,CA2_Co_arr,CA3_Co_arr)
                         # CTkMessagebox(message="Excel template downloaded successfully.",icon="check", option_1="OK")
     
@@ -409,13 +392,13 @@ class User_mode:
                     if entry10.get()=="No": 
                         import template_generator
                         # print("Hi v1",basic_values[10]) 
-                        template_generator.template_gen(coTextArray,basic_values,midSem_Co_values,CA1_Co_arr,CA2_Co_arr,[],al_values,receiversEmail)
+                        template_generator.template_gen(coTextArray,basic_values,midSem_Co_values,CA1_Co_arr,CA2_Co_arr,[],CA1M_Co_arr,CA2M_Co_arr,[],al_values,receiversEmail)
                         # CTkMessagebox(message="Excel template downloaded successfully.",icon="check", option_1="OK")
                     elif entry10.get()=="Yes":
                         import template_generator
                         # print("Hi v2",basic_values[10]) 
                         # print("Hi v2",CA3_Co_arr) 
-                        template_generator.template_gen(coTextArray,basic_values,midSem_Co_values,CA1_Co_arr,CA2_Co_arr,CA3_Co_arr,al_values,receiversEmail)
+                        template_generator.template_gen(coTextArray,basic_values,midSem_Co_values,CA1_Co_arr,CA2_Co_arr,CA3_Co_arr,CA1M_Co_arr,CA2M_Co_arr,CA3M_Co_arr,al_values,receiversEmail)
                         # CTkMessagebox(message="Excel template downloaded successfully .",icon="check", option_1="OK")
                 
             def validate_co_string(coString):
@@ -511,7 +494,7 @@ class User_mode:
                     noCA3Entry.configure(state="normal", fg_color=["#3B8ED0", "#1F6AA5"])
                     nptelCA3Text.configure(state="disabled", fg_color="gray") 
                     presentationCA3Text.configure(state="disabled", fg_color="gray")
-                   
+
             def semesterAndClass(option):
                 if option == "Select Year":
                     entry2.configure(values=["Select Sem"])
@@ -540,222 +523,53 @@ class User_mode:
                     # entry7_lab.configure(values=["Select Class", "D20A", "D20B", "D20C"])
     
     
-            def noQuestion1(option):
-                if option== "1" :
-                    for ca in [q1TCA1]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                        
-                    for disca in [q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1]:
-                        disca.configure(state="disabled", fg_color="gray")
-                   
-                elif option== "2" :
-                    for ca in [q1TCA1,q2TCA1]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                        
-                    for disca in [q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1]:
-                        disca.configure(state="disabled", fg_color="gray")
-                   
-                elif option== "3" :
-                    for ca in [q1TCA1,q2TCA1,q3TCA1]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                        
-                    for disca in [q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1]:
-                        disca.configure(state="disabled", fg_color="gray")
-                   
-                elif option== "4" :
-                    for ca in [q1TCA1,q2TCA1,q3TCA1,q4TCA1]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                        
-                    for disca in [q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1]:
-                        disca.configure(state="disabled", fg_color="gray")
-                  
-                elif option== "5" :
-                    for ca in [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                        
-                    for disca in [q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1]:
-                        disca.configure(state="disabled", fg_color="gray")
-                  
-                elif option== "6" :
-                    for ca in [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                        
-                    for disca in [q7TCA1,q8TCA1,q9TCA1,q10TCA1]:
-                        disca.configure(state="disabled", fg_color="gray")
-    
-                elif option== "7" :
-                    for ca in [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                        
-                    for disca in [q8TCA1,q9TCA1,q10TCA1]:
-                        disca.configure(state="disabled", fg_color="gray")
-                    
-                elif option== "8" :
-                    for ca in [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                        
-                    for disca in [q9TCA1,q10TCA1]:
-                        disca.configure(state="disabled", fg_color="gray")
-                   
-                elif option== "9" :
-                    for ca in [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                        
-                    for disca in [q10TCA1]:
-                        disca.configure(state="disabled", fg_color="gray")
-                   
-                elif option=="10" :
-                    for ca in [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                    
-                 
-                else :
-                    for ca in [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1]:
-                        ca.configure(state="disabled", fg_color="gray")  
-                          
+            def noQuestion1(option):        
+                caQT = [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1]
+                caQM = [q1TCA1marks,q2TCA1marks,q3TCA1marks,q4TCA1marks,q5TCA1marks,q6TCA1marks,q7TCA1marks,q8TCA1marks,q9TCA1marks,q10TCA1marks]
+                if(option  == "Select No"):
+                    for ca in caQT:
+                        ca.configure(state="disabled", fg_color="gray") 
+                    for ca in caQM:
+                        ca.configure(state="disabled", fg_color="gray") 
+                option = int(option)
+                for i in range (0, option):
+                    caQT[i].configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+                    caQM[i].configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+                for i in range (option, 10):
+                    caQT[i].configure(state="disabled", fg_color="gray")
+                    caQM[i].configure(state="disabled", fg_color="gray")
+
             def noQuestion2(option):
-                if option== "1" :
-                    for ca in [q1TCA2]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                        
-                    for disca in [q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2]:
-                        disca.configure(state="disabled", fg_color="gray")
-                   
-                elif option== "2" :
-                    for ca in [q1TCA2,q2TCA2]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                        
-                    for disca in [q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2]:
-                        disca.configure(state="disabled", fg_color="gray")
-                   
-                elif option== "3" :
-                    for ca in [q1TCA2,q2TCA2,q3TCA2]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                        
-                    for disca in [q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2]:
-                        disca.configure(state="disabled", fg_color="gray")
-                   
-                elif option== "4" :
-                    for ca in [q1TCA2,q2TCA2,q3TCA2,q4TCA2]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                        
-                    for disca in [q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2]:
-                        disca.configure(state="disabled", fg_color="gray")
-                   
-                elif option== "5" :
-                    for ca in [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                        
-                    for disca in [q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2]:
-                        disca.configure(state="disabled", fg_color="gray")
-                   
-                elif option== "6" :
-                    for ca in [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                        
-                    for disca in [q7TCA2,q8TCA2,q9TCA2,q10TCA2]:
-                        disca.configure(state="disabled", fg_color="gray")
-                   
-                elif option== "7" :
-                    for ca in [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                        
-                    for disca in [q8TCA2,q9TCA2,q10TCA2]:
-                        disca.configure(state="disabled", fg_color="gray")
-                    
-                elif option== "8" :
-                    for ca in [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                        
-                    for disca in [q9TCA2,q10TCA2]:
-                        disca.configure(state="disabled", fg_color="gray")
-                    
-                elif option== "9" :
-                    for ca in [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                        
-                    for disca in [q10TCA2]:
-                        disca.configure(state="disabled", fg_color="gray")
-                   
-                elif option=="10" :
-                    for ca in [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                        
-                else :
-                    for ca in [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2]:
-                        ca.configure(state="disabled", fg_color="gray")
+                caQT = [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2]
+                caQM = [q1TCA2marks,q2TCA2marks,q3TCA2marks,q4TCA2marks,q5TCA2marks,q6TCA2marks,q7TCA2marks,q8TCA2marks,q9TCA2marks,q10TCA2marks]
+                if(option  == "Select No"):
+                    for ca in caQT:
+                        ca.configure(state="disabled", fg_color="gray") 
+                    for ca in caQM:
+                        ca.configure(state="disabled", fg_color="gray") 
+                option = int(option)
+                for i in range (0, option):
+                    caQT[i].configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+                    caQM[i].configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+                for i in range (option, 10):
+                    caQT[i].configure(state="disabled", fg_color="gray")
+                    caQM[i].configure(state="disabled", fg_color="gray")
                     
             def noQuestion3(option):
-                if option== "1" :
-                    for ca in [q1TCA3]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                        
-                    for disca in [q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3]:
-                        disca.configure(state="disabled", fg_color="gray")
-                   
-                elif option== "2" :
-                    for ca in [q1TCA3,q2TCA3]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                        
-                    for disca in [q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3]:
-                        disca.configure(state="disabled", fg_color="gray")
-                   
-                elif option== "3" :
-                    for ca in [q1TCA3,q2TCA3,q3TCA3]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                        
-                    for disca in [q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3]:
-                        disca.configure(state="disabled", fg_color="gray")
-                   
-                elif option== "4" :
-                    for ca in [q1TCA3,q2TCA3,q3TCA3,q4TCA3]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                        
-                    for disca in [q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3]:
-                        disca.configure(state="disabled", fg_color="gray")
-                   
-                elif option== "5" :
-                    for ca in [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                        
-                    for disca in [q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3]:
-                        disca.configure(state="disabled", fg_color="gray")
-                    
-                elif option== "6" :
-                    for ca in [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                        
-                    for disca in [q7TCA3,q8TCA3,q9TCA3,q10TCA3]:
-                        disca.configure(state="disabled", fg_color="gray")
-                    
-                elif option== "7" :
-                    for ca in [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                        
-                    for disca in [q8TCA3,q9TCA3,q10TCA3]:
-                        disca.configure(state="disabled", fg_color="gray")
-                    
-                elif option== "8" :
-                    for ca in [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                        
-                    for disca in [q9TCA3,q10TCA3]:
-                        disca.configure(state="disabled", fg_color="gray")
-                   
-                elif option== "9" :
-                    for ca in [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                        
-                    for disca in [q10TCA3]:
-                        disca.configure(state="disabled", fg_color="gray")
-                    
-                elif option=="10" :
-                    for ca in [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                   
-                else:
-                    for ca in [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3]:
-                        ca.configure(state="disabled", fg_color="gray")
+                caQT = [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3]
+                caQM = [q1TCA3marks,q2TCA3marks,q3TCA3marks,q4TCA3marks,q5TCA3marks,q6TCA3marks,q7TCA3marks,q8TCA3marks,q9TCA3marks,q10TCA3marks]
+                if(option  == "Select No"):
+                    for ca in caQT:
+                        ca.configure(state="disabled", fg_color="gray") 
+                    for ca in caQM:
+                        ca.configure(state="disabled", fg_color="gray") 
+                option = int(option)
+                for i in range (0, option):
+                    caQT[i].configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+                    caQM[i].configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+                for i in range (option, 10):
+                    caQT[i].configure(state="disabled", fg_color="gray")
+                    caQM[i].configure(state="disabled", fg_color="gray")
                     
                     
             def subject(option):
@@ -792,7 +606,8 @@ class User_mode:
                     # for entry in [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3,ALCA3Text]:
                     #     entry.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
                     entry15.configure(state="normal", fg_color=["#3B8ED0", "#1F6AA5"])
-                   
+                    ALCA3Text.configure(state='normal', fg_color=["#3B8ED0", "#343638"])
+
                 else:
                     for entry in [entry15,q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3,nptelCA3Text,noCA3Entry,ALCA3Text]:
                         entry.configure(state="disabled", fg_color='gray')
@@ -840,7 +655,7 @@ class User_mode:
             overlay_label = ctk.CTkLabel(master=instructions_tab, text="")
             overlay_label.place(relx=0.5, rely=0.1, anchor="center")
 
-            button = create_button(" Basic Information ", "Next", "Arial", 20, 150, 40, None, 725, 490)
+            button = create_button(" Basic Information ", "Next", "Arial", 20, 150, 40, switch_to_co_information, 725, 490)
 
             label0 = create_label(" Basic Information ", "Basic Details", "Arial", 20, 725, 5)
 
@@ -1350,9 +1165,9 @@ class User_mode:
             # ALSurveyText = create_entry_box(" Target level of tests ", "", "Arial", 15, 500, 575, 350)
 
             # Buttons
-            button1 = create_button(" CO Information ", "Next", "Arial", 20, 200, 40, None, 725, 500)
+            button1 = create_button(" CO Information ", "Next", "Arial", 20, 200, 40, switch_to_MidTerm_EndSem, 725, 500)
             # button2 = create_button(" CO Mapping ", "Next", "Arial", 20, 200, 40, switch2, 725, 500)
-            button2 = create_button(" Mid Terms & End Semesters ", "Next", "Arial", 20, 200, 40, None, 1050, 640)
+            button2 = create_button(" Mid Terms & End Semesters ", "Next", "Arial", 20, 200, 40, switch_to_CA1, 1050, 640)
 
 
 

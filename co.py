@@ -61,9 +61,9 @@ class User_mode:
             
             # add tab at the end
             # tabview.add(" CO Mapping ")
-            tabview.add(" Target level of tests ")
+            # tabview.add(" Target level of tests ")
             # tabview.add(" Lab CO ")
-            tabview.add(" Upload Excel File ") 
+            tabview.add(" Process Template/Calculated ") 
             
             def switch_to_co_information():
                 if (entry1.get() == "" or yearDropDown.get() == "Select Year" or
@@ -93,73 +93,117 @@ class User_mode:
                     CTkMessagebox(title="Error", message="Please Select No Of CO's", icon="cancel")
 
             def switch_to_CA1():
-                return True
-    
-            def switch2():
-                if a1T.get()=="" or a2T.get()=="" or a3T.get()=="" or a4T.get()=="" or a5T.get()=="" or a6T.get()=="" or a2aT.get()=="" or a2bT.get()=="" or a3aT == "" or a3bT.get()=="":
+                if a1T.get()=="" or a2T.get()=="" or a3T.get()=="" or a4T.get()=="" or a5T.get()=="" or a6T.get()=="" or a2aT.get()=="" or a2bT.get()=="" or a3aT == "" or a3bT.get()=="" or entry11.get()=="":
                     CTkMessagebox(title="Error", message="Please enter CO\'s for all questions", icon="cancel")
-                elif not (validate_co_string(a1T.get()) and validate_co_string(a2T.get()) and validate_co_string(a3T.get()) and validate_co_string(a4T.get()) and validate_co_string(a5T.get()) and validate_co_string(a6T.get()) and validate_co_string(a2aT.get()) and validate_co_string(a2bT.get()) and validate_co_string(a3aT.get()) and validate_co_string(a3bT.get())):
+                elif not (validate_co_string(a1T.get()) and validate_co_string(a2T.get()) and validate_co_string(a3T.get()) and validate_co_string(a4T.get()) and validate_co_string(a5T.get()) and validate_co_string(a6T.get()) and validate_co_string(a2aT.get()) and validate_co_string(a2bT.get()) and validate_co_string(a3aT.get()) and validate_co_string(a3bT.get()) and validate_co_string(entry11.get())):
                     CTkMessagebox(title="Error", message="Please enter valid format of CO string", icon="cancel")
-                elif entry10.get() == "No":
-                    if entry13.get() == "Quiz":
-                        check_text_CA1 = [q1TCA1.get(), q2TCA1.get(), q3TCA1.get(), q4TCA1.get(), q5TCA1.get(), q6TCA1.get(), q7TCA1.get(), q8TCA1.get(), q9TCA1.get(), q10TCA1.get()]
-                        no_of_text_fields = int(noCA1Entry.get())
-                        for i in range (0, no_of_text_fields):
-                            if(check_text_CA1[i] == ""):
-                                CTkMessagebox(title="Error", message="Please enter the CO\'s for all questions", icon="cancel")
-                                return
-                        for i in range (0, no_of_text_fields):
-                            if not validate_co_string(check_text_CA1[i]):
-                                CTkMessagebox(title="Invalid Input", message="Please enter the valid format of CO", icon="warning")
-                                return
-                    if entry14.get() == "Quiz":
-                        check_text_CA2 = [q1TCA2.get(), q2TCA2.get(), q3TCA2.get(), q4TCA2.get(), q5TCA2.get(), q6TCA2.get(), q7TCA2.get(), q8TCA2.get(), q9TCA2.get(), q10TCA2.get()]
-                        no_of_text_fields = int(noCA2Entry.get())
-                        for i in range(0,no_of_text_fields):
-                            if(check_text_CA2[i] == ""):
-                                CTkMessagebox(title="Error", message="Please enter the CO\'s for all questions", icon="cancel")
-                                return
-                        for i in range(0,no_of_text_fields):
-                            if not validate_co_string(check_text_CA2[i]):
-                                CTkMessagebox(title="Invalid Input", message="Please enter the valid format of CO", icon="warning")
-                                return
-                    tabview.set(" Target level of tests ")
-    
-                elif entry10.get()=="Yes":
-                    if entry13.get() == "Quiz":
-                        check_text_CA1 = [q1TCA1.get(), q2TCA1.get(), q3TCA1.get(), q4TCA1.get(), q5TCA1.get(), q6TCA1.get(), q7TCA1.get(), q8TCA1.get(), q9TCA1.get(), q10TCA1.get()]
-                        no_of_text_fields = int(noCA1Entry.get())
-                        for i in range (0, no_of_text_fields):
-                            if(check_text_CA1[i] == ""):
-                                CTkMessagebox(title="Error", message="Please enter the CO\'s for all questions", icon="cancel")
-                                return
-                        for i in range (0, no_of_text_fields):
-                            if not validate_co_string(check_text_CA1[i]):
-                                CTkMessagebox(title="Invalid Input", message="Please enter the valid format of CO", icon="warning")
-                                return
-                    if entry14.get() == "Quiz":
-                        check_text_CA2 = [q1TCA2.get(), q2TCA2.get(), q3TCA2.get(), q4TCA2.get(), q5TCA2.get(), q6TCA2.get(), q7TCA2.get(), q8TCA2.get(), q9TCA2.get(), q10TCA2.get()]
-                        no_of_text_fields = int(noCA2Entry.get())
-                        for i in range(0,no_of_text_fields):
-                            if(check_text_CA2[i] == ""):
-                                CTkMessagebox(title="Error", message="Please enter the CO\'s for all questions", icon="cancel")
-                                return
-                        for i in range(0,no_of_text_fields):
-                            if not validate_co_string(check_text_CA2[i]):
-                                CTkMessagebox(title="Invalid Input", message="Please enter the valid format of CO", icon="warning")
-                                return
-                    if entry15.get() == "Quiz":
-                        check_text_CA3 = [q1TCA3.get(), q2TCA3.get(), q3TCA3.get(), q4TCA3.get(), q5TCA3.get(), q6TCA3.get(), q7TCA3.get(), q8TCA3.get(), q9TCA3.get(), q10TCA3.get()]
-                        no_of_text_fields = int(noCA3Entry.get())
-                        for i in range(0, no_of_text_fields):
-                            if(check_text_CA3[i] == ""):
-                                CTkMessagebox(title="Error", message="Please enter the CO\'s for all questions", icon="cancel")
-                                return
-                        for i in range(0,no_of_text_fields):
-                            if not (validate_co_string(check_text_CA3[i])):
-                                CTkMessagebox(title="Invalid Input", message="Please enter the valid format of CO", icon="warning")
-                                return
-                    tabview.set(" Target level of tests ")
+                elif ALEndSemText.get() == "" or ALMidTermText.get()=="":
+                    CTkMessagebox(title="Error", message="Please enter target level of MidSem and End Semester", icon="cancel")
+                else:
+                    tabview.set(" CA 1 ")
+                    
+            def switch_to_CA2():
+                caQT = [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1]
+                caQM = [q1TCA1marks,q2TCA1marks,q3TCA1marks,q4TCA1marks,q5TCA1marks,q6TCA1marks,q7TCA1marks,q8TCA1marks,q9TCA1marks,q10TCA1marks]
+                if noCA1Entry.get()!="Select No":
+                    option = int(noCA1Entry.get())
+                    for i in range(option,10):
+                        print(f"Ye option hai {option} {i}")
+                        caQT.pop(option)
+                        caQM.pop(option)
+                    for i in caQT:
+                        print(f"Ye CA co hai {i.get()}")
+                    for i in caQM:
+                        print(f"Ye CA marks hai {i.get()}")
+                if entry13.get()=="Select Type":
+                    return CTkMessagebox(title="Error", message="Please select Type of CA", icon="cancel")
+                if (entry13.get()=="Quiz" or entry13.get()=="Test") :
+                    if noCA1Entry.get()=="Select No":
+                        return CTkMessagebox(title="Error", message="Please select No of questions", icon="cancel")
+                    else:
+                        for ca1 in caQT:
+                            print(ca1.get())
+                            if ca1.get()=="":
+                                return CTkMessagebox(title="Error", message="Please enter CO of CA", icon="cancel")
+                            elif not validate_co_string(ca1.get()):
+                                return CTkMessagebox(title="Error", message="Please enter valid CO String", icon="cancel")
+                        for ca1M in caQM:
+                            if ca1M.get()=="":
+                                return CTkMessagebox(title="Error", message="Please enter marks of the questions", icon="cancel")
+                if entry13.get()=="NPTEL Course" and (nptelCA1Text.get()==""):
+                    return CTkMessagebox(title="Error", message="Please enter CO of NPTEL", icon="cancel")
+                elif entry13.get()=="NPTEL Course" and not validate_co_string(nptelCA1Text.get()):
+                    return CTkMessagebox(title="Error", message="Please enter valid CO format", icon="cancel")
+                if entry13.get()=="Presentation" and presentationCA1Text.get()=="":
+                    return CTkMessagebox(title="Error", message="Please enter maximum students in Presentation", icon="cancel")
+                if ALCA1Text.get() == "":
+                    return CTkMessagebox(title="Error", message="Please enter target level of CA1", icon="cancel")
+                tabview.set(" CA 2 ")
+                
+            def switch_to_CA3():
+                caQT = [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2]
+                caQM = [q1TCA2marks,q2TCA2marks,q3TCA2marks,q4TCA2marks,q5TCA2marks,q6TCA2marks,q7TCA2marks,q8TCA2marks,q9TCA2marks,q10TCA2marks]
+                if noCA2Entry.get()!="Select No":
+                    option = int(noCA2Entry.get())
+                    for i in range(option,10):
+                        caQT.pop(option)
+                        caQM.pop(option)
+                if entry14.get()=="Select Type":
+                    return CTkMessagebox(title="Error", message="Please select Type of CA", icon="cancel")
+                if (entry14.get()=="Quiz" or entry14.get()=="Test"):
+                    if noCA2Entry.get()=="Select No":
+                        return CTkMessagebox(title="Error", message="Please select No of questions", icon="cancel")
+                    else:
+                        for ca2 in caQT:
+                            if ca2.get()=="":
+                                return CTkMessagebox(title="Error", message="Please enter CO of CA", icon="cancel")
+                            elif not validate_co_string(ca2.get()):
+                                return CTkMessagebox(title="Error", message="Please enter valid CO String", icon="cancel")
+                        for ca2M in caQM:
+                            if ca2M.get()=="":
+                                return CTkMessagebox(title="Error", message="Please enter marks of the questions", icon="cancel")
+                if entry14.get()=="NPTEL Course" and (nptelCA2Text.get()==""):
+                    return CTkMessagebox(title="Error", message="Please enter CO of NPTEL", icon="cancel")
+                elif entry14.get()=="NPTEL Course" and not validate_co_string(nptelCA2Text.get()):
+                    return CTkMessagebox(title="Error", message="Please enter valid CO format", icon="cancel")
+                if entry14.get()=="Presentation" and presentationCA2Text.get()=="":
+                    return CTkMessagebox(title="Error", message="Please enter maximum students in Presentation", icon="cancel")
+                if ALCA2Text.get() == "":
+                    return CTkMessagebox(title="Error", message="Please enter target level of CA1", icon="cancel")
+                tabview.set(" CA 3 ")
+                
+            def switch_to_template():
+                if entry10.get() == "Yes":
+                    caQT = [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3]
+                    caQM = [q1TCA3marks,q2TCA3marks,q3TCA3marks,q4TCA3marks,q5TCA3marks,q6TCA3marks,q7TCA3marks,q8TCA3marks,q9TCA3marks,q10TCA3marks]
+                    if noCA3Entry.get()!="Select No":
+                        option = int(noCA3Entry.get())
+                        for i in range(option,10):
+                            caQT.pop(option)
+                            caQM.pop(option)
+                    if entry15.get()=="Select Type":
+                        return CTkMessagebox(title="Error", message="Please select Type of CA", icon="cancel")
+                    if (entry15.get()=="Quiz" or entry15.get()=="Test"):
+                        if noCA3Entry.get()=="Select No":
+                            return CTkMessagebox(title="Error", message="Please select No of questions", icon="cancel")
+                        else:
+                            for ca3 in caQT:
+                                if ca3.get()=="":
+                                    return CTkMessagebox(title="Error", message="Please enter CO of CA", icon="cancel")
+                                elif not validate_co_string(ca3.get()):
+                                    return CTkMessagebox(title="Error", message="Please enter valid CO String", icon="cancel")
+                            for ca3M in caQM:
+                                if ca3M.get()=="":
+                                    return CTkMessagebox(title="Error", message="Please enter marks of the questions", icon="cancel")
+                    if entry15.get()=="NPTEL Course" and (nptelCA3Text.get()==""):
+                        return CTkMessagebox(title="Error", message="Please enter CO of NPTEL", icon="cancel")
+                    elif entry15.get()=="NPTEL Course" and not validate_co_string(nptelCA3Text.get()):
+                        return CTkMessagebox(title="Error", message="Please enter valid CO format", icon="cancel")
+                    if entry15.get()=="Presentation" and presentationCA3Text.get()=="":
+                        return CTkMessagebox(title="Error", message="Please enter maximum students in Presentation", icon="cancel")
+                    if ALCA3Text.get() == "":
+                        return CTkMessagebox(title="Error", message="Please enter target level of CA1", icon="cancel")
+                    tabview.set(" Process Template/Calculated ")
     
             def create_button(tab, name, font_name, font_size, w, h, com, x, y):
                 button = ctk.CTkButton(master=tabview.tab(tab), text=name, width=w, height=h, font=(font_name, font_size), command=com)
@@ -911,6 +955,7 @@ class User_mode:
             q10TCA1marks = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 455)
             q10TCA1marks.configure(state="disabled", fg_color="gray")
 
+            button3 = create_button(" CA 1 ", "Next", "Arial", 20, 200, 40, switch_to_CA2, 1050, 640)
 
             # COs for CA2 Quiz
             label18 = create_label(" CA 2 ", "COs for CA2 Quiz/Test", "Arial", 20, 350, 205)
@@ -995,6 +1040,8 @@ class User_mode:
             q10LCA2marks = create_label(" CA 2 ", "Q10 :", "Arial", 15, 1200, 455)
             q10TCA2marks = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 455)
             q10TCA2marks.configure(state="disabled", fg_color="gray")
+            
+            button2 = create_button(" CA 2 ", "Next", "Arial", 20, 200, 40, switch_to_CA3, 1050, 640)
 
             # COs for CA3 Quiz
             label21 = create_label(" CA 3 ", "COs for CA3 Quiz/Test", "Arial", 20, 350, 255)
@@ -1081,7 +1128,7 @@ class User_mode:
             q10TCA3marks.configure(state="disabled", fg_color="gray")
 
 
-            button = create_button(" Target level of tests ", "Download", "Arial", 20, 200, 40, download, 650, 500)
+            button2 = create_button(" CA 3 ", "Next", "Arial", 20, 200, 40, switch_to_template, 1050, 640)
 
             def upload_file():
                 global file_path
@@ -1109,7 +1156,7 @@ class User_mode:
             # Using create_label, create_entry_box, and create_dropdown to recreate the UI
 
             # CO Information
-            enterCO = create_label(" CO Information ", "Enter the CO's", "Arial", 20, 700, 50)
+            enterCO = create_label(" CO Information ", "Enter the CO's Description", "Arial", 20, 700, 50)
             noOfCOLabel = create_label(" CO Information ", "Select No. of CO's: ", "Arial", 15, 550, 100)
             noOfCOOption = create_dropdown(" CO Information ", ['Select No of CO\'s', '5', '6'], "Arial", 15, 300, noOfCO, 750, 100)
 
@@ -1133,7 +1180,7 @@ class User_mode:
             CO6T.configure(state="disabled", fg_color="gray")
 
             # Target level of tests
-            ALlabel = create_label(" Target level of tests ", "Enter the Target levels for each exam", "Arial", 20, 600, 50)
+            # ALlabel = create_label(" Target level of tests ", "Enter the Target levels for each exam", "Arial", 20, 600, 50)
 
             # CA1, CA2, CA3, MidTerm, EndSem, Labs
             ALlabelCA1 = create_label(" CA 1 ", "Enter the Target level for CA 1", "Arial", 20, 600, 605)
@@ -1144,9 +1191,9 @@ class User_mode:
             ALCA2Label = create_label(" CA 2 ", "CA2: ", "Arial", 15, 450, 655)
             ALCA2Text = create_entry_box(" CA 2 ", "", "Arial", 15, 500, 575, 655)
 
-            ALlabelCA3 = create_label(" CA 3 ", "Enter the Target level for CA 3", "Arial", 20, 600, 655)
-            ALCA3Label = create_label(" CA 3 ", "CA3: ", "Arial", 15, 450, 700)
-            ALCA3Text = create_entry_box(" CA 3 ", "", "Arial", 15, 500, 550, 700)
+            ALlabelCA3 = create_label(" CA 3 ", "Enter the Target level for CA 3", "Arial", 20, 600, 630)
+            ALCA3Label = create_label(" CA 3 ", "CA3: ", "Arial", 15, 450, 675)
+            ALCA3Text = create_entry_box(" CA 3 ", "", "Arial", 15, 500, 550, 675)
             ALCA3Text.configure(state="disabled", fg_color="gray")
 
             ALlabelMidTerm = create_label(" Mid Terms & End Semesters ", "Enter the Target level for Midterms and End Semsesters", "Arial", 20, 600, 505)
@@ -1157,9 +1204,13 @@ class User_mode:
             ALEndSemLabel = create_label(" Mid Terms & End Semesters ", "End Semester: ", "Arial", 15, 450, 605)
             ALEndSemText = create_entry_box(" Mid Terms & End Semesters ", "", "Arial", 15, 500, 550, 605)
 
-            setEmailLabel = create_label(" Target level of tests ", "Enter the Email ID to send the template.", "Arial", 20, 600, 400)
+            setEmailLabel = create_label(" Process Template/Calculated ", "Generate Template", "Arial", 20, 650, 10)
+            
+            setEmailIDLabel = create_label(" Process Template/Calculated ", "Enter the Email ID to send the template sheet.", "Arial", 20, 200, 50)
 
-            emailText = create_entry_box(" Target level of tests ", "", "Arial", 15, 500, 525, 450)
+            emailText = create_entry_box(" Process Template/Calculated ", "", "Arial", 15, 500, 700, 50)
+            
+            button = create_button(" Process Template/Calculated ", "Download", "Arial", 20, 200, 40, download, 650, 100)
 
             # ALSurveyLabel = create_label(" Target level of tests ", "Survey: ", "Arial", 15, 450, 350)
             # ALSurveyText = create_entry_box(" Target level of tests ", "", "Arial", 15, 500, 575, 350)
@@ -1168,32 +1219,35 @@ class User_mode:
             button1 = create_button(" CO Information ", "Next", "Arial", 20, 200, 40, switch_to_MidTerm_EndSem, 725, 500)
             # button2 = create_button(" CO Mapping ", "Next", "Arial", 20, 200, 40, switch2, 725, 500)
             button2 = create_button(" Mid Terms & End Semesters ", "Next", "Arial", 20, 200, 40, switch_to_CA1, 1050, 640)
+            
+            
 
+            line1 = ctk.CTkFrame(master=tabview.tab(" Process Template/Calculated "), height=2, width=1200, fg_color="white")
+            line1.place(x=150,y=200)
 
+            path_entry=ctk.CTkEntry(tabview.tab(" Process Template/Calculated "))
 
-            path_entry=ctk.CTkEntry(tabview.tab(" Upload Excel File "))
-
-            # button_process=ctk.CTkButton(tabview.tab(" Upload Excel File "),text="Process",width=100,height=30,command=process_file)
+            # button_process=ctk.CTkButton(tabview.tab(" Process Template/Calculated "),text="Process",width=100,height=30,command=process_file)
             # button_process.place(x=500,y=500)
 
-            upload_Label = create_label(" Upload Excel File ", "Upload you excel file with the marks entered:", "Arial", 25, 550, 50)
-            path_label = create_label(" Upload Excel File ", "Path of file", "Arial", 15, 650, 110)
-            button_upload = create_button(" Upload Excel File ", "Upload", "Arial", 20, 200, 40, upload_file, 400, 100)
+            upload_Label = create_label(" Process Template/Calculated ", "Upload you excel file with the marks entered:", "Arial", 25, 550, 250)
+            path_label = create_label(" Process Template/Calculated ", "Path of file", "Arial", 15, 650, 310)
+            button_upload = create_button(" Process Template/Calculated ", "Upload", "Arial", 20, 200, 40, upload_file, 400, 300)
 
 
-            line = ctk.CTkFrame(master=tabview.tab(" Upload Excel File "), height=2, width=1200, fg_color="white")
-            line.place(x=150,y=200)
+            line = ctk.CTkFrame(master=tabview.tab(" Process Template/Calculated "), height=2, width=1200, fg_color="white")
+            line.place(x=150,y=400)
 
-            process_Label = create_label(" Upload Excel File ", "Process the excel file you uploaded:", "Arial", 25, 600, 250)
+            process_Label = create_label(" Process Template/Calculated ", "Process the excel file you uploaded:", "Arial", 25, 600, 450)
 
-            setEmailProcessedLabel = create_label(" Upload Excel File ", "Enter the Email ID to send the calculated sheet.", "Arial", 20, 200, 400)
+            setEmailProcessedLabel = create_label(" Process Template/Calculated ", "Enter the Email ID to send the calculated sheet.", "Arial", 20, 200, 500)
 
-            important_label = create_label(" Upload Excel File ", "Important: Please fill the no. of CO\'s field and the CO\'s in the CO Information page and AL values in Target level of tests page before processing the file", "Arial", 20, 100, 325)
-            important_label.configure(text_color="black", fg_color="yellow")
+            # important_label = create_label(" Process Template/Calculated ", "Important: Please fill the no. of CO\'s field and the CO\'s in the CO Information page and AL values in Target level of tests page before processing the file", "Arial", 20, 100, 325)
+            # important_label.configure(text_color="black", fg_color="yellow")
 
-            emailTextProcessed = create_entry_box(" Upload Excel File ", "", "Arial", 15, 500, 700, 400)
+            emailTextProcessed = create_entry_box(" Process Template/Calculated ", "", "Arial", 15, 500, 700, 500)
 
-            button_process = create_button(" Upload Excel File ", "Process", "Arial", 20, 200, 40, process_file, 650, 500)
+            button_process = create_button(" Process Template/Calculated ", "Process", "Arial", 20, 200, 40, process_file, 650, 550)
 
             back_button = ctk.CTkButton(co_window, text="Back", command=lambda: self.go_back(co_window))
             back_button.place(x=1300,y=40)

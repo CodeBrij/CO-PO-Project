@@ -258,9 +258,10 @@ def cal_sheet(file_name, receiversEmail):
         # mySheet=workbook[ca]
         
         match1 = re.search(r'Type :\s*([\w/]+)', mySheet['A1'].value)
-        print(match1)
+        print(f"Bhai ye {match1}")
         if match1:
             quiz_type = match1.group(1)
+        
         
         match2 = re.search(r'Total Questions :(\d+)', mySheet['A1'].value)
         if match2:
@@ -292,14 +293,67 @@ def cal_sheet(file_name, receiversEmail):
         if match1:
             if quiz_type=='Quiz':
                 my_co_arr=cal_quiz(mySheet,myArr,al_value)
-            else:
+            elif quiz_type=='NPTEL Course':
                 my_co_arr=cal_NPTEL(mySheet,al_value)
+            elif quiz_type=="Other":
+                my_co_arr=cal_other(mySheet,al_value) #If in future if more types are needed then do not forgot to Add new match beacuse in others we have specified type in B column not in A
         else:
-            my_co_arr=cal_PPT(mySheet,al_value) 
+            my_co_arr=cal_other(mySheet,al_value) # This Else we have used because we are not putting type at the top
         return my_co_arr
             
         
+    def cal_other(otherSheet, al_value):
         
+        endCol='B'
+        
+        otherSheet[f'B{total_roll+4}'] = f'=IFERROR(COUNT({endCol}4:{endCol}{total_roll+3}),0)'
+        otherSheet[f'B{total_roll+5}'] = f'=IFERROR(COUNT({endCol}4:{endCol}{total_roll+3}),0)'
+        target_cell_other = otherSheet[f'B{total_roll+6}']
+        if target_cell_other.value is None:  # Check if the cell is empty
+            target_cell_other.value = f'=IFERROR(COUNTIF({endCol}4:{endCol}{total_roll+3}, ">={float(al_value) / 100 * 60}"),0)'
+        otherSheet[f'B{total_roll+7}'] = f'=IFERROR(ROUND({otherSheet[f"B{str(total_roll+6)}"].coordinate} / {otherSheet[f"B{str(total_roll+4)}"].coordinate} * 100, 1),0)'
+        otherSheet[f'B{total_roll+8}'] = f'=IFERROR(COUNTIF({endCol}4:{endCol}{total_roll+3}, ">="&{endCol}{total_roll+5}),0)'
+        otherSheet[f'B{total_roll+9}'] = f'=IFERROR(ROUND({otherSheet[f"B{str(total_roll+8)}"].coordinate} / {otherSheet[f"B{str(total_roll+4)}"].coordinate} * 100, 1),0)'
+        otherSheet[f'B{total_roll+10}'] = f'=IFERROR(IF({otherSheet[f"B{str(total_roll+7)}"].coordinate}<60, 1, IF(AND({otherSheet[f"B{str(total_roll+7)}"].coordinate}>59, {otherSheet[f"B{str(total_roll+7)}"].coordinate}<70), 2, IF(AND({otherSheet[f"B{str(total_roll+7)}"].coordinate}>69, {otherSheet[f"B{str(total_roll+7)}"].coordinate}<80), 3, 4))),0)'
+        
+            
+        check_other = [int(val.strip()) for val in str(otherSheet['B3'].value)[2:].split(',') if val.strip().isdigit()]
+        
+        if 1 in check_other:
+            otherSheet[f'B{total_roll+14}']=otherSheet[f'B{total_roll+10}'].value
+        else :
+            otherSheet[f'B{total_roll+14}']=0    
+        if 2 in check_other:
+            otherSheet[f'B{total_roll+15}']=otherSheet[f'B{total_roll+10}'].value
+        else :
+            otherSheet[f'B{total_roll+15}']=0
+            
+        if 3 in check_other:
+            otherSheet[f'B{total_roll+16}']=otherSheet[f'B{total_roll+10}'].value
+        else :
+            otherSheet[f'B{total_roll+16}']=0
+            
+        if 4 in check_other:
+            otherSheet[f'B{total_roll+17}']=otherSheet[f'B{total_roll+10}'].value
+        else :
+            otherSheet[f'B{total_roll+17}']=0
+            
+        if 5 in check_other:
+            otherSheet[f'B{total_roll+18}']=otherSheet[f'B{total_roll+10}'].value
+        else :
+            otherSheet[f'B{total_roll+18}']=0
+            
+        if(cosCount == 6):
+            if 6 in check_other:
+                otherSheet[f'B{total_roll+19}']=otherSheet[f'B{total_roll+10}'].value
+            else :
+                otherSheet[f'B{total_roll+19}']=0
+        
+        map_other_co_arr=[f'={otherSheet.title}!B{total_roll+14}',f'={otherSheet.title}!B{total_roll+15}',f'={otherSheet.title}!B{total_roll+16}',f'={otherSheet.title}!B{total_roll+17}',f'={otherSheet.title}!B{total_roll+18}',f'={otherSheet.title}!B{total_roll+19}']
+        
+        return map_other_co_arr
+
+
     def cal_quiz(newSheet,col_arr,al_value):
         for col in col_arr:
         

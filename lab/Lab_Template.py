@@ -230,15 +230,24 @@ def lab_template_generator(basic_values_lo):
         project_sheet[f"B{current_row}"] = roll_no
         project_sheet[f"C{current_row}"] = f"Student {roll_no}"
 
-    for i in range(0,4):
-        project_sheet.cell(row=3, column=5 + i, value=f'Factor {i+1}')
-        project_sheet.cell(row=4, column=5 + i, value=projLoList[i])
+    # for i in range(0,4):
+    #     project_sheet.cell(row=3, column=5 + i, value=f'Factor {i+1}')
+    #     project_sheet.cell(row=4, column=5 + i, value=projLoList[i])
+    project_sheet.cell(row=3, column=5, value=f'LOs')
+    project_sheet.cell(row=4, column=5, value=projLoList)
 
     current_row = startCell + total_roll - 1
     project_sheet[f'A{current_row+2}'] = f"Count>={ProjectTarget}%"
     project_sheet[f'A{current_row+3}'] = f"%Count"
     project_sheet[f'A{current_row+4}'] = "AL"
 
+    # Determine the range to apply borders
+    end_row = startCell + total_roll -1
+    end_col = 5  # Column E (A=1, B=2,... E=5)
+
+    for row in project_sheet.iter_rows(min_row=3, max_row=end_row, min_col=1, max_col=end_col):
+        for cell in row:
+            cell.border = create_border()
     # for row in project_sheet.iter_rows(min_row=3, max_row=current_row + 4, min_col=1, max_col=4+projCriteria):
     #     for cell in row:
     #         cell.border = create_border()

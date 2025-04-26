@@ -15,7 +15,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email import encoders
 
-def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_temp,CA2_Co_arr_temp,CA3_Co_arr_temp,al_values_temp, receiversEmail):
+def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_temp,CA2_Co_arr_temp,CA3_Co_arr_temp,CA1M_Co_arr,CA2M_Co_arr,CA3M_Co_arr,al_values_temp, receiversEmail):
     workbook=Workbook() 
     print("Number of CAs:", basic_values_temp[10])
     cosCount = (int)(basic_values_temp[14])  #no. of COs for the subject
@@ -25,7 +25,7 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
     sheet2=workbook.create_sheet(title="Endsem")
     sheet3=workbook.create_sheet(title="CA1")
     sheet4=workbook.create_sheet(title="CA2")
-    if basic_values_temp[10]=="3":
+    if basic_values_temp[10]=="Yes":
         sheet7=workbook.create_sheet(title="CA3")
         print("Created")
     sheet5=workbook.create_sheet(title="Survey")
@@ -400,7 +400,7 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
         if(cosCount == 6):
             mysheet2[f'B{total_roll+22}'] = 'CO6' 
     
-    def make_CA_Type_Quiz(mysheet,ca_array,al_value,cosCount):
+    def make_CA_Type_Quiz(mysheet,ca_array,al_value,cosCount,name):
         temp=len(ca_array)
         # mysheet=sheet4
         
@@ -571,7 +571,7 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
             mysheet.merge_cells("A1:L1")
             myArr=['A','B', 'C', 'D', 'E', 'F', 'G','H','I', 'J','K','L']
         
-        mysheet['A1']="Type : Quiz      Total Questions :"+str(temp)+"      Maximum Marks for each question = 2"
+        mysheet['A1']=f"Type : {name}      Total Questions :"+str(temp)
         mysheet['A1'].font=Font(bold=True)
         
         for i in range(1,4):
@@ -640,46 +640,120 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
         mysheet[f'C{total_roll+18}'] = 'CO5'
         if(cosCount==6):
             mysheet[f'C{total_roll+19}'] = 'CO6' 
+            
+    def make_CA_Type_Other_Implementation(sheet2, name, co_array, al_value, cosCount):
+        sheet2.column_dimensions['A'].width =42
+        sheet2.column_dimensions['B'].width =22
+        sheet2.merge_cells(f"A1:B1")
+        sheet2['A1']=f"Type : {name}"
+        sheet2['A1'].font=Font(bold=True) 
+        sheet2['B2']="ALL COs Mapped"
+        sheet2['B2'].font=Font(bold=True) 
+        sheet2['A2']="Roll No."
+        sheet2['A2'].font=Font(bold=True) 
+
+        for i in range(1,total_roll+1):
+            sheet2[f'A{i+3}'] =i
+        
+        
+        sheet2[f'A{total_roll+4}']="Count(Attempted)"
+        sheet2[f'A{total_roll+5}']="Average Marks"
+        
+    
+        sheet2[f'A{total_roll+6}']=f"Count(>={al_value}%)"
+        
+        sheet2[f'A{total_roll+7}']=f"% Count(>={al_value}% w.r.t appeared)"
+        
+        sheet2[f'A{total_roll+8}']="Count(>=Average Marks of class)"
+        sheet2[f'A{total_roll+9}']="% Count(>=Average Marks of class w.r.t appeared)"
+        
+        sheet2[f'A{total_roll+10}']=f"AL(Based on >={al_value}% Count) (All COs)"
+        sheet2[f'A{total_roll+10}'].font=Font(bold=True) 
+        sheet2[f'B{total_roll+10}'].font=Font(bold=True)
+        
+        for i in range(1,total_roll+11):
+            sheet2[f'A{i}'].alignment= Alignment(horizontal='center', vertical='center')     
+            sheet2[f'A{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))
+            sheet2[f'B{i}'].alignment= Alignment(horizontal='center', vertical='center')     
+            sheet2[f'B{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))
+            if i>=total_roll+4 :
+                sheet2[f'A{i}'].alignment= Alignment(horizontal='left', vertical='center') 
+        
+        sheet2[f'A{total_roll+13}'] = "COs"
+        sheet2[f'A{total_roll+13}'].font=Font(bold=True)
+        sheet2[f'B{total_roll+13}'] = "AL"
+        sheet2[f'B{total_roll+13}'].font=Font(bold=True)
+        sheet2[f'A{total_roll+14}'] = 'CO1'
+        sheet2[f'A{total_roll+15}'] = 'CO2'
+        sheet2[f'A{total_roll+16}'] = 'CO3'
+        sheet2[f'A{total_roll+17}'] = 'CO4'
+        sheet2[f'A{total_roll+18}'] = 'CO5'
+        if(cosCount == 6):
+            sheet2[f'A{total_roll+19}'] = 'CO6' 
+        
+        coTableEndsem = total_roll+20
+        if(cosCount == 5):
+            coTableEndsem = total_roll+19
+        for i in range(total_roll+13,coTableEndsem):
+            print("EEEEEENNNNdsemmmmm")
+            print(f"A{i}")
+            print(f"B{i}")
+            sheet2[f'A{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))
+            sheet2[f'B{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))
+            sheet2[f'A{i}'].alignment= Alignment(horizontal='center', vertical='center')
+            sheet2[f'B{i}'].alignment= Alignment(horizontal='center', vertical='center')
     
     print(basic_values_temp[10])       
-    if basic_values_temp[10]=="2":
-        if basic_values_temp[11]=="Quiz":
-            make_CA_Type_Quiz(sheet3,CA1_Co_arr_temp,al_values_temp[0],cosCount)
+    if basic_values_temp[10]=="No":
+        print(f"Bhai type hai {basic_values_temp[11]} aur {basic_values_temp[11]=="Quiz"}")
+        if basic_values_temp[11]=="Quiz" or basic_values_temp[11]=="Test":
+            print(f'{basic_values_temp[11]} invoke hua bhai')
+            make_CA_Type_Quiz(sheet3,CA1_Co_arr_temp,al_values_temp[0],cosCount,basic_values_temp[11])
         elif basic_values_temp[11]=="NPTEL Course":
             make_CA_Type_NPTEL(sheet3,CA1_Co_arr_temp,al_values_temp[0],cosCount) 
-        else :
+        elif basic_values_temp[11]=="Presentation" :
             make_CA_Type_PPT(sheet3,CA1_Co_arr_temp,al_values_temp[0],cosCount)
+        else:
+            make_CA_Type_Other_Implementation(sheet3, basic_values_temp[11], CA1_Co_arr_temp, al_values_temp[0], cosCount)
             
         print("Hello",basic_values_temp[10])
-        if basic_values_temp[12]=="Quiz":
-            make_CA_Type_Quiz(sheet4,CA2_Co_arr_temp,al_values_temp[1],cosCount)
+        if basic_values_temp[12]=="Quiz" or basic_values_temp[12]=="Test":
+            make_CA_Type_Quiz(sheet4,CA2_Co_arr_temp,al_values_temp[1],cosCount,basic_values_temp[12])
         elif basic_values_temp[12]=="NPTEL Course":
             make_CA_Type_NPTEL(sheet4,CA2_Co_arr_temp,al_values_temp[1],cosCount)
-        else :
+        elif basic_values_temp[12]=="Presentation" :
             make_CA_Type_PPT(sheet4,CA2_Co_arr_temp,al_values_temp[1],cosCount)
+        else:
+            make_CA_Type_Other_Implementation(sheet4, basic_values_temp[12], CA2_Co_arr_temp, al_values_temp[1], cosCount)
             
-    elif basic_values_temp[10]=="3":
-        if basic_values_temp[11]=="Quiz":
-            make_CA_Type_Quiz(sheet3,CA1_Co_arr_temp,al_values_temp[0],cosCount)
+    elif basic_values_temp[10]=="Yes":
+        if basic_values_temp[11]=="Quiz" or basic_values_temp[11]=="Test":
+            make_CA_Type_Quiz(sheet3,CA1_Co_arr_temp,al_values_temp[0],cosCount,basic_values_temp[11])
         elif basic_values_temp[11]=="NPTEL Course":
             make_CA_Type_NPTEL(sheet3,CA1_Co_arr_temp,al_values_temp[0],cosCount)
-        else :
+        elif basic_values_temp[11]=="Presentation" :
             make_CA_Type_PPT(sheet3,CA1_Co_arr_temp,al_values_temp[0],cosCount)
+        else:
+            make_CA_Type_Other_Implementation(sheet3, basic_values_temp[11], CA1_Co_arr_temp, al_values_temp[0], cosCount)
             
         print("Hi",basic_values_temp[10]) 
-        if basic_values_temp[12]=="Quiz":
-            make_CA_Type_Quiz(sheet4,CA2_Co_arr_temp,al_values_temp[1],cosCount)
+        if basic_values_temp[12]=="Quiz" or basic_values_temp[12]=="Test":
+            make_CA_Type_Quiz(sheet4,CA2_Co_arr_temp,al_values_temp[1],cosCount, basic_values_temp[12])
         elif basic_values_temp[12]=="NPTEL Course":
             make_CA_Type_NPTEL(sheet4,CA2_Co_arr_temp,al_values_temp[1],cosCount) 
-        else:
+        elif basic_values_temp[12]=="Presentation" :
             make_CA_Type_PPT(sheet4,CA2_Co_arr_temp,al_values_temp[1],cosCount)
-                 
-        if basic_values_temp[13]=="Quiz":
-            make_CA_Type_Quiz(sheet7,CA3_Co_arr_temp,al_values_temp[2],cosCount)
+        else:
+            make_CA_Type_Other_Implementation(sheet4, basic_values_temp[12], CA2_Co_arr_temp, al_values_temp[1], cosCount)
+
+        if basic_values_temp[13]=="Quiz" or basic_values_temp[13]=="Test":
+            make_CA_Type_Quiz(sheet7,CA3_Co_arr_temp,al_values_temp[2],cosCount, basic_values_temp[13])
         elif basic_values_temp[13]=="NPTEL Course":
             make_CA_Type_NPTEL(sheet7,CA3_Co_arr_temp,al_values_temp[2],cosCount) 
-        else:
+        elif basic_values_temp[13]=="Presentation" :
             make_CA_Type_PPT(sheet7,CA3_Co_arr_temp,al_values_temp[2],cosCount)
+        else:
+            make_CA_Type_Other_Implementation(sheet7, basic_values_temp[13], CA3_Co_arr_temp, al_values_temp[2], cosCount)
         print("Hi",basic_values_temp[13])   
         
         
@@ -1412,6 +1486,26 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
     sheet0['A6'] = "TargetMidTermText"
     sheet0['A7'] = "TargetEndSemText"
     sheet0['A9'] = "No. of COs"
+    
+    count = 3
+    for i in CA1M_Co_arr:
+        print(f"Count hai {count}")
+        print(i)
+        sheet0[f'D{count}'] = f"Q{count-2} Marks"
+        sheet0[f'E{count}'] = i
+        count += 1
+        
+    count = 3
+    for i in CA2M_Co_arr:
+        sheet0[f'G{count}'] = f"Q{count-2} Marks"
+        sheet0[f'H{count}'] = i
+        count += 1
+        
+    count = 3
+    for i in CA3M_Co_arr:
+        sheet0[f'J{count}'] = f"Q{count-2} Marks"
+        sheet0[f'K{count}'] = i
+        count += 1
     
     selectedPath = filedialog.askdirectory()
     filePath = f'{selectedPath}/Template_{basic_values_temp[7]}_{basic_values_temp[4]}_{basic_values_temp[6]}_{basic_values_temp[5]}.xlsx'

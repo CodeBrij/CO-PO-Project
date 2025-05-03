@@ -24,7 +24,7 @@ class User_mode:
             current_window.destroy()  # Close the current window
             self.__init__() 
 
-    def open_co_window(self):
+def open_co_window(self):
             self.app.destroy() 
             
             co_window = ctk.CTk()  # Close the current window
@@ -491,12 +491,20 @@ class User_mode:
                     for preca in [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1,noCA1Entry,nptelCA1Text,q1TCA1marks,q2TCA1marks,q3TCA1marks,q4TCA1marks,q5TCA1marks,q6TCA1marks,q7TCA1marks,q8TCA1marks,q9TCA1marks,q10TCA1marks]:
                         preca.configure(state="disabled", fg_color="gray")
                     presentationCA1Text.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+                    
                 elif option == "Quiz" or option == "Test":
-                    for ca in [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1, q1TCA1marks,q2TCA1marks,q3TCA1marks,q4TCA1marks,q5TCA1marks,q6TCA1marks,q7TCA1marks,q8TCA1marks,q9TCA1marks,q10TCA1marks]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+                    # for ca in [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1, q1TCA1marks,q2TCA1marks,q3TCA1marks,q4TCA1marks,q5TCA1marks,q6TCA1marks,q7TCA1marks,q8TCA1marks,q9TCA1marks,q10TCA1marks]:
+                    #     ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
                     noCA1Entry.configure(state="normal", fg_color=["#3B8ED0", "#1F6AA5"])
                     nptelCA1Text.configure(state="disabled", fg_color="gray") 
                     presentationCA1Text.configure(state="disabled", fg_color="gray") 
+                    
+                elif option == "Other":
+                    for disca in [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1,noCA1Entry,presentationCA1Text, nptelCA1Text, q1TCA1marks,q2TCA1marks,q3TCA1marks,q4TCA1marks,q5TCA1marks,q6TCA1marks,q7TCA1marks,q8TCA1marks,q9TCA1marks,q10TCA1marks]:
+                        disca.configure(state="disabled", fg_color="gray")
+                    
+                    
+                        
                     
             def ca2(option):
                 if  option == "Select Type":
@@ -511,11 +519,14 @@ class User_mode:
                         preca.configure(state="disabled", fg_color="gray")
                     presentationCA2Text.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
                 elif option == "Test" or option == "Quiz":
-                    for ca in [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2, q1TCA2marks,q2TCA2marks,q3TCA2marks,q4TCA2marks,q5TCA2marks,q6TCA2marks,q7TCA2marks,q8TCA2marks,q9TCA2marks,q10TCA2marks]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+                    # for ca in [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2, q1TCA2marks,q2TCA2marks,q3TCA2marks,q4TCA2marks,q5TCA2marks,q6TCA2marks,q7TCA2marks,q8TCA2marks,q9TCA2marks,q10TCA2marks]:
+                    #     ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
                     noCA2Entry.configure(state="normal", fg_color=["#3B8ED0", "#1F6AA5"])
                     nptelCA2Text.configure(state="disabled", fg_color="gray") 
                     presentationCA2Text.configure(state="disabled", fg_color="gray")
+                elif option == "Other":
+                    for disca in [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2,noCA2Entry,presentationCA2Text, nptelCA2Text, q1TCA2marks,q2TCA2marks,q3TCA2marks,q4TCA2marks,q5TCA2marks,q6TCA2marks,q7TCA2marks,q8TCA2marks,q9TCA2marks,q10TCA2marks]:
+                        disca.configure(state="disabled", fg_color="gray")
                     
     
             def ca3(option):
@@ -533,11 +544,14 @@ class User_mode:
                         preca.configure(state="disabled", fg_color="gray")
                     presentationCA3Text.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
                 elif option == "Quiz" or option == "Test":
-                    for ca in [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3,q1TCA3marks,q2TCA3marks,q3TCA3marks,q4TCA3marks,q5TCA3marks,q6TCA3marks,q7TCA3marks,q8TCA3marks,q9TCA3marks,q10TCA3marks]:
-                        ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+                    # for ca in [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3,q1TCA3marks,q2TCA3marks,q3TCA3marks,q4TCA3marks,q5TCA3marks,q6TCA3marks,q7TCA3marks,q8TCA3marks,q9TCA3marks,q10TCA3marks]:
+                    #     ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
                     noCA3Entry.configure(state="normal", fg_color=["#3B8ED0", "#1F6AA5"])
                     nptelCA3Text.configure(state="disabled", fg_color="gray") 
                     presentationCA3Text.configure(state="disabled", fg_color="gray")
+                elif option == "Other":
+                    for disca in [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3,noCA3Entry,presentationCA3Text,nptelCA3Text, q1TCA3marks,q2TCA3marks,q3TCA3marks,q4TCA3marks,q5TCA3marks,q6TCA3marks,q7TCA3marks,q8TCA3marks,q9TCA3marks,q10TCA3marks]:
+                        disca.configure(state="disabled", fg_color="gray")
 
             def semesterAndClass(option):
                 if option == "Select Year":
@@ -680,7 +694,7 @@ class User_mode:
                 return os.path.join(os.path.abspath("."), relative_path)
 
             # Use resource_path to access the image
-            image_path = resource_path("./images/coCal.png")
+            image_path = resource_path("CO Calculator.png")
             # Load the image and create a CTkImage
             background_image = Image.open(image_path)
             bg_image = ctk.CTkImage(background_image, size=(screen_width - 100, screen_height-130))
@@ -748,11 +762,11 @@ class User_mode:
 
             label10 = create_label(" CA 3 ", "Is CA3 Applicable: ", "Arial", 15, 200, 55)
 
-            entry10 = create_dropdown(" CA 3 ", ["Yes", "No"], "Arial", 15, 300, disable, 500, 55)
+            entry10 = create_dropdown(" CA 3 ", ["Select Yes/No", "Yes", "No"], "Arial", 15, 300, disable, 500, 55)
 
             label13 = create_label(" CA 1 ", "CA1 type :", "Arial", 15, 200, 55)
 
-            entry13 = create_dropdown(" CA 1 ", ["Select Type", "Quiz", "NPTEL Course", "Presentation", "Test", "Implementation", "Other"], "Arial", 15, 300, ca1, 500, 55)
+            entry13 = create_dropdown(" CA 1 ", ["Select Type", "Quiz", "NPTEL Course", "Presentation", "Test",  "Other"], "Arial", 15, 300, ca1, 500, 55)
 
             noCA1Label = create_label(" CA 1 ", "No of Question CA1 (Quiz/Test) :", "Arial", 15, 200, 105)
 
@@ -761,7 +775,7 @@ class User_mode:
 
             label14 = create_label(" CA 2 ", "CA2 type :", "Arial", 15, 200, 55)
 
-            entry14 = create_dropdown(" CA 2 ", ["Select Type", "Quiz", "NPTEL Course", "Presentation", "Test", "Implementation", "Other"], "Arial", 15, 300, ca2, 500, 55)
+            entry14 = create_dropdown(" CA 2 ", ["Select Type", "Quiz", "NPTEL Course", "Presentation", "Test", "Other"], "Arial", 15, 300, ca2, 500, 55)
 
             noCA2Label = create_label(" CA 2 ", "No of Question CA2 (Quiz/Test) :", "Arial", 15, 200, 105)
 
@@ -770,7 +784,7 @@ class User_mode:
 
             label15 = create_label(" CA 3 ", "CA3 type :", "Arial", 15, 200, 105)
 
-            entry15 = create_dropdown(" CA 3 ", ["Select Type", "Quiz", "NPTEL Course", "Presentation", "Test", "Implementation", "Other"], "Arial", 15, 300, ca3, 500, 105)
+            entry15 = create_dropdown(" CA 3 ", ["Select Type", "Quiz", "NPTEL Course", "Presentation", "Test", "Other"], "Arial", 15, 300, ca3, 500, 105)
             entry15.configure(state="disabled", fg_color="gray")
 
             noCA3Label = create_label(" CA 3 ", "No of Question CA3 (Quiz/Test) :", "Arial", 15, 200, 155)
@@ -808,12 +822,12 @@ class User_mode:
 
             presentationCA2Label = create_label(" CA 2 ", "Group Size: ", "Arial", 15, 850, 555)
 
-            presentationCA2Text = create_entry_box(" CA 2 ", "Enter maximum number of students in a group", "Arial", 15, 300, 950, 555)
+            presentationCA2Text = create_entry_box(" CA 2 ", "Enter maximum number of students in a group", "Arial", 15, 350, 950, 555)
             presentationCA2Text.configure(state="disabled", fg_color="gray")
 
             presentationCA3Label = create_label(" CA 3 ", "Group Size: ", "Arial", 15, 850, 605)
 
-            presentationCA3Text = create_entry_box(" CA 3 ", "Enter maximum number of students in a group", "Arial", 15, 300, 950, 605)
+            presentationCA3Text = create_entry_box(" CA 3 ", "Enter maximum number of students in a group", "Arial", 15, 350, 950, 605)
             presentationCA3Text.configure(state="disabled", fg_color="gray")
 
 
@@ -955,7 +969,7 @@ class User_mode:
             q10TCA1marks = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 455)
             q10TCA1marks.configure(state="disabled", fg_color="gray")
 
-            button3 = create_button(" CA 1 ", "Next", "Arial", 20, 200, 40, switch_to_CA2, 1050, 640)
+            button3 = create_button(" CA 1 ", "Next", "Arial", 20, 200, 40, switch_to_CA2, 1100, 640)
 
             # COs for CA2 Quiz
             label18 = create_label(" CA 2 ", "COs for CA2 Quiz/Test", "Arial", 20, 350, 205)
@@ -1041,7 +1055,7 @@ class User_mode:
             q10TCA2marks = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 455)
             q10TCA2marks.configure(state="disabled", fg_color="gray")
             
-            button2 = create_button(" CA 2 ", "Next", "Arial", 20, 200, 40, switch_to_CA3, 1050, 640)
+            button2 = create_button(" CA 2 ", "Next", "Arial", 20, 200, 40, switch_to_CA3, 1100, 640)
 
             # COs for CA3 Quiz
             label21 = create_label(" CA 3 ", "COs for CA3 Quiz/Test", "Arial", 20, 350, 255)
@@ -1128,7 +1142,7 @@ class User_mode:
             q10TCA3marks.configure(state="disabled", fg_color="gray")
 
 
-            button2 = create_button(" CA 3 ", "Next", "Arial", 20, 200, 40, switch_to_template, 1050, 640)
+            button2 = create_button(" CA 3 ", "Next", "Arial", 20, 200, 40, switch_to_template, 1100, 665)
 
             def upload_file():
                 global file_path
@@ -1189,9 +1203,9 @@ class User_mode:
 
             ALlabelCA2 = create_label(" CA 2 ", "Enter the Target level for CA 2", "Arial", 20, 600, 605)
             ALCA2Label = create_label(" CA 2 ", "CA2: ", "Arial", 15, 450, 655)
-            ALCA2Text = create_entry_box(" CA 2 ", "", "Arial", 15, 500, 575, 655)
+            ALCA2Text = create_entry_box(" CA 2 ", "", "Arial", 15, 500, 550, 655)
 
-            ALlabelCA3 = create_label(" CA 3 ", "Enter the Target level for CA 3", "Arial", 20, 600, 630)
+            ALlabelCA3 = create_label(" CA 3 ", "Enter the Target level for CA 3", "Arial", 20, 600, 640)
             ALCA3Label = create_label(" CA 3 ", "CA3: ", "Arial", 15, 450, 675)
             ALCA3Text = create_entry_box(" CA 3 ", "", "Arial", 15, 500, 550, 675)
             ALCA3Text.configure(state="disabled", fg_color="gray")

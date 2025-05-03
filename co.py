@@ -24,7 +24,7 @@ class User_mode:
             current_window.destroy()  # Close the current window
             self.__init__() 
 
-def open_co_window(self):
+    def open_co_window(self):
             self.app.destroy() 
             
             co_window = ctk.CTk()  # Close the current window
@@ -557,28 +557,18 @@ def open_co_window(self):
                 if option == "Select Year":
                     entry2.configure(values=["Select Sem"])
                     entry7.configure(values=["Select Class"])
-                    # entry2_lab.configure(values=["Select Sem"])
-                    # entry7_lab.configure(values=["Select Class"])
                 elif option == "F.E":
                     entry2.configure(values=["Select Sem","I","II"])
                     entry7.configure(values=["Select Class", "D5A", "D5B", "D5C"])
-                    # entry2_lab.configure(values=["Select Sem","I","II"])
-                    # entry7_lab.configure(values=["Select Class", "D5A", "D5B", "D5C"])
                 elif option == "S.E":
                     entry2.configure(values=["Select Sem","III","IV"])
                     entry7.configure(values=["Select Class", "D10A", "D10B", "D10C"])
-                    # entry2_lab.configure(values=["Select Sem","III","IV"])
-                    # entry7_lab.configure(values=["Select Class", "D10A", "D10B", "D10C"])
                 elif option == "T.E":
                     entry2.configure(values=["Select Sem","V","VI"])
                     entry7.configure(values=["Select Class", "D15A", "D15B", "D15C"])
-                    # entry2_lab.configure(values=["Select Se/m","V","VI"])
-                    # entry7_lab.configure(values=["Select Class", "D15A", "D15B", "D15C"])
                 elif option == "B.E":
                     entry2.configure(values=["Select Sem","VII","VIII"])
                     entry7.configure(values=["Select Class", "D20A", "D20B", "D20C"])
-                    # entry2_lab.configure(values=["Select Sem","VII","VIII"])
-                    # entry7_lab.configure(values=["Select Class", "D20A", "D20B", "D20C"])
     
     
             def noQuestion1(option):        
@@ -672,19 +662,28 @@ def open_co_window(self):
     
             def validate_academic_year(event):
                 new_value = event.widget.get()
+    
                 if new_value:
+                    # Check basic format: Length should be 9, with a '-' in the middle, and both parts should be digits
                     if len(new_value) != 9 or new_value[4] != '-' or not (new_value[:4].isdigit() and new_value[5:].isdigit()):
-                        CTkMessagebox(title="Invalid Input", message="Academic Year format is incorrect. Please enter in the format YYYY-YYYY.", icon="warning")                
+                        CTkMessagebox(title="Invalid Input", message="Academic Year format is incorrect. Please enter in the format YYYY-YYYY.", icon="warning")
                         return False
-                    else: 
-                        return True
+
+                    # Extract years and validate they are consecutive
+                    start_year, end_year = int(new_value[:4]), int(new_value[5:])
+                    if end_year - start_year != 1:
+                        CTkMessagebox(title="Invalid Input", message="Academic Year should be consecutive (e.g., 2025-2026).", icon="warning")
+                        return False
+
+                    return True
+
+                return False
     
             def noOfCO(option):
                 if option=='6':
                     CO6T.configure(state="normal",fg_color=["#F9F9FA", "#343638"])
                 else :
                     CO6T.configure(state="disabled",fg_color="gray")
-                   
                     
     
             def resource_path(relative_path):
@@ -694,7 +693,7 @@ def open_co_window(self):
                 return os.path.join(os.path.abspath("."), relative_path)
 
             # Use resource_path to access the image
-            image_path = resource_path("CO Calculator.png")
+            image_path = resource_path("./images/coCal.png")
             # Load the image and create a CTkImage
             background_image = Image.open(image_path)
             bg_image = ctk.CTkImage(background_image, size=(screen_width - 100, screen_height-130))
@@ -1301,12 +1300,22 @@ def open_co_window(self):
             
             def validate_academic_year(event):
                 new_value = event.widget.get()
+                
                 if new_value:
+                    # Check basic format: Length should be 9, with a '-' in the middle, and both parts should be digits
                     if len(new_value) != 9 or new_value[4] != '-' or not (new_value[:4].isdigit() and new_value[5:].isdigit()):
-                        CTkMessagebox(title="Invalid Input", message="Academic Year format is incorrect. Please enter in the format YYYY-YYYY.", icon="warning")                
+                        CTkMessagebox(title="Invalid Input", message="Academic Year format is incorrect. Please enter in the format YYYY-YYYY.", icon="warning")
                         return False
-                    else: 
-                        return True
+
+                    # Extract years and validate they are consecutive
+                    start_year, end_year = int(new_value[:4]), int(new_value[5:])
+                    if end_year - start_year != 1:
+                        CTkMessagebox(title="Invalid Input", message="Academic Year should be consecutive (e.g., 2025-2026).", icon="warning")
+                        return False
+
+                    return True
+
+                return False
             
             def lo_check(option):
                 if option == "Select No of LO\'s":
@@ -1410,16 +1419,22 @@ def open_co_window(self):
 
             def switch_1_lab():
                 if noOfLOOption.get() == "Select No of LO\'s":
-                    CTkMessagebox(title = "Error", message="Select No of LO\'s on the previous page", icon="cancel")
+                    return CTkMessagebox(title = "Error", message="Select No of LO\'s on the previous page", icon="cancel")
                 if (entry1_lab.get() == "" or yearDropDown_lab.get() == "Select Year" or entry8_lab.get() == "Select Department" or entry2_lab.get() == "Select Sem" or entry3_lab.get() == "Select Subject" or entry4_lab.get() == "" or entry5_lab.get() == "" or entry7_lab.get() == "Select Class"):
-                    CTkMessagebox(title = "Error", message="Please fill all the basic details", icon="cancel")
-                    return
+                    return CTkMessagebox(title = "Error", message="Please fill all the basic details", icon="cancel")
+                    
                 elif no_of_assignments_dropdown.get() == "Select no of Assignments":
-                    CTkMessagebox(title = "Error", message="Please select the number of assignments", icon="cancel")
-                    return
-                elif (oral_marks_target_entry.get() == "" or mini_project_marks_target_entry.get() == "" or assignment_target_entry.get() == ""):
-                    CTkMessagebox(title = "Error", message="Please fill all the marks targets", icon="cancel")
-                    return
+                    return CTkMessagebox(title = "Error", message="Please select the number of assignments", icon="cancel")
+                    
+                elif (oral_marks_target_entry.get() == "" or mini_project_marks_target_entry.get() == "" or assignment_target_entry.get() == "" or group_size_mini_project_entry.get() == ""):
+                    return CTkMessagebox(title = "Error", message="Please fill all the marks targets", icon="cancel")
+                
+                option = int(no_of_assignments_dropdown.get())
+                for i in range (1, option+1):
+                    if assignment_lo_entry[f"assignment_{i}_lo_entry"].get() == "":
+                        return CTkMessagebox(title = "Error", message="Please fill all the LO\'s of assignments", icon="cancel")
+                    elif not validate_lo_string(assignment_lo_entry[f"assignment_{i}_lo_entry"].get()):
+                        return CTkMessagebox(title = "Error", message="Please fill all the LO\'s of assignments in valid format", icon="cancel")
                 # elif termWork_dropdown.get() == "Select Type":
                 #     CTkMessagebox(title = "Error", message="Please select the type of term work", icon="cancel")
                 #     return
@@ -1455,7 +1470,33 @@ def open_co_window(self):
 
             def download_template_lab():
                 if(noOfLOOption.get() == "Select No of LO\'s"):
-                    CTkMessagebox(title = "Error", message="Enter No of LOs in page 1", icon="cancel")
+                    return CTkMessagebox(title = "Error", message="Enter No of LOs in page 1", icon="cancel")
+
+                if (termWork_dropdown.get() == "Select Type"):
+                    return CTkMessagebox(title = "Error", message="Select Type of Term Work", icon="cancel")
+                
+                if (term_work_marks_target_entry.get() == ""):
+                    return CTkMessagebox(title = "Error", message="Enter Term Work Marks Target", icon="cancel")
+                
+                if(termWork_dropdown.get() == "Group Students"):
+                    if (group_size_exp_entry.get() == ""):
+                        return CTkMessagebox(title = "Error", message="Enter Group Size for Experiments", icon="cancel")
+                    if (factor_1_title_entry.get() == "" or factor_2_title_entry.get() == "" or factor_3_title_entry.get() == "" or factor_4_title_entry.get() == "" or factor_5_title_entry.get() == ""):
+                        return CTkMessagebox(title = "Error", message="Enter all Factors of Experiments", icon="cancel")
+                    check_text_group_LO = [factor_1_lo_entry.get(), factor_2_lo_entry.get(), factor_3_lo_entry.get(), factor_4_lo_entry.get(), factor_5_lo_entry.get()]
+                    for text in check_text_group_LO:
+                        if not validate_lo_string(text):
+                            CTkMessagebox(title = "Error", message="Enter all LO\'s of Factors of Experiments", icon="cancel")
+                            return
+                elif (termWork_dropdown.get() == "Individual Students"):
+                    if (no_of_exp_dropdown.get() == "Select no of experiments"):
+                        return CTkMessagebox(title = "Error", message="Select No of Experiments", icon="cancel")
+                    option = int(no_of_exp_dropdown.get())
+                    for i in range (1, option+1):
+                        if exp_lo_entry[f"exp{i}_lo_entry"].get() == "":
+                            return CTkMessagebox(title = "Error", message="Enter all LO\'s of Experiments", icon="cancel")
+                        elif not validate_lo_string(exp_lo_entry[f"exp{i}_lo_entry"].get()):
+                            return CTkMessagebox(title = "Error", message="Enter all LO\'s of Experiments", icon="cancel")
 
                 LOcount = int(noOfLOOption.get())
 
@@ -1536,28 +1577,18 @@ def open_co_window(self):
             
             def semesterAndClass(option):
                 if option == "Select Year":
-                    # entry2.configure(values=["Select Sem"])
-                    # entry7.configure(values=["Select Class"])
                     entry2_lab.configure(values=["Select Sem"])
                     entry7_lab.configure(values=["Select Class"])
                 elif option == "F.E":
-                    # entry2.configure(values=["Select Sem","I","II"])
-                    # entry7.configure(values=["Select Class", "D5A", "D5B", "D5C"])
                     entry2_lab.configure(values=["Select Sem","I","II"])
                     entry7_lab.configure(values=["Select Class", "D5A", "D5B", "D5C"])
                 elif option == "S.E":
-                    # entry2.configure(values=["Select Sem","III","IV"])
-                    # entry7.configure(values=["Select Class", "D10A", "D10B", "D10C"])
                     entry2_lab.configure(values=["Select Sem","III","IV"])
                     entry7_lab.configure(values=["Select Class", "D10A", "D10B", "D10C"])
                 elif option == "T.E":
-                    # entry2.configure(values=["Select Sem","V","VI"])
-                    # entry7.configure(values=["Select Class", "D15A", "D15B", "D15C"])
                     entry2_lab.configure(values=["Select Sem","V","VI"])
                     entry7_lab.configure(values=["Select Class", "D15A", "D15B", "D15C"])
                 elif option == "B.E":
-                    # entry2.configure(values=["Select Sem","VII","VIII"])
-                    # entry7.configure(values=["Select Class", "D20A", "D20B", "D20C"])
                     entry2_lab.configure(values=["Select Sem","VII","VIII"])
                     entry7_lab.configure(values=["Select Class", "D20A", "D20B", "D20C"])
             
@@ -1634,9 +1665,9 @@ def open_co_window(self):
             entry5_lab = create_entry_box(" LO Information Template generation ", "Subject Teacher", "Arial", 15, 300, 400, 355)
 
             label7_lab = create_label(" LO Information Template generation ", "Class :", "Arial", 15, 100, 405)
-            entry7_lab = create_entry_box(" LO Information Template generation ", "Eg.D10 C", "Arial", 15, 300, 400, 405)
+            # entry7_lab = create_dropdown(" LO Information Template generation ", "Eg.D10 C", "Arial", 15, 300, 400, 405)
 
-            # entry7_lab = create_dropdown(" LO Information Template generation ", ["Select Class"], "Arial", 15, 300, None, 400, 405)
+            entry7_lab = create_dropdown(" LO Information Template generation ", ["Select Class"], "Arial", 15, 300, semesterAndClass, 400, 405)
 
             assignment_head_lab = create_label(" LO Information Template generation ", "Assignment Details", "Arial", 20, 950, 225)
             no_of_assignments_label = create_label(" LO Information Template generation ", "Enter no. of Assignments: ", "Arial", 15, 825, 275)

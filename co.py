@@ -115,6 +115,7 @@ class User_mode:
                         print(f"Ye CA co hai {i.get()}")
                     for i in caQM:
                         print(f"Ye CA marks hai {i.get()}")
+                    
                 if entry13.get()=="Select Type":
                     return CTkMessagebox(title="Error", message="Please select Type of CA", icon="cancel")
                 if (entry13.get()=="Quiz" or entry13.get()=="Test") :
@@ -130,12 +131,16 @@ class User_mode:
                         for ca1M in caQM:
                             if ca1M.get()=="":
                                 return CTkMessagebox(title="Error", message="Please enter marks of the questions", icon="cancel")
+                            if( not ca1M.get().isdigit() or int(ca1M.get()) < 0):
+                                return CTkMessagebox(title="Error", message="Please enter valid marks for the questions", icon="cancel")
                 if entry13.get()=="NPTEL Course" and (nptelCA1Text.get()==""):
                     return CTkMessagebox(title="Error", message="Please enter CO of NPTEL", icon="cancel")
                 elif entry13.get()=="NPTEL Course" and not validate_co_string(nptelCA1Text.get()):
                     return CTkMessagebox(title="Error", message="Please enter valid CO format", icon="cancel")
                 if entry13.get()=="Presentation" and presentationCA1Text.get()=="":
                     return CTkMessagebox(title="Error", message="Please enter maximum students in Presentation", icon="cancel")
+                if presentationCA1Text.get().isdigit() and int(presentationCA1Text.get()) < 0:
+                    return CTkMessagebox(title="Error", message="Please enter valid number of students in Presentation", icon="cancel")
                 if ALCA1Text.get() == "":
                     return CTkMessagebox(title="Error", message="Please enter target level of CA1", icon="cancel")
                 tabview.set(" CA 2 ")
@@ -148,6 +153,8 @@ class User_mode:
                     for i in range(option,10):
                         caQT.pop(option)
                         caQM.pop(option)
+                
+                    
                 if entry14.get()=="Select Type":
                     return CTkMessagebox(title="Error", message="Please select Type of CA", icon="cancel")
                 if (entry14.get()=="Quiz" or entry14.get()=="Test"):
@@ -162,12 +169,16 @@ class User_mode:
                         for ca2M in caQM:
                             if ca2M.get()=="":
                                 return CTkMessagebox(title="Error", message="Please enter marks of the questions", icon="cancel")
+                            if( not ca2M.get().isdigit() or int(ca2M.get()) < 0):
+                                return CTkMessagebox(title="Error", message="Please enter valid marks for the questions", icon="cancel")
                 if entry14.get()=="NPTEL Course" and (nptelCA2Text.get()==""):
                     return CTkMessagebox(title="Error", message="Please enter CO of NPTEL", icon="cancel")
                 elif entry14.get()=="NPTEL Course" and not validate_co_string(nptelCA2Text.get()):
                     return CTkMessagebox(title="Error", message="Please enter valid CO format", icon="cancel")
                 if entry14.get()=="Presentation" and presentationCA2Text.get()=="":
                     return CTkMessagebox(title="Error", message="Please enter maximum students in Presentation", icon="cancel")
+                if presentationCA2Text.get().isdigit() and int(presentationCA2Text.get()) < 0:
+                    return CTkMessagebox(title="Error", message="Please enter valid number of students in Presentation", icon="cancel")
                 if ALCA2Text.get() == "":
                     return CTkMessagebox(title="Error", message="Please enter target level of CA1", icon="cancel")
                 tabview.set(" CA 3 ")
@@ -195,15 +206,19 @@ class User_mode:
                             for ca3M in caQM:
                                 if ca3M.get()=="":
                                     return CTkMessagebox(title="Error", message="Please enter marks of the questions", icon="cancel")
+                                if( not ca3M.get().isdigit() or int(ca3M.get()) < 0):
+                                    return CTkMessagebox(title="Error", message="Please enter valid marks for the questions", icon="cancel")
                     if entry15.get()=="NPTEL Course" and (nptelCA3Text.get()==""):
                         return CTkMessagebox(title="Error", message="Please enter CO of NPTEL", icon="cancel")
                     elif entry15.get()=="NPTEL Course" and not validate_co_string(nptelCA3Text.get()):
                         return CTkMessagebox(title="Error", message="Please enter valid CO format", icon="cancel")
                     if entry15.get()=="Presentation" and presentationCA3Text.get()=="":
                         return CTkMessagebox(title="Error", message="Please enter maximum students in Presentation", icon="cancel")
+                    if presentationCA3Text.get().isdigit() and int(presentationCA3Text.get()) < 0:
+                        return CTkMessagebox(title="Error", message="Please enter valid number of students in Presentation", icon="cancel")
                     if ALCA3Text.get() == "":
                         return CTkMessagebox(title="Error", message="Please enter target level of CA1", icon="cancel")
-                    tabview.set(" Process Template/Calculated ")
+                tabview.set(" Process Template/Calculated ")
     
             def create_button(tab, name, font_name, font_size, w, h, com, x, y):
                 button = ctk.CTkButton(master=tabview.tab(tab), text=name, width=w, height=h, font=(font_name, font_size), command=com)

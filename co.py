@@ -693,7 +693,7 @@ class User_mode:
                 return os.path.join(os.path.abspath("."), relative_path)
 
             # Use resource_path to access the image
-            image_path = resource_path("./images/coCal.png")
+            image_path = resource_path(f"coCal.png")
             # Load the image and create a CTkImage
             background_image = Image.open(image_path)
             bg_image = ctk.CTkImage(background_image, size=(screen_width - 100, screen_height-130))
@@ -1429,6 +1429,22 @@ class User_mode:
                 elif (oral_marks_target_entry.get() == "" or mini_project_marks_target_entry.get() == "" or assignment_target_entry.get() == "" or group_size_mini_project_entry.get() == ""):
                     return CTkMessagebox(title = "Error", message="Please fill all the marks targets", icon="cancel")
                 
+                elif (group_size_mini_project_entry.get().isdigit() == False or int(group_size_mini_project_entry.get()) <= 0):
+                    print(group_size_mini_project_entry.get().isdigit())
+                    return CTkMessagebox(title = "Error", message="Enter Valid Group Size for Mini Porject", icon="cancel")
+                
+                elif (oral_marks_target_entry.get().isdigit() == False or int(oral_marks_target_entry.get()) <= 0):
+                    print(oral_marks_target_entry.get().isdigit())
+                    return CTkMessagebox(title = "Error", message="Enter Valid Target level for orals", icon="cancel")
+                
+                elif (mini_project_marks_target_entry.get().isdigit() == False or int(mini_project_marks_target_entry.get()) <= 0):
+                    print(mini_project_marks_target_entry.get().isdigit())
+                    return CTkMessagebox(title = "Error", message="Enter Valid Target level for Mini Project", icon="cancel")
+                
+                elif (assignment_target_entry.get().isdigit() == False or int(assignment_target_entry.get()) <= 0):
+                    print(mini_project_marks_target_entry.get().isdigit())
+                    return CTkMessagebox(title = "Error", message="Enter Valid Target level for Assignments", icon="cancel")
+                
                 option = int(no_of_assignments_dropdown.get())
                 for i in range (1, option+1):
                     if assignment_lo_entry[f"assignment_{i}_lo_entry"].get() == "":
@@ -1478,9 +1494,14 @@ class User_mode:
                 if (term_work_marks_target_entry.get() == ""):
                     return CTkMessagebox(title = "Error", message="Enter Term Work Marks Target", icon="cancel")
                 
+                if (term_work_marks_target_entry.get().isdigit() == False or int(term_work_marks_target_entry.get()) <= 0):
+                    return CTkMessagebox(title = "Error", message="Enter Valid target for Term Work Marks ", icon="cancel")
+                
                 if(termWork_dropdown.get() == "Group Students"):
                     if (group_size_exp_entry.get() == ""):
                         return CTkMessagebox(title = "Error", message="Enter Group Size for Experiments", icon="cancel")
+                    elif (group_size_exp_entry.get().isdigit() == False or int(group_size_exp_entry.get()) <= 0):
+                        return CTkMessagebox(title = "Error", message="Enter Valid Group Size for Experiments", icon="cancel")
                     if (factor_1_title_entry.get() == "" or factor_2_title_entry.get() == "" or factor_3_title_entry.get() == "" or factor_4_title_entry.get() == "" or factor_5_title_entry.get() == ""):
                         return CTkMessagebox(title = "Error", message="Enter all Factors of Experiments", icon="cancel")
                     check_text_group_LO = [factor_1_lo_entry.get(), factor_2_lo_entry.get(), factor_3_lo_entry.get(), factor_4_lo_entry.get(), factor_5_lo_entry.get()]
@@ -1522,8 +1543,7 @@ class User_mode:
                     if not (validate_lo_string(text)):
                         CTkMessagebox(title = "Error", message="Enter all LO\'s of Assignments", icon="cancel")
                         return
-  
-                           
+
                 
                 loTextArray = [""]
                 if noOfLOOption.get() == "5":
@@ -1892,7 +1912,7 @@ class User_mode:
                 return os.path.join(sys._MEIPASS, relative_path)
             return os.path.join(os.path.abspath("."), relative_path)
 
-        image_path = resource_path("./images/coFinal.png")
+        image_path = resource_path(f"coFinal.png") 
 
         # Load the image and create a CTkImage
         background_image = Image.open(image_path)
@@ -1904,7 +1924,7 @@ class User_mode:
         bg_label = ctk.CTkLabel(master=self.coframe, image=bg_image, text="")
         bg_label.place(relx=0.5, rely=0.45, anchor="center")
         
-        image_path1 = resource_path("./images/loFinal.png")
+        image_path1 = resource_path(f"loFinal.png")
 
         # Load the image and create a CTkImage
         background_image1 = Image.open(image_path1)

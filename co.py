@@ -71,7 +71,7 @@ class User_mode:
                     entry3.get() == "Select Subject" or entry4.get() == "" or
                     entry5.get() == "" or entry7.get() == "Select Class" ):
                         return CTkMessagebox(title="Error", message="Please fill all the required fields.", icon="cancel")
-                elif not entry1.get().isdigit() or int(entry1.get()) < 0:
+                elif not validateNumberString(entry1.get()):
                     return CTkMessagebox(title="Invalid Input", message="Please enter valid No Of Students", icon="warning")
                 else:
                     tabview.set(" CO Information ")
@@ -99,6 +99,8 @@ class User_mode:
                     CTkMessagebox(title="Error", message="Please enter valid format of CO string", icon="cancel")
                 elif ALEndSemText.get() == "" or ALMidTermText.get()=="":
                     CTkMessagebox(title="Error", message="Please enter target level of MidSem and End Semester", icon="cancel")
+                elif (not validateNumberString(ALEndSemText.get()) or not validateNumberString(ALMidTermText.get())):
+                    CTkMessagebox(title="Error", message="Please enter valid target level of MidSem and End Semester", icon="cancel")
                 else:
                     tabview.set(" CA 1 ")
                     
@@ -131,7 +133,7 @@ class User_mode:
                         for ca1M in caQM:
                             if ca1M.get()=="":
                                 return CTkMessagebox(title="Error", message="Please enter marks of the questions", icon="cancel")
-                            if( not ca1M.get().isdigit() or int(ca1M.get()) < 0):
+                            if( not validateNumberString(ca1M.get())):
                                 return CTkMessagebox(title="Error", message="Please enter valid marks for the questions", icon="cancel")
                 if entry13.get()=="NPTEL Course" and (nptelCA1Text.get()==""):
                     return CTkMessagebox(title="Error", message="Please enter CO of NPTEL", icon="cancel")
@@ -139,10 +141,12 @@ class User_mode:
                     return CTkMessagebox(title="Error", message="Please enter valid CO format", icon="cancel")
                 if entry13.get()=="Presentation" and presentationCA1Text.get()=="":
                     return CTkMessagebox(title="Error", message="Please enter maximum students in Presentation", icon="cancel")
-                if presentationCA1Text.get().isdigit() and int(presentationCA1Text.get()) < 0:
+                if (not validateNumberString(presentationCA1Text.get())):
                     return CTkMessagebox(title="Error", message="Please enter valid number of students in Presentation", icon="cancel")
                 if ALCA1Text.get() == "":
                     return CTkMessagebox(title="Error", message="Please enter target level of CA1", icon="cancel")
+                if (not validateNumberString(ALCA1Text.get())):
+                    return CTkMessagebox(title="Error", message="Please enter valid target level of CA1", icon="cancel")
                 tabview.set(" CA 2 ")
                 
             def switch_to_CA3():
@@ -169,7 +173,7 @@ class User_mode:
                         for ca2M in caQM:
                             if ca2M.get()=="":
                                 return CTkMessagebox(title="Error", message="Please enter marks of the questions", icon="cancel")
-                            if( not ca2M.get().isdigit() or int(ca2M.get()) < 0):
+                            if not (validateNumberString(ca2M.get())):
                                 return CTkMessagebox(title="Error", message="Please enter valid marks for the questions", icon="cancel")
                 if entry14.get()=="NPTEL Course" and (nptelCA2Text.get()==""):
                     return CTkMessagebox(title="Error", message="Please enter CO of NPTEL", icon="cancel")
@@ -177,10 +181,12 @@ class User_mode:
                     return CTkMessagebox(title="Error", message="Please enter valid CO format", icon="cancel")
                 if entry14.get()=="Presentation" and presentationCA2Text.get()=="":
                     return CTkMessagebox(title="Error", message="Please enter maximum students in Presentation", icon="cancel")
-                if presentationCA2Text.get().isdigit() and int(presentationCA2Text.get()) < 0:
+                if not (validateNumberString(presentationCA2Text.get())):
                     return CTkMessagebox(title="Error", message="Please enter valid number of students in Presentation", icon="cancel")
                 if ALCA2Text.get() == "":
                     return CTkMessagebox(title="Error", message="Please enter target level of CA1", icon="cancel")
+                if not (validateNumberString(ALCA2Text.get())):
+                    return CTkMessagebox(title="Error", message="Please enter valid target level of CA1", icon="cancel")
                 tabview.set(" CA 3 ")
                 
             def switch_to_template():
@@ -206,7 +212,7 @@ class User_mode:
                             for ca3M in caQM:
                                 if ca3M.get()=="":
                                     return CTkMessagebox(title="Error", message="Please enter marks of the questions", icon="cancel")
-                                if( not ca3M.get().isdigit() or int(ca3M.get()) < 0):
+                                if not (validateNumberString(ca3M.get())):
                                     return CTkMessagebox(title="Error", message="Please enter valid marks for the questions", icon="cancel")
                     if entry15.get()=="NPTEL Course" and (nptelCA3Text.get()==""):
                         return CTkMessagebox(title="Error", message="Please enter CO of NPTEL", icon="cancel")
@@ -214,10 +220,12 @@ class User_mode:
                         return CTkMessagebox(title="Error", message="Please enter valid CO format", icon="cancel")
                     if entry15.get()=="Presentation" and presentationCA3Text.get()=="":
                         return CTkMessagebox(title="Error", message="Please enter maximum students in Presentation", icon="cancel")
-                    if presentationCA3Text.get().isdigit() and int(presentationCA3Text.get()) < 0:
+                    if not (validateNumberString(presentationCA3Text.get())):
                         return CTkMessagebox(title="Error", message="Please enter valid number of students in Presentation", icon="cancel")
                     if ALCA3Text.get() == "":
                         return CTkMessagebox(title="Error", message="Please enter target level of CA1", icon="cancel")
+                    if not (validateNumberString(ALCA3Text.get())):
+                        return CTkMessagebox(title="Error", message="Please enter valid target level of CA1", icon="cancel")
                 tabview.set(" Process Template/Calculated ")
     
             def create_button(tab, name, font_name, font_size, w, h, com, x, y):
@@ -706,6 +714,13 @@ class User_mode:
                 if hasattr(sys, '_MEIPASS'):  # PyInstaller extracts files to _MEIPASS
                     return os.path.join(sys._MEIPASS, relative_path)
                 return os.path.join(os.path.abspath("."), relative_path)
+            
+            def validateNumberString(string):
+                for char in string:
+                    if char not in "0123456789":
+                        return False
+                
+                        
 
             # Use resource_path to access the image
             image_path = resource_path(f"coCal.png")
@@ -1389,7 +1404,12 @@ class User_mode:
                         assignment_lo_entry[f"assignment_{i}_lo_entry"].configure(state="normal", fg_color=["F9F9FA", "#343638"])
                     for i in range (option+1, 4):
                         assignment_lo_entry[f"assignment_{i}_lo_entry"].configure(state="disabled", fg_color="gray")
-
+                        
+            def validateNumberString(string):
+                for char in string:
+                    if char not in "0123456789":
+                        return False
+                    
             def validate_lo_string(loString):
                 validate_lo_array = []
                 # print(coString)
@@ -1437,6 +1457,12 @@ class User_mode:
                     return CTkMessagebox(title = "Error", message="Select No of LO\'s on the previous page", icon="cancel")
                 if (entry1_lab.get() == "" or yearDropDown_lab.get() == "Select Year" or entry8_lab.get() == "Select Department" or entry2_lab.get() == "Select Sem" or entry3_lab.get() == "Select Subject" or entry4_lab.get() == "" or entry5_lab.get() == "" or entry7_lab.get() == "Select Class"):
                     return CTkMessagebox(title = "Error", message="Please fill all the basic details", icon="cancel")
+                
+                elif not validate_academic_year(entry4_lab):
+                    return CTkMessagebox(title = "Error", message="Please enter a valid academic year in the format YYYY-YYYY", icon="cancel")
+                
+                elif not validateNumberString(entry1_lab.get()):
+                    return CTkMessagebox(title = "Error", message="Please enter a valid number fo students", icon="cancel")
                     
                 elif no_of_assignments_dropdown.get() == "Select no of Assignments":
                     return CTkMessagebox(title = "Error", message="Please select the number of assignments", icon="cancel")
@@ -1444,19 +1470,19 @@ class User_mode:
                 elif (oral_marks_target_entry.get() == "" or mini_project_marks_target_entry.get() == "" or assignment_target_entry.get() == "" or group_size_mini_project_entry.get() == ""):
                     return CTkMessagebox(title = "Error", message="Please fill all the marks targets", icon="cancel")
                 
-                elif (group_size_mini_project_entry.get().isdigit() == False or int(group_size_mini_project_entry.get()) <= 0):
+                elif not validateNumberString(group_size_mini_project_entry.get()):
                     print(group_size_mini_project_entry.get().isdigit())
                     return CTkMessagebox(title = "Error", message="Enter Valid Group Size for Mini Porject", icon="cancel")
                 
-                elif (oral_marks_target_entry.get().isdigit() == False or int(oral_marks_target_entry.get()) <= 0):
+                elif not validateNumberString(oral_marks_target_entry.get()):
                     print(oral_marks_target_entry.get().isdigit())
                     return CTkMessagebox(title = "Error", message="Enter Valid Target level for orals", icon="cancel")
                 
-                elif (mini_project_marks_target_entry.get().isdigit() == False or int(mini_project_marks_target_entry.get()) <= 0):
+                elif not validateNumberString(mini_project_marks_target_entry.get()):
                     print(mini_project_marks_target_entry.get().isdigit())
                     return CTkMessagebox(title = "Error", message="Enter Valid Target level for Mini Project", icon="cancel")
                 
-                elif (assignment_target_entry.get().isdigit() == False or int(assignment_target_entry.get()) <= 0):
+                elif not validateNumberString(assignment_target_entry.get()):
                     print(mini_project_marks_target_entry.get().isdigit())
                     return CTkMessagebox(title = "Error", message="Enter Valid Target level for Assignments", icon="cancel")
                 
@@ -1509,13 +1535,13 @@ class User_mode:
                 if (term_work_marks_target_entry.get() == ""):
                     return CTkMessagebox(title = "Error", message="Enter Term Work Marks Target", icon="cancel")
                 
-                if (term_work_marks_target_entry.get().isdigit() == False or int(term_work_marks_target_entry.get()) <= 0):
+                if not validateNumberString(term_work_marks_target_entry.get()):
                     return CTkMessagebox(title = "Error", message="Enter Valid target for Term Work Marks ", icon="cancel")
                 
                 if(termWork_dropdown.get() == "Group Students"):
                     if (group_size_exp_entry.get() == ""):
                         return CTkMessagebox(title = "Error", message="Enter Group Size for Experiments", icon="cancel")
-                    elif (group_size_exp_entry.get().isdigit() == False or int(group_size_exp_entry.get()) <= 0):
+                    elif not validateNumberString(group_size_exp_entry.get()):
                         return CTkMessagebox(title = "Error", message="Enter Valid Group Size for Experiments", icon="cancel")
                     if (factor_1_title_entry.get() == "" or factor_2_title_entry.get() == "" or factor_3_title_entry.get() == "" or factor_4_title_entry.get() == "" or factor_5_title_entry.get() == ""):
                         return CTkMessagebox(title = "Error", message="Enter all Factors of Experiments", icon="cancel")
@@ -1780,6 +1806,8 @@ class User_mode:
 
             label_14_lab = create_label(" LO Mapping ", " Experiments Detail ", "Arial", 20, 1000, 55)
             
+            label_15_lab = create_label(" LO Mapping ", "Enter the LO's mapped for each experiment ", "Arial", 15, 955, 155)
+            
             no_of_exp_label = create_label(" LO Mapping ", "Enter no. of experiments: ", "Arial", 15, 825, 105)
             no_of_exp_dropdown = create_dropdown(" LO Mapping ", ["Select no of experiments","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"], "Arial", 15, 300, exp_fields, 1025, 105)
             no_of_exp_dropdown.configure(state="disabled",fg_color="gray")
@@ -1793,13 +1821,13 @@ class User_mode:
             exp_lo_entry = {}
 
             for i in range(1,9):
-                exp_lo_labels[f"exp{i}_lo_label"] = create_label(" LO Mapping ", f"{i}:", "Arial", 15, 825, 155+(50*(i-1)))
-                exp_lo_entry[f"exp{i}_lo_entry"] = create_entry_box(" LO Mapping ", "1,2,3,4,5,6", "Arial", 15, 100, 925, 155+(50*(i-1)))
+                exp_lo_labels[f"exp{i}_lo_label"] = create_label(" LO Mapping ", f"{i}:", "Arial", 15, 825, 205+(50*(i-1)))
+                exp_lo_entry[f"exp{i}_lo_entry"] = create_entry_box(" LO Mapping ", "1,2,3,4,5,6", "Arial", 15, 100, 925, 205+(50*(i-1)))
 
             c = 1
             for i in range(9,16):
-                exp_lo_labels[f"exp{i}_lo_label"] = create_label(" LO Mapping ", f"{i}:", "Arial", 15, 1050, 155+(50*(c-1)))
-                exp_lo_entry[f"exp{i}_lo_entry"] = create_entry_box(" LO Mapping ", "1,2,3,4,5,6", "Arial", 15, 100, 1150, 155+(50*(c-1)))
+                exp_lo_labels[f"exp{i}_lo_label"] = create_label(" LO Mapping ", f"{i}:", "Arial", 15, 1050, 205+(50*(c-1)))
+                exp_lo_entry[f"exp{i}_lo_entry"] = create_entry_box(" LO Mapping ", "1,2,3,4,5,6", "Arial", 15, 100, 1150, 205+(50*(c-1)))
                 c = c+ 1
 
             for entry in exp_lo_entry.values():
@@ -1819,7 +1847,7 @@ class User_mode:
 
             next_2_lab_button = create_button(" LO Mapping ", "Download", "Arial", 20, 200, 40, download_template_lab, 650, 600)
 
-            enterLO = create_label(" LO Information ", "Enter the LO's", "Arial", 20, 700, 50)
+            enterLO = create_label(" LO Information ", "Enter the LO's Description", "Arial", 20, 700, 50)
             noOfLOLabel = create_label(" LO Information ", "Select No. of LO's: ", "Arial", 15, 550, 100)
             noOfLOOption = create_dropdown(" LO Information ", ['Select No of LO\'s', '5', '6'], "Arial", 15, 300, lo_check, 750, 100)
 

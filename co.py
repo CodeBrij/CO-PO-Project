@@ -723,7 +723,7 @@ class User_mode:
                         
 
             # Use resource_path to access the image
-            image_path = resource_path(f"coCal.png")
+            image_path = resource_path(f"./images/coCal.png")
             # Load the image and create a CTkImage
             background_image = Image.open(image_path)
             bg_image = ctk.CTkImage(background_image, size=(screen_width - 100, screen_height-130))
@@ -1955,7 +1955,7 @@ class User_mode:
                 return os.path.join(sys._MEIPASS, relative_path)
             return os.path.join(os.path.abspath("."), relative_path)
 
-        image_path = resource_path(f"coFinal.png") 
+        image_path = resource_path(f"./images/coFinal.png") 
 
         # Load the image and create a CTkImage
         background_image = Image.open(image_path)
@@ -1967,7 +1967,7 @@ class User_mode:
         bg_label = ctk.CTkLabel(master=self.coframe, image=bg_image, text="")
         bg_label.place(relx=0.5, rely=0.45, anchor="center")
         
-        image_path1 = resource_path(f"loFinal.png")
+        image_path1 = resource_path(f"./images/loFinal.png")
 
         # Load the image and create a CTkImage
         background_image1 = Image.open(image_path1)

@@ -1905,18 +1905,19 @@ class User_mode:
         
         self.app = ctk.CTk()  # creating custom tkinter window
         self.app.title('CO-PO')
-       
+
         screen_width=self.app.winfo_screenwidth()
         screen_height=self.app.winfo_screenheight()
        
-        # Calculate the coordinates for centering the window
-        x_position = 0
-        y_position = 0
+        # Set window size (like 80% of screen)
+        window_width = int(screen_width * 0.8)
+        window_height = int(screen_height * 0.8)
+        # Center the window
+        x = (screen_width - window_width) // 2
+        y = (screen_height - window_height) // 2
         
         # Set the window position and size
-        self.app.geometry(f"{screen_width}x{screen_height}+{x_position}+{y_position}")
-
-        
+        self.app.geometry(f"{window_width}x{window_height}+{x}+{y}")
         
         self.main_frame = ctk.CTkFrame(master=self.app)
         self.main_frame.pack(expand=True, fill="both", padx=10, pady=10)

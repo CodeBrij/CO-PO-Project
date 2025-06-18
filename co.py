@@ -1674,22 +1674,25 @@ class User_mode:
                 return dropdown
             
             self.app.destroy() 
-            
-            lo_window = ctk.CTk()  # Close the current window
+            lo_window = ctk.CTk()  # Close the current window 
 
-            screen_width=lo_window.winfo_screenwidth()
-            screen_height=lo_window.winfo_screenheight()
+            screen_width=co_window.winfo_screenwidth()
+            screen_height=co_window.winfo_screenheight()
        
-        # Calculate the coordinates for centering the window
-            x_losition = 0
-            y_losition = 0
+            # Set window size (like 80% of screen)
+            window_width = int(screen_width * 0.8)
+            window_height = int(screen_height * 0.8)
+            # Center the window
+            x = (screen_width - window_width) // 2
+            y = (screen_height - window_height) // 2
 
-             # Create a new lo Calculations window
-            lo_window.title("lo Calculations")
-            lo_window.geometry(f"{screen_width}x{screen_height}+{x_losition}+{y_losition}")
+            # Create a new CO Calculations window
+            lo_window.title("LO Calculations")
+            lo_window.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
             main_frame = ctk.CTkFrame(master=lo_window)
             main_frame.pack(expand=True, fill="both", padx=10, pady=10)
+            
 
             # Tabview inside the frame
             tabview = ctk.CTkTabview(main_frame, corner_radius=20)

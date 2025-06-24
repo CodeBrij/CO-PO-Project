@@ -1329,8 +1329,13 @@ class User_mode:
                     entry3_lab.configure(values=["Select Subject","Blockchain and DLT", "Department Optional Course 5", "Department Optional Course 6", "Institute Optional Course 2"])
             
             def validate_academic_year(event):
-                new_value = event.widget.get()
-                
+                # new_value = event.widget.get()
+                if hasattr(event, "widget"):
+                    new_value = event.widget.get()
+                else:
+                    # It's directly a CTkEntry widget
+                    new_value = event.get()
+
                 if new_value:
                     # Check basic format: Length should be 9, with a '-' in the middle, and both parts should be digits
                     if len(new_value) != 9 or new_value[4] != '-' or not (new_value[:4].isdigit() and new_value[5:].isdigit()):
@@ -1359,8 +1364,11 @@ class User_mode:
                         LO_entry[f"LO{i}_entry"].configure(state="disabled", fg_color="gray")
 
             def exp_group(option):
-                factor_title_entry = [factor_1_title_entry, factor_2_title_entry, factor_3_title_entry, factor_4_title_entry, factor_5_title_entry]
-                factor_lo_entry = [factor_1_lo_entry, factor_2_lo_entry, factor_3_lo_entry, factor_4_lo_entry, factor_5_lo_entry]
+                # factor_title_entry = [factor_1_title_entry, factor_2_title_entry, factor_3_title_entry, factor_4_title_entry, factor_5_title_entry]
+                # factor_lo_entry = [factor_1_lo_entry, factor_2_lo_entry, factor_3_lo_entry, factor_4_lo_entry, factor_5_lo_entry]
+                factor_title_entry= [factor_title_entries[f"factor_{i}_title_entry"] for i in range(1, 6)]
+                factor_lo_entry= [factor_lo_entries[f"factor_{i}_lo_entry"] for i in range(1, 6)]
+
                 if option == "Group Students":
                     group_size_exp_entry.configure(state="normal", fg_color=["F9F9FA", "#343638"])
                     for entry in factor_title_entry:
@@ -1377,9 +1385,9 @@ class User_mode:
                     for entry in factor_lo_entry:
                         entry.configure(state="disabled",fg_color="gray")
                 if option == "Individual Students":
-                    no_of_exp_dropdown.configure(state="normal", fg_color=["F9F9FA", "#1F6AA5"])
+                    no_of_exp_dropdown.configure(state="normal", fg_color=["F9F9FA", "#1F6AA5"],button_color=["F9F9FA", "#144870"])
                 else:
-                    no_of_exp_dropdown.configure(state="disabled", fg_color="gray")
+                    no_of_exp_dropdown.configure(state="disabled", fg_color="gray", button_color="gray")
                     for entry in exp_lo_entry.values():
                         entry.configure(state="disabled", fg_color="gray")
 
@@ -1389,8 +1397,10 @@ class User_mode:
                         entry.configure(state="disabled", fg_color="gray")
                 else:
                     option = int(option)
+                    # print("Available keys:", exp_lo_entry.keys())
+
                     for i in range (1, option+1):
-                        exp_lo_entry[f"exp{i}_lo_entry"].configure(state="normal", fg_color=["F9F9FA", "#343638"])
+                        (exp_lo_entry[f"exp{i}_lo_entry"]).configure(state="normal", fg_color=["F9F9FA", "#343638"])
                     for i in range (option+1, 16):
                         exp_lo_entry[f"exp{i}_lo_entry"].configure(state="disabled", fg_color="gray")
 
@@ -1406,9 +1416,11 @@ class User_mode:
                         assignment_lo_entry[f"assignment_{i}_lo_entry"].configure(state="disabled", fg_color="gray")
                         
             def validateNumberString(string):
-                for char in string:
-                    if char not in "0123456789":
-                        return False
+                # print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXX:",string)
+                # for char in string:
+                #     if char not in "0123456789":
+                #         return False
+                return string.isdigit()
                     
             def validate_lo_string(loString):
                 validate_lo_array = []
@@ -1462,7 +1474,7 @@ class User_mode:
                     return CTkMessagebox(title = "Error", message="Please enter a valid academic year in the format YYYY-YYYY", icon="cancel")
                 
                 elif not validateNumberString(entry1_lab.get()):
-                    return CTkMessagebox(title = "Error", message="Please enter a valid number fo students", icon="cancel")
+                    return CTkMessagebox(title = "Error", message="Please enter a valid number of students", icon="cancel")
                     
                 elif no_of_assignments_dropdown.get() == "Select no of Assignments":
                     return CTkMessagebox(title = "Error", message="Please select the number of assignments", icon="cancel")
@@ -1543,9 +1555,17 @@ class User_mode:
                         return CTkMessagebox(title = "Error", message="Enter Group Size for Experiments", icon="cancel")
                     elif not validateNumberString(group_size_exp_entry.get()):
                         return CTkMessagebox(title = "Error", message="Enter Valid Group Size for Experiments", icon="cancel")
-                    if (factor_1_title_entry.get() == "" or factor_2_title_entry.get() == "" or factor_3_title_entry.get() == "" or factor_4_title_entry.get() == "" or factor_5_title_entry.get() == ""):
-                        return CTkMessagebox(title = "Error", message="Enter all Factors of Experiments", icon="cancel")
-                    check_text_group_LO = [factor_1_lo_entry.get(), factor_2_lo_entry.get(), factor_3_lo_entry.get(), factor_4_lo_entry.get(), factor_5_lo_entry.get()]
+                    # if (factor_1_title_entry.get() == "" or factor_2_title_entry.get() == "" or factor_3_title_entry.get() == "" or factor_4_title_entry.get() == "" or factor_5_title_entry.get() == ""):
+                    #     return CTkMessagebox(title = "Error", message="Enter all Factors of Experiments", icon="cancel")
+                    for i in range(1, 6):
+                        if factor_title_entries[f"factor_{i}_title_entry"].get().strip() == "":
+                            return CTkMessagebox(
+                                title="Error",
+                                message="Enter all Factors of Experiments",
+                                icon="cancel"
+                            )
+                    check_text_group_LO = [factor_lo_entries[f"factor_{i}_lo_entry"].get() for i in range(1, 6)]
+
                     for text in check_text_group_LO:
                         if not validate_lo_string(text):
                             CTkMessagebox(title = "Error", message="Enter all LO\'s of Factors of Experiments", icon="cancel")
@@ -1601,8 +1621,11 @@ class User_mode:
                         exp_lo.append(exp_lo_entry[f"exp{i+1}_lo_entry"].get())
                 basic_values_lo.append(exp_lo)
                 basic_values_lo.append(group_size_exp_entry.get())
-                critList = [factor_1_title_entry.get(), factor_2_title_entry.get(), factor_3_title_entry.get(), factor_4_title_entry.get(), factor_5_title_entry.get()]
-                loList = [factor_1_lo_entry.get(), factor_2_lo_entry.get(), factor_3_lo_entry.get(), factor_4_lo_entry.get(), factor_5_lo_entry.get()]
+                # critList = [factor_1_title_entry.get(), factor_2_title_entry.get(), factor_3_title_entry.get(), factor_4_title_entry.get(), factor_5_title_entry.get()]
+                # loList = [factor_1_lo_entry.get(), factor_2_lo_entry.get(), factor_3_lo_entry.get(), factor_4_lo_entry.get(), factor_5_lo_entry.get()]
+                critList = [factor_title_entries[f"factor_{i}_title_entry"].get() for i in range(1, 6)]
+                loList = [factor_lo_entries[f"factor_{i}_lo_entry"].get() for i in range(1, 6)]
+
                 basic_values_lo.append(critList)
                 basic_values_lo.append(loList)
                 basic_values_lo.append(group_size_mini_project_entry.get())
@@ -1653,31 +1676,66 @@ class User_mode:
                     entry2_lab.configure(values=["Select Sem","VII","VIII"])
                     entry7_lab.configure(values=["Select Class", "D20A", "D20B", "D20C"])
             
-            def create_button(tab, name, font_name, font_size, w, h, com, x, y):
-                button = ctk.CTkButton(master=tabview.tab(tab), text=name, width=w, height=h, font=(font_name, font_size), command=com)
-                button.place(x=x, y=y)
-                return button
+            # def create_button(tab, name, font_name, font_size, w, h, com, x, y):
+            #     button = ctk.CTkButton(master=tabview.tab(tab), text=name, width=w, height=h, font=(font_name, font_size), command=com)
+            #     button.place(x=x, y=y)
+            #     return button
 
-            def create_label(tab, name, font_type, font_size, x, y):
-                label = ctk.CTkLabel(master=tabview.tab(tab), text=name, font=(font_type, font_size))
-                label.place(x=x, y=y)
+            # def create_label(tab, name, font_type, font_size, x, y):
+            #     label = ctk.CTkLabel(master=tabview.tab(tab), text=name, font=(font_type, font_size))
+            #     label.place(x=x, y=y)
+            #     return label
+
+            # def create_entry_box(tab, text, font_name, font_size, w, x, y):
+            #     entry_box = ctk.CTkEntry(master=tabview.tab(tab), placeholder_text=text, font=(font_name,font_size), width=w)
+            #     entry_box.place(x=x,y=y)
+            #     return entry_box
+
+            # def create_dropdown(tab, val, font_name, font_size, w, com, x, y):
+            #     dropdown = ctk.CTkOptionMenu(master=tabview.tab(tab), values=val, font=(font_name, font_size), width=w, command=com)
+            #     dropdown.place(x=x, y=y)
+            #     return dropdown
+            
+            # ------------------ Helper UI Functions (Responsive & Scrollable) ------------------
+
+            def create_label(tab, name, font_type, font_size, row=None, column=None, colspan=1, sticky="nsw", padx=5, pady=15):
+                label = ctk.CTkLabel(master=scroll_frames[tab], text=name, font=(font_type, font_size))
+                if row is not None and column is not None:
+                    label.grid(row=row, column=column, columnspan=colspan, sticky=sticky, padx=padx, pady=pady)
+                else:
+                    label.pack(pady=15)
                 return label
 
-            def create_entry_box(tab, text, font_name, font_size, w, x, y):
-                entry_box = ctk.CTkEntry(master=tabview.tab(tab), placeholder_text=text, font=(font_name,font_size), width=w)
-                entry_box.place(x=x,y=y)
+            def create_entry_box(tab, text, font_name, font_size, w, row=None, column=None, colspan=1, sticky="nsw", padx=5, pady=15):
+                entry_box = ctk.CTkEntry(master=scroll_frames[tab], placeholder_text=text, font=(font_name, font_size), width=w)
+                if row is not None and column is not None:
+                    entry_box.grid(row=row, column=column, columnspan=colspan, sticky=sticky, padx=padx, pady=pady)
+                else:
+                    entry_box.pack(pady=15)
                 return entry_box
 
-            def create_dropdown(tab, val, font_name, font_size, w, com, x, y):
-                dropdown = ctk.CTkOptionMenu(master=tabview.tab(tab), values=val, font=(font_name, font_size), width=w, command=com)
-                dropdown.place(x=x, y=y)
+            def create_button(tab, name, font_name, font_size, w, h=40, com=None, row=None, column=None, colspan=1, sticky="nsw", padx=5, pady=20):
+                button = ctk.CTkButton(master=scroll_frames[tab], text=name, width=w, height=h, font=(font_name, font_size), command=com)
+                if row is not None and column is not None:
+                    button.grid(row=row, column=column, columnspan=colspan, sticky=sticky, padx=padx, pady=pady)
+                else:
+                    button.pack(pady=20)
+                return button
+
+            def create_dropdown(tab, val, font_name, font_size, w, com=None, row=None, column=None, colspan=1, sticky="nsw", padx=5, pady=15):
+                dropdown = ctk.CTkOptionMenu(master=scroll_frames[tab], values=val, font=(font_name, font_size), width=w, command=com)
+                if row is not None and column is not None:
+                    dropdown.grid(row=row, column=column, columnspan=colspan, sticky=sticky, padx=padx, pady=pady)
+                else:
+                    dropdown.pack(pady=15)
                 return dropdown
+
             
             self.app.destroy() 
             lo_window = ctk.CTk()  # Close the current window 
 
-            screen_width=co_window.winfo_screenwidth()
-            screen_height=co_window.winfo_screenheight()
+            screen_width=lo_window.winfo_screenwidth()
+            screen_height=lo_window.winfo_screenheight()
        
             # Set window size (like 80% of screen)
             window_width = int(screen_width * 0.8)
@@ -1698,143 +1756,527 @@ class User_mode:
             tabview = ctk.CTkTabview(main_frame, corner_radius=20)
             tabview.pack(expand=True, fill="both", padx=10, pady=5)
 
-            tabview.add(" LO Information ")
-            tabview.add(" LO Information Template generation ")
-            tabview.add(" LO Mapping ")
-            tabview.add(" Upload Excel File (Lab) ")      
+            # tabview.add(" LO Information ")
+            # tabview.add(" LO Information Template generation ")
+            # tabview.add(" LO Mapping ")
+            # tabview.add(" Upload Excel File (Lab) ")   
+            
+               
+            # Add Tabs
+            tab_names = [
+                " LO Information ",
+                " LO Information Template generation ",
+                " LO Mapping ",
+                " Upload Excel File (Lab) "
+            ]
+
+            scroll_frames = {}  # Dictionary to store scrollable frames by tab name
+
+            for tab_name in tab_names:
+                tabview.add(tab_name)
+
+                # Create a scrollable frame inside each tab
+                scroll_frame = ctk.CTkScrollableFrame(master=tabview.tab(tab_name), label_text="")
+                scroll_frame.pack(fill="both", expand=True, padx=10, pady=10)
+                scroll_frames[tab_name] = scroll_frame
 
 
-            label0_lab = create_label(" LO Information Template generation ", "Basic Details", "Arial", 20, 325, 5)
+            # label0_lab = create_label(" LO Information Template generation ", "Basic Details", "Arial", 20, 325, 5)
 
-            label1_lab = create_label(" LO Information Template generation ", "No. of Students :", "Arial", 15, 100, 55)
-            entry1_lab = create_entry_box(" LO Information Template generation ", "Enter no of students", "Arial", 15, 300, 400, 55)
+            # label1_lab = create_label(" LO Information Template generation ", "No. of Students :", "Arial", 15, 100, 55)
+            # entry1_lab = create_entry_box(" LO Information Template generation ", "Enter no of students", "Arial", 15, 300, 400, 55)
 
-            newLabel_lab = create_label(" LO Information Template generation ", "Year :", "Arial", 15, 100, 155)
-            yearDropDown_lab = create_dropdown(" LO Information Template generation ", ["Select Year", "F.E", "S.E", "T.E", "B.E"], "Arial", 15, 300, semesterAndClass, 400, 155)
+            # newLabel_lab = create_label(" LO Information Template generation ", "Year :", "Arial", 15, 100, 155)
+            # yearDropDown_lab = create_dropdown(" LO Information Template generation ", ["Select Year", "F.E", "S.E", "T.E", "B.E"], "Arial", 15, 300, semesterAndClass, 400, 155)
 
-            label8_lab = create_label(" LO Information Template generation ", "Department :", "Arial", 15, 100, 105)
-            entry8_lab = create_dropdown(" LO Information Template generation ", ["Select Department", "Humanities and Applied Science(FE)", "Information Technology", "Computer", "AI and Data Science", "Electronics and Telecommunication", "Electronics", "Instrumentation"], "Arial", 15, 300, None, 400, 105)
+            # label8_lab = create_label(" LO Information Template generation ", "Department :", "Arial", 15, 100, 105)
+            # entry8_lab = create_dropdown(" LO Information Template generation ", ["Select Department", "Humanities and Applied Science(FE)", "Information Technology", "Computer", "AI and Data Science", "Electronics and Telecommunication", "Electronics", "Instrumentation"], "Arial", 15, 300, None, 400, 105)
 
-            label2_lab = create_label(" LO Information Template generation ", "Semester :", "Arial", 15, 100, 205)
-            entry2_lab = create_dropdown(" LO Information Template generation ", ["Select Sem"], "Arial", 15, 300, subject, 400, 205)
+            # label2_lab = create_label(" LO Information Template generation ", "Semester :", "Arial", 15, 100, 205)
+            # entry2_lab = create_dropdown(" LO Information Template generation ", ["Select Sem"], "Arial", 15, 300, subject, 400, 205)
 
-            label3_lab = create_label(" LO Information Template generation ", "Subject :", "Arial", 15, 100, 255)
-            entry3_lab = create_dropdown(" LO Information Template generation ", ["Select Subject"], "Arial", 15, 300, None, 400, 255)
+            # label3_lab = create_label(" LO Information Template generation ", "Subject :", "Arial", 15, 100, 255)
+            # entry3_lab = create_dropdown(" LO Information Template generation ", ["Select Subject"], "Arial", 15, 300, None, 400, 255)
 
-            label4_lab = create_label(" LO Information Template generation ", "Academic Year: ", "Arial", 15, 100, 305)
-            entry4_lab = create_entry_box(" LO Information Template generation ", "YYYY-YYYY", "Arial", 15, 300, 400, 305)
+            # label4_lab = create_label(" LO Information Template generation ", "Academic Year: ", "Arial", 15, 100, 305)
+            # entry4_lab = create_entry_box(" LO Information Template generation ", "YYYY-YYYY", "Arial", 15, 300, 400, 305)
+            # entry4_lab.bind("<FocusOut>", validate_academic_year)
+
+            # label5_lab = create_label(" LO Information Template generation ", "Subject Teacher :", "Arial", 15, 100, 355)
+            # entry5_lab = create_entry_box(" LO Information Template generation ", "Subject Teacher", "Arial", 15, 300, 400, 355)
+
+            # label7_lab = create_label(" LO Information Template generation ", "Class :", "Arial", 15, 100, 405)
+            # # entry7_lab = create_dropdown(" LO Information Template generation ", "Eg.D10 C", "Arial", 15, 300, 400, 405)
+
+            # entry7_lab = create_dropdown(" LO Information Template generation ", ["Select Class"], "Arial", 15, 300, semesterAndClass, 400, 405)
+            
+            # assignment_head_lab = create_label(" LO Information Template generation ", "Assignment Details", "Arial", 20, 950, 225)
+            # no_of_assignments_label = create_label(" LO Information Template generation ", "Enter no. of Assignments: ", "Arial", 15, 825, 275)
+            # no_of_assignments_dropdown = create_dropdown(" LO Information Template generation ", ["Select no of Assignments", "2", "3"], "Arial", 15, 300, assignment_fields, 1025, 275)
+            # assignment_target_label = create_label(" LO Information Template generation ", "Target for Assignment: ", "Arial", 15, 825, 325)
+            # assignment_target_entry = create_entry_box(" LO Information Template generation ", "", "Arial", 15, 300, 1025, 325)
+            # assignment_lo_label = {}
+            # assignment_lo_entry = {}
+            # for i in range(1,4):
+            #     assignment_lo_label[f"assignment_{i}_lo_label"] = create_label(" LO Information Template generation ", f"LO for Assignment {i}: ", "Arial", 15, 825, 325+i*50)
+            #     assignment_lo_entry[f"assignment_{i}_lo_entry"] = create_entry_box(" LO Information Template generation ", "1,2,3,4,5,6", "Arial", 15, 175, 1025, 325+i*50)
+
+            # label_10_lab = create_label(" LO Information Template generation ", "Enter Oral Target and MiniProject Details ", "Arial", 20, 890, 5)
+            # oral_marks_target_label = create_label(" LO Information Template generation ", "Oral: ", "Arial", 15, 825, 55)
+            # oral_marks_target_entry = create_entry_box(" LO Information Template generation ", "", "Arial", 15, 300, 1025, 55)
+            # mini_project_marks_target_label = create_label(" LO Information Template generation ", "Mini Project: ", "Arial", 15, 825, 105)
+            # mini_project_marks_target_entry = create_entry_box(" LO Information Template generation ", "", "Arial", 15, 300, 1025, 105)
+            # group_size_mini_project_label = create_label(" LO Information Template generation ", "No. of students in a group:\n(MiniProject) ", "Arial", 15, 825, 155)
+            # group_size_mini_project_entry = create_entry_box(" LO Information Template generation ", "", "Arial", 15, 300, 1025, 155)
+
+            # next_1_lab_button = create_button(" LO Information Template generation ", "Next", "Arial", 20, 250, 40, switch_1_lab, 1020, 600)
+            
+            tab_name = " LO Information Template generation "
+            
+            for i in range(6):
+                scroll_frames[tab_name].grid_columnconfigure(i, weight=1)
+
+            row_base = 0
+            label0_lab = create_label(tab_name, "Basic Details", "Arial", 20, row=row_base, column=1, colspan=2)
+            label0_lab.configure(anchor="center", justify="center")
+            label0_lab.grid_configure(sticky="nsew")
+
+            # empty_lab = create_label(tab_name, " ", "Arial", 20, row=row_base+1, column=1, colspan=2)
+            row_base +=2
+
+            label1_lab = create_label(tab_name, "No. of Students :", "Arial", 15, row=row_base, column=1)
+            entry1_lab = create_entry_box(tab_name, "Enter no of students", "Arial", 15, 300, row=row_base, column=2)
+            row_base +=1
+            
+            label8_lab = create_label(tab_name, "Department :", "Arial", 15, row=row_base, column=1)
+            entry8_lab = create_dropdown(tab_name, ["Select Department", "Humanities and Applied Science(FE)", "Information Technology", "Computer", "AI and Data Science", "Electronics and Telecommunication", "Electronics", "Instrumentation"], "Arial", 15, 300, None, row=row_base, column=2)
+            row_base +=1
+            
+            newLabel_lab = create_label(tab_name, "Year :", "Arial", 15, row=row_base, column=1)
+            yearDropDown_lab = create_dropdown(tab_name, ["Select Year", "F.E", "S.E", "T.E", "B.E"], "Arial", 15, 300, semesterAndClass, row=row_base, column=2)
+            row_base +=1
+            
+            label2_lab = create_label(tab_name, "Semester :", "Arial", 15, row=row_base, column=1)
+            entry2_lab = create_dropdown(tab_name, ["Select Sem"], "Arial", 15, 300, subject, row=row_base, column=2)
+            row_base +=1
+            
+            label3_lab = create_label(tab_name, "Subject :", "Arial", 15, row=row_base, column=1)
+            entry3_lab = create_dropdown(tab_name, ["Select Subject"], "Arial", 15, 300, None, row=row_base, column=2)
+            row_base +=1
+            
+            label4_lab = create_label(tab_name, "Academic Year: ", "Arial", 15, row=row_base, column=1)
+            entry4_lab = create_entry_box(tab_name, "YYYY-YYYY", "Arial", 15, 300, row=row_base, column=2)
             entry4_lab.bind("<FocusOut>", validate_academic_year)
+            row_base +=1
+            
+            label5_lab = create_label(tab_name, "Subject Teacher :", "Arial", 15, row=row_base, column=1)
+            entry5_lab = create_entry_box(tab_name, "Subject Teacher", "Arial", 15, 300, row=row_base, column=2)
+            row_base +=1
+            
+            label7_lab = create_label(tab_name, "Class :", "Arial", 15, row=row_base, column=1)
+            entry7_lab = create_dropdown(tab_name, ["Select Class"], "Arial", 15, 300, semesterAndClass, row=row_base, column=2)
 
-            label5_lab = create_label(" LO Information Template generation ", "Subject Teacher :", "Arial", 15, 100, 355)
-            entry5_lab = create_entry_box(" LO Information Template generation ", "Subject Teacher", "Arial", 15, 300, 400, 355)
+            
+            # Start placing right section from row 0, column 4
+            row_base = 0
+            tab_name = " LO Information Template generation "
 
-            label7_lab = create_label(" LO Information Template generation ", "Class :", "Arial", 15, 100, 405)
-            # entry7_lab = create_dropdown(" LO Information Template generation ", "Eg.D10 C", "Arial", 15, 300, 400, 405)
+            assignment_head_lab = create_label(tab_name, "Assignment Details", "Arial", 20, row=row_base, column=4, colspan=2)
+            assignment_head_lab.configure(anchor="center", justify="center")
+            assignment_head_lab.grid_configure(sticky="nsew")   #center in grid
 
-            entry7_lab = create_dropdown(" LO Information Template generation ", ["Select Class"], "Arial", 15, 300, semesterAndClass, 400, 405)
+            row_base += 2
+            no_of_assignments_label = create_label(tab_name, "Enter no. of Assignments: ", "Arial", 15, row=row_base, column=4)
+            no_of_assignments_dropdown = create_dropdown(tab_name, ["Select no of Assignments", "2", "3"], "Arial", 15, 300, assignment_fields, row=row_base, column=5)
 
-            assignment_head_lab = create_label(" LO Information Template generation ", "Assignment Details", "Arial", 20, 950, 225)
-            no_of_assignments_label = create_label(" LO Information Template generation ", "Enter no. of Assignments: ", "Arial", 15, 825, 275)
-            no_of_assignments_dropdown = create_dropdown(" LO Information Template generation ", ["Select no of Assignments", "2", "3"], "Arial", 15, 300, assignment_fields, 1025, 275)
-            assignment_target_label = create_label(" LO Information Template generation ", "Target for Assignment: ", "Arial", 15, 825, 325)
-            assignment_target_entry = create_entry_box(" LO Information Template generation ", "", "Arial", 15, 300, 1025, 325)
+            row_base += 1
+            assignment_target_label = create_label(tab_name, "Target for Assignment: ", "Arial", 15, row=row_base, column=4)
+            assignment_target_entry = create_entry_box(tab_name, "", "Arial", 15, 300, row=row_base, column=5)
+
+            # Assignment LO Entries
             assignment_lo_label = {}
             assignment_lo_entry = {}
-            for i in range(1,4):
-                assignment_lo_label[f"assignment_{i}_lo_label"] = create_label(" LO Information Template generation ", f"LO for Assignment {i}: ", "Arial", 15, 825, 325+i*50)
-                assignment_lo_entry[f"assignment_{i}_lo_entry"] = create_entry_box(" LO Information Template generation ", "1,2,3,4,5,6", "Arial", 15, 175, 1025, 325+i*50)
+            for i in range(1, 4):
+                row_base += 1
+                assignment_lo_label[f"assignment_{i}_lo_label"] = create_label(
+                    tab_name, f"LO for Assignment {i}: ", "Arial", 15, row=row_base, column=4
+                )
+                assignment_lo_entry[f"assignment_{i}_lo_entry"] = create_entry_box(
+                    tab_name, "1,2,3,4,5,6", "Arial", 15, 300, row=row_base, column=5
+                )
 
-            label_10_lab = create_label(" LO Information Template generation ", "Enter Oral Target and MiniProject Details ", "Arial", 20, 890, 5)
-            oral_marks_target_label = create_label(" LO Information Template generation ", "Oral: ", "Arial", 15, 825, 55)
-            oral_marks_target_entry = create_entry_box(" LO Information Template generation ", "", "Arial", 15, 300, 1025, 55)
-            mini_project_marks_target_label = create_label(" LO Information Template generation ", "Mini Project: ", "Arial", 15, 825, 105)
-            mini_project_marks_target_entry = create_entry_box(" LO Information Template generation ", "", "Arial", 15, 300, 1025, 105)
-            group_size_mini_project_label = create_label(" LO Information Template generation ", "No. of students in a group:\n(MiniProject) ", "Arial", 15, 825, 155)
-            group_size_mini_project_entry = create_entry_box(" LO Information Template generation ", "", "Arial", 15, 300, 1025, 155)
+            # Oral & Mini Project Section
+            row_base +=1
+            label_10_lab = create_label(tab_name, "Enter Oral Target and MiniProject Details ", "Arial", 20, row=row_base, column=4, colspan=2)
+            label_10_lab.configure(anchor="center", justify="center")
+            label_10_lab.grid_configure(sticky="nsew")
 
-            next_1_lab_button = create_button(" LO Information Template generation ", "Next", "Arial", 20, 250, 40, switch_1_lab, 1020, 600)
+            row_base += 1
+            oral_marks_target_label = create_label(tab_name, "Oral: ", "Arial", 15, row=row_base, column=4)
+            oral_marks_target_entry = create_entry_box(tab_name, "", "Arial", 15, 300, row=row_base, column=5)
 
-            # LO Mapping tab view
-            label9_lab = create_label(" LO Mapping ", "Type of Term Work : ", "Arial", 15, 100, 5)
-            termWork_dropdown = create_dropdown(" LO Mapping ", ["Select Type", "Group Students", "Individual Students"], "Arial", 15, 300, exp_group, 400, 5)
+            row_base += 1
+            mini_project_marks_target_label = create_label(tab_name, "Mini Project: ", "Arial", 15, row=row_base, column=4)
+            mini_project_marks_target_entry = create_entry_box(tab_name, "", "Arial", 15, 300, row=row_base, column=5)
 
-            label11_lab= create_label(" LO Mapping ", " Grouped Experiments Detail ", "Arial", 20, 195, 125)
+            row_base += 1
+            group_size_mini_project_label = create_label(tab_name, "No. of students in a group:\n(MiniProject) ", "Arial", 15, row=row_base, column=4)
+            group_size_mini_project_entry = create_entry_box(tab_name, "", "Arial", 15, 300, row=row_base, column=5)
 
-            group_size_exp_label = create_label(" LO Mapping ", "Enter max no of students in group: ", "Arial", 15, 100, 175)
-            group_size_exp_entry = create_entry_box(" LO Mapping ", "", "Arial", 15, 300, 350, 175)
-            group_size_exp_entry.configure(state="disabled",fg_color="gray")
+            # Next Button
+            next_1_lab_button = create_button(tab_name, "Next", "Arial", 20, 250, 40, switch_1_lab, row=20, column=5)
+
+            vertical_line1 = ctk.CTkFrame(scroll_frames[tab_name], width=2, fg_color="white")
+            vertical_line1.grid(row=2, column=3, rowspan=19, sticky="ns", padx=5)
+
+
+
+
+
+
+
+
+
+
+
+            # # LO Mapping tab view
+            # label9_lab = create_label(" LO Mapping ", "Type of Term Work : ", "Arial", 15, 100, 5)
+            # termWork_dropdown = create_dropdown(" LO Mapping ", ["Select Type", "Group Students", "Individual Students"], "Arial", 15, 300, exp_group, 400, 5)
+
+            # label11_lab= create_label(" LO Mapping ", " Grouped Experiments Detail ", "Arial", 20, 195, 125)
+
+            # group_size_exp_label = create_label(" LO Mapping ", "Enter max no of students in group: ", "Arial", 15, 100, 175)
+            # group_size_exp_entry = create_entry_box(" LO Mapping ", "", "Arial", 15, 300, 350, 175)
+            # group_size_exp_entry.configure(state="disabled",fg_color="gray")
             
-            label_11_lab = create_label(" LO Mapping ", "Factor No. ", "Arial", 15, 100, 225)
-            label_12_lab = create_label(" LO Mapping ", "Factor Title ", "Arial", 15, 300, 225)
-            label_13_lab = create_label(" LO Mapping ", "Corresponding LO ", "Arial", 15, 500, 225)
+            # label_11_lab = create_label(" LO Mapping ", "Factor No. ", "Arial", 15, 100, 225)
+            # label_12_lab = create_label(" LO Mapping ", "Factor Title ", "Arial", 15, 300, 225)
+            # label_13_lab = create_label(" LO Mapping ", "Corresponding LO ", "Arial", 15, 500, 225)
 
-            factor_1_label = create_label(" LO Mapping ", "1", "Arial", 15, 100, 275)
-            factor_2_label = create_label(" LO Mapping ", "2", "Arial", 15, 100, 325)
-            factor_3_label = create_label(" LO Mapping ", "3", "Arial", 15, 100, 375)
-            factor_4_label = create_label(" LO Mapping ", "4", "Arial", 15, 100, 425)
-            factor_5_label = create_label(" LO Mapping ", "5", "Arial", 15, 100, 475)
+            # factor_1_label = create_label(" LO Mapping ", "1", "Arial", 15, 100, 275)
+            # factor_2_label = create_label(" LO Mapping ", "2", "Arial", 15, 100, 325)
+            # factor_3_label = create_label(" LO Mapping ", "3", "Arial", 15, 100, 375)
+            # factor_4_label = create_label(" LO Mapping ", "4", "Arial", 15, 100, 425)
+            # factor_5_label = create_label(" LO Mapping ", "5", "Arial", 15, 100, 475)
 
-            factor_1_title_entry = create_entry_box(" LO Mapping ", "Enter title", "Arial", 15, 150, 300, 275)
-            factor_1_title_entry.configure(state="disabled",fg_color="gray")
+            # factor_1_title_entry = create_entry_box(" LO Mapping ", "Enter title", "Arial", 15, 150, 300, 275)
+            # factor_1_title_entry.configure(state="disabled",fg_color="gray")
 
-            factor_2_title_entry = create_entry_box(" LO Mapping ", "Enter title", "Arial", 15, 150, 300, 325)
-            factor_2_title_entry.configure(state="disabled",fg_color="gray")
+            # factor_2_title_entry = create_entry_box(" LO Mapping ", "Enter title", "Arial", 15, 150, 300, 325)
+            # factor_2_title_entry.configure(state="disabled",fg_color="gray")
 
-            factor_3_title_entry = create_entry_box(" LO Mapping ", "Enter title", "Arial", 15, 150, 300, 375)
-            factor_3_title_entry.configure(state="disabled",fg_color="gray")
+            # factor_3_title_entry = create_entry_box(" LO Mapping ", "Enter title", "Arial", 15, 150, 300, 375)
+            # factor_3_title_entry.configure(state="disabled",fg_color="gray")
 
-            factor_4_title_entry = create_entry_box(" LO Mapping ", "Enter title", "Arial", 15, 150, 300, 425)
-            factor_4_title_entry.configure(state="disabled",fg_color="gray")    
+            # factor_4_title_entry = create_entry_box(" LO Mapping ", "Enter title", "Arial", 15, 150, 300, 425)
+            # factor_4_title_entry.configure(state="disabled",fg_color="gray")    
 
-            factor_5_title_entry = create_entry_box(" LO Mapping ", "Enter title", "Arial", 15, 150, 300, 475)
-            factor_5_title_entry.configure(state="disabled",fg_color="gray")
+            # factor_5_title_entry = create_entry_box(" LO Mapping ", "Enter title", "Arial", 15, 150, 300, 475)
+            # factor_5_title_entry.configure(state="disabled",fg_color="gray")
 
-            factor_1_lo_entry = create_entry_box(" LO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 500, 275)
-            factor_1_lo_entry.configure(state="disabled",fg_color="gray")
+            # factor_1_lo_entry = create_entry_box(" LO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 500, 275)
+            # factor_1_lo_entry.configure(state="disabled",fg_color="gray")
 
-            factor_2_lo_entry = create_entry_box(" LO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 500, 325)
-            factor_2_lo_entry.configure(state="disabled",fg_color="gray")
+            # factor_2_lo_entry = create_entry_box(" LO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 500, 325)
+            # factor_2_lo_entry.configure(state="disabled",fg_color="gray")
 
-            factor_3_lo_entry = create_entry_box(" LO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 500, 375)
-            factor_3_lo_entry.configure(state="disabled",fg_color="gray")
+            # factor_3_lo_entry = create_entry_box(" LO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 500, 375)
+            # factor_3_lo_entry.configure(state="disabled",fg_color="gray")
 
-            factor_4_lo_entry = create_entry_box(" LO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 500, 425)
-            factor_4_lo_entry.configure(state="disabled",fg_color="gray")
+            # factor_4_lo_entry = create_entry_box(" LO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 500, 425)
+            # factor_4_lo_entry.configure(state="disabled",fg_color="gray")
 
-            factor_5_lo_entry = create_entry_box(" LO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 500, 475)
-            factor_5_lo_entry.configure(state="disabled",fg_color="gray")
+            # factor_5_lo_entry = create_entry_box(" LO Mapping ", "1,2,3,4,5,6", "Arial", 15, 150, 500, 475)
+            # factor_5_lo_entry.configure(state="disabled",fg_color="gray")
 
-            #######
+            # #######
             
 
-            label_14_lab = create_label(" LO Mapping ", " Experiments Detail ", "Arial", 20, 1000, 55)
+            # label_14_lab = create_label(" LO Mapping ", " Experiments Detail ", "Arial", 20, 1000, 55)
             
-            label_15_lab = create_label(" LO Mapping ", "Enter the LO's mapped for each experiment ", "Arial", 15, 955, 155)
+            # label_15_lab = create_label(" LO Mapping ", "Enter the LO's mapped for each experiment ", "Arial", 15, 955, 155)
             
-            no_of_exp_label = create_label(" LO Mapping ", "Enter no. of experiments: ", "Arial", 15, 825, 105)
-            no_of_exp_dropdown = create_dropdown(" LO Mapping ", ["Select no of experiments","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"], "Arial", 15, 300, exp_fields, 1025, 105)
-            no_of_exp_dropdown.configure(state="disabled",fg_color="gray")
+            # no_of_exp_label = create_label(" LO Mapping ", "Enter no. of experiments: ", "Arial", 15, 825, 105)
+            # no_of_exp_dropdown = create_dropdown(" LO Mapping ", ["Select no of experiments","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"], "Arial", 15, 300, exp_fields, 1025, 105)
+            # no_of_exp_dropdown.configure(state="disabled",fg_color="gray")
 
-            term_work_marks_target_label = create_label(" LO Mapping ", "Target for Term Work: ", "Arial", 15, 100, 55)
-            term_work_marks_target_entry = create_entry_box(" LO Mapping ", "", "Arial", 15, 300, 400, 55)
+            # term_work_marks_target_label = create_label(" LO Mapping ", "Target for Term Work: ", "Arial", 15, 100, 55)
+            # term_work_marks_target_entry = create_entry_box(" LO Mapping ", "", "Arial", 15, 300, 400, 55)
 
-            # exp_lo_label = create_label(" LO Mapping ", "LO for Experiments ", "Arial", 15, 1000, 155)
+            # # exp_lo_label = create_label(" LO Mapping ", "LO for Experiments ", "Arial", 15, 1000, 155)
 
+            # exp_lo_labels = {}
+            # exp_lo_entry = {}
+
+            # for i in range(1,9):
+            #     exp_lo_labels[f"exp{i}_lo_label"] = create_label(" LO Mapping ", f"{i}:", "Arial", 15, 825, 205+(50*(i-1)))
+            #     exp_lo_entry[f"exp{i}_lo_entry"] = create_entry_box(" LO Mapping ", "1,2,3,4,5,6", "Arial", 15, 100, 925, 205+(50*(i-1)))
+
+            # c = 1
+            # for i in range(9,16):
+            #     exp_lo_labels[f"exp{i}_lo_label"] = create_label(" LO Mapping ", f"{i}:", "Arial", 15, 1050, 205+(50*(c-1)))
+            #     exp_lo_entry[f"exp{i}_lo_entry"] = create_entry_box(" LO Mapping ", "1,2,3,4,5,6", "Arial", 15, 100, 1150, 205+(50*(c-1)))
+            #     c = c+ 1
+
+            # for entry in exp_lo_entry.values():
+            #     entry.configure(state="disabled", fg_color="gray")
+
+            # tab_name = " LO Mapping "
+            # row_base = 0
+
+            # # Column spacing for responsive layout
+            # for i in range(7):  # Columns 0 to 6
+            #     scroll_frames[tab_name].grid_columnconfigure(i, weight=1)
+
+            # # Row 0: Type of Term Work
+            # label9_lab = create_label(tab_name, "Type of Term Work:", "Arial", 15, row=row_base, column=1)
+            # termWork_dropdown = create_dropdown(tab_name, ["Select Type", "Group Students", "Individual Students"], "Arial", 15, 300, exp_group, row=row_base, column=2)
+            # row_base += 1
+
+            # # Row 1: Term Work Target
+            # term_work_marks_target_label = create_label(tab_name, "Target for Term Work:", "Arial", 15, row=row_base, column=1)
+            # term_work_marks_target_entry = create_entry_box(tab_name, "", "Arial", 15, 300, row=row_base, column=2)
+            # row_base += 1
+
+            # # Row 2: Section Heading
+            # label11_lab = create_label(tab_name, "Grouped Experiments Detail", "Arial", 20, row=row_base, column=1, colspan=3, sticky="nsew")
+            # row_base += 1
+
+            # # Row 3: Group Size Input
+            # group_size_exp_label = create_label(tab_name, "Enter max no of students in group:", "Arial", 15, row=row_base, column=1)
+            # group_size_exp_entry = create_entry_box(tab_name, "", "Arial", 15, 300, row=row_base, column=2)
+            # group_size_exp_entry.configure(state="disabled", fg_color="gray")
+            # row_base += 1
+
+            # # Row 4: Factor Table Headers
+            # label_11_lab = create_label(tab_name, "Factor No.", "Arial", 15, row=row_base, column=1)
+            # label_12_lab = create_label(tab_name, "Factor Title", "Arial", 15, row=row_base, column=2)
+            # label_13_lab = create_label(tab_name, "Corresponding LO", "Arial", 15, row=row_base, column=3)
+            # row_base += 1
+
+            # # Rows 5–9: Factor Rows
+            # for i in range(1, 6):
+            #     create_label(tab_name, f"{i}", "Arial", 15, row=row_base, column=1)
+
+            #     title_entry = create_entry_box(tab_name, "Enter title", "Arial", 15, 150, row=row_base, column=2)
+            #     title_entry.configure(state="disabled", fg_color="gray")
+
+            #     lo_entry = create_entry_box(tab_name, "1,2,3,4,5,6", "Arial", 15, 150, row=row_base, column=3)
+            #     lo_entry.configure(state="disabled", fg_color="gray")
+
+            #     row_base += 1
+
+            # # Header for Experiment Details
+            # row_base=0
+            # label_14_lab = create_label(tab_name, "Experiments Detail", "Arial", 20, row=row_base, column=5, colspan=3, sticky="nsew")
+            # row_base += 1
+
+            # # Row: No. of Experiments
+            # no_of_exp_label = create_label(tab_name, "Enter no. of experiments:", "Arial", 15, row=row_base, column=5)
+            # no_of_exp_dropdown = create_dropdown(tab_name, ["Select no of experiments"] + [str(i) for i in range(1, 16)], "Arial", 15, 300, exp_fields, row=row_base, column=6)
+            # no_of_exp_dropdown.configure(state="disabled", fg_color="gray")
+            # row_base += 1
+
+            # # Row: LO Mapping instruction
+            # label_15_lab = create_label(tab_name, "Enter the LO's mapped for each experiment", "Arial", 15, row=row_base, column=5, colspan=2, sticky="nsew")
+            # row_base += 1
+
+            # # Rows: Experiment LO Mapping 
+            # exp_lo_labels = {}
+            # exp_lo_entry = {}
+
+            # for i in range(1, 16):
+            #     exp_lo_labels[f"exp{i}_lo_label"] = create_label(tab_name, f"{i}:", "Arial", 15, row=row_base, column=5)
+            #     exp_lo_entry[f"exp{i}_lo_entry"] = create_entry_box(tab_name, "1,2,3,4,5,6", "Arial", 15, 100, row=row_base, column=6)
+            #     exp_lo_entry[f"exp{i}_lo_entry"].configure(state="disabled", fg_color="gray")
+            #     row_base += 1
+
+
+
+
+
+
+            tab_name = " LO Mapping "
+            row_base = 0
+
+            # Column spacing for responsive layout (0–6)
+            for i in range(7):
+                scroll_frames[tab_name].grid_columnconfigure(i, weight=1)
+
+            # Ensure equal width for columns 4 and 5
+            # scroll_frames[tab_name].grid_columnconfigure(4, weight=1, uniform="col")
+            # scroll_frames[tab_name].grid_columnconfigure(5, weight=1, uniform="col")
+
+            ### === FACTOR SECTION (col 1,2) === ###
+            row_base=0
+            create_label(tab_name, "Term Work Detail", "Arial", 20, row=row_base, column=1, colspan=2, sticky="nsew")
+            row_base += 1
+
+            # Row 0: Type of Term Work
+            create_label(tab_name, "Type of Term Work:", "Arial", 15, row=row_base, column=1, sticky="nsw")
+            termWork_dropdown = create_dropdown(tab_name, ["Select Type", "Group Students", "Individual Students"], "Arial", 15, 300, exp_group, row=row_base, column=2)
+            row_base += 1
+
+            # Row 1: Term Work Target
+            create_label(tab_name, "Target for Term Work:", "Arial", 15, row=row_base, column=1, sticky="nsw")
+            term_work_marks_target_entry = create_entry_box(tab_name, "", "Arial", 15, 300, row=row_base, column=2)
+            row_base += 1
+
+            # Row 2: Section Heading
+            create_label(tab_name, "Grouped Experiments Detail", "Arial", 20, row=row_base, column=1, colspan=2, sticky="nsew")
+            row_base += 1
+
+            # Row 3: Group Size
+            create_label(tab_name, "Enter max no of students\nin group:", "Arial", 15, row=row_base, column=1, sticky="nsw")
+            group_size_exp_entry = create_entry_box(tab_name, "", "Arial", 15, 300, row=row_base, column=2)
+            group_size_exp_entry.configure(state="disabled", fg_color="gray")
+            row_base += 1
+
+           # Row 4: Title Label for the merged column area
+            # Header Row for Factor Section (row 4)
+            header_inner_frame = ctk.CTkFrame(scroll_frames[tab_name], fg_color="transparent")
+            header_inner_frame.grid(row=row_base, column=1, columnspan=2, padx=5, pady=(10, 5), sticky="nsew")
+
+            # Configure 3 columns inside header frame
+            header_inner_frame.grid_columnconfigure(0, weight=1, minsize=30)   # For "Factor No."
+            header_inner_frame.grid_columnconfigure(1, weight=2)               # For Title
+            header_inner_frame.grid_columnconfigure(2, weight=2)               # For LO
+
+            # Add labels inside the header inner frame
+            ctk.CTkLabel(header_inner_frame, text="Factor No.", font=("Arial", 15)).grid(row=0, column=0, padx=5,pady=10, sticky="nsw")
+            ctk.CTkLabel(header_inner_frame, text="Title", font=("Arial", 15)).grid(row=0, column=1, padx=5,pady=10, sticky="nsw")
+            ctk.CTkLabel(header_inner_frame, text="LO", font=("Arial", 15)).grid(row=0, column=2, padx=5,pady=10, sticky="nsw")
+
+            row_base += 1  # Move to next row for factors
+
+            factor_title_entries = {}
+            factor_lo_entries = {}
+
+
+            # Rows 5–9: Factor Details
+            for i in range(1, 6):
+                # Inner frame to combine Factor No., Title, and LO in one merged cell
+                factor_inner_frame = ctk.CTkFrame(scroll_frames[tab_name], fg_color="transparent")
+                factor_inner_frame.grid(row=row_base, column=1, columnspan=2, padx=5, pady=5, sticky="ew")
+
+                # Configure 3 columns inside the inner frame
+                factor_inner_frame.grid_columnconfigure(0, weight=1, minsize=30)   # Factor No.
+                factor_inner_frame.grid_columnconfigure(1, weight=2)               # Title
+                factor_inner_frame.grid_columnconfigure(2, weight=2)               # LO
+
+                # Factor No. Label
+                ctk.CTkLabel(factor_inner_frame, text=f"{i}:", font=("Arial", 15)).grid(row=0, column=0, padx=5,pady=10, sticky="w")
+
+                # Title Entry
+                title_entry = ctk.CTkEntry(factor_inner_frame, placeholder_text="Enter title", font=("Arial", 15), width=150)
+                title_entry.grid(row=0, column=1, padx=(5, 20),pady=10, sticky="ew")  # Added right-padding for space between title and LO
+                title_entry.configure(state="disabled", fg_color="gray")
+
+                # LO Entry
+                lo_entry = ctk.CTkEntry(factor_inner_frame, placeholder_text="1,2,3,4,5,6", font=("Arial", 15), width=150)
+                lo_entry.grid(row=0, column=2, padx=5,pady=10, sticky="ew")
+                lo_entry.configure(state="disabled", fg_color="gray")
+
+                factor_title_entries[f"factor_{i}_title_entry"] = title_entry
+                factor_lo_entries[f"factor_{i}_lo_entry"] = lo_entry
+
+                row_base += 1
+
+
+
+            ### === EXPERIMENT SECTION (col 4,5) === ###
+            row_base = 0
+             
+            # Row 0: Section Heading
+            create_label(tab_name, "Experiments Detail", "Arial", 20, row=row_base, column=4, colspan=2, sticky="nsew")
+            row_base += 1
+
+            # create_label(tab_name, " ", "Arial", 20, row=row_base, column=4, colspan=2, sticky="nsew")
+            # row_base += 1
+
+            # Row 1: No. of Experiments
+            create_label(tab_name, "Enter no. of experiments:", "Arial", 15, row=row_base, column=4, sticky="nsw")
+            no_of_exp_dropdown = create_dropdown(tab_name, ["Select no of experiments"] + [str(i) for i in range(1, 16)], "Arial", 15, 300, exp_fields, row=row_base, column=5)
+            no_of_exp_dropdown.configure(state="disabled", fg_color="gray", button_color="gray")
+            row_base += 1
+
+            # Row 2: Instructions
+            create_label(tab_name, "Enter the LO's mapped for each experiment", "Arial", 20, row=row_base, column=4, colspan=2, sticky="nsew")
+            row_base += 1
+
+            # Headings for Exp No + LO mapping (col 4 and col 5)
+            # exp_col_titles = [("Exp No.", "LO")] * 2
+            # exp_col_indices = [4, 5]
+
+            # for idx, col in enumerate(exp_col_indices):
+            #     exp_title_frame = ctk.CTkFrame(scroll_frames[tab_name], fg_color="transparent")
+            #     exp_title_frame.grid(row=row_base, column=col, padx=50, pady=5, sticky="nsew")
+            #     exp_title_frame.grid_columnconfigure(0, weight=0, minsize=50)  # Exp No.
+            #     exp_title_frame.grid_columnconfigure(1, weight=1)              # LO Entry
+
+            #     ctk.CTkLabel(exp_title_frame, text="Exp No.", font=("Arial", 15)).grid(row=0, column=0, sticky="nsw", padx=5)
+            #     ctk.CTkLabel(exp_title_frame, text="LO", font=("Arial", 15)).grid(row=0, column=1, sticky="nsew", padx=5)
+
+            # row_base += 1
+
+            # Entries 1-8 go in column 4, 9-15 in column 5
             exp_lo_labels = {}
             exp_lo_entry = {}
 
-            for i in range(1,9):
-                exp_lo_labels[f"exp{i}_lo_label"] = create_label(" LO Mapping ", f"{i}:", "Arial", 15, 825, 205+(50*(i-1)))
-                exp_lo_entry[f"exp{i}_lo_entry"] = create_entry_box(" LO Mapping ", "1,2,3,4,5,6", "Arial", 15, 100, 925, 205+(50*(i-1)))
+            row_base_copy = row_base  # Preserve original
 
-            c = 1
-            for i in range(9,16):
-                exp_lo_labels[f"exp{i}_lo_label"] = create_label(" LO Mapping ", f"{i}:", "Arial", 15, 1050, 205+(50*(c-1)))
-                exp_lo_entry[f"exp{i}_lo_entry"] = create_entry_box(" LO Mapping ", "1,2,3,4,5,6", "Arial", 15, 100, 1150, 205+(50*(c-1)))
-                c = c+ 1
+            left_row = row_base_copy
+            right_row = row_base_copy
+            k=1;
+            for i in range(1, 18):
+                if i <= 9:
+                    col = 4
+                    row = left_row
+                    left_row += 1
+                    padX=10
+                else:
+                    col = 5
+                    row = right_row
+                    right_row += 1
+                    padX=10
 
-            for entry in exp_lo_entry.values():
-                entry.configure(state="disabled", fg_color="gray")
+                inner_frame = ctk.CTkFrame(scroll_frames[tab_name], fg_color="transparent")
+                inner_frame.grid(row=row, column=col, padx=padX, pady=10, sticky="ew")
+
+                inner_frame.grid_columnconfigure(0, weight=0, minsize=50)  # Exp number column
+                inner_frame.grid_columnconfigure(1, weight=0, uniform="col")              # Entry box column
+
+                if i==1 or i==10 :
+                    ctk.CTkLabel(inner_frame, text="Exp No.", font=("Arial", 15)).grid(row=0, column=0, sticky="w", padx=5)
+                    ctk.CTkLabel(inner_frame, text="LO", font=("Arial", 15)).grid(row=0, column=1, sticky="nsw", padx=(50,5))
+                else :
+                    exp_lo_labels[f"exp{i-1}_lo_label"] = ctk.CTkLabel(inner_frame, text=f"{k}:", font=("Arial", 15))
+                    exp_lo_labels[f"exp{i-1}_lo_label"].grid(row=0, column=0, padx=5, sticky="nsw")
+                    if i<10:
+                        exp_lo_entry[f"exp{i-1}_lo_entry"] = ctk.CTkEntry(inner_frame, placeholder_text="1,2,3,4,5,6", font=("Arial", 15), width=150)
+                        exp_lo_entry[f"exp{i-1}_lo_entry"].grid(row=0, column=1, padx=(5, 5), sticky="nsew")
+                        exp_lo_entry[f"exp{i-1}_lo_entry"].configure(state="disabled", fg_color="gray")
+                    else :
+                        exp_lo_entry[f"exp{i-2}_lo_entry"] = ctk.CTkEntry(inner_frame, placeholder_text="1,2,3,4,5,6", font=("Arial", 15), width=150)
+                        exp_lo_entry[f"exp{i-2}_lo_entry"].grid(row=0, column=1, padx=(5, 5), sticky="nsew")
+                        exp_lo_entry[f"exp{i-2}_lo_entry"].configure(state="disabled", fg_color="gray")
+                    k+=1
+
+            vertical_line = ctk.CTkFrame(scroll_frames[tab_name], width=2, fg_color="white")
+            vertical_line.grid(row=1, column=3, rowspan=right_row+2, sticky="ns", padx=5)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             # mini_project_lo_lables = create_label(" LO Mapping ", "Mini project", "Arial", 15, 700, 375)
 
@@ -1845,55 +2287,125 @@ class User_mode:
             #     mini_project_lo_label[f"mini_project_factor{i}_lo_label"] = create_label(" LO Mapping ", f"Factor {i}: ", "Arial", 15, 50 + (350*(i-1)), 425)
             #     mini_project_lo_entry[f"mini_project_factor{i}_lo_entry"] = create_entry_box(" LO Mapping ", "1,2,3,4,5,6", "Arial", 15, 175, 150 + (350*(i-1)), 425)
             
-            for entry in assignment_lo_entry.values():
-                entry.configure(state="disabled", fg_color="gray")
+            # for entry in assignment_lo_entry.values():
+            #     entry.configure(state="disabled", fg_color="gray")
 
-            next_2_lab_button = create_button(" LO Mapping ", "Download", "Arial", 20, 200, 40, download_template_lab, 650, 600)
+            # next_2_lab_button = create_button(" LO Mapping ", "Download", "Arial", 20, 200, 40, download_template_lab, 650, 600)
 
-            enterLO = create_label(" LO Information ", "Enter the LO's Description", "Arial", 20, 700, 50)
-            noOfLOLabel = create_label(" LO Information ", "Select No. of LO's: ", "Arial", 15, 550, 100)
-            noOfLOOption = create_dropdown(" LO Information ", ['Select No of LO\'s', '5', '6'], "Arial", 15, 300, lo_check, 750, 100)
+            # enterLO = create_label(" LO Information ", "Enter the LO's Description", "Arial", 20, 700, 50)
+            # noOfLOLabel = create_label(" LO Information ", "Select No. of LO's: ", "Arial", 15, 550, 100)
+            # noOfLOOption = create_dropdown(" LO Information ", ['Select No of LO\'s', '5', '6'], "Arial", 15, 300, lo_check, 750, 100)
+
+            # LO_label = {}
+            # LO_entry = {}
+
+            # for i in range(1,7):
+            #     LO_label[f"LO{i}_label"] = create_label(" LO Information ", f"LO{i}: ", "Arial", 15, 550, 150 + (50*(i-1)))
+            #     LO_entry[f"LO{i}_entry"] = create_entry_box(" LO Information ", "", "Arial", 15, 500, 650, 150 + (50*(i-1)))
+
+            # for entry in LO_entry.values():
+            #     entry.configure(state="disabled", fg_color="gray")
+
+            # next_lab_button = create_button(" LO Information ", "Next", "Arial", 20, 200, 40, switch_lab, 725, 500)
+
+            # path_entry_lab=ctk.CTkEntry(tabview.tab(" Upload Excel File (Lab) "))
+
+            # # button_process=ctk.CTkButton(tabview.tab(" Upload Excel File "),text="Process",width=100,height=30,command=process_file)
+            # # button_process.place(x=500,y=500)
+
+            # upload_Label_lab = create_label(" Upload Excel File (Lab) ", "Upload you excel file with the marks entered:", "Arial", 25, 550, 50)
+            # path_label_lab = create_label(" Upload Excel File (Lab) ", "Path of file", "Arial", 15, 650, 110)
+            # button_upload_lab = create_button(" Upload Excel File (Lab) ", "Upload", "Arial", 20, 200, 40, upload_lab_file, 400, 100)
+
+
+            # line_lab = ctk.CTkFrame(master=tabview.tab(" Upload Excel File (Lab) "), height=2, width=1200, fg_color="white")
+            # line_lab.place(x=150,y=200)
+
+            # process_Label_lab = create_label(" Upload Excel File (Lab) ", "Process the excel file you uploaded:", "Arial", 25, 600, 250)
+
+            # setEmailProcessedLabel_lab = create_label(" Upload Excel File (Lab) ", "Enter the Email ID to send the calculated sheet.", "Arial", 20, 200, 325)
+
+            # # important_label = create_label(" Upload Excel File ", "Important: Please fill the no. of CO\'s field and the CO\'s in the CO Information page and AL values in Target level of tests page before processing the file", "Arial", 20, 100, 325)
+            # # important_label.configure(text_color="black", fg_color="yellow")
+
+            # emailTextProcessed_lab = create_entry_box(" Upload Excel File (Lab) ", "", "Arial", 15, 500, 700, 325)
+
+            # button_process_lab = create_button(" Upload Excel File (Lab) ", "Process", "Arial", 20, 200, 40, process_file_lab, 650, 425)
+
+        
+
+            # back_button = ctk.CTkButton(lo_window, text="Back", command=lambda: self.go_back(lo_window))
+            # back_button.place(x=1300,y=40)
+
+
+
+
+
+
+
+
+            # ---------- LO Information Tab ----------
+            lo_frame = scroll_frames[" LO Information "]
+            tab_name=" LO Information "
+
+            for i in range(4):
+                scroll_frames[tab_name].grid_columnconfigure(i, weight=1)
+
+            enterLO = create_label(" LO Information ", "Enter the LO's Description", "Arial", 20, row=0, column=1, colspan=2, sticky="nsew", padx=10, pady=(10, 20))
+
+            noOfLOLabel = create_label(" LO Information ", "Select No. of LO's: ", "Arial", 15, row=1, column=1, sticky="w", padx=10)
+            noOfLOOption = create_dropdown(" LO Information ", ['Select No of LO\'s', '5', '6'], "Arial", 15, 500, lo_check, row=1, column=2, sticky="w", padx=10)
 
             LO_label = {}
             LO_entry = {}
 
-            for i in range(1,7):
-                LO_label[f"LO{i}_label"] = create_label(" LO Information ", f"LO{i}: ", "Arial", 15, 550, 150 + (50*(i-1)))
-                LO_entry[f"LO{i}_entry"] = create_entry_box(" LO Information ", "", "Arial", 15, 500, 650, 150 + (50*(i-1)))
+            for i in range(1, 7):
+                LO_label[f"LO{i}_label"] = create_label(" LO Information ", f"LO{i}: ", "Arial", 15, row=i + 1, column=1, sticky="w", padx=10)
+                LO_entry[f"LO{i}_entry"] = create_entry_box(" LO Information ", "", "Arial", 15, 500, row=i + 1, column=2, sticky="w", padx=10)
+                LO_entry[f"LO{i}_entry"].configure(state="disabled", fg_color="gray")
 
-            for entry in LO_entry.values():
+            next_lab_button = create_button(" LO Information ", "Next", "Arial", 20, 300, 40, switch_lab, row=8, column=1,colspan=2, sticky="", padx=20, pady=20)
+
+            # Disable assignment LO entry fields
+            for entry in assignment_lo_entry.values():
                 entry.configure(state="disabled", fg_color="gray")
 
-            next_lab_button = create_button(" LO Information ", "Next", "Arial", 20, 200, 40, switch_lab, 725, 500)
-
-            path_entry_lab=ctk.CTkEntry(tabview.tab(" Upload Excel File (Lab) "))
-
-            # button_process=ctk.CTkButton(tabview.tab(" Upload Excel File "),text="Process",width=100,height=30,command=process_file)
-            # button_process.place(x=500,y=500)
-
-            upload_Label_lab = create_label(" Upload Excel File (Lab) ", "Upload you excel file with the marks entered:", "Arial", 25, 550, 50)
-            path_label_lab = create_label(" Upload Excel File (Lab) ", "Path of file", "Arial", 15, 650, 110)
-            button_upload_lab = create_button(" Upload Excel File (Lab) ", "Upload", "Arial", 20, 200, 40, upload_lab_file, 400, 100)
+            # Download button
+            next_2_lab_button = create_button(" LO Mapping ", "Download", "Arial", 20, 200, 20, download_template_lab, row=right_row, column=5, sticky="", padx=0, pady=0)
+            next_2_lab_button.grid_configure(rowspan=2)
 
 
-            line_lab = ctk.CTkFrame(master=tabview.tab(" Upload Excel File (Lab) "), height=2, width=1200, fg_color="white")
-            line_lab.place(x=150,y=200)
+            # ---------- Upload Excel File (Lab) Tab ----------
+            lab_frame = scroll_frames[" Upload Excel File (Lab) "]
+            tab_name=" Upload Excel File (Lab) "
 
-            process_Label_lab = create_label(" Upload Excel File (Lab) ", "Process the excel file you uploaded:", "Arial", 25, 600, 250)
+            for i in range(4):
+                scroll_frames[tab_name].grid_columnconfigure(i, weight=1)
 
-            setEmailProcessedLabel_lab = create_label(" Upload Excel File (Lab) ", "Enter the Email ID to send the calculated sheet.", "Arial", 20, 200, 325)
+            upload_Label_lab = create_label(" Upload Excel File (Lab) ", "Upload your excel file with the marks entered:", "Arial", 25, row=0, column=1,colspan=2, sticky="nsew", padx=10, pady=20)
 
-            # important_label = create_label(" Upload Excel File ", "Important: Please fill the no. of CO\'s field and the CO\'s in the CO Information page and AL values in Target level of tests page before processing the file", "Arial", 20, 100, 325)
-            # important_label.configure(text_color="black", fg_color="yellow")
+            path_label_lab = create_label(" Upload Excel File (Lab) ", "Upload Or Enter the Path of File", "Arial", 20, row=2, column=1, sticky="w", padx=10)
+            path_entry_lab = ctk.CTkEntry(lab_frame, font=("Arial", 15), width=500)
+            path_entry_lab.grid(row=2, column=2, padx=10, pady=5, sticky="w")
 
-            emailTextProcessed_lab = create_entry_box(" Upload Excel File (Lab) ", "", "Arial", 15, 500, 700, 325)
+            button_upload_lab = create_button(" Upload Excel File (Lab) ", "Upload", "Arial", 20, 200, 40, upload_lab_file, row=3, column=1,colspan=2, sticky="", padx=10)
 
-            button_process_lab = create_button(" Upload Excel File (Lab) ", "Process", "Arial", 20, 200, 40, process_file_lab, 650, 425)
+            # Line separator
+            line_separator = ctk.CTkFrame(lab_frame, height=2, fg_color="white")  # Use your desired color
+            line_separator.grid(row=4, column=1, columnspan=2, sticky="ew", padx=10, pady=10)
 
-        
 
+            process_Label_lab = create_label(" Upload Excel File (Lab) ", "Process the excel file you uploaded:", "Arial", 25, row=5, column=1,colspan=2, sticky="nsew", padx=10, pady=10)
+
+            setEmailProcessedLabel_lab = create_label(" Upload Excel File (Lab) ", "Enter the Email ID to send the calculated sheet.", "Arial", 20, row=6, column=1, sticky="w", padx=10)
+            emailTextProcessed_lab = create_entry_box(" Upload Excel File (Lab) ", "", "Arial", 15, 500, row=6, column=2, sticky="w", padx=10)
+
+            button_process_lab = create_button(" Upload Excel File (Lab) ", "Process", "Arial", 20, 200, 40, process_file_lab, row=7, column=1,colspan=2, sticky="", padx=20, pady=20)
+
+
+            # ---------- Back Button ----------
             back_button = ctk.CTkButton(lo_window, text="Back", command=lambda: self.go_back(lo_window))
-            back_button.place(x=1300,y=40)
+            back_button.place(x=1300, y=40)  # Still using place because it's global in window
 
             lo_window.mainloop()
     

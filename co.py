@@ -1751,6 +1751,18 @@ class User_mode:
             main_frame = ctk.CTkFrame(master=lo_window)
             main_frame.pack(expand=True, fill="both", padx=10, pady=10)
             
+            # ---------- Back Button in topbar ----------
+            topbar = ctk.CTkFrame(master=main_frame, fg_color="transparent")
+            topbar.pack(side="top", fill="x", padx=0, pady=(0, 0))
+            back_button = ctk.CTkButton(
+                master=topbar,
+                text="← Back",
+                width=200,
+                command=lambda: self.go_back(lo_window)
+            )
+            back_button.pack(side="top", anchor="ne", padx=5)
+ 
+            
 
             # Tabview inside the frame
             tabview = ctk.CTkTabview(main_frame, corner_radius=20)
@@ -1761,7 +1773,7 @@ class User_mode:
             # tabview.add(" LO Mapping ")
             # tabview.add(" Upload Excel File (Lab) ")   
             
-               
+
             # Add Tabs
             tab_names = [
                 " LO Information ",
@@ -2404,9 +2416,9 @@ class User_mode:
 
 
             # ---------- Back Button ----------
-            back_button = ctk.CTkButton(lo_window, text="Back", command=lambda: self.go_back(lo_window))
-            back_button.place(x=1300, y=40)  # Still using place because it's global in window
-
+            # back_button = ctk.CTkButton(lo_window, text="Back", command=lambda: self.go_back(lo_window))
+            # back_button.place(x=1300, y=40)  # Still using place because it's global in window
+            
             lo_window.mainloop()
     
     def open_main_page(self):
@@ -2431,9 +2443,14 @@ class User_mode:
         # Set the window position and size
         self.app.geometry(f"{window_width}x{window_height}+{x}+{y}")
         
+        # Let main_frame expand when window resizes
+        self.app.rowconfigure(0, weight=1)
+        self.app.columnconfigure(0, weight=1)
+
         self.main_frame = ctk.CTkFrame(master=self.app)
-        self.main_frame.pack(expand=True, fill="both", padx=10, pady=10)
-        self.main_frame.columnconfigure(0, weight=1)
+        # self.main_frame.pack(expand=True, fill="both", padx=10, pady=10)
+        self.main_frame.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
+        self.main_frame.columnconfigure((0,1), weight=1)
         self.main_frame.rowconfigure(0, weight=1)
 
         # # Half-width and full-height of main_frame for coframe
@@ -2444,26 +2461,45 @@ class User_mode:
         # self.loframe = ctk.CTkFrame(master=self.main_frame)
         # self.loframe.place(relx=0.5, rely=0, relwidth=0.5, relheight=1)
         
-        # Padding around coframe and loframe
-        frame_padding = 0.01  # Adjust this to increase/decrease padding (e.g., 1% of the width/height)
 
-        # Half-width and full-height of main_frame for coframe with padding
+        # Left frame (CO)
         self.coframe = ctk.CTkFrame(master=self.main_frame)
-        self.coframe.place(
-            relx=frame_padding,  # Start slightly inward (left padding)
-            rely=frame_padding,  # Start slightly downward (top padding)
-            relwidth=0.5 - (frame_padding),  # Reduce width for padding on both sides
-            relheight=1 - (2*frame_padding)  # Reduce height for padding on top and bottom
-        )
+        self.coframe.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
 
-        # Half-width and full-height of main_frame for loframe with padding
+        # Right frame (LO)
         self.loframe = ctk.CTkFrame(master=self.main_frame)
-        self.loframe.place(
-            relx=0.5 + frame_padding,  # Start slightly after the midpoint (left padding)
-            rely=frame_padding,  # Start slightly downward (top padding)
-            relwidth=0.5 - (frame_padding),  # Reduce width for padding on both sides
-            relheight=1 - (2*frame_padding)  # Reduce height for padding on top and bottom
-        )
+        self.loframe.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
+
+
+
+
+
+
+
+
+
+
+
+        # # Padding around coframe and loframe
+        # frame_padding = 0.01  # Adjust this to increase/decrease padding (e.g., 1% of the width/height)
+
+        # # Half-width and full-height of main_frame for coframe with padding
+        # self.coframe = ctk.CTkFrame(master=self.main_frame)
+        # self.coframe.place(
+        #     relx=frame_padding,  # Start slightly inward (left padding)
+        #     rely=frame_padding,  # Start slightly downward (top padding)
+        #     relwidth=0.5 - (frame_padding),  # Reduce width for padding on both sides
+        #     relheight=1 - (2*frame_padding)  # Reduce height for padding on top and bottom
+        # )
+
+        # # Half-width and full-height of main_frame for loframe with padding
+        # self.loframe = ctk.CTkFrame(master=self.main_frame)
+        # self.loframe.place(
+        #     relx=0.5 + frame_padding,  # Start slightly after the midpoint (left padding)
+        #     rely=frame_padding,  # Start slightly downward (top padding)
+        #     relwidth=0.5 - (frame_padding),  # Reduce width for padding on both sides
+        #     relheight=1 - (2*frame_padding)  # Reduce height for padding on top and bottom
+        # )
         
         def resource_path(relative_path):
             """Get the absolute path to a resource, handling PyInstaller paths."""
@@ -2479,9 +2515,9 @@ class User_mode:
 
         
 
-        # Add a label to hold the background image
-        bg_label = ctk.CTkLabel(master=self.coframe, image=bg_image, text="")
-        bg_label.place(relx=0.5, rely=0.45, anchor="center")
+        # # Add a label to hold the background image
+        # bg_label = ctk.CTkLabel(master=self.coframe, image=bg_image, text="")
+        # bg_label.place(relx=0.5, rely=0.45, anchor="center")
         
         image_path1 = resource_path(f"./images/loFinal.png")
 
@@ -2491,18 +2527,68 @@ class User_mode:
 
         
 
-        # Add a label to hold the background image
-        bg_label1 = ctk.CTkLabel(master=self.loframe, image=bg_image1, text="")
-        bg_label1.place(relx=0.5, rely=0.45, anchor="center")
+        # # Add a label to hold the background image
+        # bg_label1 = ctk.CTkLabel(master=self.loframe, image=bg_image1, text="")
+        # bg_label1.place(relx=0.5, rely=0.45, anchor="center")
 
-        cobutton = ctk.CTkButton(self.coframe,width=180,height=40, text="CO - PO",font=("Helvetica",25), command=self.open_co_window)
-        cobutton.place(x=280,y=600) 
+        # cobutton = ctk.CTkButton(self.coframe,width=180,height=40, text="CO - PO",font=("Helvetica",25), command=self.open_co_window)
+        # cobutton.place(x=280,y=600) 
         
     
-        lobutton = ctk.CTkButton(self.loframe,width=180,height=40, text="LO",font=("Helvetica", 25), command=self.open_lo_window)
-        lobutton.place(x=280,y=600)
+        # lobutton = ctk.CTkButton(self.loframe,width=180,height=40, text="LO",font=("Helvetica", 25), command=self.open_lo_window)
+        # lobutton.place(x=280,y=600)
+        
+
+
+        # Configure grid for coframe and loframe
+        self.coframe.grid_rowconfigure(0, weight=1)
+        self.coframe.grid_rowconfigure(1, weight=0)
+        self.coframe.grid_columnconfigure(0, weight=1)
+
+        self.loframe.grid_rowconfigure(0, weight=1)
+        self.loframe.grid_rowconfigure(1, weight=0)
+        self.loframe.grid_columnconfigure(0, weight=1)
+
+        # ========== CO FRAME ==========
+        bg_label = ctk.CTkLabel(master=self.coframe, image=bg_image, text="")
+        bg_label.grid(row=0, column=0, pady=(40, 20), sticky="")  # Center top with padding
+
+        cobutton = ctk.CTkButton(
+            self.coframe,
+            width=180,
+            height=40,
+            text="CO - PO",
+            font=("Helvetica", 25),
+            command=self.open_co_window
+        )
+        cobutton.grid(row=1, column=0, pady=(10, 40), sticky="")
+
+        # ========== LO FRAME ==========
+        bg_label1 = ctk.CTkLabel(master=self.loframe, image=bg_image1, text="")
+        bg_label1.grid(row=0, column=0, pady=(40, 20), sticky="")
+
+        lobutton = ctk.CTkButton(
+            self.loframe,
+            width=180,
+            height=40,
+            text="LO",
+            font=("Helvetica", 25),
+            command=self.open_lo_window
+        )
+        lobutton.grid(row=1, column=0, pady=(10, 40), sticky="")
 
         
+
+
+
+
+
+
+
+
+
+
+
         
         # def start_button_event():
         #     if check_var.get()=='off':

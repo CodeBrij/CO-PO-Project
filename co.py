@@ -10,10 +10,6 @@ from PIL import Image, ImageTk  # Required for image handling
 import os
 import sys
 
-# @Sairam Konar
-# PPT ke COS na normally he le like Abhi kaise lete he CA1_Co_arr=[1,2,3,4,5,6] but PPT ke liye aise le  CA1_Co_arr=[[1,2],[3,4],[5],[6]] array of array where inside array is of group COs isse kiya hoga ki strcture maintain rahega.
-# Yeah Errors Dikh rahe he woh error nahi he places leave kiye he udhar code daal
-
 class User_mode:
     def __init__(self):
         self.app = None
@@ -25,45 +21,6 @@ class User_mode:
             self.__init__() 
 
     def open_co_window(self):
-            self.app.destroy() 
-            
-            co_window = ctk.CTk()  # Close the current window
-
-            screen_width=co_window.winfo_screenwidth()
-            screen_height=co_window.winfo_screenheight()
-       
-            # Set window size (like 80% of screen)
-            window_width = int(screen_width * 0.8)
-            window_height = int(screen_height * 0.8)
-            # Center the window
-            x = (screen_width - window_width) // 2
-            y = (screen_height - window_height) // 2
-
-            # Create a new CO Calculations window
-            co_window.title("CO Calculations")
-            co_window.geometry(f"{window_width}x{window_height}+{x}+{y}")
-
-            main_frame = ctk.CTkFrame(master=co_window)
-            main_frame.pack(expand=True, fill="both", padx=10, pady=10)
-
-    # Tabview inside the frame
-            tabview = ctk.CTkTabview(main_frame, corner_radius=20)
-            tabview.pack(expand=True, fill="both", padx=10, pady=5)
-
-            tabview.add(" Instructions ") 
-            tabview.add(" Basic Information ") 
-            tabview.add(" CO Information ") 
-            tabview.add(" Mid Terms & End Semesters ") 
-            tabview.add(" CA 1 ") 
-            tabview.add(" CA 2 ") 
-            tabview.add(" CA 3 ") 
-            
-            
-            # add tab at the end
-            # tabview.add(" CO Mapping ")
-            # tabview.add(" Target level of tests ")
-            # tabview.add(" Lab CO ")
-            tabview.add(" Process Template/Calculated ") 
             
             def switch_to_co_information():
                 if (entry1.get() == "" or yearDropDown.get() == "Select Year" or
@@ -75,20 +32,44 @@ class User_mode:
                     return CTkMessagebox(title="Invalid Input", message="Please enter valid No Of Students", icon="warning")
                 else:
                     tabview.set(" CO Information ")
+#<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
                     
+            # def switch_to_MidTerm_EndSem():
+            #     if noOfCOOption.get() == "5":
+            #         if CO1T.get() != "" and CO2T.get() != "" and CO3T.get() != "" and CO4T.get() != "" and CO5T.get() != "":
+            #             tabview.set(" Mid Terms & End Semesters ")
+            #             valid_CO = [1,2,3,4,5]
+            #         else:
+            #             CTkMessagebox(title="Error", message="Please enter all the 5 CO's", icon="cancel")
+            #     elif noOfCOOption.get() == "6":
+            #         if CO1T.get() != "" and CO2T.get() != "" and CO3T.get() != "" and CO4T.get() != "" and CO5T.get() != "" and CO6T.get() != "":
+            #             tabview.set(" Mid Terms & End Semesters ")
+            #             valid_CO = [1,2,3,4,5,6]
+            #         else:
+            #             CTkMessagebox(title="Error", message="Please enter all the 6 CO's", icon="cancel")
+            #     else:
+            #         CTkMessagebox(title="Error", message="Please Select No Of CO's", icon="cancel")
+
+#<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
+           
             def switch_to_MidTerm_EndSem():
-                if noOfCOOption.get() == "5":
-                    if CO1T.get() != "" and CO2T.get() != "" and CO3T.get() != "" and CO4T.get() != "" and CO5T.get() != "":
+                selected_CO = noOfCOOption.get()
+
+                if selected_CO in ["5", "6"]:
+                    total_cos = int(selected_CO)
+                    all_entered = True
+                    for i in range(1, total_cos + 1):
+                        entry_value = co_desc_entry.get(f"CO{i}T").get()
+                        if entry_value.strip() == "":
+                            all_entered = False
+                            break
+                    
+                    if all_entered:
                         tabview.set(" Mid Terms & End Semesters ")
-                        valid_CO = [1,2,3,4,5]
+                        valid_CO = list(range(1, total_cos + 1))
                     else:
-                        CTkMessagebox(title="Error", message="Please enter all the 5 CO's", icon="cancel")
-                elif noOfCOOption.get() == "6":
-                    if CO1T.get() != "" and CO2T.get() != "" and CO3T.get() != "" and CO4T.get() != "" and CO5T.get() != "" and CO6T.get() != "":
-                        tabview.set(" Mid Terms & End Semesters ")
-                        valid_CO = [1,2,3,4,5,6]
-                    else:
-                        CTkMessagebox(title="Error", message="Please enter all the 6 CO's", icon="cancel")
+                        CTkMessagebox(title="Error", message=f"Please enter all the {total_cos} CO's Description", icon="cancel")
+                
                 else:
                     CTkMessagebox(title="Error", message="Please Select No Of CO's", icon="cancel")
 
@@ -228,24 +209,62 @@ class User_mode:
                         return CTkMessagebox(title="Error", message="Please enter valid target level of CA1", icon="cancel")
                 tabview.set(" Process Template/Calculated ")
     
-            def create_button(tab, name, font_name, font_size, w, h, com, x, y):
-                button = ctk.CTkButton(master=tabview.tab(tab), text=name, width=w, height=h, font=(font_name, font_size), command=com)
-                button.place(x=x, y=y)
-                return button
+
+#<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
+            # def create_button(tab, name, font_name, font_size, w, h, com, x, y):
+            #     button = ctk.CTkButton(master=tabview.tab(tab), text=name, width=w, height=h, font=(font_name, font_size), command=com)
+            #     button.place(x=x, y=y)
+            #     return button
             
-            def create_label(tab, name, font_type, font_size, x, y):
-                label = ctk.CTkLabel(master=tabview.tab(tab), text=name, font=(font_type, font_size))
-                label.place(x=x, y=y)
-                return label
+            # def create_label(tab, name, font_type, font_size, x, y):
+            #     label = ctk.CTkLabel(master=tabview.tab(tab), text=name, font=(font_type, font_size))
+            #     label.place(x=x, y=y)
+            #     return label
     
-            def create_entry_box(tab, text, font_name, font_size, w, x, y):
-                entry_box = ctk.CTkEntry(master=tabview.tab(tab), placeholder_text=text, font=(font_name,font_size), width=w)
-                entry_box.place(x=x,y=y)
-                return entry_box
+            # def create_entry_box(tab, text, font_name, font_size, w, x, y):
+            #     entry_box = ctk.CTkEntry(master=tabview.tab(tab), placeholder_text=text, font=(font_name,font_size), width=w)
+            #     entry_box.place(x=x,y=y)
+            #     return entry_box
             
-            def create_dropdown(tab, val, font_name, font_size, w, com, x, y):
-                dropdown = ctk.CTkOptionMenu(master=tabview.tab(tab), values=val, font=(font_name, font_size), width=w, command=com)
-                dropdown.place(x=x, y=y)
+            # def create_dropdown(tab, val, font_name, font_size, w, com, x, y):
+            #     dropdown = ctk.CTkOptionMenu(master=tabview.tab(tab), values=val, font=(font_name, font_size), width=w, command=com)
+            #     dropdown.place(x=x, y=y)
+            #     return dropdown
+#<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
+          
+
+            # ------------------ Helper UI Functions (Responsive & Scrollable) ------------------
+
+            def create_label(tab, name, font_type, font_size, row=None, column=None, colspan=1, sticky="nsw", padx=5, pady=15):
+                label = ctk.CTkLabel(master=scroll_frames[tab], text=name, font=(font_type, font_size))
+                if row is not None and column is not None:
+                    label.grid(row=row, column=column, columnspan=colspan, sticky=sticky, padx=padx, pady=pady)
+                else:
+                    label.pack(pady=15)
+                return label
+
+            def create_entry_box(tab, text, font_name, font_size, w, row=None, column=None, colspan=1, sticky="nsw", padx=5, pady=15):
+                entry_box = ctk.CTkEntry(master=scroll_frames[tab], placeholder_text=text, font=(font_name, font_size), width=w)
+                if row is not None and column is not None:
+                    entry_box.grid(row=row, column=column, columnspan=colspan, sticky=sticky, padx=padx, pady=pady)
+                else:
+                    entry_box.pack(pady=15)
+                return entry_box
+
+            def create_button(tab, name, font_name, font_size, w, h=40, com=None, row=None, column=None, colspan=1, sticky="nsw", padx=5, pady=20):
+                button = ctk.CTkButton(master=scroll_frames[tab], text=name, width=w, height=h, font=(font_name, font_size), command=com)
+                if row is not None and column is not None:
+                    button.grid(row=row, column=column, columnspan=colspan, sticky=sticky, padx=padx, pady=pady)
+                else:
+                    button.pack(pady=20)
+                return button
+
+            def create_dropdown(tab, val, font_name, font_size, w, com=None, row=None, column=None, colspan=1, sticky="nsw", padx=5, pady=15):
+                dropdown = ctk.CTkOptionMenu(master=scroll_frames[tab], values=val, font=(font_name, font_size), width=w, command=com)
+                if row is not None and column is not None:
+                    dropdown.grid(row=row, column=column, columnspan=colspan, sticky=sticky, padx=padx, pady=pady)
+                else:
+                    dropdown.pack(pady=15)
                 return dropdown
             
             def download():
@@ -704,9 +723,9 @@ class User_mode:
     
             def noOfCO(option):
                 if option=='6':
-                    CO6T.configure(state="normal",fg_color=["#F9F9FA", "#343638"])
+                    co_desc_entry["CO6T"].configure(state="normal",fg_color=["#F9F9FA", "#343638"])
                 else :
-                    CO6T.configure(state="disabled",fg_color="gray")
+                    co_desc_entry["CO6T"].configure(state="disabled",fg_color="gray")
                     
     
             def resource_path(relative_path):
@@ -719,582 +738,809 @@ class User_mode:
                 for char in string:
                     if char not in "0123456789":
                         return False
-                
-                        
+             
+            self.app.destroy() 
+            
+            co_window = ctk.CTk()  # Close the current window
+
+            screen_width=co_window.winfo_screenwidth()
+            screen_height=co_window.winfo_screenheight()
+       
+            # Set window size (like 80% of screen)
+            window_width = int(screen_width * 0.8)
+            window_height = int(screen_height * 0.8)
+            # Center the window
+            x = (screen_width - window_width) // 2
+            y = (screen_height - window_height) // 2
+
+            # Create a new CO Calculations window
+            co_window.title("CO Calculations")
+            co_window.geometry(f"{window_width}x{window_height}+{x}+{y}")
+
+            main_frame = ctk.CTkFrame(master=co_window)
+            main_frame.pack(expand=True, fill="both", padx=10, pady=10)
+
+            # ---------- Back Button in topbar ----------
+            topbar = ctk.CTkFrame(master=main_frame, fg_color="transparent")
+            topbar.pack(side="top", fill="x", padx=0, pady=(0, 0))
+            back_button = ctk.CTkButton(
+                master=topbar,
+                text="← Back",
+                width=200,
+                command=lambda: self.go_back(co_window)
+            )
+            back_button.pack(side="top", anchor="ne", padx=5)
+
+            # Tabview inside the frame
+            tabview = ctk.CTkTabview(main_frame, corner_radius=20)
+            tabview.pack(expand=True, fill="both", padx=10, pady=5)
+#<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
+            # tabview.add(" Instructions ") 
+            # tabview.add(" Basic Information ") 
+            # tabview.add(" CO Information ") 
+            # tabview.add(" Mid Terms & End Semesters ") 
+            # tabview.add(" CA 1 ") 
+            # tabview.add(" CA 2 ") 
+            # tabview.add(" CA 3 ") 
+            # tabview.add(" Process Template/Calculated ")
+#<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
+            
+            
+            # add tab at the end
+            # tabview.add(" CO Mapping ")
+            # tabview.add(" Target level of tests ")
+            # tabview.add(" Lab CO ")
+
+            # Add Tabs
+            tab_names = [
+                " Instructions ",
+                " Basic Information ",
+                " CO Information ",
+                " Mid Terms & End Semesters ",
+                " CA 1 ",
+                " CA 2 ",
+                " CA 3 ",
+                " Process Template/Calculated "
+            ]
+
+            scroll_frames = {}  # Dictionary to store scrollable frames by tab name
+
+            for tab_name in tab_names:
+                tabview.add(tab_name)
+
+                # Create a scrollable frame inside each tab
+                scroll_frame = ctk.CTkScrollableFrame(master=tabview.tab(tab_name), label_text="")
+                scroll_frame.pack(fill="both", expand=True, padx=10, pady=10)
+                scroll_frames[tab_name] = scroll_frame
+
+
+    
+              
+#<--------------------------------------------------------------------------------------------------------------------------------------------------------------->                           
 
             # Use resource_path to access the image
+            # image_path = resource_path(f"./images/coCal.png")
+            # # Load the image and create a CTkImage
+            # background_image = Image.open(image_path)
+            # bg_image = ctk.CTkImage(background_image, size=(screen_width - 100, screen_height-130))
+
+            # # Create a frame for the "Instructions" tab content
+            # instructions_tab = tabview.tab(" Instructions ")
+            # instructions_tab.columnconfigure(0, weight=1)
+            # instructions_tab.rowconfigure(0, weight=1)
+
+            # # Add a label to hold the background image
+            # bg_label = ctk.CTkLabel(master=instructions_tab, image=bg_image, text="")
+            # bg_label.place(relx=0.5, rely=0.5, anchor="center")
+
+            # # If you want to overlay widgets on top of the image:
+            # # Example of overlaying text on the background
+            # overlay_label = ctk.CTkLabel(master=instructions_tab, text="")
+            # overlay_label.place(relx=0.5, rely=0.1, anchor="center")
+#<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
+
+            
+
+            # Reference the scrollable frame for the " Instructions " tab
+            instructions_frame = scroll_frames[" Instructions "]
+
+            width12 = instructions_frame.winfo_width()
+            height12 = instructions_frame.winfo_height()
+            # Load the image using PIL and create CTkImage with fixed size
             image_path = resource_path(f"./images/coCal.png")
-            # Load the image and create a CTkImage
             background_image = Image.open(image_path)
-            bg_image = ctk.CTkImage(background_image, size=(screen_width - 100, screen_height-130))
+            bg_image = ctk.CTkImage(background_image,size=(1200,600))
 
-            # Create a frame for the "Instructions" tab content
-            instructions_tab = tabview.tab(" Instructions ")
-            instructions_tab.columnconfigure(0, weight=1)
-            instructions_tab.rowconfigure(0, weight=1)
+            # Configure grid in scrollable frame
+            instructions_frame.grid_columnconfigure(0, weight=1)
+            instructions_frame.grid_rowconfigure(0, weight=1)
 
-            # Add a label to hold the background image
-            bg_label = ctk.CTkLabel(master=instructions_tab, image=bg_image, text="")
-            bg_label.place(relx=0.5, rely=0.5, anchor="center")
+            # Add the label with image using .grid()
+            bg_label = ctk.CTkLabel(master=instructions_frame, image=bg_image, text="")
+            bg_label.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
 
-            # If you want to overlay widgets on top of the image:
-            # Example of overlaying text on the background
-            overlay_label = ctk.CTkLabel(master=instructions_tab, text="")
-            overlay_label.place(relx=0.5, rely=0.1, anchor="center")
+            # Optional: Add overlay text or widgets
+            # overlay_label = ctk.CTkLabel(master=instructions_frame, text="Welcome to Instructions", font=("Arial", 20))
+            # overlay_label.grid(row=1, column=0, pady=(10, 20))
 
-            button = create_button(" Basic Information ", "Next", "Arial", 20, 150, 40, switch_to_co_information, 725, 490)
+#<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
 
-            label0 = create_label(" Basic Information ", "Basic Details", "Arial", 20, 725, 5)
+            # button = create_button(" Basic Information ", "Next", "Arial", 20, 150, 40, switch_to_co_information, 725, 490)
 
-            label1 = create_label(" Basic Information ", "No. of Students :", "Arial", 15, 550, 55)
+            # label0 = create_label(" Basic Information ", "Basic Details", "Arial", 20, 725, 5)
 
-            entry1 = create_entry_box(" Basic Information ", "Enter no of students", "Arial", 15, 300, 750, 55)
+            # label1 = create_label(" Basic Information ", "No. of Students :", "Arial", 15, 550, 55)
 
-            newLabel = create_label(" Basic Information ", "Year :", "Arial", 15, 550, 155)
+            # entry1 = create_entry_box(" Basic Information ", "Enter no of students", "Arial", 15, 300, 750, 55)
 
-            yearDropDown = create_dropdown(" Basic Information ", ["Select Year", "F.E", "S.E", "T.E", "B.E"], "Arial", 15, 300, semesterAndClass, 750, 155)
+            # newLabel = create_label(" Basic Information ", "Year :", "Arial", 15, 550, 155)
 
-            label8 = create_label(" Basic Information ", "Department :", "Arial", 15, 550, 105)
+            # yearDropDown = create_dropdown(" Basic Information ", ["Select Year", "F.E", "S.E", "T.E", "B.E"], "Arial", 15, 300, semesterAndClass, 750, 155)
 
-            entry8 = create_dropdown(" Basic Information ", ["Select Department", "Humanities and Applied Science(FE)", "Information Technology", "Computer", "AI and Data Science", "Electronics and Telecommunication", "Electronics", "Instrumentation"], "Arial", 15, 300, None, 750, 105)
+            # label8 = create_label(" Basic Information ", "Department :", "Arial", 15, 550, 105)
 
-            label2 = create_label(" Basic Information ", "Semester :", "Arial", 15,550, 205)
+            # entry8 = create_dropdown(" Basic Information ", ["Select Department", "Humanities and Applied Science(FE)", "Information Technology", "Computer", "AI and Data Science", "Electronics and Telecommunication", "Electronics", "Instrumentation"], "Arial", 15, 300, None, 750, 105)
 
-            entry2 = create_dropdown(" Basic Information ", ["Select Sem"], "Arial", 15, 300, subject,750, 205)
+            # label2 = create_label(" Basic Information ", "Semester :", "Arial", 15,550, 205)
 
-            label3 = create_label(" Basic Information ", "Subject :", "Arial", 15, 550, 255)
+            # entry2 = create_dropdown(" Basic Information ", ["Select Sem"], "Arial", 15, 300, subject,750, 205)
 
-            entry3 = create_dropdown(" Basic Information ", ["Select Subject"], "Arial", 15, 300, None, 750, 255)
+            # label3 = create_label(" Basic Information ", "Subject :", "Arial", 15, 550, 255)
 
-            label4 = create_label(" Basic Information ", "Academic Year: ", "Arial", 15, 550, 305)
+            # entry3 = create_dropdown(" Basic Information ", ["Select Subject"], "Arial", 15, 300, None, 750, 255)
 
-            entry4 = create_entry_box(" Basic Information ", "YYYY-YYYY", "Arial", 15, 300, 750, 305)
+            # label4 = create_label(" Basic Information ", "Academic Year: ", "Arial", 15, 550, 305)
+
+            # entry4 = create_entry_box(" Basic Information ", "YYYY-YYYY", "Arial", 15, 300, 750, 305)
+            # entry4.bind("<FocusOut>", validate_academic_year)
+
+            # label5 = create_label(" Basic Information ", "Subject Teacher :", "Arial", 15, 550, 355)
+
+            # entry5 = create_entry_box(" Basic Information ", "Subject Teacher", "Arial", 15, 300, 750, 355)
+
+            # label7 = create_label(" Basic Information ", "Class :", "Arial", 15, 550, 405)
+
+            # # entry7 = create_entry_box(" Basic Information ", "Eg.D10 C", "Arial", 15, 300, 400, 405)
+
+            # entry7 = create_dropdown(" Basic Information ", ["Select Class"], "Arial", 15, 300, None, 750, 405)
+
+            # # label12 = create_label(" Basic Information ", "Attainment Target :", "Arial", 15, 875, 55)
+
+            # # entry12 = create_entry_box(" Basic Information ", "52.5", "Arial", 15, 300, 1075, 55)
+#<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
+            tab_name = " Basic Information "
+            
+            for i in range(5):
+                scroll_frames[tab_name].grid_columnconfigure(i, weight=1)
+
+            row_base = 0
+            label0 = create_label(tab_name, "Basic Details", "Arial", 20, row=row_base, column=0, colspan=5)
+            label0.configure(anchor="center", justify="center")
+            label0.grid_configure(sticky="nsew")
+            row_base +=2
+
+            label_text_basic=["No. of Students :","Department :","Year :","Semester :","Subject :","Academic Year: ","Subject Teacher :","Class :"]
+            for text in label_text_basic :
+                create_label(tab_name, text, "Arial", 15, row=row_base, column=2, sticky="nsw")
+                row_base+=1
+            
+            row_base=2
+            entry1= create_entry_box(tab_name, "Enter no of students", "Arial", 15, 300, row=row_base, column=3,sticky="nsw")
+            row_base += 1
+            
+            entry8 = create_dropdown(tab_name, ["Select Department", "Humanities and Applied Science(FE)", "Information Technology", "Computer", "AI and Data Science", "Electronics and Telecommunication", "Electronics", "Instrumentation"], "Arial", 15, 300, None, row=row_base, column=3,sticky="nsw")
+            row_base +=1
+            
+            yearDropDown = create_dropdown(tab_name, ["Select Year", "F.E", "S.E", "T.E", "B.E"], "Arial", 15, 300, None, row=row_base, column=3,sticky="nsw")
+            row_base +=1
+
+            entry2 = create_dropdown(tab_name, ["Select Sem"], "Arial", 15, 300, None, row=row_base, column=3,sticky="nsw")
+            row_base +=1
+
+            entry3 = create_dropdown(tab_name, ["Select Subject"], "Arial", 15, 300, None, row=row_base, column=3,sticky="nsw")
+            row_base +=1
+             
+            entry4= create_entry_box(tab_name, "YYYY-YYYY", "Arial", 15, 300, row=row_base, column=3,sticky="nsw")
             entry4.bind("<FocusOut>", validate_academic_year)
+            row_base += 1
 
-            label5 = create_label(" Basic Information ", "Subject Teacher :", "Arial", 15, 550, 355)
+            entry5= create_entry_box(tab_name, "Subject Teacher", "Arial", 15, 300, row=row_base, column=3,sticky="nsw")
+            row_base += 1
 
-            entry5 = create_entry_box(" Basic Information ", "Subject Teacher", "Arial", 15, 300, 750, 355)
+            entry7 = create_dropdown(tab_name, ["Select Class"], "Arial", 15, 300, None, row=row_base, column=3,sticky="nsw")
+            row_base +=2
 
-            label7 = create_label(" Basic Information ", "Class :", "Arial", 15, 550, 405)
-
-            # entry7 = create_entry_box(" Basic Information ", "Eg.D10 C", "Arial", 15, 300, 400, 405)
-
-            entry7 = create_dropdown(" Basic Information ", ["Select Class"], "Arial", 15, 300, None, 750, 405)
-
-            label11 = create_label(" Mid Terms & End Semesters ", "Endsems CO's", "Arial", 20, 725, 390)
-
-            entry11 = create_entry_box(" Mid Terms & End Semesters ", "1,2,3,4,5,6", "Arial", 15, 300, 650, 425)
-
-            # label12 = create_label(" Basic Information ", "Attainment Target :", "Arial", 15, 875, 55)
-
-            # entry12 = create_entry_box(" Basic Information ", "52.5", "Arial", 15, 300, 1075, 55)
-
-            label10 = create_label(" CA 3 ", "Is CA3 Applicable: ", "Arial", 15, 200, 55)
-
-            entry10 = create_dropdown(" CA 3 ", ["Select Yes/No", "Yes", "No"], "Arial", 15, 300, disable, 500, 55)
-
-            label13 = create_label(" CA 1 ", "CA1 type :", "Arial", 15, 200, 55)
-
-            entry13 = create_dropdown(" CA 1 ", ["Select Type", "Quiz", "NPTEL Course", "Presentation", "Test",  "Other"], "Arial", 15, 300, ca1, 500, 55)
-
-            noCA1Label = create_label(" CA 1 ", "No of Question CA1 (Quiz/Test) :", "Arial", 15, 200, 105)
-
-            noCA1Entry = create_dropdown(" CA 1 ", ["Select No", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"], "Arial", 15, 300, noQuestion1, 500, 105)
-            noCA1Entry.configure(state="disabled", fg_color="gray")
-
-            label14 = create_label(" CA 2 ", "CA2 type :", "Arial", 15, 200, 55)
-
-            entry14 = create_dropdown(" CA 2 ", ["Select Type", "Quiz", "NPTEL Course", "Presentation", "Test", "Other"], "Arial", 15, 300, ca2, 500, 55)
-
-            noCA2Label = create_label(" CA 2 ", "No of Question CA2 (Quiz/Test) :", "Arial", 15, 200, 105)
-
-            noCA2Entry = create_dropdown(" CA 2 ", ["Select No", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"], "Arial", 15, 300, noQuestion2, 500, 105)
-            noCA2Entry.configure(state="disabled", fg_color="gray")
-
-            label15 = create_label(" CA 3 ", "CA3 type :", "Arial", 15, 200, 105)
-
-            entry15 = create_dropdown(" CA 3 ", ["Select Type", "Quiz", "NPTEL Course", "Presentation", "Test", "Other"], "Arial", 15, 300, ca3, 500, 105)
-            entry15.configure(state="disabled", fg_color="gray")
-
-            noCA3Label = create_label(" CA 3 ", "No of Question CA3 (Quiz/Test) :", "Arial", 15, 200, 155)
-
-            noCA3Entry = create_dropdown(" CA 3 ", ["Select No", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"], "Arial", 15, 300, noQuestion3, 500, 155)
-            noCA3Entry.configure(state="disabled", fg_color="gray")
-
-            nptelCA1 = create_label(" CA 1 ", "CO's for NPTEL (CA)", "Arial", 20, 470, 505)
-            nptelCA2 = create_label(" CA 2 ", "CO's for NPTEL (CA)", "Arial", 20, 470, 505)
-            nptelCA3 = create_label(" CA 3 ", "CO's for NPTEL (CA)", "Arial", 20, 470, 555)
-
-            nptelCA1Label = create_label(" CA 1 ", "NPTEL: ", "Arial", 15, 350, 555)
-
-            nptelCA1Text = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 300, 450, 555)
-            nptelCA1Text.configure(state="disabled", fg_color="gray")
-
-            nptelCA2Label = create_label(" CA 2 ", "NPTEL: ", "Arial", 15, 350, 555)
-
-            nptelCA2Text = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 300, 450, 555)
-            nptelCA2Text.configure(state="disabled", fg_color="gray")
-
-            nptelCA3Label = create_label(" CA 3 ", "NPTEL: ", "Arial", 15, 350, 605)
-
-            nptelCA3Text = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 300, 450, 605)
-            nptelCA3Text.configure(state="disabled", fg_color="gray")
-
-            presentationcA1 = create_label(" CA 1 ", "Maximum group size of Presentations (CA)", "Arial", 20, 870, 505)
-            presentationCA2 = create_label(" CA 2 ", "Maximum group size of Presentations (CA)", "Arial", 20, 870, 505)
-            presentationCA3 = create_label(" CA 3 ", "Maximum group size of Presentations (CA)", "Arial", 20, 870, 555)
-
-            presentationCA1Label = create_label(" CA 1 ", "Group Size: ", "Arial", 15, 850, 555)
-
-            presentationCA1Text = create_entry_box(" CA 1 ", "Enter maximum number of students in a group", "Arial", 15, 350, 950, 555)
-            presentationCA1Text.configure(state="disabled", fg_color="gray")
-
-            presentationCA2Label = create_label(" CA 2 ", "Group Size: ", "Arial", 15, 850, 555)
-
-            presentationCA2Text = create_entry_box(" CA 2 ", "Enter maximum number of students in a group", "Arial", 15, 350, 950, 555)
-            presentationCA2Text.configure(state="disabled", fg_color="gray")
-
-            presentationCA3Label = create_label(" CA 3 ", "Group Size: ", "Arial", 15, 850, 605)
-
-            presentationCA3Text = create_entry_box(" CA 3 ", "Enter maximum number of students in a group", "Arial", 15, 350, 950, 605)
-            presentationCA3Text.configure(state="disabled", fg_color="gray")
+            button = create_button(tab_name, "Next", "Arial", 20, 300, 40, switch_to_co_information, row=row_base, column=2,colspan=2,sticky="")
 
 
-            label6 = create_label(" Mid Terms & End Semesters ", "COs for Midterm", "Arial", 20, 725, 20)
+#<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
 
-            a1L = create_label(" Mid Terms & End Semesters ", "1a :", "Arial", 15, 550, 60)
-            a2L = create_label(" Mid Terms & End Semesters ", "1b :", "Arial", 15, 550, 110)
-            a3L = create_label(" Mid Terms & End Semesters ", "1c :", "Arial", 15, 550, 160)
-            a4L = create_label(" Mid Terms & End Semesters ", "1d :", "Arial", 15, 550, 210)
-            a5L = create_label(" Mid Terms & End Semesters ", "1e :", "Arial", 15, 550, 260)
-            a6L = create_label(" Mid Terms & End Semesters ", "1f :", "Arial", 15, 550, 310)
-            a2aL = create_label(" Mid Terms & End Semesters ", "2a :", "Arial", 15, 850, 60)
-            a2bL = create_label(" Mid Terms & End Semesters ", "2b :", "Arial", 15, 850, 110)
-            a3aL = create_label(" Mid Terms & End Semesters ", "3a :", "Arial", 15, 850, 160)
-            a3bL = create_label(" Mid Terms & End Semesters ", "3b :", "Arial", 15, 850, 210)
+            # label6 = create_label(" Mid Terms & End Semesters ", "COs for Midterm", "Arial", 20, 725, 20)
+            # label11 = create_label(" Mid Terms & End Semesters ", "Endsems CO's", "Arial", 20, 725, 390)
 
+            # entry11 = create_entry_box(" Mid Terms & End Semesters ", "1,2,3,4,5,6", "Arial", 15, 300, 650, 425)
 
-            a1T=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
-            a1T.place(x=600,y=60)
-
-            a2T=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
-            a2T.place(x=600,y=110)
-
-            a3T=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
-            a3T.place(x=600,y=160)
-
-            a4T=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
-            a4T.place(x=600,y=210)
-
-            a5T=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
-            a5T.place(x=600,y=260)
-
-            a6T=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
-            a6T.place(x=600,y=310)
+            # a1L = create_label(" Mid Terms & End Semesters ", "1a :", "Arial", 15, 550, 60)
+            # a2L = create_label(" Mid Terms & End Semesters ", "1b :", "Arial", 15, 550, 110)
+            # a3L = create_label(" Mid Terms & End Semesters ", "1c :", "Arial", 15, 550, 160)
+            # a4L = create_label(" Mid Terms & End Semesters ", "1d :", "Arial", 15, 550, 210)
+            # a5L = create_label(" Mid Terms & End Semesters ", "1e :", "Arial", 15, 550, 260)
+            # a6L = create_label(" Mid Terms & End Semesters ", "1f :", "Arial", 15, 550, 310)
+            # a2aL = create_label(" Mid Terms & End Semesters ", "2a :", "Arial", 15, 850, 60)
+            # a2bL = create_label(" Mid Terms & End Semesters ", "2b :", "Arial", 15, 850, 110)
+            # a3aL = create_label(" Mid Terms & End Semesters ", "3a :", "Arial", 15, 850, 160)
+            # a3bL = create_label(" Mid Terms & End Semesters ", "3b :", "Arial", 15, 850, 210)
 
 
-            a2aT=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
-            a2aT.place(x=900,y=60)
+            # a1T=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
+            # a1T.place(x=600,y=60)
+
+            # a2T=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
+            # a2T.place(x=600,y=110)
+
+            # a3T=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
+            # a3T.place(x=600,y=160)
+
+            # a4T=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
+            # a4T.place(x=600,y=210)
+
+            # a5T=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
+            # a5T.place(x=600,y=260)
+
+            # a6T=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
+            # a6T.place(x=600,y=310)
 
 
-            a2bT=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
-            a2bT.place(x=900,y=110)
+            # a2aT=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
+            # a2aT.place(x=900,y=60)
 
 
-            a3aT=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
-            a3aT.place(x=900,y=160)
+            # a2bT=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
+            # a2bT.place(x=900,y=110)
 
 
-            a3bT=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
-            a3bT.place(x=900,y=210)
+            # a3aT=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
+            # a3aT.place(x=900,y=160)
 
-            #For Quiz
-
-            # COs for CA1 Quiz
-            label9 = create_label(" CA 1 ", "COs for CA1 Quiz/Test", "Arial", 20, 350, 205)
-            label9_marks = create_label(" CA 1 ", "Marks of Questions for CA1 Quiz/Test", "Arial", 20, 1000, 205)
-
-            q1LCA1 = create_label(" CA 1 ", "Q1 :", "Arial", 15, 200, 255)
-            q1TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 255)
-            q1TCA1.configure(state="disabled", fg_color="gray")
             
-            q1LCA1 = create_label(" CA 1 ", "Q1 :", "Arial", 15, 200, 255)
-            q1TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 255)
-            q1TCA1.configure(state="disabled", fg_color="gray")
+            # a3bT=ctk.CTkEntry(master=tabview.tab(" Mid Terms & End Semesters "),placeholder_text="1,2,3,4,5,6",font=("Arial",15),width=150)
+            # a3bT.place(x=900,y=210)
 
-            q2LCA1 = create_label(" CA 1 ", "Q2 :", "Arial", 15, 200, 305)
-            q2TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 305)
-            q2TCA1.configure(state="disabled", fg_color="gray")
-
-            q3LCA1 = create_label(" CA 1 ", "Q3 :", "Arial", 15, 200, 355)
-            q3TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 355)
-            q3TCA1.configure(state="disabled", fg_color="gray")
-
-            q4LCA1 = create_label(" CA 1 ", "Q4 :", "Arial", 15, 200, 405)
-            q4TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 405)
-            q4TCA1.configure(state="disabled", fg_color="gray")
-
-            q5LCA1 = create_label(" CA 1 ", "Q5 :", "Arial", 15, 200, 455)
-            q5TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 455)
-            q5TCA1.configure(state="disabled", fg_color="gray")
-
-            q6LCA1 = create_label(" CA 1 ", "Q6 :", "Arial", 15, 500, 255)
-            q6TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 255)
-            q6TCA1.configure(state="disabled", fg_color="gray")
-
-            q7LCA1 = create_label(" CA 1 ", "Q7 :", "Arial", 15, 500, 305)
-            q7TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 305)
-            q7TCA1.configure(state="disabled", fg_color="gray")
-
-            q8LCA1 = create_label(" CA 1 ", "Q8 :", "Arial", 15, 500, 355)
-            q8TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 355)
-            q8TCA1.configure(state="disabled", fg_color="gray")
-
-            q9LCA1 = create_label(" CA 1 ", "Q9 :", "Arial", 15, 500, 405)
-            q9TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 550,405)
-            q9TCA1.configure(state="disabled", fg_color="gray")
-
-            q10LCA1 = create_label(" CA 1 ", "Q10 :", "Arial", 15, 500, 455)
-            q10TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 455)
-            q10TCA1.configure(state="disabled", fg_color="gray")
-
-            q1LCA1marks = create_label(" CA 1 ", "Q1 :", "Arial", 15, 900, 255)
-            q1TCA1marks = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 255)
-            q1TCA1marks.configure(state="disabled", fg_color="gray")
-
-            q2LCA1marks = create_label(" CA 1 ", "Q2 :", "Arial", 15, 900, 305)
-            q2TCA1marks = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 305)
-            q2TCA1marks.configure(state="disabled", fg_color="gray")
-
-            q3LCA1marks = create_label(" CA 1 ", "Q3 :", "Arial", 15, 900, 355)
-            q3TCA1marks = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 355)
-            q3TCA1marks.configure(state="disabled", fg_color="gray")
-
-            q4LCA1marks = create_label(" CA 1 ", "Q4 :", "Arial", 15, 900, 405)
-            q4TCA1marks = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 405)
-            q4TCA1marks.configure(state="disabled", fg_color="gray")
-
-            q5LCA1marks = create_label(" CA 1 ", "Q5 :", "Arial", 15, 900, 455)
-            q5TCA1marks = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 455)
-            q5TCA1marks.configure(state="disabled", fg_color="gray")
-
-            q6LCA1marks = create_label(" CA 1 ", "Q6 :", "Arial", 15, 1200, 255)
-            q6TCA1marks = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 255)
-            q6TCA1marks.configure(state="disabled", fg_color="gray")
-
-            q7LCA1marks = create_label(" CA 1 ", "Q7 :", "Arial", 15, 1200, 305)
-            q7TCA1marks = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 305)
-            q7TCA1marks.configure(state="disabled", fg_color="gray")
-
-            q8LCA1marks = create_label(" CA 1 ", "Q8 :", "Arial", 15, 1200, 355)
-            q8TCA1marks = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 355)
-            q8TCA1marks.configure(state="disabled", fg_color="gray")
-
-            q9LCA1marks = create_label(" CA 1 ", "Q9 :", "Arial", 15, 1200, 405)
-            q9TCA1marks = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250,405)
-            q9TCA1marks.configure(state="disabled", fg_color="gray")
-
-            q10LCA1marks = create_label(" CA 1 ", "Q10 :", "Arial", 15, 1200, 455)
-            q10TCA1marks = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 455)
-            q10TCA1marks.configure(state="disabled", fg_color="gray")
-
-            button3 = create_button(" CA 1 ", "Next", "Arial", 20, 200, 40, switch_to_CA2, 1100, 640)
-
-            # COs for CA2 Quiz
-            label18 = create_label(" CA 2 ", "COs for CA2 Quiz/Test", "Arial", 20, 350, 205)
-            label18marks = create_label(" CA 2 ", "Marks of Questions for CA2 Quiz/Test", "Arial", 20, 1000, 205)
-
-            q1LCA2 = create_label(" CA 2 ", "Q1 :", "Arial", 15, 200, 255)
-            q1TCA2 = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 255)
-            q1TCA2.configure(state="disabled", fg_color="gray")
-
-            q2LCA2 = create_label(" CA 2 ", "Q2 :", "Arial", 15, 200, 305)
-            q2TCA2 = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 305)
-            q2TCA2.configure(state="disabled", fg_color="gray")
-
-            q3LCA2 = create_label(" CA 2 ", "Q3 :", "Arial", 15, 200, 355)
-            q3TCA2 = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 355)
-            q3TCA2.configure(state="disabled", fg_color="gray")
-
-            q4LCA2 = create_label(" CA 2 ", "Q4 :", "Arial", 15, 200, 405)
-            q4TCA2 = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 405)
-            q4TCA2.configure(state="disabled", fg_color="gray")
-
-            q5LCA2 = create_label(" CA 2 ", "Q5 :", "Arial", 15, 200, 455)
-            q5TCA2 = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 455)
-            q5TCA2.configure(state="disabled", fg_color="gray")
-
-            q6LCA2 = create_label(" CA 2 ", "Q6 :", "Arial", 15, 500, 255)
-            q6TCA2 = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 255)
-            q6TCA2.configure(state="disabled", fg_color="gray")
-
-            q7LCA2 = create_label(" CA 2 ", "Q7 :", "Arial", 15,500, 305)
-            q7TCA2 = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 305)
-            q7TCA2.configure(state="disabled", fg_color="gray")
-
-            q8LCA2 = create_label(" CA 2 ", "Q8 :", "Arial", 15, 500, 355)
-            q8TCA2 = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 355)
-            q8TCA2.configure(state="disabled", fg_color="gray")
-
-            q9LCA2 = create_label(" CA 2 ", "Q9 :", "Arial", 15, 500, 405)
-            q9TCA2 = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 405)
-            q9TCA2.configure(state="disabled", fg_color="gray")
-
-            q10LCA2 = create_label(" CA 2 ", "Q10 :", "Arial", 15, 500, 455)
-            q10TCA2 = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 455)
-            q10TCA2.configure(state="disabled", fg_color="gray")
             
-            q1LCA2marks = create_label(" CA 2 ", "Q1 :", "Arial", 15, 900, 255)
-            q1TCA2marks = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 255)
-            q1TCA2marks.configure(state="disabled", fg_color="gray")
+            # ALlabelMidTerm = create_label(" Mid Terms & End Semesters ", "Enter the Target level for Midterms and End Semsesters", "Arial", 20, 600, 505)
+            # ALMidTermLabel = create_label(" Mid Terms & End Semesters ", "Mid Term: ", "Arial", 15, 450, 555)
+            # ALMidTermText = create_entry_box(" Mid Terms & End Semesters ", "", "Arial", 15, 500, 550, 555)
+            # ALEndSemLabel = create_label(" Mid Terms & End Semesters ", "End Semester: ", "Arial", 15, 450, 605)
+            # ALEndSemText = create_entry_box(" Mid Terms & End Semesters ", "", "Arial", 15, 500, 550, 605)
 
-            q2LCA2marks = create_label(" CA 2 ", "Q2 :", "Arial", 15, 900, 305)
-            q2TCA2marks = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 305)
-            q2TCA2marks.configure(state="disabled", fg_color="gray")
-
-            q3LCA2marks = create_label(" CA 2 ", "Q3 :", "Arial", 15, 900, 355)
-            q3TCA2marks = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 355)
-            q3TCA2marks.configure(state="disabled", fg_color="gray")
-
-            q4LCA2marks = create_label(" CA 2 ", "Q4 :", "Arial", 15, 900, 405)
-            q4TCA2marks = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 405)
-            q4TCA2marks.configure(state="disabled", fg_color="gray")
-
-            q5LCA2marks = create_label(" CA 2 ", "Q5 :", "Arial", 15, 900, 455)
-            q5TCA2marks = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 455)
-            q5TCA2marks.configure(state="disabled", fg_color="gray")
-
-            q6LCA2marks = create_label(" CA 2 ", "Q6 :", "Arial", 15, 1200, 255)
-            q6TCA2marks = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 255)
-            q6TCA2marks.configure(state="disabled", fg_color="gray")
-
-            q7LCA2marks = create_label(" CA 2 ", "Q7 :", "Arial", 15, 1200, 305)
-            q7TCA2marks = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 305)
-            q7TCA2marks.configure(state="disabled", fg_color="gray")
-
-            q8LCA2marks = create_label(" CA 2 ", "Q8 :", "Arial", 15, 1200, 355)
-            q8TCA2marks = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 355)
-            q8TCA2marks.configure(state="disabled", fg_color="gray")
-
-            q9LCA2marks = create_label(" CA 2 ", "Q9 :", "Arial", 15, 1200, 405)
-            q9TCA2marks = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250,405)
-            q9TCA2marks.configure(state="disabled", fg_color="gray")
-
-            q10LCA2marks = create_label(" CA 2 ", "Q10 :", "Arial", 15, 1200, 455)
-            q10TCA2marks = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 455)
-            q10TCA2marks.configure(state="disabled", fg_color="gray")
+            # button2 = create_button(" Mid Terms & End Semesters ", "Next", "Arial", 20, 200, 40, switch_to_CA1, 1050, 640)
+#<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
+            tab_name = " Mid Terms & End Semesters "
             
-            button2 = create_button(" CA 2 ", "Next", "Arial", 20, 200, 40, switch_to_CA3, 1100, 640)
+            for i in range(6):
+                scroll_frames[tab_name].grid_columnconfigure(i, weight=1)
 
-            # COs for CA3 Quiz
-            label21 = create_label(" CA 3 ", "COs for CA3 Quiz/Test", "Arial", 20, 350, 255)
-            label21marks = create_label(" CA 3 ", "Marks of Questions for CA3 Quiz/Test", "Arial", 20, 1000, 255)
+            row_base = 0
+            label6= create_label(tab_name, "COs for Midterm", "Arial", 20, row=row_base, column=1, colspan=2)
+            label6.configure(anchor="center", justify="center")
+            label6.grid_configure(sticky="nsew")
+            row_base +=1 
 
-            q1LCA3 = create_label(" CA 3 ", "Q1 :", "Arial", 15, 200, 305)
-            q1TCA3 = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 305)
-            q1TCA3.configure(state="disabled", fg_color="gray")
+            Question_no=['Q.1a : ','Q.1b : ','Q.1c : ','Q.1d : ','Q.1e : ','Q.1f : ','Q.2a : ','Q.2b : ','Q.3a : ','Q.3b : ']
+            midterm_co_entry={}
 
-            q2LCA3 = create_label(" CA 3 ", "Q2 :", "Arial", 15, 200, 355)
-            q2TCA3 = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 355)
-            q2TCA3.configure(state="disabled", fg_color="gray")
+            index=1
+            for lab_CO_mid in Question_no:
+                create_label(tab_name, lab_CO_mid, "Arial", 15, row=row_base, column=1)
+                midterm_co_entry[f"Q.{index}"]=create_entry_box(tab_name, "1,2,3,4,5,6", "Arial", 15, 200, row=row_base, column=2)
+                row_base+=1
+                index+=1
 
-            q3LCA3 = create_label(" CA 3 ", "Q3 :", "Arial", 15, 200, 405)
-            q3TCA3 = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 405)
-            q3TCA3.configure(state="disabled", fg_color="gray")
+            vertical_line_co = ctk.CTkFrame(scroll_frames[tab_name], width=2, fg_color="white")
+            vertical_line_co.grid(row=1, column=3, rowspan=19, sticky="ns", padx=5)
 
-            q4LCA3 = create_label(" CA 3 ", "Q4 :", "Arial", 15, 200, 455)
-            q4TCA3 = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 455)
-            q4TCA3.configure(state="disabled", fg_color="gray")
-
-            q5LCA3 = create_label(" CA 3 ", "Q5 :", "Arial", 15, 200, 505)
-            q5TCA3 = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 505)
-            q5TCA3.configure(state="disabled", fg_color="gray")
-
-            q6LCA3 = create_label(" CA 3 ", "Q6 :", "Arial", 15, 500, 305)
-            q6TCA3 = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 305)
-            q6TCA3.configure(state="disabled", fg_color="gray")
-
-            q7LCA3 = create_label(" CA 3 ", "Q7 :", "Arial", 15, 500, 355)
-            q7TCA3 = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 355)
-            q7TCA3.configure(state="disabled", fg_color="gray")
-
-            q8LCA3 = create_label(" CA 3 ", "Q8 :", "Arial", 15, 500, 405)
-            q8TCA3 = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 405)
-            q8TCA3.configure(state="disabled", fg_color="gray")
-
-            q9LCA3 = create_label(" CA 3 ", "Q9 :", "Arial", 15, 500, 455)
-            q9TCA3 = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 455)
-            q9TCA3.configure(state="disabled", fg_color="gray")
-
-            q10LCA3 = create_label(" CA 3 ", "Q10 :", "Arial", 15, 500, 505)
-            q10TCA3 = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 505)
-            q10TCA3.configure(state="disabled", fg_color="gray")
+            row_base = 0
+            label11= create_label(tab_name, "Endsems CO's", "Arial", 20, row=row_base, column=4, colspan=2)
+            label11.configure(anchor="center", justify="center")
+            label11.grid_configure(sticky="nsew")
+            row_base +=1
             
-            q1LCA3marks = create_label(" CA 3 ", "Q1 :", "Arial", 15, 900, 305)
-            q1TCA3marks = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 305)
-            q1TCA3marks.configure(state="disabled", fg_color="gray")
+            label11 = create_label(tab_name, "Endsems CO's : ", "Arial", 15, row=row_base, column=4)
+            entry11 = create_entry_box(tab_name, "1,2,3,4,5,6", "Arial", 15, 200, row=row_base, column=5)
 
-            q2LCA3marks = create_label(" CA 3 ", "Q2 :", "Arial", 15, 900, 355)
-            q2TCA3marks = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 355)
-            q2TCA3marks.configure(state="disabled", fg_color="gray")
+            row_base+=2
+            ALlabelMidTerm= create_label(tab_name, "Target level for Midterms", "Arial", 20, row=row_base, column=4, colspan=2)
+            ALlabelMidTerm.configure(anchor="center", justify="center")
+            ALlabelMidTerm.grid_configure(sticky="nsew")
 
-            q3LCA3marks = create_label(" CA 3 ", "Q3 :", "Arial", 15, 900, 405)
-            q3TCA3marks = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 405)
-            q3TCA3marks.configure(state="disabled", fg_color="gray")
-
-            q4LCA3marks = create_label(" CA 3 ", "Q4 :", "Arial", 15, 900, 455)
-            q4TCA3marks = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 455)
-            q4TCA3marks.configure(state="disabled", fg_color="gray")
-
-            q5LCA3marks = create_label(" CA 3 ", "Q5 :", "Arial", 15, 900, 505)
-            q5TCA3marks = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 505)
-            q5TCA3marks.configure(state="disabled", fg_color="gray")
-
-            q6LCA3marks = create_label(" CA 3 ", "Q6 :", "Arial", 15, 1200, 305)
-            q6TCA3marks = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 305)
-            q6TCA3marks.configure(state="disabled", fg_color="gray")
-
-            q7LCA3marks = create_label(" CA 3 ", "Q7 :", "Arial", 15, 1200, 355)
-            q7TCA3marks = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 355)
-            q7TCA3marks.configure(state="disabled", fg_color="gray")
-
-            q8LCA3marks = create_label(" CA 3 ", "Q8 :", "Arial", 15, 1200, 405)
-            q8TCA3marks = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 405)
-            q8TCA3marks.configure(state="disabled", fg_color="gray")
-
-            q9LCA3marks = create_label(" CA 3 ", "Q9 :", "Arial", 15, 1200, 455)
-            q9TCA3marks = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250,455)
-            q9TCA3marks.configure(state="disabled", fg_color="gray")
-
-            q10LCA3marks = create_label(" CA 3 ", "Q10 :", "Arial", 15, 1200, 505)
-            q10TCA3marks = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 505)
-            q10TCA3marks.configure(state="disabled", fg_color="gray")
-
-
-            button2 = create_button(" CA 3 ", "Next", "Arial", 20, 200, 40, switch_to_template, 1100, 665)
-
-            def upload_file():
-                global file_path
-                file_path = filedialog.askopenfilename(filetypes=[("Excel files", "*.xlsx")])
-                print(f"Upload function: {file_path}")
-                if file_path:
-                    print(file_path)
-                    file_name = os.path.basename(file_path)
-                    print(file_name)
-                    path_label.configure(text=file_name)
-
-
-            def process_file():
-                global file_path
-                if entry10.get() == "No":
-                    al_values=[ALCA1Text.get(), ALCA2Text.get(), '-', ALMidTermText.get(), ALEndSemText.get()]
-                    print(al_values)
-                else:
-                    al_values=[ALCA1Text.get(), ALCA2Text.get(), ALCA3Text.get(), ALMidTermText.get(), ALEndSemText.get()]
-                file_path = file_path
-                print("File Path : : : ", file_path)
-                import Cal
-                Cal.cal_sheet(file_path, al_values)
-
-            # Using create_label, create_entry_box, and create_dropdown to recreate the UI
-
-            # CO Information
-            enterCO = create_label(" CO Information ", "Enter the CO's Description", "Arial", 20, 700, 50)
-            noOfCOLabel = create_label(" CO Information ", "Select No. of CO's: ", "Arial", 15, 550, 100)
-            noOfCOOption = create_dropdown(" CO Information ", ['Select No of CO\'s', '5', '6'], "Arial", 15, 300, noOfCO, 750, 100)
-
-            CO1L = create_label(" CO Information ", "CO1: ", "Arial", 15, 550, 150)
-            CO1T = create_entry_box(" CO Information ", "", "Arial", 15, 500, 650, 150)
-
-            CO2L = create_label(" CO Information ", "CO2: ", "Arial", 15, 550, 200)
-            CO2T = create_entry_box(" CO Information ", "", "Arial", 15, 500, 650, 200)
-
-            CO3L = create_label(" CO Information ", "CO3: ", "Arial", 15, 550, 250)
-            CO3T = create_entry_box(" CO Information ", "", "Arial", 15, 500, 650, 250)
-
-            CO4L = create_label(" CO Information ", "CO4: ", "Arial", 15, 550, 300)
-            CO4T = create_entry_box(" CO Information ", "", "Arial", 15, 500, 650, 300)
-
-            CO5L = create_label(" CO Information ", "CO5: ", "Arial", 15, 550, 350)
-            CO5T = create_entry_box(" CO Information ", "", "Arial", 15, 500, 650, 350)
-
-            CO6L = create_label(" CO Information ", "CO6: ", "Arial", 15, 550, 400)
-            CO6T = create_entry_box(" CO Information ", "", "Arial", 15, 500, 650, 400)
-            CO6T.configure(state="disabled", fg_color="gray")
-
-            # Target level of tests
-            # ALlabel = create_label(" Target level of tests ", "Enter the Target levels for each exam", "Arial", 20, 600, 50)
-
-            # CA1, CA2, CA3, MidTerm, EndSem, Labs
-            ALlabelCA1 = create_label(" CA 1 ", "Enter the Target level for CA 1", "Arial", 20, 600, 605)
-            ALCA1Label = create_label(" CA 1 ", "CA1: ", "Arial", 15, 450, 655)
-            ALCA1Text = create_entry_box(" CA 1 ", "", "Arial", 15, 500, 550, 655)
-
-            ALlabelCA2 = create_label(" CA 2 ", "Enter the Target level for CA 2", "Arial", 20, 600, 605)
-            ALCA2Label = create_label(" CA 2 ", "CA2: ", "Arial", 15, 450, 655)
-            ALCA2Text = create_entry_box(" CA 2 ", "", "Arial", 15, 500, 550, 655)
-
-            ALlabelCA3 = create_label(" CA 3 ", "Enter the Target level for CA 3", "Arial", 20, 600, 640)
-            ALCA3Label = create_label(" CA 3 ", "CA3: ", "Arial", 15, 450, 675)
-            ALCA3Text = create_entry_box(" CA 3 ", "", "Arial", 15, 500, 550, 675)
-            ALCA3Text.configure(state="disabled", fg_color="gray")
-
-            ALlabelMidTerm = create_label(" Mid Terms & End Semesters ", "Enter the Target level for Midterms and End Semsesters", "Arial", 20, 600, 505)
-            ALMidTermLabel = create_label(" Mid Terms & End Semesters ", "Mid Term: ", "Arial", 15, 450, 555)
-            ALMidTermText = create_entry_box(" Mid Terms & End Semesters ", "", "Arial", 15, 500, 550, 555)
-
-           
-            ALEndSemLabel = create_label(" Mid Terms & End Semesters ", "End Semester: ", "Arial", 15, 450, 605)
-            ALEndSemText = create_entry_box(" Mid Terms & End Semesters ", "", "Arial", 15, 500, 550, 605)
-
-            setEmailLabel = create_label(" Process Template/Calculated ", "Generate Template", "Arial", 20, 650, 10)
+            row_base+=1
+            ALMidTermLabel = create_label(tab_name, "Mid Term : ", "Arial", 15, row=row_base, column=4)
+            ALMidTermText = create_entry_box(tab_name, "Eg.50", "Arial", 15, 200, row=row_base, column=5)
             
-            setEmailIDLabel = create_label(" Process Template/Calculated ", "Enter the Email ID to send the template sheet.", "Arial", 20, 200, 50)
-
-            emailText = create_entry_box(" Process Template/Calculated ", "", "Arial", 15, 500, 700, 50)
+            row_base+=2
+            ALlabelEndTerm= create_label(tab_name, "Target level for End Semesters", "Arial", 20, row=row_base, column=4, colspan=2)
+            ALlabelEndTerm.configure(anchor="center", justify="center")
+            ALlabelEndTerm.grid_configure(sticky="nsew")
             
-            button = create_button(" Process Template/Calculated ", "Download", "Arial", 20, 200, 40, download, 650, 100)
+            row_base+=1
+            ALEndSemLabel =  create_label(tab_name, "End Semester : ", "Arial", 15, row=row_base, column=4)
+            ALEndSemText = create_entry_box(tab_name, "Eg.50", "Arial", 15, 200, row=row_base, column=5)
 
-            # ALSurveyLabel = create_label(" Target level of tests ", "Survey: ", "Arial", 15, 450, 350)
-            # ALSurveyText = create_entry_box(" Target level of tests ", "", "Arial", 15, 500, 575, 350)
+            row_base+=1
+            
+            button2 = create_button(tab_name, "Next", "Arial", 20, 250, 40, switch_to_CA1, row=row_base, column=5)
+            button2.grid(row=row_base, column=4,columnspan=2, rowspan=2, padx=5, pady=5, sticky="")
 
-            # Buttons
-            button1 = create_button(" CO Information ", "Next", "Arial", 20, 200, 40, switch_to_MidTerm_EndSem, 725, 500)
-            # button2 = create_button(" CO Mapping ", "Next", "Arial", 20, 200, 40, switch2, 725, 500)
-            button2 = create_button(" Mid Terms & End Semesters ", "Next", "Arial", 20, 200, 40, switch_to_CA1, 1050, 640)
+#<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
+
+            # # COs for CA1 Quiz
+            # label13 = create_label(" CA 1 ", "CA1 type :", "Arial", 15, 200, 55)
+            # entry13 = create_dropdown(" CA 1 ", ["Select Type", "Quiz", "NPTEL Course", "Presentation", "Test",  "Other"], "Arial", 15, 300, ca1, 500, 55)
+            # noCA1Label = create_label(" CA 1 ", "No of Question CA1 (Quiz/Test) :", "Arial", 15, 200, 105)
+            # noCA1Entry = create_dropdown(" CA 1 ", ["Select No", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"], "Arial", 15, 300, noQuestion1, 500, 105)
+            # noCA1Entry.configure(state="disabled", fg_color="gray")
+            # nptelCA1 = create_label(" CA 1 ", "CO's for NPTEL (CA)", "Arial", 20, 470, 505)
+            # nptelCA1Label = create_label(" CA 1 ", "NPTEL: ", "Arial", 15, 350, 555)
+            # nptelCA1Text = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 300, 450, 555)
+            # nptelCA1Text.configure(state="disabled", fg_color="gray")
+            # presentationcA1 = create_label(" CA 1 ", "Maximum group size of Presentations (CA)", "Arial", 20, 870, 505)
+            # presentationCA1Label = create_label(" CA 1 ", "Group Size: ", "Arial", 15, 850, 555)
+            # presentationCA1Text = create_entry_box(" CA 1 ", "Enter maximum number of students in a group", "Arial", 15, 350, 950, 555)
+            # presentationCA1Text.configure(state="disabled", fg_color="gray")
+
+
+            # label9 = create_label(" CA 1 ", "COs for CA1 Quiz/Test", "Arial", 20, 350, 205)
+            # label9_marks = create_label(" CA 1 ", "Marks of Questions for CA1 Quiz/Test", "Arial", 20, 1000, 205)
+
+            # q1LCA1 = create_label(" CA 1 ", "Q1 :", "Arial", 15, 200, 255)
+            # q1TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 255)
+            # q1TCA1.configure(state="disabled", fg_color="gray")
+            
+            # q1LCA1 = create_label(" CA 1 ", "Q1 :", "Arial", 15, 200, 255)
+            # q1TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 255)
+            # q1TCA1.configure(state="disabled", fg_color="gray")
+
+            # q2LCA1 = create_label(" CA 1 ", "Q2 :", "Arial", 15, 200, 305)
+            # q2TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 305)
+            # q2TCA1.configure(state="disabled", fg_color="gray")
+
+            # q3LCA1 = create_label(" CA 1 ", "Q3 :", "Arial", 15, 200, 355)
+            # q3TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 355)
+            # q3TCA1.configure(state="disabled", fg_color="gray")
+
+            # q4LCA1 = create_label(" CA 1 ", "Q4 :", "Arial", 15, 200, 405)
+            # q4TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 405)
+            # q4TCA1.configure(state="disabled", fg_color="gray")
+
+            # q5LCA1 = create_label(" CA 1 ", "Q5 :", "Arial", 15, 200, 455)
+            # q5TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 455)
+            # q5TCA1.configure(state="disabled", fg_color="gray")
+
+            # q6LCA1 = create_label(" CA 1 ", "Q6 :", "Arial", 15, 500, 255)
+            # q6TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 255)
+            # q6TCA1.configure(state="disabled", fg_color="gray")
+
+            # q7LCA1 = create_label(" CA 1 ", "Q7 :", "Arial", 15, 500, 305)
+            # q7TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 305)
+            # q7TCA1.configure(state="disabled", fg_color="gray")
+
+            # q8LCA1 = create_label(" CA 1 ", "Q8 :", "Arial", 15, 500, 355)
+            # q8TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 355)
+            # q8TCA1.configure(state="disabled", fg_color="gray")
+
+            # q9LCA1 = create_label(" CA 1 ", "Q9 :", "Arial", 15, 500, 405)
+            # q9TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 550,405)
+            # q9TCA1.configure(state="disabled", fg_color="gray")
+
+            # q10LCA1 = create_label(" CA 1 ", "Q10 :", "Arial", 15, 500, 455)
+            # q10TCA1 = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 455)
+            # q10TCA1.configure(state="disabled", fg_color="gray")
+
+            # q1LCA1marks = create_label(" CA 1 ", "Q1 :", "Arial", 15, 900, 255)
+            # q1TCA1marks = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 255)
+            # q1TCA1marks.configure(state="disabled", fg_color="gray")
+
+            # q2LCA1marks = create_label(" CA 1 ", "Q2 :", "Arial", 15, 900, 305)
+            # q2TCA1marks = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 305)
+            # q2TCA1marks.configure(state="disabled", fg_color="gray")
+
+            # q3LCA1marks = create_label(" CA 1 ", "Q3 :", "Arial", 15, 900, 355)
+            # q3TCA1marks = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 355)
+            # q3TCA1marks.configure(state="disabled", fg_color="gray")
+
+            # q4LCA1marks = create_label(" CA 1 ", "Q4 :", "Arial", 15, 900, 405)
+            # q4TCA1marks = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 405)
+            # q4TCA1marks.configure(state="disabled", fg_color="gray")
+
+            # q5LCA1marks = create_label(" CA 1 ", "Q5 :", "Arial", 15, 900, 455)
+            # q5TCA1marks = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 455)
+            # q5TCA1marks.configure(state="disabled", fg_color="gray")
+
+            # q6LCA1marks = create_label(" CA 1 ", "Q6 :", "Arial", 15, 1200, 255)
+            # q6TCA1marks = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 255)
+            # q6TCA1marks.configure(state="disabled", fg_color="gray")
+
+            # q7LCA1marks = create_label(" CA 1 ", "Q7 :", "Arial", 15, 1200, 305)
+            # q7TCA1marks = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 305)
+            # q7TCA1marks.configure(state="disabled", fg_color="gray")
+
+            # q8LCA1marks = create_label(" CA 1 ", "Q8 :", "Arial", 15, 1200, 355)
+            # q8TCA1marks = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 355)
+            # q8TCA1marks.configure(state="disabled", fg_color="gray")
+
+            # q9LCA1marks = create_label(" CA 1 ", "Q9 :", "Arial", 15, 1200, 405)
+            # q9TCA1marks = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250,405)
+            # q9TCA1marks.configure(state="disabled", fg_color="gray")
+
+            # q10LCA1marks = create_label(" CA 1 ", "Q10 :", "Arial", 15, 1200, 455)
+            # q10TCA1marks = create_entry_box(" CA 1 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 455)
+            # q10TCA1marks.configure(state="disabled", fg_color="gray")
+
+            
+            # # CA1, CA2, CA3, MidTerm, EndSem, Labs
+            # ALlabelCA1 = create_label(" CA 1 ", "Enter the Target level for CA 1", "Arial", 20, 600, 605)
+            # ALCA1Label = create_label(" CA 1 ", "CA1: ", "Arial", 15, 450, 655)
+            # ALCA1Text = create_entry_box(" CA 1 ", "", "Arial", 15, 500, 550, 655)
+
+            # button3 = create_button(" CA 1 ", "Next", "Arial", 20, 200, 40, switch_to_CA2, 1100, 640)
+#<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
+
+
+#<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
+
+            # # COs for CA2 Quiz
+            # label14 = create_label(" CA 2 ", "CA2 type :", "Arial", 15, 200, 55)
+            # entry14 = create_dropdown(" CA 2 ", ["Select Type", "Quiz", "NPTEL Course", "Presentation", "Test", "Other"], "Arial", 15, 300, ca2, 500, 55)
+            # noCA2Label = create_label(" CA 2 ", "No of Question CA2 (Quiz/Test) :", "Arial", 15, 200, 105)
+            # noCA2Entry = create_dropdown(" CA 2 ", ["Select No", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"], "Arial", 15, 300, noQuestion2, 500, 105)
+            # noCA2Entry.configure(state="disabled", fg_color="gray")
+            # nptelCA2 = create_label(" CA 2 ", "CO's for NPTEL (CA)", "Arial", 20, 470, 505)
+            # nptelCA2Label = create_label(" CA 2 ", "NPTEL: ", "Arial", 15, 350, 555)
+            # nptelCA2Text = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 300, 450, 555)
+            # nptelCA2Text.configure(state="disabled", fg_color="gray")
+            # presentationCA2 = create_label(" CA 2 ", "Maximum group size of Presentations (CA)", "Arial", 20, 870, 505)
+            # presentationCA2Label = create_label(" CA 2 ", "Group Size: ", "Arial", 15, 850, 555)
+            # presentationCA2Text = create_entry_box(" CA 2 ", "Enter maximum number of students in a group", "Arial", 15, 350, 950, 555)
+            # presentationCA2Text.configure(state="disabled", fg_color="gray")
+
+
+            # label18 = create_label(" CA 2 ", "COs for CA2 Quiz/Test", "Arial", 20, 350, 205)
+            # label18marks = create_label(" CA 2 ", "Marks of Questions for CA2 Quiz/Test", "Arial", 20, 1000, 205)
+
+            # q1LCA2 = create_label(" CA 2 ", "Q1 :", "Arial", 15, 200, 255)
+            # q1TCA2 = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 255)
+            # q1TCA2.configure(state="disabled", fg_color="gray")
+
+            # q2LCA2 = create_label(" CA 2 ", "Q2 :", "Arial", 15, 200, 305)
+            # q2TCA2 = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 305)
+            # q2TCA2.configure(state="disabled", fg_color="gray")
+
+            # q3LCA2 = create_label(" CA 2 ", "Q3 :", "Arial", 15, 200, 355)
+            # q3TCA2 = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 355)
+            # q3TCA2.configure(state="disabled", fg_color="gray")
+
+            # q4LCA2 = create_label(" CA 2 ", "Q4 :", "Arial", 15, 200, 405)
+            # q4TCA2 = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 405)
+            # q4TCA2.configure(state="disabled", fg_color="gray")
+
+            # q5LCA2 = create_label(" CA 2 ", "Q5 :", "Arial", 15, 200, 455)
+            # q5TCA2 = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 455)
+            # q5TCA2.configure(state="disabled", fg_color="gray")
+
+            # q6LCA2 = create_label(" CA 2 ", "Q6 :", "Arial", 15, 500, 255)
+            # q6TCA2 = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 255)
+            # q6TCA2.configure(state="disabled", fg_color="gray")
+
+            # q7LCA2 = create_label(" CA 2 ", "Q7 :", "Arial", 15,500, 305)
+            # q7TCA2 = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 305)
+            # q7TCA2.configure(state="disabled", fg_color="gray")
+
+            # q8LCA2 = create_label(" CA 2 ", "Q8 :", "Arial", 15, 500, 355)
+            # q8TCA2 = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 355)
+            # q8TCA2.configure(state="disabled", fg_color="gray")
+
+            # q9LCA2 = create_label(" CA 2 ", "Q9 :", "Arial", 15, 500, 405)
+            # q9TCA2 = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 405)
+            # q9TCA2.configure(state="disabled", fg_color="gray")
+
+            # q10LCA2 = create_label(" CA 2 ", "Q10 :", "Arial", 15, 500, 455)
+            # q10TCA2 = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 455)
+            # q10TCA2.configure(state="disabled", fg_color="gray")
+            
+            # q1LCA2marks = create_label(" CA 2 ", "Q1 :", "Arial", 15, 900, 255)
+            # q1TCA2marks = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 255)
+            # q1TCA2marks.configure(state="disabled", fg_color="gray")
+
+            # q2LCA2marks = create_label(" CA 2 ", "Q2 :", "Arial", 15, 900, 305)
+            # q2TCA2marks = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 305)
+            # q2TCA2marks.configure(state="disabled", fg_color="gray")
+
+            # q3LCA2marks = create_label(" CA 2 ", "Q3 :", "Arial", 15, 900, 355)
+            # q3TCA2marks = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 355)
+            # q3TCA2marks.configure(state="disabled", fg_color="gray")
+
+            # q4LCA2marks = create_label(" CA 2 ", "Q4 :", "Arial", 15, 900, 405)
+            # q4TCA2marks = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 405)
+            # q4TCA2marks.configure(state="disabled", fg_color="gray")
+
+            # q5LCA2marks = create_label(" CA 2 ", "Q5 :", "Arial", 15, 900, 455)
+            # q5TCA2marks = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 455)
+            # q5TCA2marks.configure(state="disabled", fg_color="gray")
+
+            # q6LCA2marks = create_label(" CA 2 ", "Q6 :", "Arial", 15, 1200, 255)
+            # q6TCA2marks = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 255)
+            # q6TCA2marks.configure(state="disabled", fg_color="gray")
+
+            # q7LCA2marks = create_label(" CA 2 ", "Q7 :", "Arial", 15, 1200, 305)
+            # q7TCA2marks = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 305)
+            # q7TCA2marks.configure(state="disabled", fg_color="gray")
+
+            # q8LCA2marks = create_label(" CA 2 ", "Q8 :", "Arial", 15, 1200, 355)
+            # q8TCA2marks = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 355)
+            # q8TCA2marks.configure(state="disabled", fg_color="gray")
+
+            # q9LCA2marks = create_label(" CA 2 ", "Q9 :", "Arial", 15, 1200, 405)
+            # q9TCA2marks = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250,405)
+            # q9TCA2marks.configure(state="disabled", fg_color="gray")
+
+            # q10LCA2marks = create_label(" CA 2 ", "Q10 :", "Arial", 15, 1200, 455)
+            # q10TCA2marks = create_entry_box(" CA 2 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 455)
+            # q10TCA2marks.configure(state="disabled", fg_color="gray")
+            
+            # ALlabelCA2 = create_label(" CA 2 ", "Enter the Target level for CA 2", "Arial", 20, 600, 605)
+            # ALCA2Label = create_label(" CA 2 ", "CA2: ", "Arial", 15, 450, 655)
+            # ALCA2Text = create_entry_box(" CA 2 ", "", "Arial", 15, 500, 550, 655)
+
+            # button2 = create_button(" CA 2 ", "Next", "Arial", 20, 200, 40, switch_to_CA3, 1100, 640)
+#<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
+
+
+#<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
+
+            # # COs for CA3 Quiz
+            # label15 = create_label(" CA 3 ", "CA3 type :", "Arial", 15, 200, 105)
+            # nptelCA3 = create_label(" CA 3 ", "CO's for NPTEL (CA)", "Arial", 20, 470, 555)
+            # entry15 = create_dropdown(" CA 3 ", ["Select Type", "Quiz", "NPTEL Course", "Presentation", "Test", "Other"], "Arial", 15, 300, ca3, 500, 105)
+            # entry15.configure(state="disabled", fg_color="gray")
+            # noCA3Label = create_label(" CA 3 ", "No of Question CA3 (Quiz/Test) :", "Arial", 15, 200, 155)
+            # noCA3Entry = create_dropdown(" CA 3 ", ["Select No", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"], "Arial", 15, 300, noQuestion3, 500, 155)
+            # noCA3Entry.configure(state="disabled", fg_color="gray")
+            # nptelCA3Label = create_label(" CA 3 ", "NPTEL: ", "Arial", 15, 350, 605)
+            # nptelCA3Text = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 300, 450, 605)
+            # nptelCA3Text.configure(state="disabled", fg_color="gray")
+            # presentationCA3 = create_label(" CA 3 ", "Maximum group size of Presentations (CA)", "Arial", 20, 870, 555)
+            # presentationCA3Label = create_label(" CA 3 ", "Group Size: ", "Arial", 15, 850, 605)
+            # presentationCA3Text = create_entry_box(" CA 3 ", "Enter maximum number of students in a group", "Arial", 15, 350, 950, 605)
+            # presentationCA3Text.configure(state="disabled", fg_color="gray")
+
+            # label10 = create_label(" CA 3 ", "Is CA3 Applicable: ", "Arial", 15, 200, 55)
+
+            # entry10 = create_dropdown(" CA 3 ", ["Select Yes/No", "Yes", "No"], "Arial", 15, 300, disable, 500, 55)
+
+            # label21 = create_label(" CA 3 ", "COs for CA3 Quiz/Test", "Arial", 20, 350, 255)
+            # label21marks = create_label(" CA 3 ", "Marks of Questions for CA3 Quiz/Test", "Arial", 20, 1000, 255)
+
+            # q1LCA3 = create_label(" CA 3 ", "Q1 :", "Arial", 15, 200, 305)
+            # q1TCA3 = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 305)
+            # q1TCA3.configure(state="disabled", fg_color="gray")
+
+            # q2LCA3 = create_label(" CA 3 ", "Q2 :", "Arial", 15, 200, 355)
+            # q2TCA3 = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 355)
+            # q2TCA3.configure(state="disabled", fg_color="gray")
+
+            # q3LCA3 = create_label(" CA 3 ", "Q3 :", "Arial", 15, 200, 405)
+            # q3TCA3 = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 405)
+            # q3TCA3.configure(state="disabled", fg_color="gray")
+
+            # q4LCA3 = create_label(" CA 3 ", "Q4 :", "Arial", 15, 200, 455)
+            # q4TCA3 = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 455)
+            # q4TCA3.configure(state="disabled", fg_color="gray")
+
+            # q5LCA3 = create_label(" CA 3 ", "Q5 :", "Arial", 15, 200, 505)
+            # q5TCA3 = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 250, 505)
+            # q5TCA3.configure(state="disabled", fg_color="gray")
+
+            # q6LCA3 = create_label(" CA 3 ", "Q6 :", "Arial", 15, 500, 305)
+            # q6TCA3 = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 305)
+            # q6TCA3.configure(state="disabled", fg_color="gray")
+
+            # q7LCA3 = create_label(" CA 3 ", "Q7 :", "Arial", 15, 500, 355)
+            # q7TCA3 = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 355)
+            # q7TCA3.configure(state="disabled", fg_color="gray")
+
+            # q8LCA3 = create_label(" CA 3 ", "Q8 :", "Arial", 15, 500, 405)
+            # q8TCA3 = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 405)
+            # q8TCA3.configure(state="disabled", fg_color="gray")
+
+            # q9LCA3 = create_label(" CA 3 ", "Q9 :", "Arial", 15, 500, 455)
+            # q9TCA3 = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 455)
+            # q9TCA3.configure(state="disabled", fg_color="gray")
+
+            # q10LCA3 = create_label(" CA 3 ", "Q10 :", "Arial", 15, 500, 505)
+            # q10TCA3 = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 550, 505)
+            # q10TCA3.configure(state="disabled", fg_color="gray")
+            
+            # q1LCA3marks = create_label(" CA 3 ", "Q1 :", "Arial", 15, 900, 305)
+            # q1TCA3marks = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 305)
+            # q1TCA3marks.configure(state="disabled", fg_color="gray")
+
+            # q2LCA3marks = create_label(" CA 3 ", "Q2 :", "Arial", 15, 900, 355)
+            # q2TCA3marks = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 355)
+            # q2TCA3marks.configure(state="disabled", fg_color="gray")
+
+            # q3LCA3marks = create_label(" CA 3 ", "Q3 :", "Arial", 15, 900, 405)
+            # q3TCA3marks = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 405)
+            # q3TCA3marks.configure(state="disabled", fg_color="gray")
+
+            # q4LCA3marks = create_label(" CA 3 ", "Q4 :", "Arial", 15, 900, 455)
+            # q4TCA3marks = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 455)
+            # q4TCA3marks.configure(state="disabled", fg_color="gray")
+
+            # q5LCA3marks = create_label(" CA 3 ", "Q5 :", "Arial", 15, 900, 505)
+            # q5TCA3marks = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 950, 505)
+            # q5TCA3marks.configure(state="disabled", fg_color="gray")
+
+            # q6LCA3marks = create_label(" CA 3 ", "Q6 :", "Arial", 15, 1200, 305)
+            # q6TCA3marks = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 305)
+            # q6TCA3marks.configure(state="disabled", fg_color="gray")
+
+            # q7LCA3marks = create_label(" CA 3 ", "Q7 :", "Arial", 15, 1200, 355)
+            # q7TCA3marks = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 355)
+            # q7TCA3marks.configure(state="disabled", fg_color="gray")
+
+            # q8LCA3marks = create_label(" CA 3 ", "Q8 :", "Arial", 15, 1200, 405)
+            # q8TCA3marks = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 405)
+            # q8TCA3marks.configure(state="disabled", fg_color="gray")
+
+            # q9LCA3marks = create_label(" CA 3 ", "Q9 :", "Arial", 15, 1200, 455)
+            # q9TCA3marks = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250,455)
+            # q9TCA3marks.configure(state="disabled", fg_color="gray")
+
+            # q10LCA3marks = create_label(" CA 3 ", "Q10 :", "Arial", 15, 1200, 505)
+            # q10TCA3marks = create_entry_box(" CA 3 ", "1,2,3,4,5,6", "Arial", 15, 150, 1250, 505)
+            # q10TCA3marks.configure(state="disabled", fg_color="gray")
+
+            # ALlabelCA3 = create_label(" CA 3 ", "Enter the Target level for CA 3", "Arial", 20, 600, 640)
+            # ALCA3Label = create_label(" CA 3 ", "CA3: ", "Arial", 15, 450, 675)
+            # ALCA3Text = create_entry_box(" CA 3 ", "", "Arial", 15, 500, 550, 675)
+            # ALCA3Text.configure(state="disabled", fg_color="gray")
+
+            # button2 = create_button(" CA 3 ", "Next", "Arial", 20, 200, 40, switch_to_template, 1100, 665)
+#<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
+
+            # def upload_file():
+            #     global file_path
+            #     file_path = filedialog.askopenfilename(filetypes=[("Excel files", "*.xlsx")])
+            #     print(f"Upload function: {file_path}")
+            #     if file_path:
+            #         print(file_path)
+            #         file_name = os.path.basename(file_path)
+            #         print(file_name)
+            #         path_label.configure(text=file_name)
+
+
+            # def process_file():
+            #     global file_path
+            #     if entry10.get() == "No":
+            #         al_values=[ALCA1Text.get(), ALCA2Text.get(), '-', ALMidTermText.get(), ALEndSemText.get()]
+            #         print(al_values)
+            #     else:
+            #         al_values=[ALCA1Text.get(), ALCA2Text.get(), ALCA3Text.get(), ALMidTermText.get(), ALEndSemText.get()]
+            #     file_path = file_path
+            #     print("File Path : : : ", file_path)
+            #     import Cal
+            #     Cal.cal_sheet(file_path, al_values)
+
+            # # Using create_label, create_entry_box, and create_dropdown to recreate the UI
+
+
+#<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
+
+            # # CO Information
+            # enterCO = create_label(" CO Information ", "Enter the CO's Description", "Arial", 20, 700, 50)
+            # noOfCOLabel = create_label(" CO Information ", "Select No. of CO's: ", "Arial", 15, 550, 100)
+            # noOfCOOption = create_dropdown(" CO Information ", ['Select No of CO\'s', '5', '6'], "Arial", 15, 300, noOfCO, 750, 100)
+
+            # CO1L = create_label(" CO Information ", "CO1: ", "Arial", 15, 550, 150)
+            # CO1T = create_entry_box(" CO Information ", "", "Arial", 15, 500, 650, 150)
+
+            # CO2L = create_label(" CO Information ", "CO2: ", "Arial", 15, 550, 200)
+            # CO2T = create_entry_box(" CO Information ", "", "Arial", 15, 500, 650, 200)
+
+            # CO3L = create_label(" CO Information ", "CO3: ", "Arial", 15, 550, 250)
+            # CO3T = create_entry_box(" CO Information ", "", "Arial", 15, 500, 650, 250)
+
+            # CO4L = create_label(" CO Information ", "CO4: ", "Arial", 15, 550, 300)
+            # CO4T = create_entry_box(" CO Information ", "", "Arial", 15, 500, 650, 300)
+
+            # CO5L = create_label(" CO Information ", "CO5: ", "Arial", 15, 550, 350)
+            # CO5T = create_entry_box(" CO Information ", "", "Arial", 15, 500, 650, 350)
+
+            # CO6L = create_label(" CO Information ", "CO6: ", "Arial", 15, 550, 400)
+            # CO6T = create_entry_box(" CO Information ", "", "Arial", 15, 500, 650, 400)
+            # CO6T.configure(state="disabled", fg_color="gray")
+
+            # button1 = create_button(" CO Information ", "Next", "Arial", 20, 200, 40, switch_to_MidTerm_EndSem, 725, 500)
+#<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
+            tab_name = " CO Information "
+            
+            for i in range(5):
+                scroll_frames[tab_name].grid_columnconfigure(i, weight=1)
+
+            row_base = 0
+            enterCO = create_label(tab_name, "Enter the CO's Description", "Arial", 20, row=row_base, column=0, colspan=5)
+            enterCO.configure(anchor="center", justify="center")
+            enterCO.grid_configure(sticky="nsew")
+
+            row_base +=2
+
+            noOfCOLabel = create_label(tab_name, "Select No. of CO's: ", "Arial", 15, row=row_base, column=2,sticky="nsw")
+            noOfCOOption = create_dropdown(tab_name, ['Select No of CO\'s', '5', '6'],  "Arial", 15,300,com=noOfCO, row=row_base, column=3,sticky="nsw")
+
+            row_base +=1
+
+            co_desc_entry={}
+
+            for i in range(1,7) :
+                create_label(tab_name, f"CO{i}:", "Arial", 15, row=row_base, column=2, sticky="nsw")
+                co_desc_entry[f"CO{i}T"]= create_entry_box(tab_name, f"Enter CO{i} Description", "Arial", 15, 500, row=row_base, column=3,sticky="nsw")
+                row_base+=1
+            
+            co_desc_entry["CO6T"].configure(state="disabled",fg_color="gray")
+            row_base+=1
+
+            button1 = create_button(tab_name, "Next", "Arial", 20, 300, 40, switch_to_MidTerm_EndSem, row=row_base, column=2,colspan=2,sticky="")
+
+#<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
+
+            # # Target level of tests
+            # # ALlabel = create_label(" Target level of tests ", "Enter the Target levels for each exam", "Arial", 20, 600, 50)
+            # # ALSurveyLabel = create_label(" Target level of tests ", "Survey: ", "Arial", 15, 450, 350)
+            # # ALSurveyText = create_entry_box(" Target level of tests ", "", "Arial", 15, 500, 575, 350)
+
+
+
+            # setEmailLabel = create_label(" Process Template/Calculated ", "Generate Template", "Arial", 20, 650, 10)
+            # setEmailIDLabel = create_label(" Process Template/Calculated ", "Enter the Email ID to send the template sheet.", "Arial", 20, 200, 50)
+            # emailText = create_entry_box(" Process Template/Calculated ", "", "Arial", 15, 500, 700, 50)
+            # button = create_button(" Process Template/Calculated ", "Download", "Arial", 20, 200, 40, download, 650, 100)
+
+
+            # # Buttons
+            # # button2 = create_button(" CO Mapping ", "Next", "Arial", 20, 200, 40, switch2, 725, 500)
             
             
 
-            line1 = ctk.CTkFrame(master=tabview.tab(" Process Template/Calculated "), height=2, width=1200, fg_color="white")
-            line1.place(x=150,y=200)
+            # line1 = ctk.CTkFrame(master=tabview.tab(" Process Template/Calculated "), height=2, width=1200, fg_color="white")
+            # line1.place(x=150,y=200)
 
-            path_entry=ctk.CTkEntry(tabview.tab(" Process Template/Calculated "))
+            # path_entry=ctk.CTkEntry(tabview.tab(" Process Template/Calculated "))
 
-            # button_process=ctk.CTkButton(tabview.tab(" Process Template/Calculated "),text="Process",width=100,height=30,command=process_file)
-            # button_process.place(x=500,y=500)
+            # # button_process=ctk.CTkButton(tabview.tab(" Process Template/Calculated "),text="Process",width=100,height=30,command=process_file)
+            # # button_process.place(x=500,y=500)
 
-            upload_Label = create_label(" Process Template/Calculated ", "Upload you excel file with the marks entered:", "Arial", 25, 550, 250)
-            path_label = create_label(" Process Template/Calculated ", "Path of file", "Arial", 15, 650, 310)
-            button_upload = create_button(" Process Template/Calculated ", "Upload", "Arial", 20, 200, 40, upload_file, 400, 300)
+            # upload_Label = create_label(" Process Template/Calculated ", "Upload you excel file with the marks entered:", "Arial", 25, 550, 250)
+            # path_label = create_label(" Process Template/Calculated ", "Path of file", "Arial", 15, 650, 310)
+            # button_upload = create_button(" Process Template/Calculated ", "Upload", "Arial", 20, 200, 40, upload_file, 400, 300)
 
 
-            line = ctk.CTkFrame(master=tabview.tab(" Process Template/Calculated "), height=2, width=1200, fg_color="white")
-            line.place(x=150,y=400)
+            # line = ctk.CTkFrame(master=tabview.tab(" Process Template/Calculated "), height=2, width=1200, fg_color="white")
+            # line.place(x=150,y=400)
 
-            process_Label = create_label(" Process Template/Calculated ", "Process the excel file you uploaded:", "Arial", 25, 600, 450)
+            # process_Label = create_label(" Process Template/Calculated ", "Process the excel file you uploaded:", "Arial", 25, 600, 450)
 
-            setEmailProcessedLabel = create_label(" Process Template/Calculated ", "Enter the Email ID to send the calculated sheet.", "Arial", 20, 200, 500)
+            # setEmailProcessedLabel = create_label(" Process Template/Calculated ", "Enter the Email ID to send the calculated sheet.", "Arial", 20, 200, 500)
 
-            # important_label = create_label(" Process Template/Calculated ", "Important: Please fill the no. of CO\'s field and the CO\'s in the CO Information page and AL values in Target level of tests page before processing the file", "Arial", 20, 100, 325)
-            # important_label.configure(text_color="black", fg_color="yellow")
+            # # important_label = create_label(" Process Template/Calculated ", "Important: Please fill the no. of CO\'s field and the CO\'s in the CO Information page and AL values in Target level of tests page before processing the file", "Arial", 20, 100, 325)
+            # # important_label.configure(text_color="black", fg_color="yellow")
 
-            emailTextProcessed = create_entry_box(" Process Template/Calculated ", "", "Arial", 15, 500, 700, 500)
+            # emailTextProcessed = create_entry_box(" Process Template/Calculated ", "", "Arial", 15, 500, 700, 500)
 
-            button_process = create_button(" Process Template/Calculated ", "Process", "Arial", 20, 200, 40, process_file, 650, 550)
-
-            back_button = ctk.CTkButton(co_window, text="Back", command=lambda: self.go_back(co_window))
-            back_button.place(x=1300,y=40)
-
+            # button_process = create_button(" Process Template/Calculated ", "Process", "Arial", 20, 200, 40, process_file, 650, 550)
+#<---------------------------------------------------------------------------------------------------------------------------------------------->
+            # back_button = ctk.CTkButton(co_window, text="Back", command=lambda: self.go_back(co_window))
+            # back_button.place(x=1300,y=40)
+#<---------------------------------------------------------------------------------------------------------------------------------------------->
             co_window.mainloop()
 
     def open_lo_window(self):
@@ -1761,9 +2007,6 @@ class User_mode:
                 command=lambda: self.go_back(lo_window)
             )
             back_button.pack(side="top", anchor="ne", padx=5)
- 
-            
-
             # Tabview inside the frame
             tabview = ctk.CTkTabview(main_frame, corner_radius=20)
             tabview.pack(expand=True, fill="both", padx=10, pady=5)

@@ -72,143 +72,330 @@ class User_mode:
                 
                 else:
                     CTkMessagebox(title="Error", message="Please Select No Of CO's", icon="cancel")
+#<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
+
+            # def switch_to_CA1():
+            #     if a1T.get()=="" or a2T.get()=="" or a3T.get()=="" or a4T.get()=="" or a5T.get()=="" or a6T.get()=="" or a2aT.get()=="" or a2bT.get()=="" or a3aT == "" or a3bT.get()=="" or entry11.get()=="":
+            #         CTkMessagebox(title="Error", message="Please enter CO\'s for all questions", icon="cancel")
+            #     elif not (validate_co_string(a1T.get()) and validate_co_string(a2T.get()) and validate_co_string(a3T.get()) and validate_co_string(a4T.get()) and validate_co_string(a5T.get()) and validate_co_string(a6T.get()) and validate_co_string(a2aT.get()) and validate_co_string(a2bT.get()) and validate_co_string(a3aT.get()) and validate_co_string(a3bT.get()) and validate_co_string(entry11.get())):
+            #         CTkMessagebox(title="Error", message="Please enter valid format of CO string", icon="cancel")
+            #     elif ALEndSemText.get() == "" or ALMidTermText.get()=="":
+            #         CTkMessagebox(title="Error", message="Please enter target level of MidSem and End Semester", icon="cancel")
+            #     elif (not validateNumberString(ALEndSemText.get()) or not validateNumberString(ALMidTermText.get())):
+            #         CTkMessagebox(title="Error", message="Please enter valid target level of MidSem and End Semester", icon="cancel")
+            #     else:
+            #         tabview.set(" CA 1 ")
+
+#<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
 
             def switch_to_CA1():
-                if a1T.get()=="" or a2T.get()=="" or a3T.get()=="" or a4T.get()=="" or a5T.get()=="" or a6T.get()=="" or a2aT.get()=="" or a2bT.get()=="" or a3aT == "" or a3bT.get()=="" or entry11.get()=="":
-                    CTkMessagebox(title="Error", message="Please enter CO\'s for all questions", icon="cancel")
-                elif not (validate_co_string(a1T.get()) and validate_co_string(a2T.get()) and validate_co_string(a3T.get()) and validate_co_string(a4T.get()) and validate_co_string(a5T.get()) and validate_co_string(a6T.get()) and validate_co_string(a2aT.get()) and validate_co_string(a2bT.get()) and validate_co_string(a3aT.get()) and validate_co_string(a3bT.get()) and validate_co_string(entry11.get())):
-                    CTkMessagebox(title="Error", message="Please enter valid format of CO string", icon="cancel")
-                elif ALEndSemText.get() == "" or ALMidTermText.get()=="":
+                # Check for empty COs
+                for key, entry in midterm_co_entry.items():
+                    if entry.get().strip() == "":
+                        CTkMessagebox(title="Error", message=f"Please enter CO for {key}", icon="cancel")
+                        return
+
+                # Validate CO format
+                for key, entry in midterm_co_entry.items():
+                    if not validate_co_string(entry.get()):
+                        CTkMessagebox(title="Error", message=f"Invalid CO format in {key}", icon="cancel")
+                        return
+
+                # Check target levels
+                if ALEndSemText.get().strip() == "" or ALMidTermText.get().strip() == "":
                     CTkMessagebox(title="Error", message="Please enter target level of MidSem and End Semester", icon="cancel")
-                elif (not validateNumberString(ALEndSemText.get()) or not validateNumberString(ALMidTermText.get())):
+                    return
+
+                if not (validateNumberString(ALEndSemText.get()) and validateNumberString(ALMidTermText.get())):
                     CTkMessagebox(title="Error", message="Please enter valid target level of MidSem and End Semester", icon="cancel")
-                else:
-                    tabview.set(" CA 1 ")
+                    return
+
+                # All checks passed → switch tab
+                tabview.set(" CA 1 ")
+
+#<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
+
+            # def switch_to_CA2():
+            #     caQT = [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1]
+            #     caQM = [q1TCA1marks,q2TCA1marks,q3TCA1marks,q4TCA1marks,q5TCA1marks,q6TCA1marks,q7TCA1marks,q8TCA1marks,q9TCA1marks,q10TCA1marks]
+            #     if noCA1Entry.get()!="Select No":
+            #         option = int(noCA1Entry.get())
+            #         for i in range(option,10):
+            #             print(f"Ye option hai {option} {i}")
+            #             caQT.pop(option)
+            #             caQM.pop(option)
+            #         for i in caQT:
+            #             print(f"Ye CA co hai {i.get()}")
+            #         for i in caQM:
+            #             print(f"Ye CA marks hai {i.get()}")
                     
+            #     if entry13.get()=="Select Type":
+            #         return CTkMessagebox(title="Error", message="Please select Type of CA", icon="cancel")
+            #     if (entry13.get()=="Quiz" or entry13.get()=="Test") :
+            #         if noCA1Entry.get()=="Select No":
+            #             return CTkMessagebox(title="Error", message="Please select No of questions", icon="cancel")
+            #         else:
+            #             for ca1 in caQT:
+            #                 print(ca1.get())
+            #                 if ca1.get()=="":
+            #                     return CTkMessagebox(title="Error", message="Please enter CO of CA", icon="cancel")
+            #                 elif not validate_co_string(ca1.get()):
+            #                     return CTkMessagebox(title="Error", message="Please enter valid CO String", icon="cancel")
+            #             for ca1M in caQM:
+            #                 if ca1M.get()=="":
+            #                     return CTkMessagebox(title="Error", message="Please enter marks of the questions", icon="cancel")
+            #                 if( not validateNumberString(ca1M.get())):
+            #                     return CTkMessagebox(title="Error", message="Please enter valid marks for the questions", icon="cancel")
+            #     if entry13.get()=="NPTEL Course" and (nptelCA1Text.get()==""):
+            #         return CTkMessagebox(title="Error", message="Please enter CO of NPTEL", icon="cancel")
+            #     elif entry13.get()=="NPTEL Course" and not validate_co_string(nptelCA1Text.get()):
+            #         return CTkMessagebox(title="Error", message="Please enter valid CO format", icon="cancel")
+            #     if entry13.get()=="Presentation" and presentationCA1Text.get()=="":
+            #         return CTkMessagebox(title="Error", message="Please enter maximum students in Presentation", icon="cancel")
+            #     if (not validateNumberString(presentationCA1Text.get())):
+            #         return CTkMessagebox(title="Error", message="Please enter valid number of students in Presentation", icon="cancel")
+            #     if ALCA1Text.get() == "":
+            #         return CTkMessagebox(title="Error", message="Please enter target level of CA1", icon="cancel")
+            #     if (not validateNumberString(ALCA1Text.get())):
+            #         return CTkMessagebox(title="Error", message="Please enter valid target level of CA1", icon="cancel")
+            #     tabview.set(" CA 2 ")
+#<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
             def switch_to_CA2():
-                caQT = [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1]
-                caQM = [q1TCA1marks,q2TCA1marks,q3TCA1marks,q4TCA1marks,q5TCA1marks,q6TCA1marks,q7TCA1marks,q8TCA1marks,q9TCA1marks,q10TCA1marks]
-                if noCA1Entry.get()!="Select No":
+                caQT = [Question_CA1_CO[f"Q{i}_questions"] for i in range(1, 11)]
+                caQM = [Marks_CA1_CO[f"Q{i}_marks"] for i in range(1, 11)]
+
+                if noCA1Entry.get() != "Select No":
                     option = int(noCA1Entry.get())
-                    for i in range(option,10):
+                    for i in range(option, 10):
                         print(f"Ye option hai {option} {i}")
-                        caQT.pop(option)
-                        caQM.pop(option)
-                    for i in caQT:
-                        print(f"Ye CA co hai {i.get()}")
-                    for i in caQM:
-                        print(f"Ye CA marks hai {i.get()}")
-                    
-                if entry13.get()=="Select Type":
+                        caQT[i].configure(state="disabled", fg_color="gray")
+                        caQM[i].configure(state="disabled", fg_color="gray")
+                    caQT = caQT[:option]
+                    caQM = caQM[:option]
+
+                for i in caQT:
+                    print(f"Ye CA co hai {i.get()}")
+                for i in caQM:
+                    print(f"Ye CA marks hai {i.get()}")
+
+                if entry13.get() == "Select Type":
                     return CTkMessagebox(title="Error", message="Please select Type of CA", icon="cancel")
-                if (entry13.get()=="Quiz" or entry13.get()=="Test") :
-                    if noCA1Entry.get()=="Select No":
+
+                if entry13.get() in ["Quiz", "Test"]:
+                    if noCA1Entry.get() == "Select No":
                         return CTkMessagebox(title="Error", message="Please select No of questions", icon="cancel")
                     else:
                         for ca1 in caQT:
-                            print(ca1.get())
-                            if ca1.get()=="":
+                            if ca1.get() == "":
                                 return CTkMessagebox(title="Error", message="Please enter CO of CA", icon="cancel")
                             elif not validate_co_string(ca1.get()):
                                 return CTkMessagebox(title="Error", message="Please enter valid CO String", icon="cancel")
                         for ca1M in caQM:
-                            if ca1M.get()=="":
+                            if ca1M.get() == "":
                                 return CTkMessagebox(title="Error", message="Please enter marks of the questions", icon="cancel")
-                            if( not validateNumberString(ca1M.get())):
+                            elif not validateNumberString(ca1M.get()):
                                 return CTkMessagebox(title="Error", message="Please enter valid marks for the questions", icon="cancel")
-                if entry13.get()=="NPTEL Course" and (nptelCA1Text.get()==""):
-                    return CTkMessagebox(title="Error", message="Please enter CO of NPTEL", icon="cancel")
-                elif entry13.get()=="NPTEL Course" and not validate_co_string(nptelCA1Text.get()):
-                    return CTkMessagebox(title="Error", message="Please enter valid CO format", icon="cancel")
-                if entry13.get()=="Presentation" and presentationCA1Text.get()=="":
-                    return CTkMessagebox(title="Error", message="Please enter maximum students in Presentation", icon="cancel")
-                if (not validateNumberString(presentationCA1Text.get())):
-                    return CTkMessagebox(title="Error", message="Please enter valid number of students in Presentation", icon="cancel")
+
+                if entry13.get() == "NPTEL Course":
+                    if nptelCA1Text.get() == "":
+                        return CTkMessagebox(title="Error", message="Please enter CO of NPTEL", icon="cancel")
+                    elif not validate_co_string(nptelCA1Text.get()):
+                        return CTkMessagebox(title="Error", message="Please enter valid CO format", icon="cancel")
+
+                if entry13.get() == "Presentation":
+                    if presentationCA1Text.get() == "":
+                        return CTkMessagebox(title="Error", message="Please enter maximum students in Presentation", icon="cancel")
+                    elif not validateNumberString(presentationCA1Text.get()):
+                        return CTkMessagebox(title="Error", message="Please enter valid number of students in Presentation", icon="cancel")
+
                 if ALCA1Text.get() == "":
                     return CTkMessagebox(title="Error", message="Please enter target level of CA1", icon="cancel")
-                if (not validateNumberString(ALCA1Text.get())):
+                elif not validateNumberString(ALCA1Text.get()):
                     return CTkMessagebox(title="Error", message="Please enter valid target level of CA1", icon="cancel")
+
                 tabview.set(" CA 2 ")
-                
-            def switch_to_CA3():
-                caQT = [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2]
-                caQM = [q1TCA2marks,q2TCA2marks,q3TCA2marks,q4TCA2marks,q5TCA2marks,q6TCA2marks,q7TCA2marks,q8TCA2marks,q9TCA2marks,q10TCA2marks]
-                if noCA2Entry.get()!="Select No":
-                    option = int(noCA2Entry.get())
-                    for i in range(option,10):
-                        caQT.pop(option)
-                        caQM.pop(option)
+#<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
+             
+            # def switch_to_CA3():
+            #     caQT = [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2]
+            #     caQM = [q1TCA2marks,q2TCA2marks,q3TCA2marks,q4TCA2marks,q5TCA2marks,q6TCA2marks,q7TCA2marks,q8TCA2marks,q9TCA2marks,q10TCA2marks]
+            #     if noCA2Entry.get()!="Select No":
+            #         option = int(noCA2Entry.get())
+            #         for i in range(option,10):
+            #             caQT.pop(option)
+            #             caQM.pop(option)
                 
                     
-                if entry14.get()=="Select Type":
+            #     if entry14.get()=="Select Type":
+            #         return CTkMessagebox(title="Error", message="Please select Type of CA", icon="cancel")
+            #     if (entry14.get()=="Quiz" or entry14.get()=="Test"):
+            #         if noCA2Entry.get()=="Select No":
+            #             return CTkMessagebox(title="Error", message="Please select No of questions", icon="cancel")
+            #         else:
+            #             for ca2 in caQT:
+            #                 if ca2.get()=="":
+            #                     return CTkMessagebox(title="Error", message="Please enter CO of CA", icon="cancel")
+            #                 elif not validate_co_string(ca2.get()):
+            #                     return CTkMessagebox(title="Error", message="Please enter valid CO String", icon="cancel")
+            #             for ca2M in caQM:
+            #                 if ca2M.get()=="":
+            #                     return CTkMessagebox(title="Error", message="Please enter marks of the questions", icon="cancel")
+            #                 if not (validateNumberString(ca2M.get())):
+            #                     return CTkMessagebox(title="Error", message="Please enter valid marks for the questions", icon="cancel")
+            #     if entry14.get()=="NPTEL Course" and (nptelCA2Text.get()==""):
+            #         return CTkMessagebox(title="Error", message="Please enter CO of NPTEL", icon="cancel")
+            #     elif entry14.get()=="NPTEL Course" and not validate_co_string(nptelCA2Text.get()):
+            #         return CTkMessagebox(title="Error", message="Please enter valid CO format", icon="cancel")
+            #     if entry14.get()=="Presentation" and presentationCA2Text.get()=="":
+            #         return CTkMessagebox(title="Error", message="Please enter maximum students in Presentation", icon="cancel")
+            #     if not (validateNumberString(presentationCA2Text.get())):
+            #         return CTkMessagebox(title="Error", message="Please enter valid number of students in Presentation", icon="cancel")
+            #     if ALCA2Text.get() == "":
+            #         return CTkMessagebox(title="Error", message="Please enter target level of CA1", icon="cancel")
+            #     if not (validateNumberString(ALCA2Text.get())):
+            #         return CTkMessagebox(title="Error", message="Please enter valid target level of CA1", icon="cancel")
+            #     tabview.set(" CA 3 ")
+#<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
+            def switch_to_CA3():
+                caQT = [Question_CA2_CO[f"Q{i}_questions"] for i in range(1, 11)]
+                caQM = [Marks_CA2_CO[f"Q{i}_marks"] for i in range(1, 11)]
+
+                if noCA2Entry.get() != "Select No":
+                    option = int(noCA2Entry.get())
+                    for i in range(option, 10):
+                        caQT[i].configure(state="disabled", fg_color="gray")
+                        caQM[i].configure(state="disabled", fg_color="gray")
+                    caQT = caQT[:option]
+                    caQM = caQM[:option]
+
+                if entry14.get() == "Select Type":
                     return CTkMessagebox(title="Error", message="Please select Type of CA", icon="cancel")
-                if (entry14.get()=="Quiz" or entry14.get()=="Test"):
-                    if noCA2Entry.get()=="Select No":
+
+                if entry14.get() in ["Quiz", "Test"]:
+                    if noCA2Entry.get() == "Select No":
                         return CTkMessagebox(title="Error", message="Please select No of questions", icon="cancel")
                     else:
                         for ca2 in caQT:
-                            if ca2.get()=="":
+                            if ca2.get() == "":
                                 return CTkMessagebox(title="Error", message="Please enter CO of CA", icon="cancel")
                             elif not validate_co_string(ca2.get()):
                                 return CTkMessagebox(title="Error", message="Please enter valid CO String", icon="cancel")
                         for ca2M in caQM:
-                            if ca2M.get()=="":
+                            if ca2M.get() == "":
                                 return CTkMessagebox(title="Error", message="Please enter marks of the questions", icon="cancel")
-                            if not (validateNumberString(ca2M.get())):
+                            elif not validateNumberString(ca2M.get()):
                                 return CTkMessagebox(title="Error", message="Please enter valid marks for the questions", icon="cancel")
-                if entry14.get()=="NPTEL Course" and (nptelCA2Text.get()==""):
-                    return CTkMessagebox(title="Error", message="Please enter CO of NPTEL", icon="cancel")
-                elif entry14.get()=="NPTEL Course" and not validate_co_string(nptelCA2Text.get()):
-                    return CTkMessagebox(title="Error", message="Please enter valid CO format", icon="cancel")
-                if entry14.get()=="Presentation" and presentationCA2Text.get()=="":
-                    return CTkMessagebox(title="Error", message="Please enter maximum students in Presentation", icon="cancel")
-                if not (validateNumberString(presentationCA2Text.get())):
-                    return CTkMessagebox(title="Error", message="Please enter valid number of students in Presentation", icon="cancel")
+
+                if entry14.get() == "NPTEL Course":
+                    if nptelCA2Text.get() == "":
+                        return CTkMessagebox(title="Error", message="Please enter CO of NPTEL", icon="cancel")
+                    elif not validate_co_string(nptelCA2Text.get()):
+                        return CTkMessagebox(title="Error", message="Please enter valid CO format", icon="cancel")
+
+                if entry14.get() == "Presentation":
+                    if presentationCA2Text.get() == "":
+                        return CTkMessagebox(title="Error", message="Please enter maximum students in Presentation", icon="cancel")
+                    elif not validateNumberString(presentationCA2Text.get()):
+                        return CTkMessagebox(title="Error", message="Please enter valid number of students in Presentation", icon="cancel")
+
                 if ALCA2Text.get() == "":
-                    return CTkMessagebox(title="Error", message="Please enter target level of CA1", icon="cancel")
-                if not (validateNumberString(ALCA2Text.get())):
-                    return CTkMessagebox(title="Error", message="Please enter valid target level of CA1", icon="cancel")
+                    return CTkMessagebox(title="Error", message="Please enter target level of CA2", icon="cancel")
+                elif not validateNumberString(ALCA2Text.get()):
+                    return CTkMessagebox(title="Error", message="Please enter valid target level of CA2", icon="cancel")
+
                 tabview.set(" CA 3 ")
-                
+
+#<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
+
+            # def switch_to_template():
+            #     if entry10.get() == "Yes":
+            #         caQT = [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3]
+            #         caQM = [q1TCA3marks,q2TCA3marks,q3TCA3marks,q4TCA3marks,q5TCA3marks,q6TCA3marks,q7TCA3marks,q8TCA3marks,q9TCA3marks,q10TCA3marks]
+            #         if noCA3Entry.get()!="Select No":
+            #             option = int(noCA3Entry.get())
+            #             for i in range(option,10):
+            #                 caQT.pop(option)
+            #                 caQM.pop(option)
+            #         if entry15.get()=="Select Type":
+            #             return CTkMessagebox(title="Error", message="Please select Type of CA", icon="cancel")
+            #         if (entry15.get()=="Quiz" or entry15.get()=="Test"):
+            #             if noCA3Entry.get()=="Select No":
+            #                 return CTkMessagebox(title="Error", message="Please select No of questions", icon="cancel")
+            #             else:
+            #                 for ca3 in caQT:
+            #                     if ca3.get()=="":
+            #                         return CTkMessagebox(title="Error", message="Please enter CO of CA", icon="cancel")
+            #                     elif not validate_co_string(ca3.get()):
+            #                         return CTkMessagebox(title="Error", message="Please enter valid CO String", icon="cancel")
+            #                 for ca3M in caQM:
+            #                     if ca3M.get()=="":
+            #                         return CTkMessagebox(title="Error", message="Please enter marks of the questions", icon="cancel")
+            #                     if not (validateNumberString(ca3M.get())):
+            #                         return CTkMessagebox(title="Error", message="Please enter valid marks for the questions", icon="cancel")
+            #         if entry15.get()=="NPTEL Course" and (nptelCA3Text.get()==""):
+            #             return CTkMessagebox(title="Error", message="Please enter CO of NPTEL", icon="cancel")
+            #         elif entry15.get()=="NPTEL Course" and not validate_co_string(nptelCA3Text.get()):
+            #             return CTkMessagebox(title="Error", message="Please enter valid CO format", icon="cancel")
+            #         if entry15.get()=="Presentation" and presentationCA3Text.get()=="":
+            #             return CTkMessagebox(title="Error", message="Please enter maximum students in Presentation", icon="cancel")
+            #         if not (validateNumberString(presentationCA3Text.get())):
+            #             return CTkMessagebox(title="Error", message="Please enter valid number of students in Presentation", icon="cancel")
+            #         if ALCA3Text.get() == "":
+            #             return CTkMessagebox(title="Error", message="Please enter target level of CA1", icon="cancel")
+            #         if not (validateNumberString(ALCA3Text.get())):
+            #             return CTkMessagebox(title="Error", message="Please enter valid target level of CA1", icon="cancel")
+            #     tabview.set(" Process Template/Calculated ")
+#<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
             def switch_to_template():
                 if entry10.get() == "Yes":
-                    caQT = [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3]
-                    caQM = [q1TCA3marks,q2TCA3marks,q3TCA3marks,q4TCA3marks,q5TCA3marks,q6TCA3marks,q7TCA3marks,q8TCA3marks,q9TCA3marks,q10TCA3marks]
-                    if noCA3Entry.get()!="Select No":
+                    caQT = [Question_CA3_CO[f"Q{i}_questions"] for i in range(1, 11)]
+                    caQM = [Marks_CA3_CO[f"Q{i}_marks"] for i in range(1, 11)]
+
+                    if noCA3Entry.get() != "Select No":
                         option = int(noCA3Entry.get())
-                        for i in range(option,10):
-                            caQT.pop(option)
-                            caQM.pop(option)
-                    if entry15.get()=="Select Type":
+                        for i in range(option, 10):
+                            caQT[i].configure(state="disabled", fg_color="gray")
+                            caQM[i].configure(state="disabled", fg_color="gray")
+                        caQT = caQT[:option]
+                        caQM = caQM[:option]
+
+                    if entry15.get() == "Select Type":
                         return CTkMessagebox(title="Error", message="Please select Type of CA", icon="cancel")
-                    if (entry15.get()=="Quiz" or entry15.get()=="Test"):
-                        if noCA3Entry.get()=="Select No":
+
+                    if entry15.get() in ["Quiz", "Test"]:
+                        if noCA3Entry.get() == "Select No":
                             return CTkMessagebox(title="Error", message="Please select No of questions", icon="cancel")
                         else:
                             for ca3 in caQT:
-                                if ca3.get()=="":
+                                if ca3.get() == "":
                                     return CTkMessagebox(title="Error", message="Please enter CO of CA", icon="cancel")
                                 elif not validate_co_string(ca3.get()):
                                     return CTkMessagebox(title="Error", message="Please enter valid CO String", icon="cancel")
                             for ca3M in caQM:
-                                if ca3M.get()=="":
+                                if ca3M.get() == "":
                                     return CTkMessagebox(title="Error", message="Please enter marks of the questions", icon="cancel")
-                                if not (validateNumberString(ca3M.get())):
+                                elif not validateNumberString(ca3M.get()):
                                     return CTkMessagebox(title="Error", message="Please enter valid marks for the questions", icon="cancel")
-                    if entry15.get()=="NPTEL Course" and (nptelCA3Text.get()==""):
-                        return CTkMessagebox(title="Error", message="Please enter CO of NPTEL", icon="cancel")
-                    elif entry15.get()=="NPTEL Course" and not validate_co_string(nptelCA3Text.get()):
-                        return CTkMessagebox(title="Error", message="Please enter valid CO format", icon="cancel")
-                    if entry15.get()=="Presentation" and presentationCA3Text.get()=="":
-                        return CTkMessagebox(title="Error", message="Please enter maximum students in Presentation", icon="cancel")
-                    if not (validateNumberString(presentationCA3Text.get())):
-                        return CTkMessagebox(title="Error", message="Please enter valid number of students in Presentation", icon="cancel")
+
+                    if entry15.get() == "NPTEL Course":
+                        if nptelCA3Text.get() == "":
+                            return CTkMessagebox(title="Error", message="Please enter CO of NPTEL", icon="cancel")
+                        elif not validate_co_string(nptelCA3Text.get()):
+                            return CTkMessagebox(title="Error", message="Please enter valid CO format", icon="cancel")
+
+                    if entry15.get() == "Presentation":
+                        if presentationCA3Text.get() == "":
+                            return CTkMessagebox(title="Error", message="Please enter maximum students in Presentation", icon="cancel")
+                        elif not validateNumberString(presentationCA3Text.get()):
+                            return CTkMessagebox(title="Error", message="Please enter valid number of students in Presentation", icon="cancel")
+
                     if ALCA3Text.get() == "":
-                        return CTkMessagebox(title="Error", message="Please enter target level of CA1", icon="cancel")
-                    if not (validateNumberString(ALCA3Text.get())):
-                        return CTkMessagebox(title="Error", message="Please enter valid target level of CA1", icon="cancel")
+                        return CTkMessagebox(title="Error", message="Please enter target level of CA3", icon="cancel")
+                    elif not validateNumberString(ALCA3Text.get()):
+                        return CTkMessagebox(title="Error", message="Please enter valid target level of CA3", icon="cancel")
+
                 tabview.set(" Process Template/Calculated ")
-    
+
 
 #<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
             # def create_button(tab, name, font_name, font_size, w, h, com, x, y):
@@ -279,32 +466,59 @@ class User_mode:
                 # coValues =[entry13.get(),entry14.get(),entry15.get(),q1T.get(),q6T.get(),q2T.get(),q2aT.get(),q3T.get(),q2bT.get(),q4T.get(),q3aT.get(),q5T.get(),q3bT.get()]
                 # coCAs=[entry13.get(),entry14.get(),entry15.get()]
                 # coQuizs=[q1T.get(),q6T.get(),q2T.get(),q2aT.get(),q3T.get(),q2bT.get(),q4T.get(),q3aT.get(),q5T.get(),q3bT.get()]
-    
-                if noOfCOOption.get()=='6':
-                    coTextArray = [CO1T.get(),CO2T.get(),CO3T.get(),CO4T.get(),CO5T.get(),CO6T.get()]
-                elif noOfCOOption.get()=='5':
-                    coTextArray = [CO1T.get(),CO2T.get(),CO3T.get(),CO4T.get(),CO5T.get(),'-']
+    #<---------------------------------------------------------------------------------------------------------------->
+                # if noOfCOOption.get()=='6':
+                #     coTextArray = [CO1T.get(),CO2T.get(),CO3T.get(),CO4T.get(),CO5T.get(),CO6T.get()]
+                # elif noOfCOOption.get()=='5':
+                #     coTextArray = [CO1T.get(),CO2T.get(),CO3T.get(),CO4T.get(),CO5T.get(),'-']
+                # else:
+                #     CTkMessagebox(title="Error", message="Please Select No Of CO's", icon="cancel")
+    #<---------------------------------------------------------------------------------------------------------------->
+
+                if noOfCOOption.get() == '6':
+                    coTextArray = [co_desc_entry[f"CO{i}T"].get() for i in range(1, 7)]
+                elif noOfCOOption.get() == '5':
+                    coTextArray = [co_desc_entry[f"CO{i}T"].get() for i in range(1, 6)] + ['-']
                 else:
                     CTkMessagebox(title="Error", message="Please Select No Of CO's", icon="cancel")
-    
+
                 print(coTextArray)
+    #<---------------------------------------------------------------------------------------------------------------->
+            
+                # values=[entry1.get(),entry8.get(),yearDropDown.get(),entry2.get(),entry3.get(),entry4.get(),entry5.get(),entry7.get(),entry11.get(),
                 
-                values=[entry1.get(),entry8.get(),yearDropDown.get(),entry2.get(),entry3.get(),entry4.get(),entry5.get(),entry7.get(),entry11.get(),
-                
     
-                        entry10.get(),entry13.get(),entry14.get(),entry15.get(),
+                #         entry10.get(),entry13.get(),entry14.get(),entry15.get(),
     
-                        noCA1Entry.get(),noCA2Entry.get(),noCA3Entry.get(),
-                        nptelCA1Text.get(),nptelCA2Text.get(),nptelCA3Text.get(),
+                #         noCA1Entry.get(),noCA2Entry.get(),noCA3Entry.get(),
+                #         nptelCA1Text.get(),nptelCA2Text.get(),nptelCA3Text.get(),
     
-                        q1TCA1.get(),q2TCA1.get(),q3TCA1.get(),q4TCA1.get(),q5TCA1.get(),q6TCA1.get(),q7TCA1.get(),q8TCA1.get(),q9TCA1.get(),q10TCA1.get(),
-                        q1TCA2.get(),q2TCA2.get(),q3TCA2.get(),q4TCA2.get(),q5TCA2.get(),q6TCA2.get(),q7TCA2.get(),q8TCA2.get(),q9TCA2.get(),q10TCA2.get(),
-                        q1TCA3.get(),q2TCA3.get(),q3TCA3.get(),q4TCA3.get(),q5TCA3.get(),q6TCA3.get(),q7TCA3.get(),q8TCA3.get(),q9TCA3.get(),q10TCA3.get(),
+                #         q1TCA1.get(),q2TCA1.get(),q3TCA1.get(),q4TCA1.get(),q5TCA1.get(),q6TCA1.get(),q7TCA1.get(),q8TCA1.get(),q9TCA1.get(),q10TCA1.get(),
+                #         q1TCA2.get(),q2TCA2.get(),q3TCA2.get(),q4TCA2.get(),q5TCA2.get(),q6TCA2.get(),q7TCA2.get(),q8TCA2.get(),q9TCA2.get(),q10TCA2.get(),
+                #         q1TCA3.get(),q2TCA3.get(),q3TCA3.get(),q4TCA3.get(),q5TCA3.get(),q6TCA3.get(),q7TCA3.get(),q8TCA3.get(),q9TCA3.get(),q10TCA3.get(),
     
-                        a1T.get(), a2T.get(), a3T.get(), a4T.get(), a5T.get(), a6T.get(),a2aT.get(),a2bT.get(), a3aT.get(), a3bT.get()]
-                
+                #         a1T.get(), a2T.get(), a3T.get(), a4T.get(), a5T.get(), a6T.get(),a2aT.get(),a2bT.get(), a3aT.get(), a3bT.get()]
+    #<---------------------------------------------------------------------------------------------------------------->
+           
+                values = [
+                    entry1.get(), entry8.get(), yearDropDown.get(), entry2.get(), entry3.get(),
+                    entry4.get(), entry5.get(), entry7.get(), entry11.get(),
+
+                    entry10.get(), entry13.get(), entry14.get(), entry15.get(),
+
+                    noCA1Entry.get(), noCA2Entry.get(), noCA3Entry.get(),
+                    nptelCA1Text.get(), nptelCA2Text.get(), nptelCA3Text.get(),
+
+                    *[Question_CA1_CO[f"Q{i}_questions"].get() for i in range(1, 11)],
+                    *[Question_CA2_CO[f"Q{i}_questions"].get() for i in range(1, 11)],
+                    *[Question_CA3_CO[f"Q{i}_questions"].get() for i in range(1, 11)],
+
+                    *[midterm_co_entry[f"Q.{i}"].get() for i in range(1, 11)]
+
+                ]
+
                 basic_values=[entry1.get(),entry8.get(),yearDropDown.get(),entry2.get(),entry3.get(),entry4.get(),entry5.get(),entry7.get(),entry11.get(),None,entry10.get(),entry13.get(),entry14.get(),entry15.get(),noOfCOOption.get()]
-                midSem_Co_values=[a1T.get(), a2T.get(), a3T.get(), a4T.get(), a5T.get(), a6T.get(),a2aT.get(),a2bT.get(), a3aT.get(), a3bT.get()]
+                midSem_Co_values=[midterm_co_entry[f"Q.{i}"].get() for i in range(1, 11)]
                 receiversEmail = emailText.get()
                 
                 if entry10.get()=="No":
@@ -315,8 +529,11 @@ class User_mode:
                         if noCA1Entry.get()=="Select No" :
                             CTkMessagebox(title="Error", message="Please Select No Of Question in CA 1.", icon="cancel")
                         else:
-                            caQT = [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1]
-                            caQM = [q1TCA1marks,q2TCA1marks,q3TCA1marks,q4TCA1marks,q5TCA1marks,q6TCA1marks,q7TCA1marks,q8TCA1marks,q9TCA1marks,q10TCA1marks]
+                            # caQT = [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1]
+                            # caQM = [q1TCA1marks,q2TCA1marks,q3TCA1marks,q4TCA1marks,q5TCA1marks,q6TCA1marks,q7TCA1marks,q8TCA1marks,q9TCA1marks,q10TCA1marks]
+                            caQT = [Question_CA1_CO[f"Q{i}_questions"] for i in range(1, 11)]
+                            caQM = [Marks_CA1_CO[f"Q{i}_marks"] for i in range(1, 11)]
+
                             option = int(noCA1Entry.get())
                             CA1_Co_arr = []
                             CA1M_Co_arr = []
@@ -359,8 +576,11 @@ class User_mode:
                         if noCA2Entry.get()=="Select No" :
                             CTkMessagebox(title="Error", message="Please Select No Of Question in CA 1.", icon="cancel")
                         else:
-                            caQT = [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2]
-                            caQM = [q1TCA2marks,q2TCA2marks,q3TCA2marks,q4TCA2marks,q5TCA2marks,q6TCA2marks,q7TCA2marks,q8TCA2marks,q9TCA2marks,q10TCA2marks]
+                            # caQT = [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2]
+                            # caQM = [q1TCA2marks,q2TCA2marks,q3TCA2marks,q4TCA2marks,q5TCA2marks,q6TCA2marks,q7TCA2marks,q8TCA2marks,q9TCA2marks,q10TCA2marks]
+                            caQT = [Question_CA2_CO[f"Q{i}_questions"] for i in range(1, 11)]
+                            caQM = [Marks_CA2_CO[f"Q{i}_marks"] for i in range(1, 11)]
+
                             option = int(noCA2Entry.get())
                             CA2_Co_arr = []
                             CA2M_Co_arr = []
@@ -383,8 +603,11 @@ class User_mode:
                         if noCA1Entry.get()=="Select No" :
                             CTkMessagebox(title="Error", message="Please Select No Of Question in CA 1.", icon="cancel")
                         else:
-                            caQT = [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1]
-                            caQM = [q1TCA1marks,q2TCA1marks,q3TCA1marks,q4TCA1marks,q5TCA1marks,q6TCA1marks,q7TCA1marks,q8TCA1marks,q9TCA1marks,q10TCA1marks]
+                            # caQT = [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1]
+                            # caQM = [q1TCA1marks,q2TCA1marks,q3TCA1marks,q4TCA1marks,q5TCA1marks,q6TCA1marks,q7TCA1marks,q8TCA1marks,q9TCA1marks,q10TCA1marks]
+                            caQT = [Question_CA1_CO[f"Q{i}_questions"] for i in range(1, 11)]
+                            caQM = [Marks_CA1_CO[f"Q{i}_marks"] for i in range(1, 11)]
+
                             option = int(noCA1Entry.get())
                             CA1_Co_arr = []
                             CA1M_Co_arr = []
@@ -406,8 +629,11 @@ class User_mode:
                         if noCA2Entry.get()=="Select No" :
                             CTkMessagebox(title="Error", message="Please Select No Of Question in CA 1.", icon="cancel")
                         else:
-                            caQT = [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2]
-                            caQM = [q1TCA2marks,q2TCA2marks,q3TCA2marks,q4TCA2marks,q5TCA2marks,q6TCA2marks,q7TCA2marks,q8TCA2marks,q9TCA2marks,q10TCA2marks]
+                            # caQT = [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2]
+                            # caQM = [q1TCA2marks,q2TCA2marks,q3TCA2marks,q4TCA2marks,q5TCA2marks,q6TCA2marks,q7TCA2marks,q8TCA2marks,q9TCA2marks,q10TCA2marks]
+                            caQT = [Question_CA2_CO[f"Q{i}_questions"] for i in range(1, 11)]
+                            caQM = [Marks_CA2_CO[f"Q{i}_marks"] for i in range(1, 11)]
+
                             option = int(noCA2Entry.get())
                             CA2_Co_arr = []
                             CA2M_Co_arr = []
@@ -428,8 +654,11 @@ class User_mode:
                         if noCA3Entry.get()=="Select No" :
                             CTkMessagebox(title="Error", message="Please Select No Of Question in CA 3.", icon="cancel")
                         else:
-                            caQT = [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3]
-                            caQM = [q1TCA3marks,q2TCA3marks,q3TCA3marks,q4TCA3marks,q5TCA3marks,q6TCA3marks,q7TCA3marks,q8TCA3marks,q9TCA3marks,q10TCA3marks]
+                            # caQT = [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3]
+                            # caQM = [q1TCA3marks,q2TCA3marks,q3TCA3marks,q4TCA3marks,q5TCA3marks,q6TCA3marks,q7TCA3marks,q8TCA3marks,q9TCA3marks,q10TCA3marks]
+                            caQT = [Question_CA3_CO[f"Q{i}_questions"] for i in range(1, 11)]
+                            caQM = [Marks_CA3_CO[f"Q{i}_marks"] for i in range(1, 11)]
+
                             option = int(noCA3Entry.get())
                             CA3_Co_arr = []
                             CA3M_Co_arr = []
@@ -518,82 +747,198 @@ class User_mode:
                 return True
                                             
                     
-                
-            def ca1(option):
-                if  option == "Select Type":
-                    for disca in [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1,noCA1Entry,nptelCA1Text,presentationCA1Text, q1TCA1marks,q2TCA1marks,q3TCA1marks,q4TCA1marks,q5TCA1marks,q6TCA1marks,q7TCA1marks,q8TCA1marks,q9TCA1marks,q10TCA1marks]:
-                        disca.configure(state="disabled", fg_color="gray")
+        #<----------------------------------------------------------------------------------------------------------------------------------------------------------------------->        
+            # def ca1(option):
+            #     if  option == "Select Type":
+            #         noCA1Entry.configure(state="disabled", fg_color="gray",button_color="gray") 
+            #         for disca in [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1,nptelCA1Text,presentationCA1Text, q1TCA1marks,q2TCA1marks,q3TCA1marks,q4TCA1marks,q5TCA1marks,q6TCA1marks,q7TCA1marks,q8TCA1marks,q9TCA1marks,q10TCA1marks]:
+            #             disca.configure(state="disabled", fg_color="gray")
               
-                elif option == "NPTEL Course":
-                    for disca in [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1,noCA1Entry,presentationCA1Text, q1TCA1marks,q2TCA1marks,q3TCA1marks,q4TCA1marks,q5TCA1marks,q6TCA1marks,q7TCA1marks,q8TCA1marks,q9TCA1marks,q10TCA1marks]:
-                        disca.configure(state="disabled", fg_color="gray")
-                    nptelCA1Text.configure(state="normal", fg_color=["#F9F9FA", "#343638"]) 
+            #     elif option == "NPTEL Course":
+            #         noCA1Entry.configure(state="disabled", fg_color="gray",button_color="gray") 
+            #         for disca in [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1,presentationCA1Text, q1TCA1marks,q2TCA1marks,q3TCA1marks,q4TCA1marks,q5TCA1marks,q6TCA1marks,q7TCA1marks,q8TCA1marks,q9TCA1marks,q10TCA1marks]:
+            #             disca.configure(state="disabled", fg_color="gray")
+            #         nptelCA1Text.configure(state="normal", fg_color=["#F9F9FA", "#343638"]) 
                 
+            #     elif option == "Presentation":
+            #         noCA1Entry.configure(state="disabled", fg_color="gray",button_color="gray") 
+            #         for preca in [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1,nptelCA1Text,q1TCA1marks,q2TCA1marks,q3TCA1marks,q4TCA1marks,q5TCA1marks,q6TCA1marks,q7TCA1marks,q8TCA1marks,q9TCA1marks,q10TCA1marks]:
+            #             preca.configure(state="disabled", fg_color="gray")
+            #         presentationCA1Text.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+                    
+            #     elif option == "Quiz" or option == "Test":
+            #         # for ca in [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1, q1TCA1marks,q2TCA1marks,q3TCA1marks,q4TCA1marks,q5TCA1marks,q6TCA1marks,q7TCA1marks,q8TCA1marks,q9TCA1marks,q10TCA1marks]:
+            #         #     ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+            #         noCA1Entry.configure(state="normal", fg_color=["#3B8ED0", "#1F6AA5"],button_color=["F9F9FA", "#144870"])
+            #         nptelCA1Text.configure(state="disabled", fg_color="gray") 
+            #         presentationCA1Text.configure(state="disabled", fg_color="gray") 
+                    
+            #     elif option == "Other":
+            #         noCA1Entry.configure(state="disabled", fg_color="gray",button_color="gray") 
+            #         for disca in [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1,presentationCA1Text, nptelCA1Text, q1TCA1marks,q2TCA1marks,q3TCA1marks,q4TCA1marks,q5TCA1marks,q6TCA1marks,q7TCA1marks,q8TCA1marks,q9TCA1marks,q10TCA1marks]:
+            #             disca.configure(state="disabled", fg_color="gray")
+            
+        #<----------------------------------------------------------------------------------------------------------------------------------------------------------------------->        
+          
+            def ca1(option):
+                # Prepare lists from the dictionaries
+                question_entries = list(Question_CA1_CO.values())
+                marks_entries = list(Marks_CA1_CO.values())
+
+                if option == "Select Type":
+                    noCA1Entry.configure(state="disabled", fg_color="gray", button_color="gray")
+                    for widget in question_entries + marks_entries + [nptelCA1Text, presentationCA1Text]:
+                        widget.configure(state="disabled", fg_color="gray")
+
+                elif option == "NPTEL Course":
+                    noCA1Entry.configure(state="disabled", fg_color="gray", button_color="gray")
+                    for widget in question_entries + marks_entries + [presentationCA1Text]:
+                        widget.configure(state="disabled", fg_color="gray")
+                    nptelCA1Text.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+
                 elif option == "Presentation":
-                    for preca in [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1,noCA1Entry,nptelCA1Text,q1TCA1marks,q2TCA1marks,q3TCA1marks,q4TCA1marks,q5TCA1marks,q6TCA1marks,q7TCA1marks,q8TCA1marks,q9TCA1marks,q10TCA1marks]:
-                        preca.configure(state="disabled", fg_color="gray")
+                    noCA1Entry.configure(state="disabled", fg_color="gray", button_color="gray")
+                    for widget in question_entries + marks_entries + [nptelCA1Text]:
+                        widget.configure(state="disabled", fg_color="gray")
                     presentationCA1Text.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                    
-                elif option == "Quiz" or option == "Test":
-                    # for ca in [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1, q1TCA1marks,q2TCA1marks,q3TCA1marks,q4TCA1marks,q5TCA1marks,q6TCA1marks,q7TCA1marks,q8TCA1marks,q9TCA1marks,q10TCA1marks]:
-                    #     ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                    noCA1Entry.configure(state="normal", fg_color=["#3B8ED0", "#1F6AA5"])
-                    nptelCA1Text.configure(state="disabled", fg_color="gray") 
-                    presentationCA1Text.configure(state="disabled", fg_color="gray") 
-                    
+
+                elif option in ["Quiz", "Test"]:
+                    noCA1Entry.configure(state="normal", fg_color=["#3B8ED0", "#1F6AA5"], button_color=["F9F9FA", "#144870"])
+                    nptelCA1Text.configure(state="disabled", fg_color="gray")
+                    presentationCA1Text.configure(state="disabled", fg_color="gray")
+                    # for widget in question_entries + marks_entries:
+                    #     widget.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+
                 elif option == "Other":
-                    for disca in [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1,noCA1Entry,presentationCA1Text, nptelCA1Text, q1TCA1marks,q2TCA1marks,q3TCA1marks,q4TCA1marks,q5TCA1marks,q6TCA1marks,q7TCA1marks,q8TCA1marks,q9TCA1marks,q10TCA1marks]:
-                        disca.configure(state="disabled", fg_color="gray")
-                    
-                    
+                    noCA1Entry.configure(state="disabled", fg_color="gray", button_color="gray")
+                    for widget in question_entries + marks_entries + [nptelCA1Text, presentationCA1Text]:
+                        widget.configure(state="disabled", fg_color="gray")
+                            
                         
+        #<----------------------------------------------------------------------------------------------------------------------------------------------------------------------->        
                     
+        #     def ca2(option):
+        #         if  option == "Select Type":
+        #             noCA2Entry.configure(state="disabled", fg_color="gray",button_color="gray") 
+        #             for disca in [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2,nptelCA2Text,presentationCA2Text, q1TCA2marks,q2TCA2marks,q3TCA2marks,q4TCA2marks,q5TCA2marks,q6TCA2marks,q7TCA2marks,q8TCA2marks,q9TCA2marks,q10TCA2marks]:
+        #                 disca.configure(state="disabled", fg_color="gray")
+        #         elif option == "NPTEL Course":
+        #             noCA1Entry.configure(state="disabled", fg_color="gray",button_color="gray") 
+        #             for disca in [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2,presentationCA2Text, q1TCA2marks,q2TCA2marks,q3TCA2marks,q4TCA2marks,q5TCA2marks,q6TCA2marks,q7TCA2marks,q8TCA2marks,q9TCA2marks,q10TCA2marks]:
+        #                 disca.configure(state="disabled", fg_color="gray")
+        #             nptelCA2Text.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+        #         elif option == "Presentation":
+        #             noCA1Entry.configure(state="disabled", fg_color="gray",button_color="gray") 
+        #             for preca in [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2,nptelCA2Text, q1TCA2marks,q2TCA2marks,q3TCA2marks,q4TCA2marks,q5TCA2marks,q6TCA2marks,q7TCA2marks,q8TCA2marks,q9TCA2marks,q10TCA2marks]:
+        #                 preca.configure(state="disabled", fg_color="gray")
+        #             presentationCA2Text.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+        #         elif option == "Test" or option == "Quiz":
+        #             # for ca in [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2, q1TCA2marks,q2TCA2marks,q3TCA2marks,q4TCA2marks,q5TCA2marks,q6TCA2marks,q7TCA2marks,q8TCA2marks,q9TCA2marks,q10TCA2marks]:
+        #             #     ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+        #             noCA2Entry.configure(state="normal", fg_color=["#3B8ED0", "#1F6AA5"],button_color=["F9F9FA", "#144870"])
+        #             nptelCA2Text.configure(state="disabled", fg_color="gray") 
+        #             presentationCA2Text.configure(state="disabled", fg_color="gray")
+        #         elif option == "Other":
+        #             noCA1Entry.configure(state="disabled", fg_color="gray",button_color="gray") 
+        #             for disca in [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2,presentationCA2Text, nptelCA2Text, q1TCA2marks,q2TCA2marks,q3TCA2marks,q4TCA2marks,q5TCA2marks,q6TCA2marks,q7TCA2marks,q8TCA2marks,q9TCA2marks,q10TCA2marks]:
+        #                 disca.configure(state="disabled", fg_color="gray")
+        #<----------------------------------------------------------------------------------------------------------------------------------------------------------------------->        
             def ca2(option):
-                if  option == "Select Type":
-                    for disca in [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2,noCA2Entry,nptelCA2Text,presentationCA2Text, q1TCA2marks,q2TCA2marks,q3TCA2marks,q4TCA2marks,q5TCA2marks,q6TCA2marks,q7TCA2marks,q8TCA2marks,q9TCA2marks,q10TCA2marks]:
-                        disca.configure(state="disabled", fg_color="gray")
+                question_entries = list(Question_CA2_CO.values())
+                marks_entries = list(Marks_CA2_CO.values())
+
+                if option == "Select Type":
+                    noCA2Entry.configure(state="disabled", fg_color="gray", button_color="gray")
+                    for widget in question_entries + marks_entries + [nptelCA2Text, presentationCA2Text]:
+                        widget.configure(state="disabled", fg_color="gray")
+
                 elif option == "NPTEL Course":
-                    for disca in [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2,noCA2Entry,presentationCA2Text, q1TCA2marks,q2TCA2marks,q3TCA2marks,q4TCA2marks,q5TCA2marks,q6TCA2marks,q7TCA2marks,q8TCA2marks,q9TCA2marks,q10TCA2marks]:
-                        disca.configure(state="disabled", fg_color="gray")
+                    noCA2Entry.configure(state="disabled", fg_color="gray", button_color="gray")
+                    for widget in question_entries + marks_entries + [presentationCA2Text]:
+                        widget.configure(state="disabled", fg_color="gray")
                     nptelCA2Text.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+
                 elif option == "Presentation":
-                    for preca in [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2,noCA2Entry,nptelCA2Text, q1TCA2marks,q2TCA2marks,q3TCA2marks,q4TCA2marks,q5TCA2marks,q6TCA2marks,q7TCA2marks,q8TCA2marks,q9TCA2marks,q10TCA2marks]:
-                        preca.configure(state="disabled", fg_color="gray")
+                    noCA2Entry.configure(state="disabled", fg_color="gray", button_color="gray")
+                    for widget in question_entries + marks_entries + [nptelCA2Text]:
+                        widget.configure(state="disabled", fg_color="gray")
                     presentationCA2Text.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                elif option == "Test" or option == "Quiz":
-                    # for ca in [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2, q1TCA2marks,q2TCA2marks,q3TCA2marks,q4TCA2marks,q5TCA2marks,q6TCA2marks,q7TCA2marks,q8TCA2marks,q9TCA2marks,q10TCA2marks]:
-                    #     ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                    noCA2Entry.configure(state="normal", fg_color=["#3B8ED0", "#1F6AA5"])
-                    nptelCA2Text.configure(state="disabled", fg_color="gray") 
+
+                elif option in ["Test", "Quiz"]:
+                    noCA2Entry.configure(state="normal", fg_color=["#3B8ED0", "#1F6AA5"], button_color=["F9F9FA", "#144870"])
+                    nptelCA2Text.configure(state="disabled", fg_color="gray")
                     presentationCA2Text.configure(state="disabled", fg_color="gray")
+                    # for widget in question_entries + marks_entries:
+                    #     widget.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+
                 elif option == "Other":
-                    for disca in [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2,noCA2Entry,presentationCA2Text, nptelCA2Text, q1TCA2marks,q2TCA2marks,q3TCA2marks,q4TCA2marks,q5TCA2marks,q6TCA2marks,q7TCA2marks,q8TCA2marks,q9TCA2marks,q10TCA2marks]:
-                        disca.configure(state="disabled", fg_color="gray")
+                    noCA2Entry.configure(state="disabled", fg_color="gray", button_color="gray")
+                    for widget in question_entries + marks_entries + [nptelCA2Text, presentationCA2Text]:
+                        widget.configure(state="disabled", fg_color="gray")
                     
-    
-            def ca3(option):
-                if  option == "Select Type":
-                    for disca in [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3,noCA3Entry,nptelCA3Text,presentationCA3Text,q1TCA3marks,q2TCA3marks,q3TCA3marks,q4TCA3marks,q5TCA3marks,q6TCA3marks,q7TCA3marks,q8TCA3marks,q9TCA3marks,q10TCA3marks]:
-                        disca.configure(state="disabled", fg_color="gray")
+
+        #<----------------------------------------------------------------------------------------------------------------------------------------------------------------------->        
+
+            # def ca3(option):
+            #     if  option == "Select Type":
+            #         noCA3Entry.configure(state="disabled", fg_color="gray",button_color="gray") 
+            #         for disca in [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3,nptelCA3Text,presentationCA3Text,q1TCA3marks,q2TCA3marks,q3TCA3marks,q4TCA3marks,q5TCA3marks,q6TCA3marks,q7TCA3marks,q8TCA3marks,q9TCA3marks,q10TCA3marks]:
+            #             disca.configure(state="disabled", fg_color="gray")
                     
-                elif option == "NPTEL Course":
-                    for disca in [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3,noCA3Entry,presentationCA3Text,q1TCA3marks,q2TCA3marks,q3TCA3marks,q4TCA3marks,q5TCA3marks,q6TCA3marks,q7TCA3marks,q8TCA3marks,q9TCA3marks,q10TCA3marks]:
-                        disca.configure(state="disabled", fg_color="gray")
-                    nptelCA3Text.configure(state="normal", fg_color=["#F9F9FA", "#343638"])    
+            #     elif option == "NPTEL Course":
+            #         noCA3Entry.configure(state="disabled", fg_color="gray",button_color="gray") 
+            #         for disca in [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3,presentationCA3Text,q1TCA3marks,q2TCA3marks,q3TCA3marks,q4TCA3marks,q5TCA3marks,q6TCA3marks,q7TCA3marks,q8TCA3marks,q9TCA3marks,q10TCA3marks]:
+            #             disca.configure(state="disabled", fg_color="gray")
+            #         nptelCA3Text.configure(state="normal", fg_color=["#F9F9FA", "#343638"])    
                 
+            #     elif option == "Presentation":
+            #         noCA3Entry.configure(state="disabled", fg_color="gray",button_color="gray") 
+            #         for preca in [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3,nptelCA3Text,q1TCA3marks,q2TCA3marks,q3TCA3marks,q4TCA3marks,q5TCA3marks,q6TCA3marks,q7TCA3marks,q8TCA3marks,q9TCA3marks,q10TCA3marks]:
+            #             preca.configure(state="disabled", fg_color="gray")
+            #         presentationCA3Text.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+            #     elif option == "Quiz" or option == "Test":
+            #         # for ca in [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3,q1TCA3marks,q2TCA3marks,q3TCA3marks,q4TCA3marks,q5TCA3marks,q6TCA3marks,q7TCA3marks,q8TCA3marks,q9TCA3marks,q10TCA3marks]:
+            #         #     ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+            #         noCA3Entry.configure(state="normal", fg_color=["#3B8ED0", "#1F6AA5"],button_color=["F9F9FA", "#144870"])
+            #         nptelCA3Text.configure(state="disabled", fg_color="gray") 
+            #         presentationCA3Text.configure(state="disabled", fg_color="gray")
+            #     elif option == "Other":
+            #         noCA1Entry.configure(state="disabled", fg_color="gray",button_color="gray") 
+            #         for disca in [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3,presentationCA3Text,nptelCA3Text, q1TCA3marks,q2TCA3marks,q3TCA3marks,q4TCA3marks,q5TCA3marks,q6TCA3marks,q7TCA3marks,q8TCA3marks,q9TCA3marks,q10TCA3marks]:
+            #             disca.configure(state="disabled", fg_color="gray")
+        #<----------------------------------------------------------------------------------------------------------------------------------------------------------------------->        
+            def ca3(option):
+                question_entries = list(Question_CA3_CO.values())
+                marks_entries = list(Marks_CA3_CO.values())
+
+                if option == "Select Type":
+                    noCA3Entry.configure(state="disabled", fg_color="gray", button_color="gray")
+                    for widget in question_entries + marks_entries + [nptelCA3Text, presentationCA3Text]:
+                        widget.configure(state="disabled", fg_color="gray")
+
+                elif option == "NPTEL Course":
+                    noCA3Entry.configure(state="disabled", fg_color="gray", button_color="gray")
+                    for widget in question_entries + marks_entries + [presentationCA3Text]:
+                        widget.configure(state="disabled", fg_color="gray")
+                    nptelCA3Text.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+
                 elif option == "Presentation":
-                    for preca in [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3,noCA3Entry,nptelCA3Text,q1TCA3marks,q2TCA3marks,q3TCA3marks,q4TCA3marks,q5TCA3marks,q6TCA3marks,q7TCA3marks,q8TCA3marks,q9TCA3marks,q10TCA3marks]:
-                        preca.configure(state="disabled", fg_color="gray")
+                    noCA3Entry.configure(state="disabled", fg_color="gray", button_color="gray")
+                    for widget in question_entries + marks_entries + [nptelCA3Text]:
+                        widget.configure(state="disabled", fg_color="gray")
                     presentationCA3Text.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                elif option == "Quiz" or option == "Test":
-                    # for ca in [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3,q1TCA3marks,q2TCA3marks,q3TCA3marks,q4TCA3marks,q5TCA3marks,q6TCA3marks,q7TCA3marks,q8TCA3marks,q9TCA3marks,q10TCA3marks]:
-                    #     ca.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                    noCA3Entry.configure(state="normal", fg_color=["#3B8ED0", "#1F6AA5"])
-                    nptelCA3Text.configure(state="disabled", fg_color="gray") 
+
+                elif option in ["Quiz", "Test"]:
+                    noCA3Entry.configure(state="normal", fg_color=["#3B8ED0", "#1F6AA5"], button_color=["F9F9FA", "#144870"])
+                    nptelCA3Text.configure(state="disabled", fg_color="gray")
                     presentationCA3Text.configure(state="disabled", fg_color="gray")
+                    # for widget in question_entries + marks_entries:
+                    #     widget.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+
                 elif option == "Other":
-                    for disca in [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3,noCA3Entry,presentationCA3Text,nptelCA3Text, q1TCA3marks,q2TCA3marks,q3TCA3marks,q4TCA3marks,q5TCA3marks,q6TCA3marks,q7TCA3marks,q8TCA3marks,q9TCA3marks,q10TCA3marks]:
-                        disca.configure(state="disabled", fg_color="gray")
+                    noCA3Entry.configure(state="disabled", fg_color="gray", button_color="gray")
+                    for widget in question_entries + marks_entries + [nptelCA3Text, presentationCA3Text]:
+                        widget.configure(state="disabled", fg_color="gray")
 
             def semesterAndClass(option):
                 if option == "Select Year":
@@ -612,55 +957,110 @@ class User_mode:
                     entry2.configure(values=["Select Sem","VII","VIII"])
                     entry7.configure(values=["Select Class", "D20A", "D20B", "D20C"])
     
-    
-            def noQuestion1(option):        
-                caQT = [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1]
-                caQM = [q1TCA1marks,q2TCA1marks,q3TCA1marks,q4TCA1marks,q5TCA1marks,q6TCA1marks,q7TCA1marks,q8TCA1marks,q9TCA1marks,q10TCA1marks]
-                if(option  == "Select No"):
-                    for ca in caQT:
-                        ca.configure(state="disabled", fg_color="gray") 
-                    for ca in caQM:
-                        ca.configure(state="disabled", fg_color="gray") 
-                option = int(option)
-                for i in range (0, option):
-                    caQT[i].configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                    caQM[i].configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                for i in range (option, 10):
-                    caQT[i].configure(state="disabled", fg_color="gray")
-                    caQM[i].configure(state="disabled", fg_color="gray")
+        #<----------------------------------------------------------------------------------------------------------------------------------------------------------------------->        
 
+            # def noQuestion1(option):        
+            #     caQT = [q1TCA1,q2TCA1,q3TCA1,q4TCA1,q5TCA1,q6TCA1,q7TCA1,q8TCA1,q9TCA1,q10TCA1]
+            #     caQM = [q1TCA1marks,q2TCA1marks,q3TCA1marks,q4TCA1marks,q5TCA1marks,q6TCA1marks,q7TCA1marks,q8TCA1marks,q9TCA1marks,q10TCA1marks]
+            #     if(option  == "Select No"):
+            #         for ca in caQT:
+            #             ca.configure(state="disabled", fg_color="gray") 
+            #         for ca in caQM:
+            #             ca.configure(state="disabled", fg_color="gray") 
+            #     option = int(option)
+            #     for i in range (0, option):
+            #         caQT[i].configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+            #         caQM[i].configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+            #     for i in range (option, 10):
+            #         caQT[i].configure(state="disabled", fg_color="gray")
+            #         caQM[i].configure(state="disabled", fg_color="gray")
+
+            # def noQuestion2(option):
+            #     caQT = [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2]
+            #     caQM = [q1TCA2marks,q2TCA2marks,q3TCA2marks,q4TCA2marks,q5TCA2marks,q6TCA2marks,q7TCA2marks,q8TCA2marks,q9TCA2marks,q10TCA2marks]
+            #     if(option  == "Select No"):
+            #         for ca in caQT:
+            #             ca.configure(state="disabled", fg_color="gray") 
+            #         for ca in caQM:
+            #             ca.configure(state="disabled", fg_color="gray") 
+            #     option = int(option)
+            #     for i in range (0, option):
+            #         caQT[i].configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+            #         caQM[i].configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+            #     for i in range (option, 10):
+            #         caQT[i].configure(state="disabled", fg_color="gray")
+            #         caQM[i].configure(state="disabled", fg_color="gray")
+           
+            # def noQuestion3(option):
+            #     caQT = [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3]
+            #     caQM = [q1TCA3marks,q2TCA3marks,q3TCA3marks,q4TCA3marks,q5TCA3marks,q6TCA3marks,q7TCA3marks,q8TCA3marks,q9TCA3marks,q10TCA3marks]
+                
+            #     if(option  == "Select No"):
+            #         for ca in caQT:
+            #             ca.configure(state="disabled", fg_color="gray") 
+            #         for ca in caQM:
+            #             ca.configure(state="disabled", fg_color="gray") 
+            #     option = int(option)
+            #     for i in range (0, option):
+            #         caQT[i].configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+            #         caQM[i].configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+            #     for i in range (option, 10):
+            #         caQT[i].configure(state="disabled", fg_color="gray")
+            #         caQM[i].configure(state="disabled", fg_color="gray")
+         #<----------------------------------------------------------------------------------------------------------------------------------------------------------------------->        
+            def noQuestion1(option):
+                question_entries = list(Question_CA1_CO.values())
+                marks_entries = list(Marks_CA1_CO.values())
+
+                if option == "Select No":
+                    for entry in question_entries + marks_entries:
+                        entry.configure(state="disabled", fg_color="gray")
+                    return
+
+                option = int(option)
+                for i in range(option):
+                    question_entries[i].configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+                    marks_entries[i].configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+                for i in range(option, 10):
+                    question_entries[i].configure(state="disabled", fg_color="gray")
+                    marks_entries[i].configure(state="disabled", fg_color="gray")
+            
             def noQuestion2(option):
-                caQT = [q1TCA2,q2TCA2,q3TCA2,q4TCA2,q5TCA2,q6TCA2,q7TCA2,q8TCA2,q9TCA2,q10TCA2]
-                caQM = [q1TCA2marks,q2TCA2marks,q3TCA2marks,q4TCA2marks,q5TCA2marks,q6TCA2marks,q7TCA2marks,q8TCA2marks,q9TCA2marks,q10TCA2marks]
-                if(option  == "Select No"):
-                    for ca in caQT:
-                        ca.configure(state="disabled", fg_color="gray") 
-                    for ca in caQM:
-                        ca.configure(state="disabled", fg_color="gray") 
+                question_entries = list(Question_CA2_CO.values())
+                marks_entries = list(Marks_CA2_CO.values())
+
+                if option == "Select No":
+                    for entry in question_entries + marks_entries:
+                        entry.configure(state="disabled", fg_color="gray")
+                    return
+
                 option = int(option)
-                for i in range (0, option):
-                    caQT[i].configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                    caQM[i].configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                for i in range (option, 10):
-                    caQT[i].configure(state="disabled", fg_color="gray")
-                    caQM[i].configure(state="disabled", fg_color="gray")
-                    
+                for i in range(option):
+                    question_entries[i].configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+                    marks_entries[i].configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+                for i in range(option, 10):
+                    question_entries[i].configure(state="disabled", fg_color="gray")
+                    marks_entries[i].configure(state="disabled", fg_color="gray")
+
             def noQuestion3(option):
-                caQT = [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3]
-                caQM = [q1TCA3marks,q2TCA3marks,q3TCA3marks,q4TCA3marks,q5TCA3marks,q6TCA3marks,q7TCA3marks,q8TCA3marks,q9TCA3marks,q10TCA3marks]
-                if(option  == "Select No"):
-                    for ca in caQT:
-                        ca.configure(state="disabled", fg_color="gray") 
-                    for ca in caQM:
-                        ca.configure(state="disabled", fg_color="gray") 
+                question_entries = list(Question_CA3_CO.values())
+                marks_entries = list(Marks_CA3_CO.values())
+
+                if option == "Select No":
+                    for entry in question_entries + marks_entries:
+                        entry.configure(state="disabled", fg_color="gray")
+                    return
+
                 option = int(option)
-                for i in range (0, option):
-                    caQT[i].configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                    caQM[i].configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                for i in range (option, 10):
-                    caQT[i].configure(state="disabled", fg_color="gray")
-                    caQM[i].configure(state="disabled", fg_color="gray")
-                    
+
+                for i in range(0, option):
+                    question_entries[i].configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+                    marks_entries[i].configure(state="normal", fg_color=["#F9F9FA", "#343638"])
+
+                for i in range(option, 10):
+                    question_entries[i].configure(state="disabled", fg_color="gray")
+                    marks_entries[i].configure(state="disabled", fg_color="gray")
+
                     
             def subject(option):
                 if option == "Select Sem":
@@ -692,16 +1092,21 @@ class User_mode:
                     # entry3_lab.configure(values=["Select Subject","Blockchain and DLT", "Department Optional Course 5", "Department Optional Course 6", "Institute Optional Course 2"])
     
             def disable(option):
+                question_entries = list(Question_CA3_CO.values())
+                marks_entries = list(Marks_CA3_CO.values())
+
                 if option == "Yes":
-                    # for entry in [q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3,ALCA3Text]:
-                    #     entry.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
-                    entry15.configure(state="normal", fg_color=["#3B8ED0", "#1F6AA5"])
+                    entry15.configure(state="normal", fg_color=["#3B8ED0", "#1F6AA5"],button_color=["F9F9FA", "#144870"])
                     ALCA3Text.configure(state='normal', fg_color=["#3B8ED0", "#343638"])
+                    # Enable question/mark fields if needed:
+                    # for entry in question_entries + marks_entries:
+                    #     entry.configure(state="normal", fg_color=["#F9F9FA", "#343638"])
 
                 else:
-                    for entry in [entry15,q1TCA3,q2TCA3,q3TCA3,q4TCA3,q5TCA3,q6TCA3,q7TCA3,q8TCA3,q9TCA3,q10TCA3,nptelCA3Text,noCA3Entry,ALCA3Text]:
-                        entry.configure(state="disabled", fg_color='gray')
-    
+                    entry15.configure(state="disabled", fg_color="gray",button_color="gray")
+                    for entry in [noCA3Entry, nptelCA3Text, ALCA3Text] + question_entries + marks_entries:
+                        entry.configure(state="disabled", fg_color="gray")
+
             def validate_academic_year(event):
                 new_value = event.widget.get()
     
@@ -735,9 +1140,7 @@ class User_mode:
                 return os.path.join(os.path.abspath("."), relative_path)
             
             def validateNumberString(string):
-                for char in string:
-                    if char not in "0123456789":
-                        return False
+                return string.isdigit()
              
             self.app.destroy() 
             
@@ -931,13 +1334,13 @@ class User_mode:
             entry8 = create_dropdown(tab_name, ["Select Department", "Humanities and Applied Science(FE)", "Information Technology", "Computer", "AI and Data Science", "Electronics and Telecommunication", "Electronics", "Instrumentation"], "Arial", 15, 300, None, row=row_base, column=3,sticky="nsw")
             row_base +=1
             
-            yearDropDown = create_dropdown(tab_name, ["Select Year", "F.E", "S.E", "T.E", "B.E"], "Arial", 15, 300, None, row=row_base, column=3,sticky="nsw")
+            yearDropDown = create_dropdown(tab_name, ["Select Year", "F.E", "S.E", "T.E", "B.E"], "Arial", 15, 300, semesterAndClass, row=row_base, column=3,sticky="nsw")
             row_base +=1
 
-            entry2 = create_dropdown(tab_name, ["Select Sem"], "Arial", 15, 300, None, row=row_base, column=3,sticky="nsw")
+            entry2 = create_dropdown(tab_name, ["Select Sem"], "Arial", 15, 300, subject, row=row_base, column=3,sticky="nsw")
             row_base +=1
 
-            entry3 = create_dropdown(tab_name, ["Select Subject"], "Arial", 15, 300, None, row=row_base, column=3,sticky="nsw")
+            entry3 = create_dropdown(tab_name, ["Select Subject"], "Arial", 15, 300, subject, row=row_base, column=3,sticky="nsw")
             row_base +=1
              
             entry4= create_entry_box(tab_name, "YYYY-YYYY", "Arial", 15, 300, row=row_base, column=3,sticky="nsw")
@@ -1184,7 +1587,99 @@ class User_mode:
 
             # button3 = create_button(" CA 1 ", "Next", "Arial", 20, 200, 40, switch_to_CA2, 1100, 640)
 #<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
+            tab_name = " CA 1 "
+            
+            for i in range(7):
+                scroll_frames[tab_name].grid_columnconfigure(i, weight=1)
 
+            row_base=0
+
+            labelCA1= create_label(tab_name, "CA 1 Details", "Arial", 20, row=row_base, column=1, colspan=2)
+            labelCA1.configure(anchor="center", justify="center")
+            labelCA1.grid_configure(sticky="nsew")
+            row_base +=1
+
+            label13 = create_label(tab_name, "CA1 type :", "Arial", 15, row=row_base, column=1, sticky="nsw")
+            entry13 = create_dropdown(tab_name, ["Select Type", "Quiz", "NPTEL Course", "Presentation", "Test",  "Other"], "Arial", 15, 300, ca1, row=row_base, column=2,sticky="nsw")
+            row_base+=1
+            
+            noCA1Label = create_label(tab_name, "No of Question CA1 (Quiz/Test) :", "Arial", 15, row=row_base, column=1, sticky="nsw")
+            noCA1Entry = create_dropdown(tab_name, ["Select No", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"], "Arial", 15, 300, noQuestion1, row=row_base, column=2,sticky="nsw")
+            noCA1Entry.configure(state="disabled", fg_color="gray",button_color="gray")
+            row_base+=1
+
+            merged_frame1 = ctk.CTkFrame(scroll_frames[tab_name])
+            merged_frame1.grid(row=row_base, column=1, columnspan=2, padx=5, pady=5, sticky="nsew")
+
+            for sub_col in range(3):
+                merged_frame1.grid_columnconfigure(sub_col, weight=1)
+
+            label_title_1 = ctk.CTkLabel(merged_frame1, text="No.")
+            label_title_1.grid(row=0, column=0, padx=5, pady=5, sticky="nsw")
+
+            label_title_2 = ctk.CTkLabel(merged_frame1, text="COs")
+            label_title_2.grid(row=0, column=1, padx=5, pady=5, sticky="nsw")
+
+            label_title_3 = ctk.CTkLabel(merged_frame1, text="Marks")
+            label_title_3.grid(row=0, column=2, padx=5, pady=5, sticky="nsw")
+
+            vertical_line_ca1 = ctk.CTkFrame(scroll_frames[tab_name], width=2, fg_color="white")
+            vertical_line_ca1.grid(row=1, column=3, rowspan=19, sticky="ns", padx=5)
+
+            Question_CA1_CO={}
+            Marks_CA1_CO={}
+
+            for i in range(1,11):
+                row_base+=1
+
+                # Create a frame to be placed inside merged col 2+3
+                merged_frame = ctk.CTkFrame(scroll_frames[tab_name])
+                merged_frame.grid(row=row_base, column=1, columnspan=2, padx=5, pady=5, sticky="nsew")
+
+                # Configure 3 sub-columns inside merged frame
+                for sub_col in range(3):
+                    merged_frame.grid_columnconfigure(sub_col, weight=1)
+
+                # Label inside merged frame
+                if i==10:
+                    label = ctk.CTkLabel(merged_frame, text=f"Q.{i}:")
+                else :
+                    label = ctk.CTkLabel(merged_frame, text=f"Q.{i} : ")
+                label.grid(row=0, column=0, padx=5, pady=5, sticky="w")
+
+                # Entry 1
+                Question_CA1_CO[f"Q{i}_questions"] = ctk.CTkEntry(merged_frame, placeholder_text="1,2,3,4,5,6",font=("Arial", 15), width=200)
+                Question_CA1_CO[f"Q{i}_questions"].grid(row=0, column=1, padx=5, pady=5, sticky="w")
+                Question_CA1_CO[f"Q{i}_questions"].configure(state="disabled", fg_color="gray")
+
+                # Entry 2
+                Marks_CA1_CO[f"Q{i}_marks"] = ctk.CTkEntry(merged_frame, placeholder_text="Eg.10",font=("Arial", 15), width=200)
+                Marks_CA1_CO[f"Q{i}_marks"].grid(row=0, column=2, padx=5, pady=5, sticky="w")
+                Marks_CA1_CO[f"Q{i}_marks"].configure(state="disabled", fg_color="gray")
+
+            row_base=0
+            nptelCA1 = create_label(tab_name, "CO's for NPTEL (CA)", "Arial", 20, row=row_base, column=4,colspan=2, sticky="nsew")
+            row_base+=1
+            nptelCA1Label = create_label(tab_name, "NPTEL:", "Arial", 15, row=row_base, column=4, sticky="nsw")
+            nptelCA1Text = create_entry_box(tab_name, "1,2,3,4,5,6", "Arial", 15, 300, row=row_base, column=5,sticky="nsw")
+            nptelCA1Text.configure(state="disabled", fg_color="gray")
+            row_base+=2
+           
+            presentationcA1 = create_label(tab_name, "Maximum group size of Presentations (CA)", "Arial", 20, row=row_base, column=4,colspan=2, sticky="nsew")
+            row_base+=1
+            presentationCA1Label = create_label(tab_name, "Group Size: ", "Arial", 15, row=row_base, column=4, sticky="nsw")
+            presentationCA1Text = create_entry_box(tab_name, "Enter maximum number of students in a group", "Arial", 15, 300, row=row_base, column=5,sticky="nsw")
+            presentationCA1Text.configure(state="disabled", fg_color="gray")
+            row_base+=2
+            
+            ALlabelCA1 = create_label(tab_name, "Enter the Target level for CA 1", "Arial", 20, row=row_base, column=4,colspan=2, sticky="nsew")
+            row_base+=1
+            ALCA1Label = create_label(tab_name, "CA1: ", "Arial", 15, row=row_base, column=4, sticky="nsw")
+            ALCA1Text = create_entry_box(tab_name, "Eg.50", "Arial", 15, 300, row=row_base, column=5,sticky="nsw")
+            row_base+=1
+
+            button3 = create_button(tab_name, "Next", "Arial", 20, 250, 40, switch_to_CA2, row=row_base, column=5)
+            button3.grid(row=row_base, column=4,columnspan=2, rowspan=2, padx=5, pady=5, sticky="")
 
 #<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
 
@@ -1293,6 +1788,99 @@ class User_mode:
 
             # button2 = create_button(" CA 2 ", "Next", "Arial", 20, 200, 40, switch_to_CA3, 1100, 640)
 #<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
+            tab_name = " CA 2 "
+            
+            for i in range(7):
+                scroll_frames[tab_name].grid_columnconfigure(i, weight=1)
+
+            row_base=0
+
+            labelCA2= create_label(tab_name, "CA 2 Details", "Arial", 20, row=row_base, column=1, colspan=2)
+            labelCA2.configure(anchor="center", justify="center")
+            labelCA2.grid_configure(sticky="nsew")
+            row_base +=1
+
+            label14 = create_label(tab_name, "CA2 type :", "Arial", 15, row=row_base, column=1, sticky="nsw")
+            entry14 = create_dropdown(tab_name, ["Select Type", "Quiz", "NPTEL Course", "Presentation", "Test",  "Other"], "Arial", 15, 300, ca2, row=row_base, column=2,sticky="nsw")
+            row_base+=1
+            
+            noCA2Label = create_label(tab_name, "No of Question CA2 (Quiz/Test) :", "Arial", 15, row=row_base, column=1, sticky="nsw")
+            noCA2Entry = create_dropdown(tab_name, ["Select No", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"], "Arial", 15, 300, noQuestion2, row=row_base, column=2,sticky="nsw")
+            noCA2Entry.configure(state="disabled", fg_color="gray",button_color="gray")
+            row_base+=1
+
+            merged_frame2 = ctk.CTkFrame(scroll_frames[tab_name])
+            merged_frame2.grid(row=row_base, column=1, columnspan=2, padx=5, pady=5, sticky="nsew")
+
+            for sub_col in range(3):
+                merged_frame2.grid_columnconfigure(sub_col, weight=1)
+
+            label_title_4 = ctk.CTkLabel(merged_frame2, text="No.")
+            label_title_4.grid(row=0, column=0, padx=5, pady=5, sticky="nsw")
+
+            label_title_5 = ctk.CTkLabel(merged_frame2, text="COs")
+            label_title_5.grid(row=0, column=1, padx=5, pady=5, sticky="nsw")
+
+            label_title_6 = ctk.CTkLabel(merged_frame2, text="Marks")
+            label_title_6.grid(row=0, column=2, padx=5, pady=5, sticky="nsw")
+
+            vertical_line_ca2 = ctk.CTkFrame(scroll_frames[tab_name], width=2, fg_color="white")
+            vertical_line_ca2.grid(row=1, column=3, rowspan=19, sticky="ns", padx=5)
+
+            Question_CA2_CO={}
+            Marks_CA2_CO={}
+
+            for i in range(1,11):
+                row_base+=1
+
+                # Create a frame to be placed inside merged col 2+3
+                merged_frame = ctk.CTkFrame(scroll_frames[tab_name])
+                merged_frame.grid(row=row_base, column=1, columnspan=2, padx=5, pady=5, sticky="nsew")
+
+                # Configure 3 sub-columns inside merged frame
+                for sub_col in range(3):
+                    merged_frame.grid_columnconfigure(sub_col, weight=1)
+
+                # Label inside merged frame
+                if i==10:
+                    label = ctk.CTkLabel(merged_frame, text=f"Q.{i}:")
+                else :
+                    label = ctk.CTkLabel(merged_frame, text=f"Q.{i} : ")
+                label.grid(row=0, column=0, padx=5, pady=5, sticky="w")
+
+                # Entry 1
+                Question_CA2_CO[f"Q{i}_questions"] = ctk.CTkEntry(merged_frame, placeholder_text="1,2,3,4,5,6",font=("Arial", 15), width=200)
+                Question_CA2_CO[f"Q{i}_questions"].grid(row=0, column=1, padx=5, pady=5, sticky="w")
+                Question_CA2_CO[f"Q{i}_questions"].configure(state="disabled", fg_color="gray")
+
+                # Entry 2
+                Marks_CA2_CO[f"Q{i}_marks"] = ctk.CTkEntry(merged_frame, placeholder_text="Eg.10",font=("Arial", 15), width=200)
+                Marks_CA2_CO[f"Q{i}_marks"].grid(row=0, column=2, padx=5, pady=5, sticky="w")
+                Marks_CA2_CO[f"Q{i}_marks"].configure(state="disabled", fg_color="gray")
+
+            row_base=0
+            nptelCA2 = create_label(tab_name, "CO's for NPTEL (CA)", "Arial", 20, row=row_base, column=4,colspan=2, sticky="nsew")
+            row_base+=1
+            nptelCA2Label = create_label(tab_name, "NPTEL:", "Arial", 15, row=row_base, column=4, sticky="nsw")
+            nptelCA2Text = create_entry_box(tab_name, "1,2,3,4,5,6", "Arial", 15, 300, row=row_base, column=5,sticky="nsw")
+            nptelCA2Text.configure(state="disabled", fg_color="gray")
+            row_base+=2
+           
+            presentationcA2 = create_label(tab_name, "Maximum group size of Presentations (CA)", "Arial", 20, row=row_base, column=4,colspan=2, sticky="nsew")
+            row_base+=1
+            presentationCA2Label = create_label(tab_name, "Group Size: ", "Arial", 15, row=row_base, column=4, sticky="nsw")
+            presentationCA2Text = create_entry_box(tab_name, "Enter maximum number of students in a group", "Arial", 15, 300, row=row_base, column=5,sticky="nsw")
+            presentationCA2Text.configure(state="disabled", fg_color="gray")
+            row_base+=2
+            
+            ALlabelCA2 = create_label(tab_name, "Enter the Target level for CA 2", "Arial", 20, row=row_base, column=4,colspan=2, sticky="nsew")
+            row_base+=1
+            ALCA2Label = create_label(tab_name, "CA2: ", "Arial", 15, row=row_base, column=4, sticky="nsw")
+            ALCA2Text = create_entry_box(tab_name, "Eg.50", "Arial", 15, 300, row=row_base, column=5,sticky="nsw")
+            row_base+=1
+
+            button4 = create_button(tab_name, "Next", "Arial", 20, 250, 40, switch_to_CA3, row=row_base, column=5)
+            button4.grid(row=row_base, column=4,columnspan=2, rowspan=2, padx=5, pady=5, sticky="")
 
 
 #<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
@@ -1407,29 +1995,129 @@ class User_mode:
 
             # button2 = create_button(" CA 3 ", "Next", "Arial", 20, 200, 40, switch_to_template, 1100, 665)
 #<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
+            tab_name = " CA 3 "
+            
+            for i in range(7):
+                scroll_frames[tab_name].grid_columnconfigure(i, weight=1)
 
-            # def upload_file():
-            #     global file_path
-            #     file_path = filedialog.askopenfilename(filetypes=[("Excel files", "*.xlsx")])
-            #     print(f"Upload function: {file_path}")
-            #     if file_path:
-            #         print(file_path)
-            #         file_name = os.path.basename(file_path)
-            #         print(file_name)
-            #         path_label.configure(text=file_name)
+            row_base=0
+
+            labelCA3= create_label(tab_name, "CA 3 Details", "Arial", 20, row=row_base, column=1, colspan=2)
+            labelCA3.configure(anchor="center", justify="center")
+            labelCA3.grid_configure(sticky="nsew")
+            row_base +=1
+
+            label10 = create_label(tab_name, "Is CA3 Applicable: ", "Arial", 15, row=row_base, column=1, sticky="nsw")
+            entry10 = create_dropdown(tab_name, ["Select Yes/No", "Yes", "No"], "Arial", 15, 300, disable, row=row_base, column=2,sticky="nsw")
+            row_base+=1
+
+            label15 = create_label(tab_name, "CA3 type :", "Arial", 15, row=row_base, column=1, sticky="nsw")
+            entry15 = create_dropdown(tab_name, ["Select Type", "Quiz", "NPTEL Course", "Presentation", "Test",  "Other"], "Arial", 15, 300, ca3, row=row_base, column=2,sticky="nsw")
+            entry15.configure(state="disabled", fg_color="gray",button_color="gray")
+            row_base+=1
+            
+            noCA3Label = create_label(tab_name, "No of Question CA3 (Quiz/Test) :", "Arial", 15, row=row_base, column=1, sticky="nsw")
+            noCA3Entry = create_dropdown(tab_name, ["Select No", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"], "Arial", 15, 300, noQuestion3, row=row_base, column=2,sticky="nsw")
+            noCA3Entry.configure(state="disabled", fg_color="gray",button_color="gray")
+            row_base+=1
+
+            merged_frame3 = ctk.CTkFrame(scroll_frames[tab_name])
+            merged_frame3.grid(row=row_base, column=1, columnspan=2, padx=5, pady=5, sticky="nsew")
+
+            for sub_col in range(3):
+                merged_frame3.grid_columnconfigure(sub_col, weight=1)
+
+            label_title_7 = ctk.CTkLabel(merged_frame3, text="No.")
+            label_title_7.grid(row=0, column=0, padx=5, pady=5, sticky="nsw")
+
+            label_title_8 = ctk.CTkLabel(merged_frame3, text="COs")
+            label_title_8.grid(row=0, column=1, padx=5, pady=5, sticky="nsw")
+
+            label_title_9 = ctk.CTkLabel(merged_frame3, text="Marks")
+            label_title_9.grid(row=0, column=2, padx=5, pady=5, sticky="nsw")
+
+            vertical_line_ca3 = ctk.CTkFrame(scroll_frames[tab_name], width=2, fg_color="white")
+            vertical_line_ca3.grid(row=1, column=3, rowspan=19, sticky="ns", padx=5)
+
+            Question_CA3_CO={}
+            Marks_CA3_CO={}
+
+            for i in range(1,11):
+                row_base+=1
+
+                # Create a frame to be placed inside merged col 2+3
+                merged_frame = ctk.CTkFrame(scroll_frames[tab_name])
+                merged_frame.grid(row=row_base, column=1, columnspan=2, padx=5, pady=5, sticky="nsew")
+
+                # Configure 3 sub-columns inside merged frame
+                for sub_col in range(3):
+                    merged_frame.grid_columnconfigure(sub_col, weight=1)
+
+                # Label inside merged frame
+                if i==10:
+                    label = ctk.CTkLabel(merged_frame, text=f"Q.{i}:")
+                else :
+                    label = ctk.CTkLabel(merged_frame, text=f"Q.{i} : ")
+                label.grid(row=0, column=0, padx=5, pady=5, sticky="w")
+
+                # Entry 1
+                Question_CA3_CO[f"Q{i}_questions"] = ctk.CTkEntry(merged_frame, placeholder_text="1,2,3,4,5,6",font=("Arial", 15), width=200)
+                Question_CA3_CO[f"Q{i}_questions"].grid(row=0, column=1, padx=5, pady=5, sticky="w")
+                Question_CA3_CO[f"Q{i}_questions"].configure(state="disabled", fg_color="gray")
+
+                # Entry 2
+                Marks_CA3_CO[f"Q{i}_marks"] = ctk.CTkEntry(merged_frame, placeholder_text="Eg.10",font=("Arial", 15), width=200)
+                Marks_CA3_CO[f"Q{i}_marks"].grid(row=0, column=2, padx=5, pady=5, sticky="w")
+                Marks_CA3_CO[f"Q{i}_marks"].configure(state="disabled", fg_color="gray")
+
+            row_base=0
+            nptelCA3 = create_label(tab_name, "CO's for NPTEL (CA)", "Arial", 20, row=row_base, column=4,colspan=2, sticky="nsew")
+            row_base+=1
+            nptelCA3Label = create_label(tab_name, "NPTEL:", "Arial", 15, row=row_base, column=4, sticky="nsw")
+            nptelCA3Text = create_entry_box(tab_name, "1,2,3,4,5,6", "Arial", 15, 300, row=row_base, column=5,sticky="nsw")
+            nptelCA3Text.configure(state="disabled", fg_color="gray")
+            row_base+=2
+           
+            presentationcA3 = create_label(tab_name, "Maximum group size of Presentations (CA)", "Arial", 20, row=row_base, column=4,colspan=2, sticky="nsew")
+            row_base+=1
+            presentationCA3Label = create_label(tab_name, "Group Size: ", "Arial", 15, row=row_base, column=4, sticky="nsw")
+            presentationCA3Text = create_entry_box(tab_name, "Enter maximum number of students in a group", "Arial", 15, 300, row=row_base, column=5,sticky="nsw")
+            presentationCA3Text.configure(state="disabled", fg_color="gray")
+            row_base+=2
+            
+            ALlabelCA3 = create_label(tab_name, "Enter the Target level for CA 3", "Arial", 20, row=row_base, column=4,colspan=2, sticky="nsew")
+            row_base+=1
+            ALCA3Label = create_label(tab_name, "CA3: ", "Arial", 15, row=row_base, column=4, sticky="nsw")
+            ALCA3Text = create_entry_box(tab_name, "Eg.50", "Arial", 15, 300, row=row_base, column=5,sticky="nsw")
+            ALCA3Text.configure(state="disabled", fg_color="gray")
+            row_base+=1
+
+            button5 = create_button(tab_name, "Next", "Arial", 20, 250, 40, switch_to_template, row=row_base, column=5)
+            button5.grid(row=row_base, column=4,columnspan=2, rowspan=2, padx=5, pady=5, sticky="")
+#<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
+
+            def upload_file():
+                global file_path
+                file_path = filedialog.askopenfilename(filetypes=[("Excel files", "*.xlsx")])
+                print(f"Upload function: {file_path}")
+                if file_path:
+                    print(file_path)
+                    file_name = os.path.basename(file_path)
+                    print(file_name)
+                    path_label.configure(text=file_name)
 
 
-            # def process_file():
-            #     global file_path
-            #     if entry10.get() == "No":
-            #         al_values=[ALCA1Text.get(), ALCA2Text.get(), '-', ALMidTermText.get(), ALEndSemText.get()]
-            #         print(al_values)
-            #     else:
-            #         al_values=[ALCA1Text.get(), ALCA2Text.get(), ALCA3Text.get(), ALMidTermText.get(), ALEndSemText.get()]
-            #     file_path = file_path
-            #     print("File Path : : : ", file_path)
-            #     import Cal
-            #     Cal.cal_sheet(file_path, al_values)
+            def process_file():
+                global file_path
+                if entry10.get() == "No":
+                    al_values=[ALCA1Text.get(), ALCA2Text.get(), '-', ALMidTermText.get(), ALEndSemText.get()]
+                    print(al_values)
+                else:
+                    al_values=[ALCA1Text.get(), ALCA2Text.get(), ALCA3Text.get(), ALMidTermText.get(), ALEndSemText.get()]
+                file_path = file_path
+                print("File Path : : : ", file_path)
+                import Cal
+                Cal.cal_sheet(file_path, al_values)
 
             # # Using create_label, create_entry_box, and create_dropdown to recreate the UI
 
@@ -1510,7 +2198,6 @@ class User_mode:
             # # button2 = create_button(" CO Mapping ", "Next", "Arial", 20, 200, 40, switch2, 725, 500)
             
             
-
             # line1 = ctk.CTkFrame(master=tabview.tab(" Process Template/Calculated "), height=2, width=1200, fg_color="white")
             # line1.place(x=150,y=200)
 
@@ -1538,8 +2225,48 @@ class User_mode:
 
             # button_process = create_button(" Process Template/Calculated ", "Process", "Arial", 20, 200, 40, process_file, 650, 550)
 #<---------------------------------------------------------------------------------------------------------------------------------------------->
-            # back_button = ctk.CTkButton(co_window, text="Back", command=lambda: self.go_back(co_window))
-            # back_button.place(x=1300,y=40)
+            tab_name = " Process Template/Calculated "
+            
+            for i in range(5):
+                scroll_frames[tab_name].grid_columnconfigure(i, weight=1)
+
+            row_base=0
+            setEmailLabel = create_label(tab_name, "Generate Template", "Arial", 20, row=row_base, column=0, colspan=5)
+            setEmailLabel.configure(anchor="center", justify="center")
+            setEmailLabel.grid_configure(sticky="nsew")
+
+            row_base+=1
+            setEmailIDLabel = create_label(tab_name, "Enter the Email ID to send the template sheet :", "Arial", 15, row=row_base, column=2,sticky="nsw")
+            emailText = create_entry_box(tab_name, "Eg. abc2050@gmail.com", "Arial", 15, 500, row=row_base, column=3,sticky="nsw")
+            row_base+=1
+            button = create_button(tab_name, "Download", "Arial", 20, 200, 40, download, row=row_base, column=2,colspan=2,sticky="")
+            row_base+=1
+
+            # Line separator
+            line_separator = ctk.CTkFrame(scroll_frames[tab_name], height=2, fg_color="white")  # Use your desired color
+            line_separator.grid(row=row_base, column=0, columnspan=5, sticky="ew", padx=10, pady=10)
+
+            row_base+=1
+            upload_Label = create_label(tab_name, "Upload you excel file with the marks entered", "Arial", 20, row=row_base, column=0,colspan=5, sticky="nsew", padx=10, pady=10)
+            row_base+=1
+            path_label = create_label(tab_name, "Path of file :", "Arial", 15, row=row_base, column=2, sticky="nsw", padx=10, pady=10)
+            path_entry= create_entry_box(tab_name, "", "Arial", 15, 500, row=row_base, column=3, sticky="nsw", padx=10)
+            row_base+=1
+            button_upload = create_button(tab_name, "Upload", "Arial", 20, 200, 40, upload_file, row=row_base, column=2,colspan=2,sticky="")
+            row_base+=1
+
+            line_separator1 = ctk.CTkFrame(scroll_frames[tab_name], height=2, fg_color="white")  # Use your desired color
+            line_separator1.grid(row=row_base, column=0, columnspan=5, sticky="ew", padx=10, pady=10)
+            row_base+=1
+
+            process_Label = create_label(tab_name, "Process the excel file you uploaded", "Arial", 20, row=row_base, column=0,colspan=5, sticky="nsew", padx=10, pady=10)
+            row_base+=1
+            setEmailProcessedLabel = create_label(tab_name, "Enter the Email ID to send the calculated sheet :", "Arial", 15, row=row_base, column=2,sticky="nsw")
+            emailTextProcessed = create_entry_box(tab_name, "", "Arial", 15, 500, row=row_base, column=3, sticky="nsw", padx=10)
+            row_base+=1
+            button_process = create_button(tab_name, "Process", "Arial", 20, 200, 40, process_file, row=row_base, column=2,colspan=2,sticky="")
+#<---------------------------------------------------------------------------------------------------------------------------------------------->
+          
 #<---------------------------------------------------------------------------------------------------------------------------------------------->
             co_window.mainloop()
 

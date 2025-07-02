@@ -290,7 +290,7 @@ def cal_sheet(file_name, receiversEmail):
             else:  
                 myArr=['C', 'D', 'E', 'F', 'G','H','I', 'J','K','L']   
        
-             
+        my_co_arr=[]     
         if match1:
             if quiz_type=='Quiz':
                 my_co_arr=cal_quiz(mySheet,myArr,al_value, quiz_marks)

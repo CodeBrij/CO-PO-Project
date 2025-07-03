@@ -37,7 +37,8 @@ def cal_sheet(file_name, receiversEmail):
     to_float(sheet0['B7'].value)
     ]   
     print(al_values_temp)
-    quiz_marks = [to_float(sheet0['E3'].value),to_float(sheet0['E4'].value),to_float(sheet0['E5'].value),to_float(sheet0['E6'].value),to_float(sheet0['E7'].value),to_float(sheet0['E8'].value),to_float(sheet0['E9'].value),to_float(sheet0['E10'].value),to_float(sheet0['E11'].value),to_float(sheet0['E12'].value)]
+    # quiz_marks = [to_float(sheet0['E3'].value),to_float(sheet0['E4'].value),to_float(sheet0['E5'].value),to_float(sheet0['E6'].value),to_float(sheet0['E7'].value),to_float(sheet0['E8'].value),to_float(sheet0['E9'].value),to_float(sheet0['E10'].value),to_float(sheet0['E11'].value),to_float(sheet0['E12'].value)]
+    # print("QuizMarks:", quiz_marks)
     cosCount = (int)(sheet0['B9'].value)
     sheet = workbook['Midsem']
     for row in range(1,10):
@@ -289,12 +290,14 @@ def cal_sheet(file_name, receiversEmail):
                 myArr=['C', 'D', 'E', 'F', 'G','H','I', 'J','K']  
             else:  
                 myArr=['C', 'D', 'E', 'F', 'G','H','I', 'J','K','L']   
-       
+    
         my_co_arr=[]     
         if match1:
-            if quiz_type=='Quiz':
-                my_co_arr=cal_quiz(mySheet,myArr,al_value, quiz_marks)
-            elif quiz_type=='NPTEL Course':
+            print("Quiz Type:::" + quiz_type)
+            if quiz_type=='Quiz' or quiz_type=='Test':
+                # print("Quiz:::" + str(quiz_marks))
+                my_co_arr=cal_quiz(mySheet,myArr,al_value, quiz_type)
+            elif quiz_type=='NPTEL':
                 my_co_arr=cal_NPTEL(mySheet,al_value)
             elif quiz_type=="Other":
                 my_co_arr=cal_other(mySheet,al_value) #If in future if more types are needed then do not forgot to Add new match beacuse in others we have specified type in B column not in A
@@ -355,7 +358,24 @@ def cal_sheet(file_name, receiversEmail):
         return map_other_co_arr
 
 
-    def cal_quiz(newSheet,col_arr,al_value, quiz_marks):
+    def cal_quiz(newSheet,col_arr,al_value, quiz_type):
+        quiz_marks = []
+        sheet0 = workbook['CO Information']
+        if(newSheet.title == 'CA1'):
+            for i in range(3, 13):  
+                cell_value = sheet0[f'E{i}'].value
+                if cell_value is not None and str(cell_value).strip() != "":
+                    quiz_marks.append(to_float(cell_value))
+        if(newSheet.title == 'CA2'):
+            for i in range(3, 13):  
+                cell_value = sheet0[f'H{i}'].value
+                if cell_value is not None and str(cell_value).strip() != "":
+                    quiz_marks.append(to_float(cell_value))
+        if(newSheet.title == 'CA3'):
+            for i in range(3, 13):  
+                cell_value = sheet0[f'K{i}'].value
+                if cell_value is not None and str(cell_value).strip() != "":
+                    quiz_marks.append(to_float(cell_value))
         i=-1
         for col in col_arr:
             i=i+1
@@ -363,7 +383,7 @@ def cal_sheet(file_name, receiversEmail):
             newSheet[f'{col}{total_roll+5}'] = f'=IFERROR(ROUND(AVERAGE({col}4:{col}{total_roll+3}), 0),0)'
             target_cell = newSheet[f'{col}{total_roll+6}']
             if target_cell.value is None:  # Check if the cell is empty
-                target_cell.value = f'=IFERROR(COUNTIF({col}4:{col}{total_roll+3}, ">={float(al_value) / 100 * quiz_marks[i]}"),0)'
+                target_cell.value = f'=IFERROR(COUNTIF({col}4:{col}{total_roll+3}, ">={float(al_value) / 100 * float(quiz_marks[i])}"),0)'
             newSheet[f'{col}{total_roll+7}'] = f'=IFERROR(ROUND({newSheet[f"{col}{total_roll+6}"].coordinate} / {newSheet[f"{col}{total_roll+4}"].coordinate} * 100, 1),0)'
             newSheet[f'{col}{total_roll+8}'] = f'=IFERROR(COUNTIF({col}3:{col}{total_roll+3}, ">="&{col}{total_roll+5}),0)'
             newSheet[f'{col}{total_roll+9}'] = f'=IFERROR(ROUND({newSheet[f"{col}{total_roll+8}"].coordinate} / {newSheet[f"{col}{total_roll+4}"].coordinate} * 100, 1),0)'
@@ -456,6 +476,7 @@ def cal_sheet(file_name, receiversEmail):
     # map_survey_co_arr=[f'=Survey!G{total_roll+8}',f'=Survey!H{total_roll+8}',f'=Survey!I{total_roll+8}',f'=Survey!J{total_roll+8}',f'=Survey!K{total_roll+8}',f'=Survey!L{total_roll+8}']
 
     def cal_NPTEL(mySheet2, al_value):
+        print("NPTEL called")
         
         for col in ['B']:
             
@@ -477,6 +498,7 @@ def cal_sheet(file_name, receiversEmail):
         
         for col in ['B']:
             cell = mySheet2[f"{col}6"]
+            print("Cell value hai bhai::" + cell.value)
             if cell.value :
                 value2 = [int(val.strip()) for val in str(cell.value)[2:].split(',') if val.strip().isdigit()]   #This for with CO like CO1,2,3
                 if 1 in value2:
@@ -804,6 +826,7 @@ def cal_sheet(file_name, receiversEmail):
     # map_quiz_co_arr=[f'=Quiz!D{total_roll+13}',f'=Quiz!D{total_roll+14}',f'=Quiz!D{total_roll+15}',f'=Quiz!D{total_roll+16}',f'=Quiz!D{total_roll+17}',f'=Quiz!D{total_roll+18}']
     
     my_CA1_Co_arr=call_CA(workbook['CA1'], al_values_temp[0])
+    print("my_CA1_Co_arr:", my_CA1_Co_arr)
     my_CA2_Co_arr=call_CA(workbook['CA2'], al_values_temp[1])
     if 'CA3' in workbook.sheetnames:
         my_CA3_Co_arr=call_CA(workbook['CA3'], al_values_temp[2])

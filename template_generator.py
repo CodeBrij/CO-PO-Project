@@ -1479,6 +1479,10 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
     sheet0['B6'] = al_values_temp[3]
     sheet0['B7'] = al_values_temp[4]
     sheet0['B9'] = cosCount
+    
+    sheet0['B10'] = basic_values_temp[11]
+    sheet0['B11'] = basic_values_temp[12]
+    sheet0['B12'] = basic_values_temp[13]
 
     sheet0['A3'] = "TargetCA1Text"
     sheet0['A4'] = "TargetCA2Text"

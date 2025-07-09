@@ -321,7 +321,7 @@ def cal_sheet(file_name, receiversEmail):
         otherSheet[f'B{total_roll+10}'] = f'=IFERROR(IF({otherSheet[f"B{str(total_roll+7)}"].coordinate}<60, 1, IF(AND({otherSheet[f"B{str(total_roll+7)}"].coordinate}>59, {otherSheet[f"B{str(total_roll+7)}"].coordinate}<70), 2, IF(AND({otherSheet[f"B{str(total_roll+7)}"].coordinate}>69, {otherSheet[f"B{str(total_roll+7)}"].coordinate}<80), 3, 4))),0)'
         
             
-        check_other = [int(val.strip()) for val in str(otherSheet['B3'].value)[2:].split(',') if val.strip().isdigit()]
+        check_other = [int(val.strip()) for val in str(otherSheet['B2'].value)[2:].split(',') if val.strip().isdigit()]
         
         if 1 in check_other:
             otherSheet[f'B{total_roll+14}']=otherSheet[f'B{total_roll+10}'].value
@@ -885,6 +885,7 @@ def cal_sheet(file_name, receiversEmail):
             
         for i in range(0,attainmentEnd):
             sheet5[f'H{33+i}']=map_survey_co_arr[i]
+            print("Bhai ye hai kya bhai" + str(map_endsem_co_arr))
             sheet5[f'G{21+i}']=f'=IF({map_survey_co_arr[i][1:] if map_survey_co_arr[i].startswith("=") else map_survey_co_arr[i]}="-"," ","✓")'
             
         for i in range(0,attainmentEnd):
@@ -895,7 +896,7 @@ def cal_sheet(file_name, receiversEmail):
             sheet5[f'G{33+i}']=f'=IFERROR(IF(AND(F{33+i}="-", COUNTIF(B{33+i}:E{33+i}, "-")=3), "-", IF(F{33+i}="-", ROUND(0.3*AVERAGE(B{33+i},C{33+i},D{33+i},E{33+i}), 1), IF(COUNTIF(B{33+i}:E{33+i}, "-")=4, ROUND(0.7*F{33+i}, 1), ROUND(0.7*F{33+i}+0.3*(AVERAGE(B{33+i},C{33+i},D{33+i},E{33+i})),1)))),0)'
         for i in range(0,attainmentEnd):
             sheet5[f'D{43+i}']=sheet5[f'G{33+i}'].value        
-       
+            
     else:    
         for i in range(0,attainmentEnd):
             sheet5[f'E{33+i}']=map_endsem_co_arr[i]

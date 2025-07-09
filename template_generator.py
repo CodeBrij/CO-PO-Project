@@ -647,7 +647,12 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
         sheet2.merge_cells(f"A1:B1")
         sheet2['A1']=f"Type : {name}"
         sheet2['A1'].font=Font(bold=True) 
-        sheet2['B2']="ALL COs Mapped"
+        coString = ""
+        if cosCount == 5:
+            coString = "CO1,2,3,4,5"
+        elif cosCount == 6:
+            coString = "CO1,2,3,4,5,6"
+        sheet2['B2']=coString
         sheet2['B2'].font=Font(bold=True) 
         sheet2['A2']="Roll No."
         sheet2['A2'].font=Font(bold=True) 
@@ -829,7 +834,8 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
     
     
     #<-----------------------Attainment--------------------->
-    if basic_values_temp[10]=="3":
+    print("bhai basic values ke 10 pe" + basic_values_temp[10] +"hai")
+    if basic_values_temp[10]=="Yes":
         sheet6.column_dimensions['A'].width =16
         sheet6.column_dimensions['B'].width =25
         sheet6.column_dimensions['C'].width =25

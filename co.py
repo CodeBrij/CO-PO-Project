@@ -2457,7 +2457,7 @@ class User_mode:
                 
                 elif not validateNumberString(group_size_mini_project_entry.get()):
                     print(group_size_mini_project_entry.get().isdigit())
-                    return CTkMessagebox(title = "Error", message="Enter Valid Group Size for Mini Porject", icon="cancel")
+                    return CTkMessagebox(title = "Error", message="Enter Valid Group Size for Mini Project", icon="cancel")
                 
                 elif not validateNumberString(oral_marks_target_entry.get()):
                     print(oral_marks_target_entry.get().isdigit())

@@ -1,4 +1,9 @@
+from email import encoders
+from email.mime.base import MIMEBase
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 import re
+import smtplib
 import openpyxl
 from openpyxl.styles import *
 from openpyxl import *
@@ -7,7 +12,7 @@ import os
 from tkinter import filedialog
 from CTkMessagebox import CTkMessagebox
 
-def cal_lab_sheets(file_name) :
+def cal_lab_sheets(file_name, receiversMail) :
 
     workbook = openpyxl.load_workbook(file_name)
     file_name_only = os.path.basename(file_name)
@@ -661,5 +666,59 @@ def cal_lab_sheets(file_name) :
 
     workbook.save(filepath)
     CTkMessagebox(message=f"Calculated excel sheet downloaded successfully at {filepath}.",icon="check", option_1="OK")
+
+    # EMAIL Part - need helps 
+
+    def send_email(sender_email, sender_password, recipient_email, subject, body, file_path):
+        try:
+            # Create a multipart message
+            message = MIMEMultipart()
+            message['From'] = sender_email
+            message['To'] = recipient_email
+            message['Subject'] = subject
+
+            # Attach the email body
+            message.attach(MIMEText(body, 'plain'))
+
+            # Attach the file
+            with open(file_path, "rb") as attachment:
+                part = MIMEBase("application", "octet-stream")
+                part.set_payload(attachment.read())
+
+            encoders.encode_base64(part)
+            part.add_header(
+                "Content-Disposition",
+                f"attachment; filename={os.path.basename(file_path)}"
+            )
+            message.attach(part)
+
+            # Connect to the SMTP server and send the email
+            with smtplib.SMTP('smtp.gmail.com', 587) as server:
+                server.starttls()
+                server.login(sender_email, sender_password)
+                server.sendmail(sender_email, recipient_email, message.as_string())
+            print("Email sent successfully!")
+
+        except Exception as e:
+            print(f"Error sending email: {e}")
+
+    # Main processing code
+    def process_and_send_file():
+
+        # Notify the user
+        print(f"Calculated excel sheet downloaded successfully at {filepath}.")
+
+        # Input recipient email and other email details
+        email_address = receiversMail
+        sender_email = "copoautomation@gmail.com"  # Replace with your email
+        sender_password = "jbzs zfrc ibrg nelp"      # Replace with your email's app password
+        subject = "Processed Excel File"
+        body = f"Please find the attached processed Excel file - Calculated_{file_name_only}"
+
+        # Send the file via email
+        send_email(sender_email, sender_password, email_address, subject, body, filepath)
+
+    # Call the function
+    process_and_send_file()
 
 

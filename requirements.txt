@@ -3,6 +3,7 @@ click==8.1.7
 colorama==0.4.6
 contourpy==1.2.1
 customtkinter==5.2.2
+CTkMessagebox==2.7
 cycler==0.12.1
 darkdetect==0.8.0
 et-xmlfile==1.1.0

@@ -1,3 +1,8 @@
+from email import encoders
+from email.mime.base import MIMEBase
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import smtplib
 import openpyxl
 from openpyxl.styles import Alignment, Font, Border, Side
 from openpyxl import Workbook
@@ -12,11 +17,13 @@ from CTkMessagebox import CTkMessagebox
 # Function to create a thin border
 
 
-def lab_template_generator(basic_values_lo):
+def lab_template_generator(basic_values_lo, receiversEmail):
 
     def create_border():
         thin = Side(border_style="thin", color="000000")
-        return Border(left=thin, right=thin, top=thin, bottom=thin)
+        border = Border(left=thin, right=thin, top=thin, bottom=thin)
+        alignment = Alignment(horizontal="center", vertical="center")
+        return border, alignment
 
 # User inputs
     subject = basic_values_lo[0]
@@ -83,16 +90,21 @@ def lab_template_generator(basic_values_lo):
     orals_sheet['A1'] = f"{subject} Orals"
     orals_sheet['A1'].font = Font(size=14, bold=True)  # Make the heading bold and larger
     orals_sheet['A1'].alignment = Alignment(horizontal='center')  # Center align the heading
-    orals_sheet['A1'].border = create_border()  # Add border to heading
+    orals_sheet['A1'].border = create_border()[0]  # Add border to heading
+    orals_sheet['A1'].alignment = create_border()[1]  # Add border to heading
     orals_sheet.merge_cells(start_row=1, start_column=1, end_row=1, end_column=5)
     orals_sheet['A2'] = f"Target = {OralTarget}%"
-    orals_sheet['A2'].border = create_border()  # Add border to Lab Target
+    orals_sheet['A2'].border = create_border()[0]  # Add border to Lab Target
+    orals_sheet['A2'].alignment = create_border()[1]  # Add border to Lab Target
     orals_sheet['A3'] = "Roll No."
-    orals_sheet['A3'].border = create_border()  # Add border to header
+    orals_sheet['A3'].border = create_border()[0]  # Add border to header
+    orals_sheet['A3'].alignment = create_border()[1]  # Add border to header
     orals_sheet['B3'] = "Name"
     orals_sheet['B3'].border = create_border()  # Add border to header
+    orals_sheet['B3'].alignment = create_border()[1]  # Add border to header
     orals_sheet['C3'] = "Marks(25)"
-    orals_sheet['C3'].border = create_border()  # Add border to header
+    orals_sheet['C3'].border = create_border()[0]  # Add border to header
+    orals_sheet['C3'].alignment = create_border()[1]  # Add border to header
 
     for i in range(total_roll):
         cell = orals_sheet[f'A{i+4}']
@@ -100,9 +112,12 @@ def lab_template_generator(basic_values_lo):
         cell3 = orals_sheet[f'C{i+4}']
         cell.value = i + 1
         
-        cell.border = create_border()  # Add border to roll number cells
-        cell2.border = create_border()  # Add border to roll number cells
-        cell3.border = create_border()  # Add border to roll number cells
+        cell.border = create_border()[0]  # Add border to roll number cells
+        cell.alignment = create_border()[1]  # Add border to roll number cells
+        cell2.border = create_border()[0]  # Add border to roll number cells
+        cell2.alignment = create_border()[1]  # Add border to roll number cells
+        cell3.border = create_border()[0]  # Add border to roll number cells
+        cell3.alignment = create_border()[1]  # Add border to roll number cells
 
     endCol = i + 4
 
@@ -117,8 +132,10 @@ def lab_template_generator(basic_values_lo):
         cell = orals_sheet[position]
         cell2 = orals_sheet[position]
         cell.value = text
-        cell.border = create_border()  # Add border to footer cells
-        cell2.border = create_border()  # Add border to footer cells
+        cell.border = create_border()[0]  # Add border to footer cells
+        cell.alignment = create_border()[1]  # Add border to footer cells
+        cell2.border = create_border()[0] # Add border to footer cells
+        cell2.alignment = create_border()[1] # Add border to footer cells
 
 
     if (lab_type=="Individual Students"):
@@ -199,7 +216,8 @@ def lab_template_generator(basic_values_lo):
 
         for row in lab_sheet.iter_rows(min_row=3, max_row=current_row + 4, min_col=1, max_col=4 + 5):
             for cell in row:
-                cell.border = create_border()
+                cell.border = create_border()[0]
+                cell.alignment = create_border()[1]
 
     ########################################################
     
@@ -247,7 +265,8 @@ def lab_template_generator(basic_values_lo):
 
     for row in project_sheet.iter_rows(min_row=3, max_row=end_row, min_col=1, max_col=end_col):
         for cell in row:
-            cell.border = create_border()
+            cell.border = create_border()[0]
+            cell.alignment = create_border()[1]
     # for row in project_sheet.iter_rows(min_row=3, max_row=current_row + 4, min_col=1, max_col=4+projCriteria):
     #     for cell in row:
     #         cell.border = create_border()
@@ -885,3 +904,65 @@ def lab_template_generator(basic_values_lo):
     workbook.save(filepath)
     print(f"Workbook saved successfully as {subject}_Lab_Template.xlsx")
     CTkMessagebox(message=f"Excel template downloaded successfully at {filepath}.",icon="check", option_1="OK")
+
+    # EMAIL Part - need helps 
+
+    def send_email(sender_email, sender_password, recipient_email, subject, body, file_path):
+        try:
+            # Create a multipart message
+            message = MIMEMultipart()
+            message['From'] = sender_email
+            message['To'] = recipient_email
+            message['Subject'] = subject
+
+            print("Attachin mail")
+
+            # Attach the email body
+            message.attach(MIMEText(body, 'plain'))
+
+            # Attach the file
+            with open(file_path, "rb") as attachment:
+                part = MIMEBase("application", "octet-stream")
+                part.set_payload(attachment.read())
+
+            encoders.encode_base64(part)
+            part.add_header(
+                "Content-Disposition",
+                f"attachment; filename={os.path.basename(file_path)}"
+            )
+            message.attach(part)
+
+            # Connect to the SMTP server and send the email
+            with smtplib.SMTP('smtp.gmail.com', 587) as server:
+                server.starttls()
+                server.login(sender_email, sender_password)
+                server.sendmail(sender_email, recipient_email, message.as_string())
+            print("Email sent successfully!")
+
+        except Exception as e:
+            print(f"Error sending email: {e}")
+
+    # Main processing code
+    def send_file():
+        # Simulating file processing
+        downloadCalculate = filepath
+
+        # Notify the user
+        print(f"Calculated excel sheet downloaded successfully at {downloadCalculate}.")
+
+        # Input recipient email and other email details
+        email_address = receiversEmail
+        sender_email = "copoautomation@gmail.com"  # Replace with your email
+        sender_password = "jbzs zfrc ibrg nelp"      # Replace with your email's app password
+        subject = "Template Excel File"
+        body = f"Please find the attached template Excel file - {subject}_Lab_Template.xlsx"
+
+        print(f"calling lab mail - {sender_email}, {sender_password}, {email_address}, {subject}, {body}, {downloadCalculate}")
+
+
+        # Send the file via email
+        send_email(sender_email, sender_password, email_address, subject, body, downloadCalculate)
+
+    # Call the function
+    send_file()
+   

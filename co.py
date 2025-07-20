@@ -3210,7 +3210,7 @@ class User_mode:
 
             left_row = row_base_copy
             right_row = row_base_copy
-            k=1;
+            k=1
             for i in range(1, 18):
                 if i <= 9:
                     col = 4

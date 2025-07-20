@@ -1,3 +1,8 @@
+from email import encoders
+from email.mime.base import MIMEBase
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import smtplib
 import openpyxl
 from openpyxl.styles import Alignment, Font, Border, Side
 from openpyxl import Workbook
@@ -12,11 +17,13 @@ from openpyxl.utils import get_column_letter, column_index_from_string
 # Function to create a thin border
 
 
-def lab_template_generator(basic_values_lo):
+def lab_template_generator(basic_values_lo, receiversEmail):
 
     def create_border():
         thin = Side(border_style="thin", color="000000")
-        return Border(left=thin, right=thin, top=thin, bottom=thin)
+        border = Border(left=thin, right=thin, top=thin, bottom=thin)
+        alignment = Alignment(horizontal="center", vertical="center")
+        return border, alignment
 
 # User inputs
     subject = basic_values_lo[0]
@@ -1038,3 +1045,65 @@ def lab_template_generator(basic_values_lo):
     workbook.save(filepath)
     print(f"Workbook saved successfully as {subject}_Lab_Template.xlsx")
     CTkMessagebox(message=f"Excel template downloaded successfully at {filepath}.",icon="check", option_1="OK")
+
+    # EMAIL Part - need helps 
+
+    def send_email(sender_email, sender_password, recipient_email, subject, body, file_path):
+        try:
+            # Create a multipart message
+            message = MIMEMultipart()
+            message['From'] = sender_email
+            message['To'] = recipient_email
+            message['Subject'] = subject
+
+            print("Attachin mail")
+
+            # Attach the email body
+            message.attach(MIMEText(body, 'plain'))
+
+            # Attach the file
+            with open(file_path, "rb") as attachment:
+                part = MIMEBase("application", "octet-stream")
+                part.set_payload(attachment.read())
+
+            encoders.encode_base64(part)
+            part.add_header(
+                "Content-Disposition",
+                f"attachment; filename={os.path.basename(file_path)}"
+            )
+            message.attach(part)
+
+            # Connect to the SMTP server and send the email
+            with smtplib.SMTP('smtp.gmail.com', 587) as server:
+                server.starttls()
+                server.login(sender_email, sender_password)
+                server.sendmail(sender_email, recipient_email, message.as_string())
+            print("Email sent successfully!")
+
+        except Exception as e:
+            print(f"Error sending email: {e}")
+
+    # Main processing code
+    def send_file():
+        # Simulating file processing
+        downloadCalculate = filepath
+
+        # Notify the user
+        print(f"Calculated excel sheet downloaded successfully at {downloadCalculate}.")
+
+        # Input recipient email and other email details
+        email_address = receiversEmail
+        sender_email = "copoautomation@gmail.com"  # Replace with your email
+        sender_password = "jbzs zfrc ibrg nelp"      # Replace with your email's app password
+        subject = "Template Excel File"
+        body = f"Please find the attached template Excel file - {subject}_Lab_Template.xlsx"
+
+        print(f"calling lab mail - {sender_email}, {sender_password}, {email_address}, {subject}, {body}, {downloadCalculate}")
+
+
+        # Send the file via email
+        send_email(sender_email, sender_password, email_address, subject, body, downloadCalculate)
+
+    # Call the function
+    send_file()
+   

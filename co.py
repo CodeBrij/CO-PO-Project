@@ -2612,7 +2612,11 @@ class User_mode:
                 basic_values_lo.append(assignmentLOs)
                 print(basic_values_lo)
                 from lab.Lab_Template import lab_template_generator
+<<<<<<< HEAD
                 lab_template_generator(basic_values_lo, receiver_email.get())
+=======
+                lab_template_generator(basic_values_lo, receiversMailTemplate)
+>>>>>>> c7ff9d883b4d395ff944c9c0c6939953c00f005e
 
 
             def upload_lab_file():
@@ -2631,7 +2635,11 @@ class User_mode:
                 global file_path_lab
                 file_path_lab = file_path_lab
                 from lab.Lab_Cal import cal_lab_sheets
+<<<<<<< HEAD
                 cal_lab_sheets(file_path_lab, emailTextProcessed_lab.get())
+=======
+                cal_lab_sheets(file_path_lab, receiversMail)
+>>>>>>> c7ff9d883b4d395ff944c9c0c6939953c00f005e
             
             def semesterAndClass(option):
                 if option == "Select Year":
@@ -3210,7 +3218,7 @@ class User_mode:
 
             left_row = row_base_copy
             right_row = row_base_copy
-            k=1;
+            k=1
             for i in range(1, 18):
                 if i <= 9:
                     col = 4
@@ -3249,6 +3257,7 @@ class User_mode:
             vertical_line = ctk.CTkFrame(scroll_frames[tab_name], width=2, fg_color="white")
             vertical_line.grid(row=1, column=3, rowspan=right_row+2, sticky="ns", padx=5)
 
+<<<<<<< HEAD
             # mini_project_lo_lables = create_label(" LO Mapping ", "Mini project", "Arial", 15, 700, 375)
 
             # mini_project_lo_label = {}
@@ -3315,6 +3324,8 @@ class User_mode:
 
 
 
+=======
+>>>>>>> c7ff9d883b4d395ff944c9c0c6939953c00f005e
             # ---------- LO Information Tab ----------
             lo_frame = scroll_frames[" LO Information "]
             tab_name=" LO Information "
@@ -3341,10 +3352,16 @@ class User_mode:
             for entry in assignment_lo_entry.values():
                 entry.configure(state="disabled", fg_color="gray")
 
+<<<<<<< HEAD
             # Download button
             receiver_email = create_entry_box(" LO Mapping ", " Enter the Email ID ", "Arial", 15, 200, row=right_row, column=4, sticky="w", padx=10)
             next_2_lab_button = create_button(" LO Mapping ", "Download", "Arial", 20, 200, 20, download_template_lab, row=right_row, column=5, sticky="", padx=0, pady=0)
             next_2_lab_button.grid_configure(rowspan=2)
+=======
+            # # Download button
+            # next_2_lab_button = create_button(" LO Mapping ", "Download", "Arial", 20, 200, 20, download_template_lab, row=right_row, column=5, sticky="", padx=0, pady=0)
+            # next_2_lab_button.grid_configure(rowspan=2)
+>>>>>>> c7ff9d883b4d395ff944c9c0c6939953c00f005e
 
 
             # ---------- Upload Excel File (Lab) Tab ----------
@@ -3354,23 +3371,41 @@ class User_mode:
             for i in range(4):
                 scroll_frames[tab_name].grid_columnconfigure(i, weight=1)
 
-            upload_Label_lab = create_label(" Upload Excel File (Lab) ", "Upload your excel file with the marks entered:", "Arial", 25, row=0, column=1,colspan=2, sticky="nsew", padx=10, pady=20)
 
+<<<<<<< HEAD
             path_label_lab = create_label(" Upload Excel File (Lab) ", "Upload Or Enter the Path of File", "Arial", 20, row=2, column=1, sticky="w", padx=10)
 
             button_upload_lab = create_button(" Upload Excel File (Lab) ", "Upload", "Arial", 20, 200, 40, upload_lab_file, row=2, column=2,colspan=2, sticky="", padx=10)
+=======
+            template_Label_lab = create_label(" Upload Excel File (Lab) ", "Download the template excel file:", "Arial", 25, row=0, column=1,colspan=2, sticky="nsew", padx=10, pady=10)
+
+            setEmailTemplateLabel_lab = create_label(" Upload Excel File (Lab) ", "Enter the Email ID to send the template sheet.", "Arial", 20, row=1, column=1, sticky="w", padx=10)
+            emailTextTemplate_lab = create_entry_box(" Upload Excel File (Lab) ", "", "Arial", 15, 500, row=1, column=2, sticky="w", padx=10)
+            receiversMailTemplate = emailTextTemplate_lab.get()
+            next_2_lab_button = create_button(" Upload Excel File (Lab) ", "Process", "Arial", 20, 200, 40, download_template_lab, row=2, column=1,colspan=2, sticky="", padx=20, pady=20)
+>>>>>>> c7ff9d883b4d395ff944c9c0c6939953c00f005e
 
             # Line separator
             line_separator = ctk.CTkFrame(lab_frame, height=2, fg_color="white")  # Use your desired color
-            line_separator.grid(row=4, column=1, columnspan=2, sticky="ew", padx=10, pady=10)
+            line_separator.grid(row=3, column=1, columnspan=2, sticky="ew", padx=10, pady=10)
+
+            upload_Label_lab = create_label(" Upload Excel File (Lab) ", "Upload your excel file with the marks entered:", "Arial", 25, row=4, column=1,colspan=2, sticky="nsew", padx=10, pady=20)
+
+            path_label_lab = create_label(" Upload Excel File (Lab) ", "Upload Or Enter the Path of File", "Arial", 20, row=5, column=1, sticky="w", padx=10)
+
+            button_upload_lab = create_button(" Upload Excel File (Lab) ", "Upload", "Arial", 20, 200, 40, upload_lab_file, row=5, column=2,colspan=2, sticky="", padx=10)
+
+            # Line separator
+            line_separator = ctk.CTkFrame(lab_frame, height=2, fg_color="white")  # Use your desired color
+            line_separator.grid(row=6, column=1, columnspan=2, sticky="ew", padx=10, pady=10)
 
 
-            process_Label_lab = create_label(" Upload Excel File (Lab) ", "Process the excel file you uploaded:", "Arial", 25, row=5, column=1,colspan=2, sticky="nsew", padx=10, pady=10)
+            process_Label_lab = create_label(" Upload Excel File (Lab) ", "Process the excel file you uploaded:", "Arial", 25, row=7, column=1,colspan=2, sticky="nsew", padx=10, pady=10)
 
-            setEmailProcessedLabel_lab = create_label(" Upload Excel File (Lab) ", "Enter the Email ID to send the calculated sheet.", "Arial", 20, row=6, column=1, sticky="w", padx=10)
-            emailTextProcessed_lab = create_entry_box(" Upload Excel File (Lab) ", "", "Arial", 15, 500, row=6, column=2, sticky="w", padx=10)
-
-            button_process_lab = create_button(" Upload Excel File (Lab) ", "Process", "Arial", 20, 200, 40, process_file_lab, row=7, column=1,colspan=2, sticky="", padx=20, pady=20)
+            setEmailProcessedLabel_lab = create_label(" Upload Excel File (Lab) ", "Enter the Email ID to send the calculated sheet.", "Arial", 20, row=8, column=1, sticky="w", padx=10)
+            emailTextProcessed_lab = create_entry_box(" Upload Excel File (Lab) ", "", "Arial", 15, 500, row=8, column=2, sticky="w", padx=10)
+            receiversMail = emailTextProcessed_lab.get()
+            button_process_lab = create_button(" Upload Excel File (Lab) ", "Process", "Arial", 20, 200, 40, process_file_lab, row=9, column=1,colspan=2, sticky="", padx=20, pady=20)
 
 
             # ---------- Back Button ----------

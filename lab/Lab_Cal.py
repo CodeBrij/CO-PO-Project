@@ -43,7 +43,7 @@ def cal_lab_sheets(file_name, receiversMail) :
         endRow = 0
         startCal = 0
         for i in range(1, 200):  # Corrected to iterate over a range of rows
-            if sheet[f'B{i}'].value == "Count(appeared)":
+            if sheet[f'A{i}'].value == "Count(appeared)":
                 endRow =i-2
                 startCal = i
                 break  
@@ -51,11 +51,11 @@ def cal_lab_sheets(file_name, receiversMail) :
         print(total_roll, startRow, endRow, startCal, targetvalue, LOcount)
 
         # Calc. started
-        sheet[f'C{startCal}'] = total_roll
+        sheet[f'B{startCal}'] = total_roll
         target = targetvalue*25/100
-        sheet[f'C{startCal+1}'] = f'=COUNTIF(C{startRow}:C{endRow},">={target}")'
-        sheet[f'C{startCal+2}'] = f'=ROUND(C{startCal+1}/C{startCal},1)*100'
-        sheet[f'C{startCal+3}'] = f'=IF(C{startCal+2}<60,1,IF(AND(C{startCal+2}>59,C{startCal+2}<70),2,IF(AND(C{startCal+2}>69,C{startCal+2}<80),3,4)))'
+        sheet[f'B{startCal+1}'] = f'=COUNTIF(B{startRow}:B{endRow},">={target}")'
+        sheet[f'B{startCal+2}'] = f'=ROUND(B{startCal+1}/B{startCal},1)*100'
+        sheet[f'B{startCal+3}'] = f'=IF(B{startCal+2}<60,1,IF(AND(B{startCal+2}>59,B{startCal+2}<70),2,IF(AND(B{startCal+2}>69,B{startCal+2}<80),3,4)))'
 
         # Define the border style
         thin_border = Border(
@@ -66,24 +66,24 @@ def cal_lab_sheets(file_name, receiversMail) :
         )
 
         # Make the headings bold and give them borders
-        sheet[f'B{startCal+5}'] = 'LOs'
+        sheet[f'A{startCal+5}'] = 'LOs'
+        sheet[f'A{startCal+5}'].font = Font(bold=True)
+        sheet[f'A{startCal+5}'].border = thin_border
+
+        sheet[f'B{startCal+5}'] = 'AL'
         sheet[f'B{startCal+5}'].font = Font(bold=True)
         sheet[f'B{startCal+5}'].border = thin_border
-
-        sheet[f'C{startCal+5}'] = 'AL'
-        sheet[f'C{startCal+5}'].font = Font(bold=True)
-        sheet[f'C{startCal+5}'].border = thin_border
         orals_lo_arr = []
 
         for i in range(LOcount):
-            cell_b = sheet[f'B{startCal+6+i}']
+            cell_b = sheet[f'A{startCal+6+i}']
             cell_b.value = f"LO{i+1}"
             cell_b.border = thin_border
 
-            cell_c = sheet[f'C{startCal+6+i}']
-            cell_c.value = sheet[f'C{startCal+3}'].value
+            cell_c = sheet[f'B{startCal+6+i}']
+            cell_c.value = sheet[f'B{startCal+3}'].value
             cell_c.border = thin_border
-            orals_lo_arr.append(f'={sheet.title}!C{startCal+6+i}')
+            orals_lo_arr.append(f'={sheet.title}!B{startCal+6+i}')
         
         return orals_lo_arr
 
@@ -102,10 +102,10 @@ def cal_lab_sheets(file_name, receiversMail) :
         while sheet[f'A{i}'].value is not None:
             i += 1
 
-        # Last roll number row found
+        
         endRow = i - 1
         startRow = 6
-        startCol = 'C'
+        startCol = 'B'
         offset = total_exp
 
         # Calculate the new column letter
@@ -182,9 +182,11 @@ def cal_lab_sheets(file_name, receiversMail) :
         # Apply the border and bold font to the headers
         sheet[f'B{new_row}'].border = thin_border
         sheet[f'B{new_row}'].font = bold_font
+        sheet[f'B{new_row}'].alignment = Alignment(horizontal='center')
 
         sheet[f'C{new_row}'].border = thin_border
         sheet[f'C{new_row}'].font = bold_font
+        sheet[f'C{new_row}'].alignment = Alignment(horizontal='center')
 
         i = 1
         ungroup_labs_lo_arr = []
@@ -197,7 +199,11 @@ def cal_lab_sheets(file_name, receiversMail) :
 
             # Add border to the cells
             sheet[f'B{new_row+1}'].border = thin_border
+            sheet[f'B{new_row+1}'].font = Font(bold=True)
+            sheet[f'B{new_row+1}'].alignment = Alignment(horizontal='center')
             sheet[f'C{new_row+1}'].border = thin_border
+            sheet[f'C{new_row+1}'].font = Font(bold=True)
+            sheet[f'C{new_row+1}'].alignment = Alignment(horizontal='center')
             ungroup_labs_lo_arr.append(f'={sheet.title}!C{new_row+1}')
             
             new_row += 1  # Increment new_row for the next set of entries
@@ -205,6 +211,8 @@ def cal_lab_sheets(file_name, receiversMail) :
             for i in range (0, LOcount):
                 if sheet[f'C{new_row+i}'].value == '=ROUND(AVERAGE(),1)':
                     sheet[f'C{new_row+i}'] = "-"
+                    sheet[f'C{new_row+i}'].font = Font(bold=True)
+                    sheet[f'C{new_row+i}'].alignment = Alignment(horizontal='center')
         
         return ungroup_labs_lo_arr
     
@@ -467,6 +475,7 @@ def cal_lab_sheets(file_name, receiversMail) :
             column_ranges = ','.join([f'{col}{total_roll+10}' for col in columns])  # Create the range for AVERAGE formula
             sheet[f'C{total_roll+14+i}'] = key
             sheet[f'D{total_roll+14+i}'] = f'=IFERROR(ROUND(AVERAGE({column_ranges}),1),0)'  # AVERAGE formula
+            sheet[f'D{total_roll+14+i}'].font=Font(bold=True)
 
             # Add border to the cells
             sheet[f'C{total_roll+14+i}'].border = thin_border
@@ -486,6 +495,8 @@ def cal_lab_sheets(file_name, receiversMail) :
         for i in range (0, LOcount):
             if sheet[f'D{total_roll+14+i}'].value == '=IFERROR(ROUND(AVERAGE(),1),0)':
                 sheet[f'D{total_roll+14+i}'] = "-"
+                sheet[f'D{total_roll+14+i}'].font=Font(bold=True)
+                
 
 
         return assignment_lo_arr
@@ -667,7 +678,11 @@ def cal_lab_sheets(file_name, receiversMail) :
     workbook.save(filepath)
     CTkMessagebox(message=f"Calculated excel sheet downloaded successfully at {filepath}.",icon="check", option_1="OK")
 
+<<<<<<< HEAD
     # EMAIL Part - need helps 
+=======
+# EMAIL Part - need helps 
+>>>>>>> c7ff9d883b4d395ff944c9c0c6939953c00f005e
 
     def send_email(sender_email, sender_password, recipient_email, subject, body, file_path):
         try:

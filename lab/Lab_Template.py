@@ -13,7 +13,7 @@ import os
 from pathlib import Path
 import customtkinter as ctk
 from CTkMessagebox import CTkMessagebox
-
+from openpyxl.utils import get_column_letter, column_index_from_string
 # Function to create a thin border
 
 
@@ -86,10 +86,15 @@ def lab_template_generator(basic_values_lo, receiversEmail):
     orals_sheet = workbook.active
     orals_sheet.title = "Orals"
 
+    orals_sheet.column_dimensions['A'].width =42
+    orals_sheet.column_dimensions['B'].width =42
+    orals_sheet.merge_cells("A1:B1")
+    orals_sheet.merge_cells("A2:B2")
     # Common setup for Orals
     orals_sheet['A1'] = f"{subject} Orals"
-    orals_sheet['A1'].font = Font(size=14, bold=True)  # Make the heading bold and larger
+    orals_sheet['A1'].font = Font(size=12, bold=True)  # Make the heading bold and larger
     orals_sheet['A1'].alignment = Alignment(horizontal='center')  # Center align the heading
+<<<<<<< HEAD
     orals_sheet['A1'].border = create_border()[0]  # Add border to heading
     orals_sheet.merge_cells(start_row=1, start_column=1, end_row=1, end_column=5)
     orals_sheet['A2'] = f"Target = {OralTarget}%"
@@ -105,92 +110,179 @@ def lab_template_generator(basic_values_lo, receiversEmail):
     orals_sheet['C3'].border = create_border()[0]  # Add border to header
     orals_sheet['C3'].alignment = create_border()[1]  # Add border to header
 
+=======
+    orals_sheet['A1'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))# Add border to header  # Add border to heading
+    orals_sheet['B1'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))# Add border to header  # Add border to heading
+    
+    orals_sheet['A2'] = f"Target = {OralTarget}%"
+    orals_sheet['A2'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))# Add border to header  # Add border to Lab Target
+    orals_sheet['B2'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))# Add border to header  # Add border to Lab Target
+    orals_sheet['A3'] = "Roll No."
+    orals_sheet['A3'].alignment = Alignment(horizontal='center')
+    orals_sheet['A3'].font = Font(bold=True)
+    orals_sheet['A3'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))# Add border to header # Add border to header
+    # orals_sheet['B3'] = "Name"
+    # orals_sheet['B3'].border = create_border()  # Add border to header
+    orals_sheet['B3'] = "Marks(25)"
+    orals_sheet['B3'].font = Font(bold=True)
+    orals_sheet['B3'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))# Add border to header
+    orals_sheet['B3'].alignment = Alignment(horizontal='center')
+>>>>>>> c7ff9d883b4d395ff944c9c0c6939953c00f005e
     for i in range(total_roll):
         cell = orals_sheet[f'A{i+4}']
         cell2 = orals_sheet[f'B{i+4}']
-        cell3 = orals_sheet[f'C{i+4}']
+        # cell3 = orals_sheet[f'C{i+4}']
         cell.value = i + 1
         
+<<<<<<< HEAD
         cell.border = create_border()[0]  # Add border to roll number cells
         cell.alignment = create_border()[1]  # Add border to roll number cells
         cell2.border = create_border()[0]  # Add border to roll number cells
         cell2.alignment = create_border()[1]  # Add border to roll number cells
         cell3.border = create_border()[0]  # Add border to roll number cells
         cell3.alignment = create_border()[1]  # Add border to roll number cells
+=======
+        cell.alignment = Alignment(horizontal='center')
+        cell2.alignment = Alignment(horizontal='center')
+        cell.font = Font(bold=True)
+        # cell2.font = Font(bold=True)
+        cell.border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))  # Add border to roll number cells
+        cell2.border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000')) # Add border to roll number cells
+        # cell3.border = create_border()  # Add border to roll number cells
+>>>>>>> c7ff9d883b4d395ff944c9c0c6939953c00f005e
 
     endCol = i + 4
+    orals_sheet[f'A{endCol+1}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000')) # Add border to roll number cells
+    orals_sheet[f'B{endCol+1}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000')) # Add border to roll number cells
+    orals_sheet.merge_cells(f"A{endCol+1}:B{endCol+1}")
 
     footer_info = [
-    ("Count(appeared)", f'B{endCol+2}', f'C{endCol+2}'),
-    (f"Count(>={OralTarget}%)", f'B{endCol+3}', f'C{endCol+3}'),
-    (f"% count(>={OralTarget}%) w.r.t appeared", f'B{endCol+4}', f'C{endCol+4}'),
-    ("AL (All Los)", f'B{endCol+5}', f'C{endCol+5}')
+    ("Count(appeared)", f'A{endCol+2}', f'B{endCol+2}'),
+    (f"Count(>={OralTarget}%)", f'A{endCol+3}', f'B{endCol+3}'),
+    (f"% Count(>={OralTarget}%) w.r.t appeared", f'A{endCol+4}', f'B{endCol+4}'),
+    ("AL (All Los)", f'A{endCol+5}', f'B{endCol+5}')
     ]
 
     for text, position, position2 in footer_info:
         cell = orals_sheet[position]
-        cell2 = orals_sheet[position]
+        cell2 = orals_sheet[position2]
         cell.value = text
+<<<<<<< HEAD
         cell.border = create_border()[0]  # Add border to footer cells
         cell.alignment = create_border()[1]  # Add border to footer cells
         cell2.border = create_border()[0]  # Add border to footer cells
         cell2.alignment = create_border()[1]  # Add border to footer cells
+=======
+        cell.font = Font(bold=True)
+        cell2.font = Font(bold=True)
+        cell2.alignment = Alignment(horizontal='center')
+        cell.border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))  # Add border to footer cells
+        cell2.border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))  # Add border to footer cells
+>>>>>>> c7ff9d883b4d395ff944c9c0c6939953c00f005e
 
 
     if (lab_type=="Individual Students"):
         lab_sheet = workbook.create_sheet(title="Lab")
+        lab_sheet.column_dimensions['A'].width =42
         lab_sheet['A1'] = f"{subject} Lab Work - Ungrouped"
-        lab_sheet['A1'].font = Font(size=14, bold=True)
+        lab_sheet['A1'].font = Font(size=12, bold=True)
+        lab_sheet['A1'].border = create_border()
         lab_sheet['A1'].alignment = Alignment(horizontal='center')
-        lab_sheet.merge_cells(start_row=1, start_column=1, end_row=1, end_column=total_exp+6)
+        lab_sheet.merge_cells(start_row=1, start_column=1, end_row=1, end_column=total_exp+2)
         lab_sheet['A2'] = f"Target = {LabTarget}"
+        lab_sheet['A2'].border = create_border()
 
         lab_sheet['A3'] = "Roll No."
-        lab_sheet['B3'] = "Name"
+        lab_sheet['A3'].font = Font(bold=True)
+        lab_sheet['A3'].border = create_border()
+        # lab_sheet['B3'] = "Name"
         lab_sheet['B2'] = f"Total Experiment = {total_exp}"
         lab_sheet.insert_rows(4)
-        lab_sheet['A5'] = "LO"
-        lab_sheet.merge_cells('A5:B5')
-        lab_sheet['A5'].font = Font(size=12, bold=True)
+        
+        lab_sheet['A5'] = "LO-->"
+        # lab_sheet.merge_cells('A5:B5')
+        lab_sheet['A5'].font = Font(bold=True)
         lab_sheet['A5'].alignment = Alignment(horizontal='center')
 
         for i in range(total_exp):
-            lab_sheet.cell(row=4, column=i+3, value=f"Exp {i+1}")
-            lab_sheet.cell(row=5, column=i+3, value=LOs[i])
+            lab_sheet.cell(row=4, column=i+2, value=f"Exp {i+1}")
+            lab_sheet.cell(row=4, column=i+2).font = Font(bold=True)
+            lab_sheet.cell(row=5, column=i+2, value=LOs[i])
+            lab_sheet.cell(row=5, column=i+2).font = Font(bold=True)
 
-        lab_sheet.cell(row=4, column=total_exp+3, value="Average(15)")
+        lab_sheet.cell(row=4, column=total_exp+2, value="Average(15)").font = Font(bold=True)
+        base_col = 'A'
+        start_index = column_index_from_string(base_col)
 
+        # calculate target column index
+        target_index = start_index + total_exp + 1
+
+        # convert back to column letter
+        target_col_letter = get_column_letter(target_index)
+
+        # set width
+        lab_sheet.column_dimensions[target_col_letter].width = 18
+        lab_sheet.merge_cells(f'B2:{target_col_letter}2')
+        lab_sheet.merge_cells(f'B3:{target_col_letter}3')
         for i in range(6, total_roll + 6):
             lab_sheet[f'A{i}'] = i - 5
+            lab_sheet[f'A{i}'].font = Font(bold=True)
 
-        lab_sheet.column_dimensions['A'].width = 10
-        lab_sheet.column_dimensions['B'].width = 25
+        # lab_sheet.column_dimensions['A'].width = 10
+        # lab_sheet.column_dimensions['B'].width = 25
+        lab_sheet.merge_cells(f'A{total_roll + 6}:{target_col_letter}{total_roll + 6}')
 
         roll_end = total_roll + 5
         lab_sheet[f'A{roll_end+2}'] = f'Count>={LabTarget}%'
+        lab_sheet[f'A{roll_end+2}'].font = Font(bold=True)
         lab_sheet[f'A{roll_end+3}'] = f'%Count'
+        lab_sheet[f'A{roll_end+3}'].font = Font(bold=True)
         lab_sheet[f'A{roll_end+4}'] = f'AL'
+        lab_sheet[f'A{roll_end+4}'].font = Font(bold=True)
 
-        for row in lab_sheet.iter_rows(min_row=3, max_row=roll_end+4, min_col=1, max_col=total_exp+3):
+        for row in lab_sheet.iter_rows(min_row=2, max_row=roll_end+4, min_col=1, max_col=total_exp+2):
             for cell in row:
                 cell.border = create_border()[0]
                 cell.alignment = Alignment(horizontal='center', vertical='center')
-
+        
+        lab_sheet[f'A{roll_end+2}'].alignment = Alignment(horizontal='left', vertical='center')
+        lab_sheet[f'A{roll_end+3}'].alignment = Alignment(horizontal='left', vertical='center')
+        lab_sheet[f'A{roll_end+4}'].alignment = Alignment(horizontal='left', vertical='center')
 ##############################################################################
     if (lab_type=="Group Students"):
         lab_sheet = workbook.create_sheet(title="Lab")
-        lab_sheet.merge_cells('A1:E1')
+        
+        lab_sheet.merge_cells('A4:D4')
+        lab_sheet.merge_cells('A1:I1')
+        lab_sheet.merge_cells('A2:I2')
+        
+  
+
         lab_sheet['A1'] = f"{subject} Lab Work - Grouped"
-        lab_sheet['A1'].font = Font(size=14, bold=True)
+        lab_sheet['A1'].font = Font(bold=True)
         lab_sheet['A1'].alignment = Alignment(horizontal='center')
         lab_sheet['A2'] = f"Target={LabTarget}"
         lab_sheet['A3'] = "Group No."
+        lab_sheet['A3'].font = Font(bold=True)
+        lab_sheet['A3'].alignment = Alignment(horizontal='center')
         lab_sheet['B3'] = "Roll No."
+        lab_sheet['B3'].font = Font(bold=True)
+        lab_sheet['B3'].alignment = Alignment(horizontal='center')
         lab_sheet['C3'] = "Name of Student"
+        lab_sheet['C3'].font = Font(bold=True)
+        lab_sheet['C3'].alignment = Alignment(horizontal='center')
         lab_sheet['D3'] = "Project Name"
+        lab_sheet['D3'].font = Font(bold=True)
+        lab_sheet['D3'].alignment = Alignment(horizontal='center')
         lab_sheet['A4'] = "LOs Mapped"
+        lab_sheet['A4'].font = Font(bold=True)
+        lab_sheet['A4'].alignment = Alignment(horizontal='center')
+        
         lab_sheet.column_dimensions['C'].width = 30
-
+        lab_sheet.column_dimensions['D'].width = 30
+        lab_sheet.column_dimensions['A'].width = 10
+        lab_sheet.column_dimensions['B'].width = 10
+        
         startCell = 5
         groupCount = 1
 
@@ -200,39 +292,82 @@ def lab_template_generator(basic_values_lo, receiversEmail):
                 lab_sheet[f"A{current_row}"] = groupCount
                 lab_sheet.merge_cells(f'A{current_row}:A{min(current_row + groupSize - 1, startCell + total_roll - 1)}')
                 lab_sheet.merge_cells(f'D{current_row}:D{min(current_row + groupSize - 1, startCell + total_roll - 1)}')
+                lab_sheet[f"A{current_row}"].alignment = Alignment(horizontal='center', vertical='center')
+                lab_sheet[f"A{current_row}"].font = Font(bold=True)
+                lab_sheet[f"D{current_row}"].alignment = Alignment(horizontal='center', vertical='center')
+                lab_sheet[f"D{current_row}"].font = Font(bold=True)
                 groupCount += 1
             lab_sheet[f"B{current_row}"] = roll_no
+            lab_sheet[f"B{current_row}"].alignment = Alignment(horizontal='center', vertical='center')
+            lab_sheet[f"B{current_row}"].font = Font(bold=True)
             lab_sheet[f"C{current_row}"] = f"Student {roll_no}"
+            lab_sheet[f"C{current_row}"].alignment = Alignment(horizontal='left', vertical='center')
 
         for i in range(0,5):
-            lab_sheet.cell(row=3, column=5 + i, value=critList[i])
-            lab_sheet.cell(row=4, column=5 + i, value=loList[i])
+            lab_sheet.cell(row=3, column=5 + i, value=critList[i]).font = Font(bold=True)
+            lab_sheet.cell(row=3, column=5 + i).alignment = Alignment(horizontal='center')
+            lab_sheet.cell(row=4, column=5 + i, value=loList[i]).font = Font(bold=True)
+            lab_sheet.cell(row=4, column=5 + i).alignment = Alignment(horizontal='center')
 
         current_row = startCell + total_roll - 1
+        lab_sheet.merge_cells(start_row=current_row+1, start_column=1, end_row=current_row+1, end_column=9)
+        
+        lab_sheet.merge_cells(f'A{current_row+2}:D{current_row+2}')
+        lab_sheet.merge_cells(f'A{current_row+3}:D{current_row+3}')
+        lab_sheet.merge_cells(f'A{current_row+4}:D{current_row+4}')
         lab_sheet[f'A{current_row+2}'] = f"Count>={LabTarget}%"
         lab_sheet[f'A{current_row+3}'] = f"%Count"
         lab_sheet[f'A{current_row+4}'] = "AL"
 
-        for row in lab_sheet.iter_rows(min_row=3, max_row=current_row + 4, min_col=1, max_col=4 + 5):
+        lab_sheet[f'A{current_row+2}'].font = Font(bold=True)
+        lab_sheet[f'A{current_row+3}'].font = Font(bold=True)
+        lab_sheet[f'A{current_row+4}'].font = Font(bold=True)
+        lab_sheet[f'A{current_row+2}'].alignment = Alignment(horizontal='left', vertical='center')
+        lab_sheet[f'A{current_row+3}'].alignment = Alignment(horizontal='left', vertical='center')
+        lab_sheet[f'A{current_row+4}'].alignment = Alignment(horizontal='left', vertical='center')
+
+
+        for row in lab_sheet.iter_rows(min_row=1, max_row=current_row + 4, min_col=1, max_col=4 + 5):
             for cell in row:
                 cell.border = create_border()[0]
                 cell.alignment = create_border()[1]
 
+        for row in lab_sheet.iter_rows(min_row=5, max_row=current_row + 4, min_col=5, max_col=4 + 5):
+            for cell in row:
+                cell.alignment = Alignment(horizontal='center', vertical='center')
+                
     ########################################################
     
 
     project_sheet = workbook.create_sheet(title="Mini Project")
     project_sheet.merge_cells('A1:E1')
+    project_sheet.merge_cells('A2:E2')
     project_sheet['A1'] = f"{subject} Mini Project"
-    project_sheet['A1'].font = Font(size=14, bold=True)
+    project_sheet['A1'].font = Font(size=12, bold=True)
     project_sheet['A1'].alignment = Alignment(horizontal='center')
     project_sheet['A2'] = f"Target={LabTarget}"
     project_sheet['A3'] = "Group No."
+    project_sheet['A3'].font = Font(bold=True)
+    project_sheet['A3'].alignment = Alignment(horizontal='center')
     project_sheet['B3'] = "Roll No."
+    project_sheet['B3'].font = Font(bold=True)
+    project_sheet['B3'].alignment = Alignment(horizontal='center')
     project_sheet['C3'] = "Name of Student"
+    project_sheet['C3'].font = Font(bold=True)
+    project_sheet['C3'].alignment = Alignment(horizontal='center')
     project_sheet['D3'] = "Project Name"
+    project_sheet['D3'].font = Font(bold=True)
+    project_sheet['D3'].alignment = Alignment(horizontal='center')
     project_sheet['A4'] = "LOs Mapped"
+    project_sheet['A4'].font = Font(bold=True)
+    project_sheet['A4'].alignment = Alignment(horizontal='center')
+    project_sheet.merge_cells('A4:D4')
+    
     project_sheet.column_dimensions['C'].width = 30
+    project_sheet.column_dimensions['D'].width = 30
+    project_sheet.column_dimensions['A'].width = 10
+    project_sheet.column_dimensions['B'].width = 10
+    project_sheet.column_dimensions['E'].width = 18
 
     startCell = 5
     groupCount = 1
@@ -243,29 +378,59 @@ def lab_template_generator(basic_values_lo, receiversEmail):
             project_sheet[f"A{current_row}"] = groupCount
             project_sheet.merge_cells(f'A{current_row}:A{min(current_row + projGroupSize - 1, startCell + total_roll - 1)}')
             project_sheet.merge_cells(f'D{current_row}:D{min(current_row + projGroupSize - 1, startCell + total_roll - 1)}')
+            project_sheet[f"A{current_row}"].alignment = Alignment(horizontal='center', vertical='center')
+            project_sheet[f"A{current_row}"].font = Font(bold=True)
+            project_sheet[f"D{current_row}"].alignment = Alignment(horizontal='center', vertical='center')
+            project_sheet[f"D{current_row}"].font = Font(bold=True)
+               
             groupCount += 1
         project_sheet[f"B{current_row}"] = roll_no
+        project_sheet[f"B{current_row}"].alignment = Alignment(horizontal='center', vertical='center')
+        project_sheet[f"B{current_row}"].font = Font(bold=True)
         project_sheet[f"C{current_row}"] = f"Student {roll_no}"
+        project_sheet[f"C{current_row}"].alignment = Alignment(horizontal='left', vertical='center')
+
 
     # for i in range(0,4):
     #     project_sheet.cell(row=3, column=5 + i, value=f'Factor {i+1}')
     #     project_sheet.cell(row=4, column=5 + i, value=projLoList[i])
-    project_sheet.cell(row=3, column=5, value=f'LOs')
-    project_sheet.cell(row=4, column=5, value=projLoList)
+    project_sheet.cell(row=3, column=5, value=f'LOs').font = Font(bold=True)
+    project_sheet.cell(row=3, column=5).alignment = Alignment(horizontal='center', vertical='center')
+    project_sheet.cell(row=4, column=5, value=projLoList).font = Font(bold=True)
+    project_sheet.cell(row=4, column=5).alignment = Alignment(horizontal='center', vertical='center')
 
     current_row = startCell + total_roll - 1
+    project_sheet.merge_cells(start_row=current_row+1, start_column=1, end_row=current_row+1, end_column=5)   
+    project_sheet.merge_cells(f'A{current_row+2}:D{current_row+2}')
+    project_sheet.merge_cells(f'A{current_row+3}:D{current_row+3}')
+    project_sheet.merge_cells(f'A{current_row+4}:D{current_row+4}')
+        
     project_sheet[f'A{current_row+2}'] = f"Count>={ProjectTarget}%"
     project_sheet[f'A{current_row+3}'] = f"%Count"
     project_sheet[f'A{current_row+4}'] = "AL"
+
+    project_sheet[f'A{current_row+2}'].font = Font(bold=True)
+    project_sheet[f'A{current_row+3}'].font = Font(bold=True)
+    project_sheet[f'A{current_row+4}'].font = Font(bold=True)
+    project_sheet[f'A{current_row+2}'].alignment = Alignment(horizontal='left', vertical='center')
+    project_sheet[f'A{current_row+3}'].alignment = Alignment(horizontal='left', vertical='center')
+    project_sheet[f'A{current_row+4}'].alignment = Alignment(horizontal='left', vertical='center')
 
     # Determine the range to apply borders
     end_row = startCell + total_roll -1
     end_col = 5  # Column E (A=1, B=2,... E=5)
 
-    for row in project_sheet.iter_rows(min_row=3, max_row=end_row, min_col=1, max_col=end_col):
+    for row in project_sheet.iter_rows(min_row=1, max_row=current_row+4, min_col=1, max_col=end_col):
         for cell in row:
+<<<<<<< HEAD
             cell.border = create_border()[0]
             cell.alignment = create_border()[1]
+=======
+            cell.border = create_border()
+    for row in project_sheet.iter_rows(min_row=5, max_row=current_row+4, min_col=5, max_col=end_col):
+        for cell in row:
+            cell.alignment = Alignment(horizontal='center', vertical='center')
+>>>>>>> c7ff9d883b4d395ff944c9c0c6939953c00f005e
     # for row in project_sheet.iter_rows(min_row=3, max_row=current_row + 4, min_col=1, max_col=4+projCriteria):
     #     for cell in row:
     #         cell.border = create_border()
@@ -282,6 +447,7 @@ def lab_template_generator(basic_values_lo, receiversEmail):
     
     if assignmentCount==1 :
         assignment_sheet['C2']="Assignment1"
+        assignment_sheet.column_dimensions['C'].width =18
         assignment_sheet['C3']= assignmentLOs[0]
         assignment_sheet.merge_cells("A1:C1")
     
@@ -291,7 +457,8 @@ def lab_template_generator(basic_values_lo, receiversEmail):
     elif assignmentCount==2:
         assignment_sheet['C2']="Assignment1"
         assignment_sheet['D2']="Assignment2"
-        
+        assignment_sheet.column_dimensions['C'].width =18
+        assignment_sheet.column_dimensions['D'].width =18
         assignment_sheet['C3']=assignmentLOs[0]
         assignment_sheet['D3']=assignmentLOs[1]
         assignment_sheet.merge_cells("A1:D1")
@@ -302,7 +469,9 @@ def lab_template_generator(basic_values_lo, receiversEmail):
         assignment_sheet['C2']="Assignment1"
         assignment_sheet['D2']="Assignment2"
         assignment_sheet['E2']="Assignment3"
-        
+        assignment_sheet.column_dimensions['C'].width =18
+        assignment_sheet.column_dimensions['D'].width =18
+        assignment_sheet.column_dimensions['E'].width =18
         assignment_sheet['C3']=assignmentLOs[0]
         assignment_sheet['D3']=assignmentLOs[1]
         assignment_sheet['E3']=assignmentLOs[2]
@@ -323,6 +492,7 @@ def lab_template_generator(basic_values_lo, receiversEmail):
     
     for i in range(1 ,total_roll+1):
         assignment_sheet[f'A{i+3}']=i
+        assignment_sheet[f'A{i+3}'].font = Font(bold=True)
     
     for i in range(total_roll+4,total_roll+12) :
         assignment_sheet.merge_cells(f'A{i}:B{i}')
@@ -345,16 +515,22 @@ def lab_template_generator(basic_values_lo, receiversEmail):
     print(assignmentCount)  
 
     assignment_sheet[f'A{total_roll+4}']="Count(Attempted)"       
+    assignment_sheet[f'A{total_roll+4}'].font = Font(bold=True)       
     assignment_sheet[f'A{total_roll+5}']="Average Marks"
+    assignment_sheet[f'A{total_roll+5}'].font = Font(bold=True)
     
 
     assignment_sheet[f'A{total_roll+6}']=f"Count(>={AssignmentTarget}%)"
+    assignment_sheet[f'A{total_roll+6}'].font = Font(bold=True)
     
     
     assignment_sheet[f'A{total_roll+7}']=f"% Count(>={AssignmentTarget}% w.r.t appeared)"
+    assignment_sheet[f'A{total_roll+7}'].font = Font(bold=True)
 
     assignment_sheet[f'A{total_roll+8}']="Count(>=Average Marks of class)"
+    assignment_sheet[f'A{total_roll+8}'].font = Font(bold=True)
     assignment_sheet[f'A{total_roll+9}']="% Count(>=Average Marks of class w.r.t appeared)"
+    assignment_sheet[f'A{total_roll+9}'].font = Font(bold=True)
     
     assignment_sheet[f'A{total_roll+10}']=f"AL(Based on >={AssignmentTarget}% Count) (All LOs)"
     assignment_sheet[f'A{total_roll+10}'].font=Font(bold=True)
@@ -373,12 +549,18 @@ def lab_template_generator(basic_values_lo, receiversEmail):
     assignment_sheet[f'D{total_roll+13}'] = "AL"
     assignment_sheet[f'D{total_roll+13}'].font=Font(bold=True)
     assignment_sheet[f'C{total_roll+14}'] = 'LO1'
+    assignment_sheet[f'C{total_roll+14}'].font=Font(bold=True)
     assignment_sheet[f'C{total_roll+15}'] = 'LO2'
+    assignment_sheet[f'C{total_roll+15}'].font=Font(bold=True)
     assignment_sheet[f'C{total_roll+16}'] = 'LO3'
+    assignment_sheet[f'C{total_roll+16}'].font=Font(bold=True)
     assignment_sheet[f'C{total_roll+17}'] = 'LO4'
+    assignment_sheet[f'C{total_roll+17}'].font=Font(bold=True)
     assignment_sheet[f'C{total_roll+18}'] = 'LO5'
+    assignment_sheet[f'C{total_roll+18}'].font=Font(bold=True)
     if(LOcount==6):
         assignment_sheet[f'C{total_roll+19}'] = 'LO6' 
+        assignment_sheet[f'C{total_roll+19}'].font=Font(bold=True)
 
     #########################################
     
@@ -414,7 +596,7 @@ def lab_template_generator(basic_values_lo, receiversEmail):
     for i in range(1 ,total_roll+1):
         sheet5[f'A{i+1}']=i
         sheet5[f'E{i+1}']= division
-        sheet5[f'F{i+1}']=subject
+        sheet5[f'F{i+1}']=branch
         
     for i in range(1,total_roll+2):
         for col in col_list :
@@ -959,4 +1141,8 @@ def lab_template_generator(basic_values_lo, receiversEmail):
 
     # Call the function
     send_file()
+<<<<<<< HEAD
    
+=======
+   
+>>>>>>> c7ff9d883b4d395ff944c9c0c6939953c00f005e

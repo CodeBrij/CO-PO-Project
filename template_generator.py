@@ -293,6 +293,7 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
                         top=Side(style='thin', color='000000') if row == row_counter else Side(style=None),
                         bottom=Side(style='thin', color='000000') if row == end_row else Side(style=None)
                     )
+                    mysheet2[f'{col}{row}'].alignment = Alignment(horizontal='center', vertical='center')
 
             group_number += 1
             row_counter += groupSize
@@ -330,6 +331,7 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
                         top=Side(style='thin', color='000000') if row == row_counter else Side(style=None),
                         bottom=Side(style='thin', color='000000') if row == end_row else Side(style=None)
                     )
+                    mysheet2[f'{col}{row}'].alignment = Alignment(horizontal='center', vertical='center')
                     
                     
     def make_CA_Type_NPTEL(mysheet2,arr,al_value,cosCount):
@@ -1113,7 +1115,8 @@ def template_gen(coTextArray,basic_values_temp,midSem_Co_values_temp,CA1_Co_arr_
         for i in range(9,rangeMax):
             for col in ['A','B', 'C', 'D', 'E', 'F', 'G','H']:
                 sheet6[f'{col}{i}'].border=Border(top=Side(style='thin',color='000000'),right=Side(style='thin',color='000000'),left=Side(style='thin',color='000000'),bottom=Side(style='thin',color='000000'))  
-                        
+                sheet6[f'{col}{i}'].alignment = Alignment(horizontal='center', vertical='center')
+
         sheet6.merge_cells("A15:H15")
         sheet6.merge_cells("A16:H16")
         

@@ -89,16 +89,17 @@ class User_mode:
 #<--------------------------------------------------------------------------------------------------------------------------------------------------------------->   
 
             def switch_to_CA1():
+                Question_No_for_Midterm = ['Q.1a','Q.1b','Q.1c','Q.1d','Q.1e','Q.1f','Q.2a','Q.2b','Q.3a','Q.3b']
                 # Check for empty COs
                 for key, entry in midterm_co_entry.items():
                     if entry.get().strip() == "":
-                        CTkMessagebox(title="Error", message=f"Please enter CO for {key}", icon="cancel")
+                        CTkMessagebox(title="Error", message=f"Please enter CO for {Question_No_for_Midterm[int(key.split(".")[1])-1]}", icon="cancel")
                         return
 
                 # Validate CO format
                 for key, entry in midterm_co_entry.items():
                     if not validate_co_string(entry.get()):
-                        CTkMessagebox(title="Error", message=f"Invalid CO format in {key}", icon="cancel")
+                        CTkMessagebox(title="Error", message=f"Invalid CO format in {Question_No_for_Midterm[int(key.split(".")[1])-1]}", icon="cancel")
                         return
 
                 # Check target levels
@@ -1139,8 +1140,15 @@ class User_mode:
                     return os.path.join(sys._MEIPASS, relative_path)
                 return os.path.join(os.path.abspath("."), relative_path)
             
+            def is_float(value):
+                try:
+                    float(value)
+                    return True
+                except ValueError:
+                    return False
+            
             def validateNumberString(string):
-                return string.isdigit()
+                return is_float(string)
              
             self.app.destroy() 
             
@@ -1448,8 +1456,15 @@ class User_mode:
             label11.grid_configure(sticky="nsew")
             row_base +=1
             
+            endSemco="1,2,3,4,5"
+            if(noOfCOOption == '6'):
+                endSemco = endSemco + ",6"
+
             label11 = create_label(tab_name, "Endsems CO's : ", "Arial", 15, row=row_base, column=4)
-            entry11 = create_entry_box(tab_name, "1,2,3,4,5,6", "Arial", 15, 200, row=row_base, column=5)
+            entry11 = create_entry_box(tab_name, endSemco, "Arial", 15, 200, row=row_base, column=5)
+                
+            entry11.insert(0, endSemco)
+            entry11.config(state='disabled')
 
             row_base+=2
             ALlabelMidTerm= create_label(tab_name, "Target level for Midterms", "Arial", 20, row=row_base, column=4, colspan=2)

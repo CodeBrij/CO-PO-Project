@@ -66,13 +66,13 @@ def cal_sheet(file_name, receiversEmail):
         sheet[f'{column_letter}{total_roll+coRow}']=f'=COUNT({column_letter}{coRow}:{column_letter}{total_roll+coRow-1})'
 
     for row in range (coRow,total_roll+coRow):    
-        sheet[f'H{row}']=f'=IFERROR(ROUND(SUM(B{row}:G{row}),0),0)'
+        sheet[f'H{row}']=f'=IFERROR(ROUND(SUM(LARGE(B{row}:G{row},{{1,2,3,4,5}})),0),0)'
 
     for row in range (coRow,total_roll+coRow):    
-        sheet[f'K{row}']=f'=IFERROR(ROUND(SUM(I{row}:J{row}),0),0)'
+        sheet[f'K{row}']=f'=IFERROR(ROUND(MAX(I{row},J{row}),0),0)'
         
     for row in range (coRow,total_roll+coRow):    
-        sheet[f'N{row}']=f'=IFERROR(ROUND(SUM(L{row}:M{row}),0),0)'
+        sheet[f'N{row}']=f'=IFERROR(ROUND(MAX(L{row},M{row}),0),0)'
             
     for row in range (coRow,total_roll+coRow):    
         sheet[f'O{row}']=f'=IFERROR(ROUND(SUM(H{row},K{row},N{row}),0),0)'

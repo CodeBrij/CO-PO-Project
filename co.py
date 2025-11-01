@@ -54,8 +54,12 @@ class User_mode:
            
             def switch_to_MidTerm_EndSem():
                 selected_CO = noOfCOOption.get()
+                endSemco="1,2,3,4,5"
+                
 
                 if selected_CO in ["5", "6"]:
+                    if(noOfCOOption.get() == '6'):
+                        endSemco = endSemco + ",6"
                     total_cos = int(selected_CO)
                     all_entered = True
                     for i in range(1, total_cos + 1):
@@ -67,6 +71,10 @@ class User_mode:
                     if all_entered:
                         tabview.set(" Mid Terms & End Semesters ")
                         valid_CO = list(range(1, total_cos + 1))
+                        entry11.configure(state='normal')
+                        entry11.delete(0, 'end')
+                        entry11.insert(0, endSemco)
+                        entry11.configure(state='readonly')
                     else:
                         CTkMessagebox(title="Error", message=f"Please enter all the {total_cos} CO's Description", icon="cancel")
                 
@@ -1455,16 +1463,12 @@ class User_mode:
             label11.configure(anchor="center", justify="center")
             label11.grid_configure(sticky="nsew")
             row_base +=1
-            
-            endSemco="1,2,3,4,5"
-            if(noOfCOOption == '6'):
-                endSemco = endSemco + ",6"
 
             label11 = create_label(tab_name, "Endsems CO's : ", "Arial", 15, row=row_base, column=4)
-            entry11 = create_entry_box(tab_name, endSemco, "Arial", 15, 200, row=row_base, column=5)
+            entry11 = create_entry_box(tab_name, "1,2,3,4,5", "Arial", 15, 200, row=row_base, column=5)
                 
-            entry11.insert(0, endSemco)
-            entry11.config(state='disabled')
+            # entry11.insert(0, endSemco)
+            # entry11.config(state='disabled')
 
             row_base+=2
             ALlabelMidTerm= create_label(tab_name, "Target level for Midterms", "Arial", 20, row=row_base, column=4, colspan=2)
